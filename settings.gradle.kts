@@ -28,7 +28,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-include(":sharedUI")
+include(":foliary")
 include(":android")
 include(":desktop")
 

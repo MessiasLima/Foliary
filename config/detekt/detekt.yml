@@ -1,0 +1,48 @@
+complexity:
+  LongParameterList:
+    functionThreshold: 10
+    constructorThreshold: 10
+    ignoreDefaultParameters: true
+  LongMethod:
+    ignoreAnnotated:
+      - Test
+  TooManyFunctions:
+    ignorePrivate: true
+
+naming:
+  FunctionNaming:
+    functionPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    ignoreAnnotated:
+      - Test
+  TopLevelPropertyNaming:
+    constantPattern: '[A-Z][A-Za-z0-9]*'
+
+style:
+  UnusedPrivateMember:
+    ignoreAnnotated: Preview
+  ForbiddenComment:
+    comments:
+      - value: 'TODO'
+        reason: 'Forbidden TODO todo marker in comment, please do the changes.'
+      - value: 'FIXME'
+        reason: 'Forbidden FIXME fixme marker in comment, please do the changes.'
+  ForbiddenImport:
+    active: true
+    imports:
+      - 'co.touchlab.kermit.Logger'
+  MaxLineLength:
+    ignoreAnnotated:
+      - Test
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: false
+
+formatting:
+  MaximumLineLength:
+    ignoreAnnotated:
+      - Test
+
+Compose:
+  CompositionLocalAllowlist:
+    active: false

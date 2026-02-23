@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import foliary.sharedui.generated.resources.*
+import foliary.foliary.generated.resources.*
 import dev.appoutlet.foliary.theme.FoliaryTheme
 import dev.appoutlet.foliary.theme.LocalThemeIsDark
 import kotlinx.coroutines.isActive

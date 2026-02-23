@@ -1,14 +1,5 @@
 import SwiftUI
-import SharedUI
-
-@main
-struct ComposeApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView().ignoresSafeArea(.all)
-        }
-    }
-}
+import FoliaryShared
 
 struct ContentView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {

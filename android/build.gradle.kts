@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.android.application)
 }
 
@@ -30,6 +29,6 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":sharedUI"))
+    implementation(project(":foliary"))
     implementation(libs.androidx.activityCompose)
 }
