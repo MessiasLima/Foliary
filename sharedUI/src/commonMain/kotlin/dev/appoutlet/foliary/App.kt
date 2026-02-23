@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import foliary.sharedui.generated.resources.*
-import dev.appoutlet.foliary.theme.AppTheme
+import dev.appoutlet.foliary.theme.FoliaryTheme
 import dev.appoutlet.foliary.theme.LocalThemeIsDark
 import kotlinx.coroutines.isActive
 import org.jetbrains.compose.resources.Font
@@ -25,7 +25,7 @@ import org.jetbrains.compose.resources.vectorResource
 @Composable
 fun App(
     onThemeChanged: @Composable (isDark: Boolean) -> Unit = {}
-) = AppTheme(onThemeChanged) {
+) = FoliaryTheme(onThemeChanged) {
     Column(
         modifier = Modifier
             .fillMaxSize()

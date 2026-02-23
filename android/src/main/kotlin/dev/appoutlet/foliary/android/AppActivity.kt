@@ -1,4 +1,4 @@
-package dev.appoutlet.foliary.androidApp
+package dev.appoutlet.foliary.android
 
 import android.app.Activity
 import android.os.Bundle

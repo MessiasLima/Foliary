@@ -7,14 +7,14 @@ plugins {
 }
 
 android {
-    namespace = "dev.appoutlet.foliary.androidApp"
+    namespace = "dev.appoutlet.foliary.android"
     compileSdk = 36
 
     defaultConfig {
         minSdk = 23
         targetSdk = 36
 
-        applicationId = "dev.appoutlet.foliary.androidApp"
+        applicationId = "dev.appoutlet.foliary.android"
         versionCode = 1
         versionName = "1.0.0"
     }

@@ -27,7 +27,7 @@ compose.desktop {
             }
             macOS {
                 iconFile.set(project.file("appIcons/MacosIcon.icns"))
-                bundleID = "dev.appoutlet.foliary.desktopApp"
+                bundleID = "dev.appoutlet.foliary.desktop"
             }
         }
     }

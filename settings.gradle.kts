@@ -29,6 +29,6 @@ dependencyResolutionManagement {
     }
 }
 include(":sharedUI")
-include(":androidApp")
-include(":desktopApp")
+include(":android")
+include(":desktop")
 

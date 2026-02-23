@@ -15,9 +15,7 @@ plugins {
 
 kotlin {
     androidTarget() //We need the deprecated target to have working previews
-
     jvm()
-
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -75,6 +73,7 @@ kotlin {
 dependencies {
     debugImplementation(libs.compose.ui.tooling)
 }
+
 android {
     namespace = "dev.appoutlet.foliary"
     compileSdk = 36
