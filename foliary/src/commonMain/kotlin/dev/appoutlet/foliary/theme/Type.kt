@@ -1,5 +1,6 @@
 package dev.appoutlet.foliary.theme
 
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
@@ -15,18 +16,39 @@ import org.jetbrains.compose.resources.Font
 
 
 @Composable
-fun getTypography(): Typography {
+fun getTypography(colorScheme: ColorScheme): Typography {
     val baseline = MaterialTheme.typography
     val displayFontFamily = getDisplayFontFamily()
 
     return Typography(
-        displayLarge = baseline.displayLarge.copy(fontFamily = displayFontFamily),
-        displayMedium = baseline.displayMedium.copy(fontFamily = displayFontFamily),
-        displaySmall = baseline.displaySmall.copy(fontFamily = displayFontFamily),
-        headlineLarge = baseline.headlineLarge.copy(fontFamily = displayFontFamily),
-        headlineMedium = baseline.headlineMedium.copy(fontFamily = displayFontFamily),
-        headlineSmall = baseline.headlineSmall.copy(fontFamily = displayFontFamily),
-        titleLarge = baseline.titleLarge.copy(fontFamily = displayFontFamily),
+        displayLarge = baseline.displayLarge.copy(
+            fontFamily = displayFontFamily,
+            color = colorScheme.primary
+        ),
+        displayMedium = baseline.displayMedium.copy(
+            fontFamily = displayFontFamily,
+            color = colorScheme.primary
+        ),
+        displaySmall = baseline.displaySmall.copy(
+            fontFamily = displayFontFamily,
+            color = colorScheme.primary
+        ),
+        headlineLarge = baseline.headlineLarge.copy(
+            fontFamily = displayFontFamily,
+            color = colorScheme.primary
+        ),
+        headlineMedium = baseline.headlineMedium.copy(
+            fontFamily = displayFontFamily,
+            color = colorScheme.primary
+        ),
+        headlineSmall = baseline.headlineSmall.copy(
+            fontFamily = displayFontFamily,
+            color = colorScheme.primary
+        ),
+        titleLarge = baseline.titleLarge.copy(
+            fontFamily = displayFontFamily,
+            color = colorScheme.primary
+        ),
         titleMedium = baseline.titleMedium.copy(fontFamily = getBodyFontFamily(baseline.titleMedium)),
         titleSmall = baseline.titleSmall.copy(fontFamily = getBodyFontFamily(baseline.titleSmall)),
         bodyLarge = baseline.bodyLarge.copy(fontFamily = getBodyFontFamily(baseline.bodyLarge)),

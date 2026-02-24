@@ -88,9 +88,10 @@ fun FoliaryTheme(
     content: @Composable () -> Unit
 ) {
     SetupPlatformStatusBar(isDarkTheme)
+    val colorScheme = if (isDarkTheme) darkScheme else lightScheme
     MaterialTheme(
-        colorScheme = if (isDarkTheme) darkScheme else lightScheme,
-        typography = getTypography(),
+        colorScheme = colorScheme,
+        typography = getTypography(colorScheme),
         content = content
     )
 }
