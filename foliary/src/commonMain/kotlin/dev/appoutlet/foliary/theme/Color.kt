@@ -1,7 +1,7 @@
 package dev.appoutlet.foliary.theme
 import androidx.compose.ui.graphics.Color
 
-val primaryLight = Color(0xFF003629)
+val primaryLight = Color(0xFF1A4D3E)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFF1B4D3E)
 val onPrimaryContainerLight = Color(0xFF8ABDA9)
@@ -17,9 +17,9 @@ val errorLight = Color(0xFFAE282C)
 val onErrorLight = Color(0xFFFFFFFF)
 val errorContainerLight = Color(0xFFD04141)
 val onErrorContainerLight = Color(0xFFFFFBFF)
-val backgroundLight = Color(0xFFF9FAF7)
+val backgroundLight = Color(0xFFFAF9F6)
 val onBackgroundLight = Color(0xFF191C1B)
-val surfaceLight = Color(0xFFFCF8F7)
+val surfaceLight = Color(0xFFFAF9F6)
 val onSurfaceLight = Color(0xFF1C1B1B)
 val surfaceVariantLight = Color(0xFFDCE5DF)
 val onSurfaceVariantLight = Color(0xFF404945)

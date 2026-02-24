@@ -13,7 +13,7 @@ android {
         minSdk = 23
         targetSdk = 36
 
-        applicationId = "dev.appoutlet.foliary.android"
+        applicationId = "dev.appoutlet.foliary"
         versionCode = 1
         versionName = "1.0.0"
     }
