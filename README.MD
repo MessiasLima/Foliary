@@ -1,2 +1,0 @@
-# Foliary
-In development
