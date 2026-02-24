@@ -9,7 +9,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import foliary.foliary.generated.resources.Domine_VariableFont_wght
-import foliary.foliary.generated.resources.`Inter_VariableFont_opsz,wght`
+import foliary.foliary.generated.resources.Inter_VariableFont_opsz_wght
 import foliary.foliary.generated.resources.Res
 import org.jetbrains.compose.resources.Font
 
@@ -69,7 +69,7 @@ private fun getDisplayFontFamily() = FontFamily(
 @Composable
 private fun getBodyFontFamily(textStyle: TextStyle) = FontFamily(
     Font(
-        resource = Res.font.`Inter_VariableFont_opsz,wght`,
+        resource = Res.font.Inter_VariableFont_opsz_wght,
         weight = textStyle.fontWeight ?: FontWeight.Normal,
         style = textStyle.fontStyle ?: FontStyle.Normal,
         variationSettings = FontVariation.Settings(
