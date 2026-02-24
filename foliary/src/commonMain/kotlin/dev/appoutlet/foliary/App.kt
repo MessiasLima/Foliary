@@ -13,9 +13,8 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import foliary.foliary.generated.resources.*
 import dev.appoutlet.foliary.theme.FoliaryTheme
-import dev.appoutlet.foliary.theme.LocalThemeIsDark
+import foliary.foliary.generated.resources.*
 import kotlinx.coroutines.isActive
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.stringResource
@@ -23,9 +22,7 @@ import org.jetbrains.compose.resources.vectorResource
 
 @Preview
 @Composable
-fun App(
-    onThemeChanged: @Composable (isDark: Boolean) -> Unit = {}
-) = FoliaryTheme(onThemeChanged) {
+fun App() = FoliaryTheme {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -35,7 +32,6 @@ fun App(
     ) {
         Text(
             text = stringResource(Res.string.cyclone),
-            fontFamily = FontFamily(Font(Res.font.IndieFlower_Regular)),
             style = MaterialTheme.typography.displayLarge
         )
 
@@ -74,22 +70,6 @@ fun App(
                 Text(
                     stringResource(if (isRotating) Res.string.stop else Res.string.run)
                 )
-            }
-        )
-
-        var isDark by LocalThemeIsDark.current
-        val icon = remember(isDark) {
-            if (isDark) Res.drawable.ic_light_mode
-            else Res.drawable.ic_dark_mode
-        }
-
-        ElevatedButton(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp).widthIn(min = 200.dp),
-            onClick = { isDark = !isDark },
-            content = {
-                Icon(vectorResource(icon), contentDescription = null)
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text(stringResource(Res.string.theme))
             }
         )
 
