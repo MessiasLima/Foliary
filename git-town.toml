@@ -1,0 +1,34 @@
+# See https://www.git-town.com/configuration-file for details
+
+[branches]
+main = "main"
+order = "asc"
+unknown-type = "feature"
+
+[create]
+new-branch-type = "feature"
+share-new-branches = "no"
+stash = false
+
+[hosting]
+forge-type = "github"
+github-connector = "api"
+
+[propose]
+breadcrumb = "branches"
+
+[ship]
+delete-tracking-branch = false
+ignore-uncommitted = false
+strategy = "api"
+
+[sync]
+auto-sync = true
+detached = false
+feature-strategy = "merge"
+perennial-strategy = "ff-only"
+prototype-strategy = "merge"
+push-branches = true
+push-hook = true
+tags = false
+upstream = true
