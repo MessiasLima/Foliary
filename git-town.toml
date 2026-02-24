@@ -15,7 +15,7 @@ forge-type = "github"
 github-connector = "api"
 
 [propose]
-breadcrumb = "branches"
+breadcrumb = "stacks"
 
 [ship]
 delete-tracking-branch = false
