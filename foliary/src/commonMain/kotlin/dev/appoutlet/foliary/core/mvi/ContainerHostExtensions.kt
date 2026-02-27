@@ -1,6 +1,6 @@
 package dev.appoutlet.foliary.core.mvi
 
-fun <SideEffect : Action, Event> ContainerHost<SideEffect, Event>.emitState(
+fun <SideEffect : Action> ContainerHost<SideEffect>.emitState(
     showLoading: Boolean = true,
     block: suspend () -> State
 ) {
@@ -15,20 +15,22 @@ fun <SideEffect : Action, Event> ContainerHost<SideEffect, Event>.emitState(
     }
 }
 
-fun <SideEffect : Action, Event> ContainerHost<SideEffect, Event>.emitState(state: State) {
+fun <SideEffect : Action> ContainerHost<SideEffect>.emitState(state: State) {
     intent {
         reduce { state }
     }
 }
 
-fun <SideEffect : Action, Event> ContainerHost<SideEffect, Event>.emitAction(
+fun <SideEffect : Action> ContainerHost<SideEffect>.emitAction(
     showLoading: Boolean = true,
     block: suspend () -> SideEffect
 ) {
     intent {
         try {
+            val previousState = state
             if (showLoading) reduce { State.Loading() }
             postSideEffect(block())
+            reduce { previousState }
         } catch (throwable: Throwable) {
             reduce { State.Error(throwable) }
         }

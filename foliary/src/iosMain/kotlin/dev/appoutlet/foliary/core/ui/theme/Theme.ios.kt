@@ -1,4 +1,4 @@
-package dev.appoutlet.foliary.theme
+package dev.appoutlet.foliary.core.ui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

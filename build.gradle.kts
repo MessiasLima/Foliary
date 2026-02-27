@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.compose.multiplatform).apply(false)
     alias(libs.plugins.detekt).apply(false)
     alias(libs.plugins.gitHooks).apply(false)
+    alias(libs.plugins.koin.compiler).apply(false)
     alias(libs.plugins.kotlin.android).apply(false)
     alias(libs.plugins.kotlin.jvm).apply(false)
     alias(libs.plugins.kotlin.multiplatform).apply(false)

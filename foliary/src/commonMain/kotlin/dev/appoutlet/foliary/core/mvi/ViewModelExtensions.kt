@@ -7,11 +7,11 @@ import org.orbitmvi.orbit.SettingsBuilder
 import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.Syntax
 
-fun <SIDE_EFFECT : Any> ViewModel.container(
+fun <SideEffect : Action> ViewModel.container(
     initialState: State = State.Idle,
     buildSettings: SettingsBuilder.() -> Unit = {},
-    onCreate: (suspend Syntax<State, SIDE_EFFECT>.() -> Unit)? = null
-): Container<State, SIDE_EFFECT> {
+    onCreate: (suspend Syntax<State, SideEffect>.() -> Unit)? = null
+): Container<State, SideEffect> {
     return viewModelScope.container(
         initialState = initialState,
         buildSettings = buildSettings,
