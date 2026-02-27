@@ -1,0 +1,11 @@
+apply {
+    plugin(libs.plugins.gitHooks.get().pluginId)
+}
+
+gitHooks {
+    gitHooksDirectory = file("$rootDir/config/githooks")
+}
+
+tasks.named("prepareKotlinBuildScriptModel") {
+    dependsOn(":installGitHooks")
+}

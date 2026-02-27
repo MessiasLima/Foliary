@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.compose.compiler).apply(false)
     alias(libs.plugins.compose.multiplatform).apply(false)
     alias(libs.plugins.detekt).apply(false)
+    alias(libs.plugins.gitHooks).apply(false)
     alias(libs.plugins.kotlin.android).apply(false)
     alias(libs.plugins.kotlin.jvm).apply(false)
     alias(libs.plugins.kotlin.multiplatform).apply(false)
@@ -12,3 +13,5 @@ plugins {
     alias(libs.plugins.ksp).apply(false)
     alias(libs.plugins.room).apply(false)
 }
+
+apply(from = "$rootDir/config/githooks/githooks.gradle")
