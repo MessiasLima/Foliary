@@ -2,7 +2,7 @@ package dev.appoutlet.foliary
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.runComposeUiTest
 import kotlin.test.Test
 
@@ -14,6 +14,6 @@ class AppTest {
             App()
         }
 
-        onNodeWithText("Hello, Foliary!").assertIsDisplayed()
+        onNodeWithTag("SignInScreen").assertIsDisplayed()
     }
 }

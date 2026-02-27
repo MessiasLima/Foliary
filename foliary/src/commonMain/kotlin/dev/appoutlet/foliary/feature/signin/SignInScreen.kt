@@ -6,6 +6,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import org.koin.compose.viewmodel.koinViewModel
@@ -14,6 +15,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SignInScreen() {
     val viewModel = koinViewModel<SignInViewModel>()
     Screen(
+        modifier = Modifier.testTag("SignInScreen"),
         viewModelProvider = { viewModel },
         onAction = ::onAction,
     ) { viewData: SignInViewData ->
