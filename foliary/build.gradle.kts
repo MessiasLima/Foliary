@@ -56,6 +56,8 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.lucideIcons)
+            implementation(libs.material3.adaptive.navigation3)
             implementation(libs.multiplatformSettings)
             implementation(libs.navigation3.ui)
             implementation(libs.orbit.compose)
