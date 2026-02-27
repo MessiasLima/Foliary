@@ -14,7 +14,6 @@ import foliary.foliary.generated.resources.Inter_VariableFont_opsz_wght
 import foliary.foliary.generated.resources.Res
 import org.jetbrains.compose.resources.Font
 
-
 @Composable
 fun getTypography(colorScheme: ColorScheme): Typography {
     val baseline = MaterialTheme.typography

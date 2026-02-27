@@ -32,3 +32,5 @@ dependencies {
     implementation(project(":foliary"))
     implementation(libs.androidx.activityCompose)
 }
+
+apply(from = "$rootDir/config/detekt/detekt.gradle")

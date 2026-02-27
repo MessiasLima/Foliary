@@ -6,8 +6,8 @@ detekt {
     autoCorrect = true
     parallel = true
     buildUponDefaultConfig = true
-    config.setFrom("$rootDir/detekt/detekt.yml")
-    baseline = file("$rootDir/detekt/${project.name}/baseline.xml")
+    config.setFrom("$rootDir/config/detekt/detekt.yml")
+    baseline = file("$rootDir/config/detekt/${project.name}/baseline.xml")
     source.setFrom(
             "src/main/kotlin",
             "src/test/kotlin",

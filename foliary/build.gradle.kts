@@ -89,3 +89,5 @@ dependencies {
         add("kspIosSimulatorArm64", this)
     }
 }
+
+apply(from = "$rootDir/config/detekt/detekt.gradle")

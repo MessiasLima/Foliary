@@ -3,6 +3,6 @@ import dev.appoutlet.foliary.App
 import platform.UIKit.UIViewController
 
 @Suppress("FunctionNaming", "UNUSED")
-fun MainViewController(): UIViewController = ComposeUIViewController { 
+fun MainViewController(): UIViewController = ComposeUIViewController {
     App()
 }

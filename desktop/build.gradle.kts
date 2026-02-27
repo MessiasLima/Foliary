@@ -32,3 +32,5 @@ compose.desktop {
         }
     }
 }
+
+apply(from = "$rootDir/config/detekt/detekt.gradle")
