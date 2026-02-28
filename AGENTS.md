@@ -15,7 +15,7 @@ The intent is to make agents deterministic, keep the codebase consistent, and mi
 ---
 
 ## 🔧 Build, Lint & Test Commands
-> All commands are to be executed from the repository root (`/Users/messias/Workspace/Foliary`).
+> All commands are to be executed from the repository root.
 
 | Goal | Command | Description |
 |------|---------|-------------|
@@ -107,7 +107,7 @@ The repository is governed primarily by **Detekt** (`config/detekt/detekt.yml`) 
 ### 8️⃣ UI – Compose Multiplatform
 - **Stateless composables** receive all state via parameters; avoid holding mutable state internally unless necessary.
 - Naming: `PascalCase` for composable functions (e.g., `SignInScreen`).
-- Use **Material3** components; prefer them over Material2 (detekt disables Material2 rules but we still favour Material3).
+- Use **Material3** components; prefer them over Material2 (enforced by detekt).
 - Follow the **Compose style guide**:
   - Keep composable bodies short (< 30 lines).
   - Extract reusable UI pieces into their own composable files.
@@ -115,7 +115,7 @@ The repository is governed primarily by **Detekt** (`config/detekt/detekt.yml`) 
   - Provide preview functions annotated with `@Preview` for desktop and Android.
 - **Accessibility**: always supply `contentDescription` for images/icons.
 
-### ️⃣ Testing Guidelines
+### 9️⃣ Testing Guidelines
 - **Frameworks**: Kotest (`io.kotest:kotest-assertions-core`) + coroutine test (`kotlinx-coroutines-test`).
 - Place tests under `src/commonTest/kotlin` for shared logic; platform‑specific tests under `androidTest` / `jvmTest` as needed.
 - Use **behavior‑driven naming**: `shouldDoSomethingWhenCondition`. Example:
@@ -130,12 +130,12 @@ The repository is governed primarily by **Detekt** (`config/detekt/detekt.yml`) 
 - Mock dependencies with **Mokkery** (`dev.mokkery`).
 - Run a single test via the command in the Build table.
 
-### 9️⃣ Documentation
+### 🔟 Documentation
 - Use **KDoc** for public APIs, classes, and functions.
 - Keep comments concise; avoid `TODO` and `FIXME` – they are prohibited (detekt `ForbiddenComment`).
 - For complex logic, add a brief explanation before the code block.
 
-### 🔟 MVI Screen Architecture
+### 1️⃣1️⃣ MVI Screen Architecture
 Foliary uses a custom MVI implementation built on top of **Orbit MVI**.
 
 #### 1. Components

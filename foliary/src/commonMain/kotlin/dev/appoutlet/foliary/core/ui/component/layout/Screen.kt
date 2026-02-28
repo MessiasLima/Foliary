@@ -19,15 +19,15 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Suppress("UNCHECKED_CAST")
 @Composable
-fun <ScreenViewData : ViewData, SiteEffect : Action> Screen(
+fun <ScreenViewData : ViewData, SideEffect : Action> Screen(
     screenName: String,
-    viewModelProvider: @Composable () -> ContainerHost<SiteEffect>,
+    viewModelProvider: @Composable () -> ContainerHost<SideEffect>,
     modifier: Modifier = Modifier,
     onTryAgain: (() -> Unit)? = null,
     error: @Composable (Throwable?) -> Unit = { DefaultErrorIndicator(it?.message, onTryAgain) },
     loading: @Composable (String?) -> Unit = { DefaultLoadingIndicator(it) },
     idle: @Composable () -> Unit = {},
-    onAction: suspend (SiteEffect, Navigator) -> Unit = { _, _ -> },
+    onAction: suspend (SideEffect, Navigator) -> Unit = { _, _ -> },
     content: @Composable (viewData: ScreenViewData) -> Unit,
 ) {
     val navigator = LocalNavigator.current
