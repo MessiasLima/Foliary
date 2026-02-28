@@ -8,7 +8,7 @@ class TaskRepositoryImplTest {
     private val subject = TaskRepositoryImpl()
 
     @Test
-    fun `should return todays tasks` () = runTest {
+    fun `should return todays tasks`() = runTest {
         val result = subject.findTodaysTasks()
 
         result shouldHaveSize 0

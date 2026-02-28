@@ -109,6 +109,8 @@ buildkonfig {
 
     defaultConfigs {
         buildConfigField(FieldSpec.Type.BOOLEAN, "isDebug", "true")
+        buildConfigField(FieldSpec.Type.INT, "versionCode", libs.versions.versionCode.get())
+        buildConfigField(FieldSpec.Type.STRING, "versionName", libs.versions.versionName.get())
     }
 
     defaultConfigs("release") {

@@ -1,3 +1,5 @@
+@file:Suppress("ForbiddenImport")
+
 package dev.appoutlet.foliary.core.logging
 
 import co.touchlab.kermit.Logger

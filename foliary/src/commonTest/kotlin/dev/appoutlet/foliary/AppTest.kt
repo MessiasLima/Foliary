@@ -9,7 +9,7 @@ import kotlin.test.Test
 @OptIn(ExperimentalTestApi::class)
 class AppTest {
     @Test
-    fun `the application should start` () = runComposeUiTest {
+    fun `the application should start`() = runComposeUiTest {
         setContent {
             App()
         }

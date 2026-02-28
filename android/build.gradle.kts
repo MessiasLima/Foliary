@@ -7,15 +7,15 @@ plugins {
 
 android {
     namespace = "dev.appoutlet.foliary.android"
-    compileSdk = 36
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 36
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
 
         applicationId = "dev.appoutlet.foliary"
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = libs.versions.versionCode.get().toInt()
+        versionName = libs.versions.versionName.get()
     }
 
     compileOptions {

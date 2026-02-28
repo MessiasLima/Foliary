@@ -6,15 +6,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import dev.appoutlet.foliary.core.logging.getLogger
 import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.ContainerHost
+import dev.appoutlet.foliary.core.mvi.State
 import dev.appoutlet.foliary.core.mvi.ViewData
 import dev.appoutlet.foliary.core.navigation.LocalNavigator
 import dev.appoutlet.foliary.core.navigation.Navigator
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
-import dev.appoutlet.foliary.core.mvi.State
 
 @Suppress("UNCHECKED_CAST")
 @Composable
@@ -38,7 +39,7 @@ fun <ScreenViewData : ViewData, SiteEffect : Action> Screen(
         onAction(it, navigator)
     })
 
-    AnimatedContent(modifier = modifier, targetState = state) { state ->
+    AnimatedContent(modifier = modifier.testTag(screenName), targetState = state) { state ->
         when (state) {
             is State.Error -> {
                 log.e(state.throwable) {

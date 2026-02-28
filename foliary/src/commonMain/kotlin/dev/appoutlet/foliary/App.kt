@@ -10,9 +10,11 @@ import org.koin.plugin.module.dsl.koinConfiguration
 @Preview
 @Composable
 fun App() {
-    KoinApplication(configuration = koinConfiguration<FoliaryKoinApplication> {
-        logger(getKoinLogger())
-    }) {
+    KoinApplication(
+        configuration = koinConfiguration<FoliaryKoinApplication> {
+            logger(getKoinLogger())
+        }
+    ) {
         FoliaryTheme {
             Navigation()
         }

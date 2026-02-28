@@ -38,7 +38,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun ErrorIndicator(
     modifier: Modifier = Modifier,
-    title: String? = stringResource(Res .string.error_default_title),
+    title: String? = stringResource(Res.string.error_default_title),
     message: String? = stringResource(Res.string.error_default_message),
     stackTrace: String? = null,
     onTryAgain: (() -> Unit)? = null,
