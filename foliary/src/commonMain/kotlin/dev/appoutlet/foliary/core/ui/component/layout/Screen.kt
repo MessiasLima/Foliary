@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import dev.appoutlet.foliary.core.logging.getLogger
 import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.ContainerHost
 import dev.appoutlet.foliary.core.mvi.ViewData
@@ -18,6 +19,7 @@ import dev.appoutlet.foliary.core.mvi.State
 @Suppress("UNCHECKED_CAST")
 @Composable
 fun <ScreenViewData : ViewData, SiteEffect : Action> Screen(
+    screenName: String,
     viewModelProvider: @Composable () -> ContainerHost<SiteEffect>,
     modifier: Modifier = Modifier,
     onTryAgain: (() -> Unit)? = null,
@@ -30,6 +32,7 @@ fun <ScreenViewData : ViewData, SiteEffect : Action> Screen(
     val navigator = LocalNavigator.current
     val viewModel = viewModelProvider()
     val state by viewModel.collectAsState()
+    val log = remember { getLogger(screenName) }
 
     viewModel.collectSideEffect(sideEffect = {
         onAction(it, navigator)
@@ -37,7 +40,13 @@ fun <ScreenViewData : ViewData, SiteEffect : Action> Screen(
 
     AnimatedContent(modifier = modifier, targetState = state) { state ->
         when (state) {
-            is State.Error -> error(state.throwable)
+            is State.Error -> {
+                log.e(state.throwable) {
+                    state.throwable?.message ?: "A error occurred in $screenName"
+                }
+
+                error(state.throwable)
+            }
 
             is State.Loading -> loading(state.message)
 

@@ -15,6 +15,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SignInScreen() {
     val viewModel = koinViewModel<SignInViewModel>()
     Screen(
+        screenName = "SignInScreen",
         modifier = Modifier.testTag("SignInScreen"),
         viewModelProvider = { viewModel },
         onAction = ::onAction,
