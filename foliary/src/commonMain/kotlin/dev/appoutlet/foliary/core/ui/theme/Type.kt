@@ -1,4 +1,4 @@
-package dev.appoutlet.foliary.theme
+package dev.appoutlet.foliary.core.ui.theme
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -13,7 +13,6 @@ import foliary.foliary.generated.resources.Domine_VariableFont_wght
 import foliary.foliary.generated.resources.Inter_VariableFont_opsz_wght
 import foliary.foliary.generated.resources.Res
 import org.jetbrains.compose.resources.Font
-
 
 @Composable
 fun getTypography(colorScheme: ColorScheme): Typography {

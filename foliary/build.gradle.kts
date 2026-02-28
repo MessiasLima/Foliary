@@ -1,12 +1,15 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
+
 plugins {
-    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.kmp.library)
+    alias(libs.plugins.buildKonfig)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose.multiplatform)
-    alias(libs.plugins.android.kmp.library)
+    alias(libs.plugins.koin.compiler)
+    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlinx.serialization)
-    alias(libs.plugins.room)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.buildConfig)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -36,27 +39,39 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            api(libs.compose.foundation)
+            api(libs.compose.material3)
+            api(libs.compose.resources)
             api(libs.compose.runtime)
             api(libs.compose.ui)
-            api(libs.compose.foundation)
-            api(libs.compose.resources)
             api(libs.compose.ui.tooling.preview)
-            api(libs.compose.material3)
-            implementation(libs.kermit)
-            implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime)
-            implementation(libs.compose.nav3)
-            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.coil)
             implementation(libs.coil.network.ktor)
+            implementation(libs.kermit)
+            implementation(libs.kermit.koin)
+            implementation(libs.koin.annotations)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.navigation3)
+            implementation(libs.koin.compose.viewModel)
+            implementation(libs.koin.core)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.lucideIcons)
+            implementation(libs.material3.adaptive.navigation3)
             implementation(libs.multiplatformSettings)
+            implementation(libs.navigation3.ui)
+            implementation(libs.orbit.compose)
+            implementation(libs.orbit.core)
+            implementation(libs.orbit.viewModel)
             implementation(libs.room.runtime)
         }
 
         commonTest.dependencies {
-            implementation(kotlin("test"))
             implementation(libs.compose.ui.test)
+            implementation(libs.kotest.assertions)
+            implementation(kotlin("test"))
             implementation(libs.kotlinx.coroutines.test)
         }
 
@@ -72,10 +87,7 @@ kotlin {
     }
 }
 
-buildConfig {
-    // BuildConfig configuration here.
-    // https://github.com/gmazzo/gradle-buildconfig-plugin#usage-in-kts
-}
+
 
 room {
     schemaDirectory("$projectDir/schemas")
@@ -84,8 +96,24 @@ room {
 dependencies {
     with(libs.room.compiler) {
         add("kspAndroid", this)
-        add("kspJvm", this)
         add("kspIosArm64", this)
         add("kspIosSimulatorArm64", this)
+        add("kspJvm", this)
+    }
+}
+
+apply(from = "$rootDir/config/detekt/detekt.gradle")
+
+buildkonfig {
+    packageName = "dev.appoutlet.foliary"
+
+    defaultConfigs {
+        buildConfigField(FieldSpec.Type.BOOLEAN, "isDebug", "true")
+        buildConfigField(FieldSpec.Type.INT, "versionCode", libs.versions.versionCode.get())
+        buildConfigField(FieldSpec.Type.STRING, "versionName", libs.versions.versionName.get())
+    }
+
+    defaultConfigs("release") {
+        buildConfigField(FieldSpec.Type.BOOLEAN, "isDebug", "false")
     }
 }

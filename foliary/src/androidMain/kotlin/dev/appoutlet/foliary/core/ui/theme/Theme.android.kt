@@ -1,4 +1,4 @@
-package dev.appoutlet.foliary.theme
+package dev.appoutlet.foliary.core.ui.theme
 
 import android.app.Activity
 import androidx.compose.runtime.Composable

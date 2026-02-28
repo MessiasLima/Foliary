@@ -17,18 +17,22 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Foliary"
-            packageVersion = "1.0.0"
+            packageVersion = libs.versions.versionName.get()
 
             linux {
                 iconFile.set(project.file("appIcons/LinuxIcon.png"))
             }
+
             windows {
                 iconFile.set(project.file("appIcons/WindowsIcon.ico"))
             }
+
             macOS {
                 iconFile.set(project.file("appIcons/MacosIcon.icns"))
-                bundleID = "dev.appoutlet.foliary.desktop"
+                bundleID = "dev.appoutlet.foliary"
             }
         }
     }
 }
+
+apply(from = "$rootDir/config/detekt/detekt.gradle")
