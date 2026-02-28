@@ -1,6 +1,8 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
+
 plugins {
     alias(libs.plugins.android.kmp.library)
-    alias(libs.plugins.buildConfig)
+    alias(libs.plugins.buildKonfig)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.koin.compiler)
@@ -85,22 +87,31 @@ kotlin {
     }
 }
 
-buildConfig {
-    // BuildConfig configuration here.
-    // https://github.com/gmazzo/gradle-buildconfig-plugin#usage-in-kts
-}
+
 
 room {
     schemaDirectory("$projectDir/schemas")
 }
 
-    dependencies {
-        with(libs.room.compiler) {
-            add("kspAndroid", this)
-            add("kspIosArm64", this)
-            add("kspIosSimulatorArm64", this)
-            add("kspJvm", this)
-        }
+dependencies {
+    with(libs.room.compiler) {
+        add("kspAndroid", this)
+        add("kspIosArm64", this)
+        add("kspIosSimulatorArm64", this)
+        add("kspJvm", this)
     }
+}
 
 apply(from = "$rootDir/config/detekt/detekt.gradle")
+
+buildkonfig {
+    packageName = "dev.appoutlet.foliary"
+
+    defaultConfigs {
+        buildConfigField(FieldSpec.Type.BOOLEAN, "isDebug", "true")
+    }
+
+    defaultConfigs("release") {
+        buildConfigField(FieldSpec.Type.BOOLEAN, "isDebug", "false")
+    }
+}
