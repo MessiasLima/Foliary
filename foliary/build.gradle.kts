@@ -69,9 +69,9 @@ kotlin {
         }
 
         commonTest.dependencies {
-            implementation(libs.compose.ui.test)
-            implementation(libs.kotest.assertions)
             implementation(kotlin("test"))
+            api(libs.compose.ui.test)
+            implementation(libs.kotest.assertions)
             implementation(libs.kotlinx.coroutines.test)
         }
 
@@ -79,11 +79,16 @@ kotlin {
             implementation(libs.kotlinx.coroutines.android)
         }
 
+
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
         }
 
+        @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+        jvmTest.dependencies {
+            implementation(compose.uiTest)
+        }
     }
 }
 
