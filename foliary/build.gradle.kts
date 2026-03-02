@@ -70,7 +70,7 @@ kotlin {
 
         commonTest.dependencies {
             implementation(kotlin("test"))
-            api(libs.compose.ui.test)
+            implementation(libs.compose.ui.test)
             implementation(libs.kotest.assertions)
             implementation(libs.kotlinx.coroutines.test)
         }
@@ -116,8 +116,4 @@ buildkonfig {
     defaultConfigs("release") {
         buildConfigField(FieldSpec.Type.BOOLEAN, "isDebug", "false")
     }
-}
-
-tasks.withType<Test> {
-    systemProperty("java.awt.headless", "true")
 }
