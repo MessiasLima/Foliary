@@ -33,6 +33,9 @@ style:
   MaxLineLength:
     ignoreAnnotated:
       - Test
+  MagicNumber:
+    ignorePropertyDeclaration: true
+    ignoreCompanionObjectPropertyDeclaration: true
 
 exceptions:
   TooGenericExceptionCaught:
@@ -46,3 +49,7 @@ formatting:
 Compose:
   CompositionLocalAllowlist:
     active: false
+  Material2:
+    active: true
+  UnstableCollections:
+    active: true

@@ -1,90 +1,154 @@
-# Copilot Instructions for Foliary
+# AGENTS.md – Guidance for Automated Agents
 
-## Project Overview
+## Overview
+Reference for AI agents working on **Foliary**, a Kotlin Multiplatform (KMP) app using Compose Multiplatform, Orbit MVI, Koin, Room, and Kermit.
 
-Foliary is a Kotlin Multiplatform (KMP) application targeting Android, iOS, and Desktop (JVM). It uses Compose Multiplatform for the UI layer across all platforms.
+## Build, Lint & Test Commands
+> Execute from repository root.
 
-## Build Commands
+| Goal | Command |
+|------|---------|
+| Build all platforms | `./gradlew build` |
+| Run desktop app | `./gradlew run` |
+| Run all tests | `./gradlew allTests` |
+| Run JVM tests | `./gradlew foliary:jvmTest` |
+| Run Android tests | `./gradlew foliary:testDebugUnitTest` |
+| Run iOS tests | `./gradlew foliary:iosSimulatorArm64Test` |
+| Run single test class | `./gradlew foliary:jvmTest --tests "dev.appoutlet.foliary.data.task.TaskRepositoryImplTest"` |
+| Run single test method | `./gradlew foliary:jvmTest --tests "dev.appoutlet.foliary.data.task.TaskRepositoryImplTest.should return todays tasks"` |
+| Static analysis | `./gradlew detekt` |
+| Tests with coverage | `./gradlew jvmTest -Pkover koverVerify` |
+| Full check | `./gradlew check` |
 
-```bash
-# Build all platforms
-./gradlew build
+### CI & Hooks
+- **Pre-push hook**: `config/githooks/pre-push.sh` runs `./gradlew detekt`
+- **PR verification**: `detekt` → `jvmTest -Pkover koverVerify` (min coverage: **80%**)
 
-# Run desktop application
-./gradlew run
+## Code Style Guidelines
+Governed by **Detekt** (`config/detekt/detekt.yml`) and Kotlin conventions.
 
-# Run all tests
-./gradlew allTests
+### Formatting
+- **Max line length**: 120 chars (tests exempt)
+- **Indentation**: 4 spaces, no tabs
 
-# Run JVM tests only
-./gradlew foliary:jvmTest
+### Imports
+**Order** (blank line between groups):
+1. `kotlin`/`kotlinx` → 2. `androidx`/platform → 3. Third-party → 4. `dev.appoutlet.foliary.*`
 
-# Run Android unit tests
-./gradlew foliary:testDebugUnitTest
+**Rules**: No wildcard imports, no unused imports.
+**Forbidden**: `co.touchlab.kermit.Logger` – use `logger()` delegate.
 
-# Run a single test class
-./gradlew foliary:jvmTest --tests "dev.appoutlet.foliary.SomeTest"
+### Naming Conventions
+| Element | Pattern | Example |
+|---------|---------|---------|
+| Classes/Objects | `PascalCase` | `SignInViewModel` |
+| Functions/Properties | `camelCase` | `onEvent`, `userName` |
+| Constants | `PascalCase` | `DefaultTimeout` |
+| Test classes | `PascalCase` + `Test` | `TaskRepositoryImplTest` |
+| Test methods | Backticks | `` `should return todays tasks` `` |
 
-# Run iOS simulator tests
-./gradlew foliary:iosSimulatorArm64Test
+### Types & Immutability
+- Prefer `val` over `var`; use `data class` with `val` properties
+- Use `sealed interface` for state/actions
+- Handle nulls with `?.let`, `?:`, or `requireNotNull`
 
-# Check (lint + tests)
-./gradlew check
+### Error Handling & Logging
+- Catch specific exceptions; use `Result` or `runCatching { }`
+- Logging: `private val log by logger()` then `log.d { }` / `log.e { }`
+
+### Dependency Injection (Koin)
+- ViewModels: `@KoinViewModel`; Services: `@Single`
+
+### UI – Compose Multiplatform
+- Stateless composables; **Material3 only** (Material2 forbidden)
+- `Modifier` as last parameter; always set `contentDescription`
+
+### Documentation
+- Use **KDoc** for public APIs; **TODO/FIXME forbidden**
+
+## MVI Architecture
+Custom implementation on **Orbit MVI**.
+
+### Components
+- **State**: `Idle`, `Loading`, `Success<ViewData>`, `Error`
+- **ViewData**: Interface for screen state data
+- **Action**: Interface for side effects
+
+### ViewModel Pattern
+```kotlin
+@KoinViewModel
+class MyViewModel : ViewModel(), ContainerHost<MyAction> {
+    override val container = container<MyAction> { loadInitialData() }
+    fun onEvent(event: MyEvent) { /* handle */ }
+}
 ```
 
-## Architecture
-
-### Module Structure
-- **`:foliary`** - Shared KMP module containing all business logic and UI (commonMain, androidMain, iosMain, jvmMain)
-- **`:android`** - Android app shell (just Activity setup, delegates to :foliary)
-- **`:desktop`** - Desktop app shell (just main function, delegates to :foliary)
-- **`ios/`** - Xcode project that consumes the FoliaryShared framework
-
-### Key Patterns
-- **MVI Architecture**: Uses Orbit MVI for state management in ViewModels
-- **Dependency Injection**: Koin for DI across all platforms
-- **Navigation**: Jetpack Navigation3 (Nav3) for Compose Multiplatform
-- **Logging**: Kermit for multiplatform logging
-- **Database**: Room with KSP code generation for all platforms
-- **Theming**: Material 3 with custom FoliaryTheme
-
-### Source Set Organization
-```
-foliary/src/
-├── commonMain/kotlin/    # Shared code (UI, business logic)
-├── commonTest/kotlin/    # Shared tests
-├── androidMain/kotlin/   # Android-specific implementations
-├── iosMain/kotlin/       # iOS-specific implementations
-└── jvmMain/kotlin/       # Desktop-specific implementations
+### Screen Pattern
+```kotlin
+@Composable
+fun MyScreen() {
+    val viewModel = koinViewModel<MyViewModel>()
+    Screen(
+        viewModelProvider = { viewModel },
+        onAction = { action, navigator -> /* handle */ }
+    ) { viewData: MyViewData -> /* UI */ }
+}
 ```
 
-## Conventions
+### Navigation
+```kotlin
+@Single
+class MyNavigation : Navigation<MyNavKey> {
+    override fun setupRoute(scope: EntryProviderScope<NavKey>) {
+        scope.entry<MyNavKey> { MyScreen() }
+    }
+    override fun setupPolymorphism(builder: PolymorphicModuleBuilder<NavKey>) {
+        builder.subclass(MyNavKey::class, MyNavKey.serializer())
+    }
+}
 
-### Package Structure
-All code lives under `dev.appoutlet.foliary.*`
+@Serializable
+data object MyNavKey : NavKey
+```
 
-### Dependencies
-- Use version catalog (`gradle/libs.versions.toml`) for all dependencies
-- Reference as `libs.plugins.*` for plugins and `libs.*` for libraries
+## Testing
+**Frameworks**: `kotlin.test`, Kotest assertions, `kotlinx-coroutines-test`
 
-### Room Database
-- Schema exports to `foliary/schemas/` directory
-- KSP generates code for all platforms (kspAndroid, kspJvm, kspIosArm64, kspIosSimulatorArm64)
+**Important**: Always use Kotest assertions (e.g., `result shouldBe expected`, `list shouldHaveSize 0`) instead of standard `assert()` or `assertEquals()`.
 
-### Compose Resources
-- Shared resources in `foliary/src/commonMain/composeResources/`
-- Access via generated `Res` object (e.g., `Res.string.app_name`, `Res.drawable.icon`)
+```kotlin
+class TaskRepositoryImplTest {
+    @Test
+    fun `should return todays tasks`() = runTest {
+        val result = subject.findTodaysTasks()
+        result shouldHaveSize 0
+    }
+}
+```
 
-### iOS Framework
-- Exports as `FoliaryShared` static framework
-- Bundle ID: `dev.appoutlet.foliary`
+**UI Tests**:
+```kotlin
+@OptIn(ExperimentalTestApi::class)
+class AppTest {
+    @Test
+    fun `the application should start`() = runComposeUiTest {
+        setContent { App() }
+        onNodeWithTag("SignInScreen").assertIsDisplayed()
+    }
+}
+```
 
-## Ticket Creation
+> **Tip**: Add `modifier.testTag("TagName")` to composables to easily reference them in tests when finding by text is not possible (e.g. Icons, Containers).
 
-This repo uses structured ticket templates in `.gemini/commands/ticket/`:
-- **task.toml** - Operational/maintenance tasks
-- **feature.toml** - New features (uses GIVEN-WHEN-THEN acceptance criteria)
-- **bug.toml** - Bug reports
-- **spike.toml** - Investigation tasks
 
-When creating tickets, follow the template structure and use GitHub issue dependencies to show blocking relationships.
+## Contribution Workflow
+1. **Branch**: `feature/short-description`
+2. **Lint**: `./gradlew detekt` before commit
+3. **Commit**: Imperative present-tense, ≤72 chars
+4. **Push**: Pre-push hook runs detekt
+5. **PR**: Target `main`, reference tickets
+
+## Resources
+- [Detekt](https://detekt.dev) | [Kotlin Style](https://kotlinlang.org/docs/coding-conventions.html)
+- [Compose Multiplatform](https://compose-multiplatform.com) | [Orbit MVI](https://orbit-mvi.org)
+- [Koin](https://insert-koin.io) | [Kermit](https://github.com/touchlab/Kermit)

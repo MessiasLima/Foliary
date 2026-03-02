@@ -2,23 +2,23 @@
 
 A calm place for your deep focus.
 
-Foliary is a simple Todo list combined with a Pomodoro timer to help you stay focused and productive.
+**Foliary is currently in the very early stages of development.** There is no working version available yet, but the goal is to provide a simple Todo list combined with a Pomodoro timer that works on Android, iOS, and Desktop.
 
-## ⚠️ Project Status
+## Planned Features (future)
 
-**Foliary is currently in the very early stages of development.** There is no working version available yet. This repository contains the initial project structure and planning.
+- Todo Management – keep track of tasks and stay organized
+- Pomodoro Timer – focus sessions with built‑in breaks
+- Cross‑Platform – Android, iOS, and Desktop (JVM)
 
-## Planned Features
+---
 
-- **Todo Management** - Track your tasks and stay organized
-- **Pomodoro Timer** - Focus sessions with built-in breaks
-- **Cross-Platform** - Android, iOS, and Desktop
+## License
 
-## Tech Stack
+Foliary is released under the **Elastic License 2.0**. See the `LICENSE` file for details.
 
-- **Kotlin Multiplatform** - Shared business logic across platforms
-- **Compose Multiplatform** - Modern UI framework
-- **Material 3** - Beautiful, adaptive design
+## Contributing
+
+If you would like to help shape the project, please see the `CONTRIBUTING.md` file for guidelines.
 
 ---
 
