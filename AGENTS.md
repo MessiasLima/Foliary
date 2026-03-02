@@ -114,6 +114,8 @@ data object MyNavKey : NavKey
 ## Testing
 **Frameworks**: `kotlin.test`, Kotest assertions, `kotlinx-coroutines-test`
 
+**Important**: Always use Kotest assertions (e.g., `result shouldBe expected`, `list shouldHaveSize 0`) instead of standard `assert()` or `assertEquals()`.
+
 ```kotlin
 class TaskRepositoryImplTest {
     @Test
@@ -135,6 +137,9 @@ class AppTest {
     }
 }
 ```
+
+> **Tip**: Add `modifier.testTag("TagName")` to composables to easily reference them in tests when finding by text is not possible (e.g. Icons, Containers).
+
 
 ## Contribution Workflow
 1. **Branch**: `feature/short-description`

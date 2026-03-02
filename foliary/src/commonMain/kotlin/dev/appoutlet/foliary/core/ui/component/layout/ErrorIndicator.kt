@@ -22,6 +22,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.CircleX
@@ -45,8 +46,15 @@ fun ErrorIndicator(
     tryAgainText: String = stringResource(Res.string.error_default_try_again),
 ) {
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
-        Column(modifier = Modifier.widthInNarrow(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(modifier = Modifier.size(64.dp), imageVector = Lucide.CircleX, contentDescription = null)
+        Column(
+            modifier = Modifier.widthInNarrow(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                modifier = Modifier.size(64.dp).testTag("ErrorIndicator:Icon"),
+                imageVector = Lucide.CircleX,
+                contentDescription = null
+            )
             Spacer(Modifier.size(16.dp))
             title?.let {
                 Text(
@@ -75,9 +83,14 @@ fun ErrorIndicator(
             stackTrace?.let {
                 var showStackTrace by rememberSaveable { mutableStateOf(false) }
 
-                OutlinedButton(onClick = {
-                    showStackTrace = showStackTrace.not()
-                }) {
+                Spacer(Modifier.size(16.dp))
+
+                OutlinedButton(
+                    modifier = Modifier.testTag("ErrorIndicator:ToggleStackTrace"),
+                    onClick = {
+                        showStackTrace = showStackTrace.not()
+                    }
+                ) {
                     AnimatedContent(targetState = showStackTrace) {
                         if (it) {
                             Text(text = stringResource(Res.string.error_hide_details))
@@ -91,7 +104,11 @@ fun ErrorIndicator(
 
                 AnimatedVisibility(visible = showStackTrace) {
                     Card(
-                        modifier = Modifier.fillMaxWidth().widthInNarrow().padding(16.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .widthInNarrow()
+                            .padding(16.dp)
+                            .testTag("ErrorIndicator:StackTrace"),
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.errorContainer,
                             contentColor = MaterialTheme.colorScheme.onErrorContainer
