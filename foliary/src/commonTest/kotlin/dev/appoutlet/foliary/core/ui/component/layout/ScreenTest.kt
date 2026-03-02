@@ -22,4 +22,45 @@ class ScreenTest {
 
         onNodeWithText("Idle screen").assertExists()
     }
+
+    @Test
+    fun `should show loading state`() = runComposeUiTest {
+        setContent {
+            Screen(
+                screenName = "TestScreen",
+                viewModelProvider = { SampleViewModel(State.Loading()) },
+                loading = { Text("Loading screen") },
+                content = { _: SampleViewData -> }
+            )
+        }
+
+        onNodeWithText("Loading screen").assertExists()
+    }
+
+    @Test
+    fun `should show error state`() = runComposeUiTest {
+        setContent {
+            Screen(
+                screenName = "TestScreen",
+                viewModelProvider = { SampleViewModel(State.Error(Exception("Error message"))) },
+                error = { Text("Error screen: ${it?.message}") },
+                content = { _: SampleViewData -> }
+            )
+        }
+
+        onNodeWithText("Error screen: Error message").assertExists()
+    }
+
+    @Test
+    fun `should show content state`() = runComposeUiTest {
+        setContent {
+            Screen(
+                screenName = "TestScreen",
+                viewModelProvider = { SampleViewModel(State.Success(SampleViewData)) },
+                content = { _: SampleViewData -> Text("Content screen") }
+            )
+        }
+
+        onNodeWithText("Content screen").assertExists()
+    }
 }
