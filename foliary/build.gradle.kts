@@ -117,3 +117,7 @@ buildkonfig {
         buildConfigField(FieldSpec.Type.BOOLEAN, "isDebug", "false")
     }
 }
+
+tasks.withType<Test> {
+    systemProperty("java.awt.headless", "true")
+}
