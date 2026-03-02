@@ -36,4 +36,4 @@ jobs:
         run: ./gradlew detekt
 
       - name: Check code test coverage
-        run: ./gradlew jvmTest -Pkover koverVerify
+        run: ./gradlew jvmTest -Pkover koverVerify -Djava.awt.headless=true

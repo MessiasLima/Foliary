@@ -84,11 +84,6 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
         }
-
-        @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-        jvmTest.dependencies {
-            implementation(compose.uiTest)
-        }
     }
 }
 
