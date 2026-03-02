@@ -103,25 +103,30 @@ fun ErrorIndicator(
                 Spacer(Modifier.size(16.dp))
 
                 AnimatedVisibility(visible = showStackTrace) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .widthInNarrow()
-                            .padding(16.dp)
-                            .testTag("ErrorIndicator:StackTrace"),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.errorContainer,
-                            contentColor = MaterialTheme.colorScheme.onErrorContainer
-                        )
-                    ) {
-                        Text(
-                            modifier = Modifier.padding(16.dp),
-                            text = stackTrace,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
+                    StackTraceCard(stackTrace)
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun StackTraceCard(stackTrace: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .widthInNarrow()
+            .padding(16.dp)
+            .testTag("ErrorIndicator:StackTrace"),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.errorContainer,
+            contentColor = MaterialTheme.colorScheme.onErrorContainer
+        )
+    ) {
+        Text(
+            modifier = Modifier.padding(16.dp),
+            text = stackTrace,
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
