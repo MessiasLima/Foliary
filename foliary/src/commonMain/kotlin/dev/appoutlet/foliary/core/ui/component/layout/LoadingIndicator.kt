@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInNarrow
 
@@ -22,7 +23,7 @@ fun LoadingIndicator(modifier: Modifier = Modifier, message: String? = null) {
             modifier = Modifier.fillMaxWidth().widthInNarrow().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LinearProgressIndicator()
+            LinearProgressIndicator(modifier = Modifier.testTag("LoadingIndicator:Progress"))
 
             message?.let {
                 Spacer(Modifier.size(16.dp))

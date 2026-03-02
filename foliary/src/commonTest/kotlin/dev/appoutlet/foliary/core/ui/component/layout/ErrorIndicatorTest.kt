@@ -1,13 +1,12 @@
 package dev.appoutlet.foliary.core.ui.component.layout
 
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.*
+import androidx.compose.ui.test.ExperimentalTestApi
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.error_hide_details
 import foliary.foliary.generated.resources.error_show_details
 import io.kotest.matchers.shouldBe
 import org.jetbrains.compose.resources.getString
-import org.jetbrains.compose.resources.stringResource
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -42,11 +41,11 @@ class ErrorIndicatorTest {
 
         // Verify Stack Trace behavior
         onNodeWithText(stackTrace).assertDoesNotExist()
-        
+
         onNodeWithTag("ErrorIndicator:ToggleStackTrace")
             .assertTextEquals(getString(Res.string.error_show_details))
             .performClick()
-        
+
         onNodeWithTag("ErrorIndicator:StackTrace").assertIsDisplayed()
         onNodeWithText(stackTrace).assertIsDisplayed()
 
