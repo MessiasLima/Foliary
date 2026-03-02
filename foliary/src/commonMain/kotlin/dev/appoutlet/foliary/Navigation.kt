@@ -7,8 +7,8 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import dev.appoutlet.foliary.core.navigation.AppNavigator
 import dev.appoutlet.foliary.core.navigation.LocalNavigator
-import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.navigation.getSavedStateConfiguration
 import dev.appoutlet.foliary.feature.common.NavigationAggregator
 import dev.appoutlet.foliary.feature.signin.SignInNavKey
@@ -19,7 +19,7 @@ fun Navigation() {
     val navigationAggregator = koinInject<NavigationAggregator>()
     val config = remember(navigationAggregator) { getSavedStateConfiguration(navigationAggregator.navigation) }
     val backStack = rememberNavBackStack(configuration = config, SignInNavKey)
-    CompositionLocalProvider(LocalNavigator provides Navigator(backStack)) {
+    CompositionLocalProvider(LocalNavigator provides AppNavigator(backStack)) {
         NavDisplay(
             backStack = backStack,
             entryDecorators = listOf(
