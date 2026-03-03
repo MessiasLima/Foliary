@@ -68,6 +68,7 @@ kotlin {
             implementation(libs.orbit.core)
             implementation(libs.orbit.viewModel)
             implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
             implementation(libs.umami)
         }
 
