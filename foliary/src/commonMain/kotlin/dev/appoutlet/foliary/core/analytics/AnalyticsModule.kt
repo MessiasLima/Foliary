@@ -24,11 +24,11 @@ class AnalyticsModule {
     }
 
     @Single
-    fun provideAnalytics(umami: Umami): Analytics {
+    fun provideAnalytics(umami: Lazy<Umami>): Analytics {
         return if (BuildKonfig.isDebug) {
             DebugAnalytics()
         } else {
-            ReleaseAnalytics(umami)
+            ReleaseAnalytics(umami.value)
         }
     }
 }
