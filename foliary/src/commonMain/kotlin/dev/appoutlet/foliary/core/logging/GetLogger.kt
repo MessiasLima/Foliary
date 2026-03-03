@@ -9,7 +9,7 @@ import co.touchlab.kermit.platformLogWriter
 import dev.appoutlet.foliary.BuildKonfig
 
 private val loggerConfig = mutableLoggerConfigInit(
-    minSeverity = if (BuildKonfig.isDebug) Severity.Info else Severity.Warn,
+    minSeverity = if (BuildKonfig.isDebug) Severity.Debug else Severity.Warn,
     logWriters = arrayOf(
         platformLogWriter(),
     ),

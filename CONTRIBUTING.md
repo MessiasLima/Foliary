@@ -200,6 +200,83 @@ We adopt the **Contributor Covenant Code of Conduct** – see the `CODE_OF_CONDU
 
 ---
 
+## 🔍 Analytics Configuration
+
+Foliary uses **Umami** analytics for privacy-focused usage tracking. Analytics are **automatically disabled in debug builds** and fail gracefully if configuration is missing in release builds, so contributors can work without setting up analytics.
+
+### Why We Use Analytics
+
+Analytics help us understand how users interact with Foliary, enabling us to:
+- **Improve user experience**: Identify which features are most valuable and which need improvement
+- **Guide development priorities**: Focus on features that matter most to users
+- **Detect issues**: Identify patterns that might indicate bugs or usability problems
+- **Measure impact**: Understand the effectiveness of new features and improvements
+
+All analytics are collected with a strong focus on user privacy (see Privacy section below).
+
+### Setting Up Analytics (Optional for Contributors)
+
+Analytics configuration is **optional** for contributors working on debug builds. If you want to test analytics functionality or work on release builds:
+
+1. **Copy the template**:
+   ```bash
+   cp local.properties.example local.properties
+   ```
+
+2. **Add the configuration** to `local.properties`:
+   ```properties
+   umami.websiteId=your-website-uuid-here
+   umami.baseUrl=https://your-umami-instance.com
+   ```
+   
+   > **Note**: If not configured, the app will automatically use debug mode analytics (logs only, no tracking) even in release builds. This ensures the app never crashes due to missing analytics configuration.
+
+3. **Build the project**:
+   ```bash
+   ./gradlew build
+   ```
+
+### How It Works
+
+- **Automatic screen tracking**: All screens using the `Screen` component are automatically tracked
+- **Debug mode**: Debug builds always use `DebugAnalytics` (logs only, no network calls)
+- **Release mode**: Release builds use `ReleaseAnalytics` if configured, otherwise fall back to `DebugAnalytics`
+- **Event naming**: Use `snake_case` for event names (e.g., `button_clicked`, `task_completed`)
+- **Screen naming**: Use `PascalCase` with "Screen" suffix (e.g., `SignInScreen`, `TaskListScreen`)
+
+### Tracking Custom Events in ViewModels
+
+To track user actions, inject the `Analytics` interface into your ViewModel:
+
+```kotlin
+@KoinViewModel
+class MyViewModel(
+    private val analytics: Analytics
+) : ViewModel() {
+    
+    fun onButtonClick() {
+        analytics.trackEvent("button_clicked", mapOf("button_id" to "submit"))
+        // Your logic here
+    }
+}
+```
+
+### Privacy
+
+Umami is a privacy-focused, open-source analytics platform that:
+- **Does not collect personal identifiable information (PII)**: No names, emails, or user data
+- **Does not use cookies**: No tracking across sites or persistent identifiers
+- **Is GDPR compliant by design**: Built with European privacy standards in mind
+- **Respects user privacy**: Only collects anonymous usage patterns
+- **Is self-hosted**: Data stays under our control, not sold to third parties
+
+We believe in transparent analytics that benefit users without compromising their privacy.
+
+For more information about Umami, visit: https://umami.is
+
+
+---
+
 ## 📚 Helpful Resources
 
 * **Kotlin Multiplatform documentation** – https://kotlinlang.org/docs/multiplatform.html

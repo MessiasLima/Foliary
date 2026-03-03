@@ -1,4 +1,5 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.kmp.library)
@@ -66,6 +67,7 @@ kotlin {
             implementation(libs.orbit.core)
             implementation(libs.orbit.viewModel)
             implementation(libs.room.runtime)
+            implementation(libs.umami)
         }
 
         commonTest.dependencies {
@@ -104,6 +106,19 @@ dependencies {
 
 apply(from = "$rootDir/config/detekt/detekt.gradle")
 
+val props = Properties().apply {
+    val propsFile = rootProject.file("local.properties")
+    if (propsFile.exists()) {
+        load(propsFile.inputStream())
+    }
+}
+
+val Properties.umamiWebsiteId: String
+    get() = getProperty("umami.websiteId", "")
+
+val Properties.umamiBaseUrl: String
+    get() = getProperty("umami.baseUrl", "")
+
 buildkonfig {
     packageName = "dev.appoutlet.foliary"
 
@@ -111,6 +126,8 @@ buildkonfig {
         buildConfigField(FieldSpec.Type.BOOLEAN, "isDebug", "true")
         buildConfigField(FieldSpec.Type.INT, "versionCode", libs.versions.versionCode.get())
         buildConfigField(FieldSpec.Type.STRING, "versionName", libs.versions.versionName.get())
+        buildConfigField(FieldSpec.Type.STRING, "umamiWebsiteId", props.umamiWebsiteId)
+        buildConfigField(FieldSpec.Type.STRING, "umamiBaseUrl", props.umamiBaseUrl)
     }
 
     defaultConfigs("release") {
