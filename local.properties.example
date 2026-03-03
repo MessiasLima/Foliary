@@ -1,0 +1,12 @@
+## This file is a template for local.properties
+## Copy this file to local.properties and fill in the values
+## local.properties is gitignored and should not be committed
+
+# Location of the Android SDK (required for Android builds)
+sdk.dir=
+
+# Umami Analytics Configuration (optional - only required for release builds with analytics)
+# Contributors working on debug builds do not need to configure analytics
+# If not configured in release builds, analytics will be disabled automatically
+umami.websiteId=
+umami.baseUrl=

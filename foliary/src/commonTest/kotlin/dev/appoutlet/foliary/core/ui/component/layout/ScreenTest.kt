@@ -1,10 +1,15 @@
 package dev.appoutlet.foliary.core.ui.component.layout
 
 import androidx.compose.material3.Text
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
+import dev.appoutlet.foliary.core.analytics.LocalAnalytics
+import dev.appoutlet.foliary.core.analytics.MockAnalytics
 import dev.appoutlet.foliary.core.mvi.State
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -62,5 +67,29 @@ class ScreenTest {
         }
 
         onNodeWithText("Content screen").assertExists()
+    }
+
+    @Test
+    fun `should track screen view with analytics`() = runComposeUiTest {
+        // Given a mock analytics instance
+        val mockAnalytics = MockAnalytics()
+
+        setContent {
+            CompositionLocalProvider(LocalAnalytics provides mockAnalytics) {
+                Screen(
+                    screenName = "TestScreen",
+                    viewModelProvider = { SampleViewModel(State.Idle) },
+                    idle = { Text("Idle screen") },
+                    content = { _: SampleViewData -> }
+                )
+            }
+        }
+
+        // Wait for the screen to render
+        waitForIdle()
+
+        // Then screen should be tracked
+        mockAnalytics.screenViews shouldHaveSize 1
+        mockAnalytics.screenViews[0] shouldBe "TestScreen"
     }
 }

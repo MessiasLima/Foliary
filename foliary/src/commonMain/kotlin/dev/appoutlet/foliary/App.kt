@@ -1,13 +1,14 @@
 package dev.appoutlet.foliary
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.LaunchedEffect
+import dev.appoutlet.foliary.core.analytics.LocalAnalytics
 import dev.appoutlet.foliary.core.logging.getKoinLogger
 import dev.appoutlet.foliary.core.ui.theme.FoliaryTheme
 import org.koin.compose.KoinApplication
+import org.koin.core.KoinApplication
 import org.koin.plugin.module.dsl.koinConfiguration
 
-@Preview
 @Composable
 fun App() {
     KoinApplication(
@@ -15,8 +16,13 @@ fun App() {
             logger(getKoinLogger())
         }
     ) {
-        FoliaryTheme {
-            Navigation()
+        val analytics = LocalAnalytics.current
+
+        // Track app launch
+        LaunchedEffect(Unit) {
+            analytics.trackEvent("app_start")
         }
+
+        FoliaryTheme { Navigation() }
     }
 }

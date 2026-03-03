@@ -23,9 +23,7 @@ style:
   ForbiddenComment:
     comments:
       - value: 'TODO'
-        reason: 'Forbidden TODO todo marker in comment, please do the changes.'
       - value: 'FIXME'
-        reason: 'Forbidden FIXME fixme marker in comment, please do the changes.'
   ForbiddenImport:
     active: true
     imports:

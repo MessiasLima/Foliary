@@ -3,10 +3,12 @@ package dev.appoutlet.foliary.core.ui.component.layout
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import dev.appoutlet.foliary.core.analytics.LocalAnalytics
 import dev.appoutlet.foliary.core.logging.getLogger
 import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.ContainerHost
@@ -31,9 +33,15 @@ fun <ScreenViewData : ViewData, SideEffect : Action> Screen(
     content: @Composable (viewData: ScreenViewData) -> Unit,
 ) {
     val navigator = LocalNavigator.current
+    val analytics = LocalAnalytics.current
     val viewModel = viewModelProvider()
     val state by viewModel.collectAsState()
     val log = remember { getLogger(screenName) }
+
+    // Track screen view automatically
+    LaunchedEffect(screenName) {
+        analytics.trackScreen(screenName = screenName)
+    }
 
     viewModel.collectSideEffect(sideEffect = {
         onAction(it, navigator)
