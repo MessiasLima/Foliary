@@ -1,6 +1,7 @@
 package dev.appoutlet.foliary.core.analytics
 
 import androidx.compose.runtime.staticCompositionLocalOf
+import org.koin.mp.KoinPlatform
 
 /**
  * CompositionLocal for providing Analytics instance throughout the composable hierarchy.
@@ -9,4 +10,4 @@ import androidx.compose.runtime.staticCompositionLocalOf
  * Uses staticCompositionLocalOf since Analytics is a singleton that doesn't change at runtime.
  * Defaults to DebugAnalytics for safety if not provided.
  */
-val LocalAnalytics = staticCompositionLocalOf<Analytics> { DebugAnalytics() }
+val LocalAnalytics = staticCompositionLocalOf<Analytics> { KoinPlatform.getKoin().get() }

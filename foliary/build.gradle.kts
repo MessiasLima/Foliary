@@ -89,8 +89,15 @@ kotlin {
         }
     }
 
-    sourceSets.all {
-        languageSettings.optIn("ExplicitBackingFields")
+    targets.configureEach {
+        compilations.configureEach {
+            compileTaskProvider.get().compilerOptions {
+                freeCompilerArgs.addAll(
+                    "-Xexpect-actual-classes",
+                    "-Xexplicit-backing-fields"
+                )
+            }
+        }
     }
 }
 

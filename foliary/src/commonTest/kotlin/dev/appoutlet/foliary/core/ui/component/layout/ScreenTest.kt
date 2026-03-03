@@ -5,12 +5,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
-import dev.appoutlet.foliary.core.analytics.Analytics
 import dev.appoutlet.foliary.core.analytics.LocalAnalytics
 import dev.appoutlet.foliary.core.analytics.MockAnalytics
 import dev.appoutlet.foliary.core.mvi.State
-import dev.mokkery.mock
-import dev.mokkery.verify
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
