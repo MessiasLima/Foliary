@@ -13,26 +13,22 @@ class AnalyticsModule {
     private val log by logger()
 
     @Single
-    fun provideAnalytics(): Analytics {
-        return if (BuildKonfig.isDebug) {
-            provideDebugAnalytics()
-        } else {
-            provideReleaseAnalytics()
-        }
-    }
-
-    private fun provideDebugAnalytics(): Analytics {
-        return DebugAnalytics()
-    }
-
-    private fun provideReleaseAnalytics(): Analytics {
+    fun provideUmami(): Umami {
         if (BuildKonfig.umamiBaseUrl.isBlank() || BuildKonfig.umamiWebsiteId.isBlank()) {
             log.w { "Umami configuration missing - analytics will be disabled" }
         }
 
-        val umami = Umami(website = BuildKonfig.umamiWebsiteId) {
+        return Umami(website = BuildKonfig.umamiWebsiteId) {
             baseUrl(BuildKonfig.umamiBaseUrl)
         }
-        return ReleaseAnalytics(umami)
+    }
+
+    @Single
+    fun provideAnalytics(umami: Umami): Analytics {
+        return if (BuildKonfig.isDebug) {
+            DebugAnalytics()
+        } else {
+            ReleaseAnalytics(umami)
+        }
     }
 }

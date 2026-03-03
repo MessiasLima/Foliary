@@ -21,7 +21,7 @@ class ReleaseAnalytics(
 
     override fun trackScreen(screenName: String, title: String?) {
         log.d { "Track screen: $screenName" }
-        umami.event(url = "/screen/$screenName", title = title ?: screenName)
+        umami.event(url = screenName, title = title ?: screenName)
     }
 
     override fun trackEvent(name: String, data: Map<String, Any>?) {
