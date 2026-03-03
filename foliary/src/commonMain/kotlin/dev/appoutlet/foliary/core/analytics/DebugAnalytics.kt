@@ -9,8 +9,8 @@ import dev.appoutlet.foliary.core.logging.logger
 class DebugAnalytics : Analytics {
     private val log by logger()
 
-    override fun trackScreen(screenName: String, title: String?) {
-        log.d { "Screen: $screenName, title: $title" }
+    override fun trackScreen(screenName: String) {
+        log.d { "Screen: $screenName" }
     }
 
     override fun trackEvent(name: String, data: Map<String, Any>?) {

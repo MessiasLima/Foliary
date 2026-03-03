@@ -18,9 +18,9 @@ class ReleaseAnalytics(
         log.i { "Analytics service initialized - tracking enabled" }
     }
 
-    override fun trackScreen(screenName: String, title: String?) {
+    override fun trackScreen(screenName: String) {
         log.d { "Track screen: $screenName" }
-        umami.event(url = screenName, title = title ?: screenName)
+        umami.event(url = screenName, title = screenName)
     }
 
     override fun trackEvent(name: String, data: Map<String, Any>?) {

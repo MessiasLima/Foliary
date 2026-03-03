@@ -5,15 +5,18 @@ package dev.appoutlet.foliary.core.analytics
  * Captures all analytics calls in lists for verification.
  */
 class MockAnalytics : Analytics {
-    val screenViews = mutableListOf<Pair<String, String?>>()
-    val events = mutableListOf<Pair<String, Map<String, Any>?>>()
+    val screenViews: List<String>
+        field = mutableListOf<String>()
 
-    override fun trackScreen(screenName: String, title: String?) {
-        screenViews.add(screenName to title)
+    val events: Map<String, Map<String, Any>?>
+        field = mutableMapOf<String, Map<String, Any>?>()
+
+    override fun trackScreen(screenName: String) {
+        screenViews.add(screenName)
     }
 
     override fun trackEvent(name: String, data: Map<String, Any>?) {
-        events.add(name to data)
+        events[name] = data
     }
 
     fun clear() {

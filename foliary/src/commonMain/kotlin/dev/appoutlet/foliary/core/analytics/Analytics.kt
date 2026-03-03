@@ -9,9 +9,8 @@ interface Analytics {
      * Tracks a screen view.
      *
      * @param screenName The name of the screen being viewed (e.g., "SignInScreen")
-     * @param title Optional human-readable title for the screen
      */
-    fun trackScreen(screenName: String, title: String? = null)
+    fun trackScreen(screenName: String)
 
     /**
      * Tracks a custom event.

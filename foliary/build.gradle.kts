@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.mokkery)
     alias(libs.plugins.room)
 }
 
@@ -86,6 +87,10 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
         }
+    }
+
+    sourceSets.all {
+        languageSettings.optIn("ExplicitBackingFields")
     }
 }
 
