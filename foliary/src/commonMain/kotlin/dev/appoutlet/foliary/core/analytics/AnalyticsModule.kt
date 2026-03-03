@@ -13,22 +13,23 @@ class AnalyticsModule {
     private val log by logger()
 
     @Single
-    fun provideUmami(): Umami {
+    fun provideAnalytics(): Analytics {
+        return if (BuildKonfig.isDebug) {
+            DebugAnalytics()
+        } else {
+            provideUmami()?.let { umami ->
+                ReleaseAnalytics(umami)
+            } ?: DebugAnalytics()
+        }
+    }
+
+    fun provideUmami(): Umami? {
         if (BuildKonfig.umamiBaseUrl.isBlank() || BuildKonfig.umamiWebsiteId.isBlank()) {
-            log.w { "Umami configuration missing - analytics will be disabled" }
+            return null
         }
 
         return Umami(website = BuildKonfig.umamiWebsiteId) {
             baseUrl(BuildKonfig.umamiBaseUrl)
-        }
-    }
-
-    @Single
-    fun provideAnalytics(umami: Lazy<Umami>): Analytics {
-        return if (BuildKonfig.isDebug) {
-            DebugAnalytics()
-        } else {
-            ReleaseAnalytics(umami.value)
         }
     }
 }
