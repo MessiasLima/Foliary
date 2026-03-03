@@ -1,8 +1,11 @@
 package dev.appoutlet.foliary.core.analytics
 
 import dev.appoutlet.umami.Umami
+import dev.appoutlet.umami.util.annotation.InternalUmamiApi
 import io.kotest.matchers.shouldNotBe
 import kotlin.test.Test
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class ReleaseAnalyticsTest {
 
@@ -30,8 +33,9 @@ class ReleaseAnalyticsTest {
         service.trackScreen("TestScreen")
     }
 
+    @OptIn(InternalUmamiApi::class, ExperimentalUuidApi::class)
     private fun createTestUmami(): Umami {
-        return Umami(website = "00000000-0000-0000-0000-000000000000") {
+        return Umami(website = Uuid.random(), false) {
             baseUrl("https://test.umami.dev")
         }
     }
