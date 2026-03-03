@@ -121,7 +121,7 @@ apply(from = "$rootDir/config/detekt/detekt.gradle")
 val props = Properties().apply {
     val propsFile = rootProject.file("local.properties")
     if (propsFile.exists()) {
-        load(propsFile.inputStream())
+        propsFile.inputStream().use { load(it) }
     }
 }
 

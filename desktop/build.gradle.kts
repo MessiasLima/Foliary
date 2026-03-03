@@ -6,6 +6,14 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
 }
 
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll(
+            "-Xskip-prerelease-check"
+        )
+    }
+}
+
 dependencies {
     implementation(project(":foliary"))
 }
