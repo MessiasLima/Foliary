@@ -2,6 +2,7 @@ package dev.appoutlet.foliary.data.local
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.RoomDatabaseConstructor
 import platform.Foundation.NSHomeDirectory
 
 actual fun getDatabaseBuilder(): RoomDatabase.Builder<FoliaryDatabase> {
@@ -11,6 +12,8 @@ actual fun getDatabaseBuilder(): RoomDatabase.Builder<FoliaryDatabase> {
         factory = { FoliaryDatabaseConstructor.initialize() }
     )
 }
+
+
 
 actual fun getInMemoryDatabaseBuilder(): RoomDatabase.Builder<FoliaryDatabase> {
     return Room.inMemoryDatabaseBuilder<FoliaryDatabase>(

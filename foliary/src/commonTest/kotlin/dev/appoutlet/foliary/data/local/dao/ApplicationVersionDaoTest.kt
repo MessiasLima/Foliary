@@ -4,13 +4,13 @@ import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import dev.appoutlet.foliary.data.local.FoliaryDatabase
 import dev.appoutlet.foliary.data.local.entity.ApplicationVersion
 import dev.appoutlet.foliary.data.local.getInMemoryDatabaseBuilder
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.collections.shouldHaveSize
 
 class ApplicationVersionDaoTest {
     private lateinit var database: FoliaryDatabase
