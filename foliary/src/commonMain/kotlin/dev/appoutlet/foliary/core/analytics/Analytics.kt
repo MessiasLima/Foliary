@@ -20,11 +20,4 @@ interface Analytics {
      * @param data Optional additional data to attach to the event
      */
     fun trackEvent(name: String, data: Map<String, Any>? = null)
-
-    /**
-     * Associates custom data with the current user session.
-     *
-     * @param data A map of key-value pairs to identify the user session
-     */
-    fun identifyUser(data: Map<String, Any>)
 }

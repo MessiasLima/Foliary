@@ -28,7 +28,6 @@ class ReleaseAnalyticsTest {
         // Then no exception is thrown
         service.trackEvent("test_event")
         service.trackScreen("TestScreen")
-        service.identifyUser(mapOf("user" to "test"))
     }
 
     private fun createTestUmami(): Umami {

@@ -16,8 +16,4 @@ class DebugAnalytics : Analytics {
     override fun trackEvent(name: String, data: Map<String, Any>?) {
         log.d { "Event: $name, data: $data" }
     }
-
-    override fun identifyUser(data: Map<String, Any>) {
-        log.d { "Identify: $data" }
-    }
 }

@@ -7,7 +7,6 @@ package dev.appoutlet.foliary.core.analytics
 class MockAnalytics : Analytics {
     val screenViews = mutableListOf<Pair<String, String?>>()
     val events = mutableListOf<Pair<String, Map<String, Any>?>>()
-    val identifications = mutableListOf<Map<String, Any>>()
 
     override fun trackScreen(screenName: String, title: String?) {
         screenViews.add(screenName to title)
@@ -17,13 +16,8 @@ class MockAnalytics : Analytics {
         events.add(name to data)
     }
 
-    override fun identifyUser(data: Map<String, Any>) {
-        identifications.add(data)
-    }
-
     fun clear() {
         screenViews.clear()
         events.clear()
-        identifications.clear()
     }
 }

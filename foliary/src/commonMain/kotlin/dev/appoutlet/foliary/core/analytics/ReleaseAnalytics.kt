@@ -3,7 +3,6 @@ package dev.appoutlet.foliary.core.analytics
 import dev.appoutlet.foliary.core.logging.logger
 import dev.appoutlet.umami.Umami
 import dev.appoutlet.umami.api.event
-import dev.appoutlet.umami.api.identify
 
 /**
  * Release implementation of Analytics that sends events to Umami analytics service.
@@ -27,10 +26,5 @@ class ReleaseAnalytics(
     override fun trackEvent(name: String, data: Map<String, Any>?) {
         log.d { "Track event: $name" }
         umami.event(name = name, data = data)
-    }
-
-    override fun identifyUser(data: Map<String, Any>) {
-        log.d { "Identify user" }
-        umami.identify(data = data)
     }
 }
