@@ -12,7 +12,6 @@ private val loggerConfig = mutableLoggerConfigInit(
     minSeverity = if (BuildKonfig.isDebug) Severity.Debug else Severity.Warn,
     logWriters = arrayOf(
         platformLogWriter(),
-        SentryLogWriter(),
     ),
 )
 

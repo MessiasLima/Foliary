@@ -13,5 +13,7 @@ abstract class FoliaryDatabase : RoomDatabase() {
     abstract fun applicationVersionDao(): ApplicationVersionDao
 }
 
-@Suppress("NO_ACTUAL_FOR_EXPECT", "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-expect object FoliaryDatabaseConstructor : RoomDatabaseConstructor<FoliaryDatabase>
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING", "NO_ACTUAL_FOR_EXPECT")
+expect object FoliaryDatabaseConstructor : RoomDatabaseConstructor<FoliaryDatabase> {
+    override fun initialize(): FoliaryDatabase
+}
