@@ -25,7 +25,10 @@ android {
 }
 
 kotlin {
-    compilerOptions { jvmTarget.set(JvmTarget.JVM_17) }
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+        freeCompilerArgs.add("-Xskip-prerelease-check")
+    }
 }
 
 dependencies {
