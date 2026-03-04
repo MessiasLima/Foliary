@@ -15,3 +15,7 @@ umami.baseUrl=
 # Contributors working on debug builds do not need to configure Sentry
 # If not configured in release builds, error tracking will be disabled automatically
 sentry.dsn=
+
+# Supabase Configuration
+supabase.url=
+supabase.anonKey=
