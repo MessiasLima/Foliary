@@ -277,6 +277,24 @@ For more information about Umami, visit: https://umami.is
 
 ---
 
+## 🔍 Error Tracking Configuration
+
+Foliary uses **Sentry** for error tracking and crash reporting. Error tracking is **automatically disabled in debug builds**, so contributors can work without any configuration.
+
+### Setup (Optional for Contributors)
+
+To test error tracking in release builds, add your Sentry DSN to `local.properties`:
+
+```properties
+sentry.dsn=https://your-key@sentry.io/your-project-id
+```
+
+If not configured, the app gracefully skips Sentry initialization in release builds.
+
+For complete documentation, visit: https://docs.sentry.io/platforms/kotlin/guides/compose-multiplatform/
+
+---
+
 ## 📚 Helpful Resources
 
 * **Kotlin Multiplatform documentation** – https://kotlinlang.org/docs/multiplatform.html
