@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.mokkery)
     alias(libs.plugins.room)
+    alias(libs.plugins.sentry)
 }
 
 kotlin {
@@ -69,6 +70,7 @@ kotlin {
             implementation(libs.orbit.viewModel)
             implementation(libs.room.runtime)
             implementation(libs.umami)
+            implementation(libs.sentry)
         }
 
         commonTest.dependencies {
@@ -131,6 +133,9 @@ val Properties.umamiWebsiteId: String
 val Properties.umamiBaseUrl: String
     get() = getProperty("umami.baseUrl", "")
 
+val Properties.sentryDsn: String
+    get() = getProperty("sentry.dsn", "")
+
 buildkonfig {
     packageName = "dev.appoutlet.foliary"
 
@@ -140,6 +145,7 @@ buildkonfig {
         buildConfigField(FieldSpec.Type.STRING, "versionName", libs.versions.versionName.get())
         buildConfigField(FieldSpec.Type.STRING, "umamiWebsiteId", props.umamiWebsiteId)
         buildConfigField(FieldSpec.Type.STRING, "umamiBaseUrl", props.umamiBaseUrl)
+        buildConfigField(FieldSpec.Type.STRING, "sentryDsn", props.sentryDsn)
     }
 
     defaultConfigs("release") {
