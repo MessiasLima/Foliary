@@ -1,7 +1,7 @@
 package dev.appoutlet.foliary.core.auth
 
-import io.github.jan_tennert.supabase.SupabaseClient
-import io.github.jan_tennert.supabase.auth.Auth
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.Auth
 import io.kotest.matchers.shouldNotBe
 import kotlin.test.AfterTest
 import kotlin.test.Test
