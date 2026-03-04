@@ -14,23 +14,9 @@ import kotlinx.coroutines.launch
 import org.koin.core.annotation.KoinViewModel
 
 @KoinViewModel
-class SignInViewModel(
-    private val applicationVersionDao: ApplicationVersionDao
-) : ViewModel(), ContainerHost<SignInAction> {
+class SignInViewModel: ViewModel(), ContainerHost<SignInAction> {
     private val log by logger()
     override val container = container<SignInAction>(State.Success(SignInViewData))
-
-    init {
-        viewModelScope.launch {
-            val appVersion = ApplicationVersion(
-                buildNumber = 1,
-                versionName = "1.0.0",
-                wasReleaseNotesShown = false
-            )
-
-            applicationVersionDao.insert(appVersion)
-        }
-    }
 
     fun onEvent(event: SignInEvent) {
         log.i { event.toString() }

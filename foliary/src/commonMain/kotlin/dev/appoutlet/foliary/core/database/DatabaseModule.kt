@@ -26,3 +26,5 @@ class DatabaseModule {
 
 @Module
 expect object PlatformDatabaseModule
+
+// TODO add -keep class * extends androidx.room.RoomDatabase { <init>(); } to proguard rules to prevent stripping the database constructor
