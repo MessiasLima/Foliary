@@ -15,8 +15,6 @@ actual fun getDatabaseBuilder(): RoomDatabase.Builder<FoliaryDatabase> {
     )
 }
 
-
-
 actual fun getInMemoryDatabaseBuilder(): RoomDatabase.Builder<FoliaryDatabase>? {
     return Room.inMemoryDatabaseBuilder<FoliaryDatabase>(
         factory = { FoliaryDatabaseConstructor.initialize() }

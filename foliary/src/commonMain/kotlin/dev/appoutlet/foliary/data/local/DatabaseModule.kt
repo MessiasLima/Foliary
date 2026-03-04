@@ -10,7 +10,7 @@ class DatabaseModule {
     fun provideDatabase(): FoliaryDatabase {
         return getDatabaseBuilder()
             .setDriver(BundledSQLiteDriver())
-            .fallbackToDestructiveMigration(true)
+            .fallbackToDestructiveMigration(false)
             .build()
     }
 

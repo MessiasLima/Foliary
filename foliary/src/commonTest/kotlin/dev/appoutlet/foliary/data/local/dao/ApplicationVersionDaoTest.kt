@@ -14,9 +14,8 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-class ApplicationVersionDaoTest {
-    private lateinit var database: FoliaryDatabase
-    private lateinit var dao: ApplicationVersionDao
+abstract class DaoTest {
+    protected lateinit var database: FoliaryDatabase
 
     @BeforeTest
     fun setup() {
@@ -25,7 +24,6 @@ class ApplicationVersionDaoTest {
             database = builder
                 .setDriver(BundledSQLiteDriver())
                 .build()
-            dao = database.applicationVersionDao()
         }
     }
 
@@ -33,6 +31,17 @@ class ApplicationVersionDaoTest {
     fun tearDown() {
         if (::database.isInitialized) {
             database.close()
+        }
+    }
+}
+
+class ApplicationVersionDaoTest : DaoTest() {
+    private lateinit var dao: ApplicationVersionDao
+
+    @BeforeTest
+    fun setupDao() {
+        if (::database.isInitialized) {
+            dao = database.applicationVersionDao()
         }
     }
 
