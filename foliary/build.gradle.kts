@@ -69,8 +69,10 @@ kotlin {
             implementation(libs.orbit.core)
             implementation(libs.orbit.viewModel)
             implementation(libs.room.runtime)
-            implementation(libs.umami)
             implementation(libs.sentry)
+            implementation(libs.sqlite.bundled)
+            implementation(libs.umami)
+
         }
 
         commonTest.dependencies {
@@ -82,11 +84,13 @@ kotlin {
 
         androidMain.dependencies {
             implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.sqlite.bundled)
         }
 
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.appdirs)
             implementation(libs.kotlinx.coroutines.swing)
         }
     }
@@ -103,19 +107,15 @@ kotlin {
     }
 }
 
-
-
 room {
     schemaDirectory("$projectDir/schemas")
 }
 
 dependencies {
-    with(libs.room.compiler) {
-        add("kspAndroid", this)
-        add("kspIosArm64", this)
-        add("kspIosSimulatorArm64", this)
-        add("kspJvm", this)
-    }
+    add("kspAndroid", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspJvm", libs.room.compiler)
 }
 
 apply(from = "$rootDir/config/detekt/detekt.gradle")
