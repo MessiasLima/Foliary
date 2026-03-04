@@ -43,12 +43,29 @@ kover {
     enableCoverage()
     reports {
         excludedClasses = listOf(
+            // Untestable framework code
             "MainKt",
             "ComposableSingletons*",
             "*.ComposableSingletons*",
             "*.MainActivity",
-            "*.generated.resources.*"
+            "*.generated.resources.*",
+
+            // Dependency injection
+            "*.FoliaryKoinApplication",
+
+            // Database setup
+            "*.FoliaryDatabase*",
+            "*.InMemoryDatabaseBuilder*",
+
+            // Logging
+            "*.InitSentry*",
+            "*.SentryLogWriter*",
         )
+
+        excludesAnnotatedBy = listOf(
+            "org.koin.core.annotation.Module",
+        )
+
         verify {
             rule {
                 name = "Minimum coverage"
