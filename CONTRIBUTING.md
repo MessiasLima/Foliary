@@ -277,6 +277,23 @@ For more information about Umami, visit: https://umami.is
 
 ---
 
+## 💾 Database Configuration
+
+Foliary uses Room for local data persistence with multiplatform support.
+
+### Platform Specifics
+- **Android**: Database is stored in the application's internal database directory.
+- **iOS**: Database is stored in the `NSDocumentDirectory`.
+- **JVM**: Database is stored in the user data directory (managed by `Kotlin-Multiplatform-AppDirs`).
+
+### Schema Export
+Room schemas are exported to the `foliary/schemas` directory. To generate/update the schema, run:
+```bash
+./gradlew :foliary:kspAndroidMain
+```
+
+---
+
 ## 📚 Helpful Resources
 
 * **Kotlin Multiplatform documentation** – https://kotlinlang.org/docs/multiplatform.html

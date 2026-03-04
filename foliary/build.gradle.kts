@@ -86,6 +86,7 @@ kotlin {
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.appdirs)
             implementation(libs.kotlinx.coroutines.swing)
         }
     }
