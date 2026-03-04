@@ -1,4 +1,4 @@
-package dev.appoutlet.foliary.data.local.entity
+package dev.appoutlet.foliary.data.applicationversion.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

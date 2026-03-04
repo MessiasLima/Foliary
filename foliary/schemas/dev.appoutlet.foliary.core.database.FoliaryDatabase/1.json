@@ -1,0 +1,43 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "3060d0d248c94e9d030cdee7789af77e",
+    "entities": [
+      {
+        "tableName": "ApplicationVersion",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`buildNumber` INTEGER NOT NULL, `versionName` TEXT NOT NULL, `wasReleaseNotesShown` INTEGER NOT NULL, PRIMARY KEY(`buildNumber`))",
+        "fields": [
+          {
+            "fieldPath": "buildNumber",
+            "columnName": "buildNumber",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionName",
+            "columnName": "versionName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wasReleaseNotesShown",
+            "columnName": "wasReleaseNotesShown",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "buildNumber"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3060d0d248c94e9d030cdee7789af77e')"
+    ]
+  }
+}
