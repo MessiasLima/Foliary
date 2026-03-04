@@ -290,7 +290,6 @@ sentry.dsn=https://your-key@sentry.io/your-project-id
 ```
 
 If not configured, the app gracefully skips Sentry initialization in release builds.
-For **Debug builds**: Sentry is completely disabled
 
 For complete documentation, visit: https://docs.sentry.io/platforms/kotlin/guides/compose-multiplatform/
 
