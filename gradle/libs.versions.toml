@@ -24,6 +24,7 @@ room = "2.8.4"
 sentry = "0.24.0"
 versionCode = "1"
 versionName = "1.0.0"
+versionUuid = "198fd94c-4cab-4167-b7cc-2ee195b5818e"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -10,3 +10,8 @@ sdk.dir=
 # If not configured in release builds, analytics will be disabled automatically
 umami.websiteId=
 umami.baseUrl=
+
+# Sentry Error Tracking Configuration (optional - only required for release builds)
+# Contributors working on debug builds do not need to configure Sentry
+# If not configured in release builds, error tracking will be disabled automatically
+sentry.dsn=

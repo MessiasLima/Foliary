@@ -143,6 +143,7 @@ buildkonfig {
         buildConfigField(FieldSpec.Type.BOOLEAN, "isDebug", "true")
         buildConfigField(FieldSpec.Type.INT, "versionCode", libs.versions.versionCode.get())
         buildConfigField(FieldSpec.Type.STRING, "versionName", libs.versions.versionName.get())
+        buildConfigField(FieldSpec.Type.STRING, "versionUuid", libs.versions.versionUuid.get())
         buildConfigField(FieldSpec.Type.STRING, "umamiWebsiteId", props.umamiWebsiteId)
         buildConfigField(FieldSpec.Type.STRING, "umamiBaseUrl", props.umamiBaseUrl)
         buildConfigField(FieldSpec.Type.STRING, "sentryDsn", props.sentryDsn)
