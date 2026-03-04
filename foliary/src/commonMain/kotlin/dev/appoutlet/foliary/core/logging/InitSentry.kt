@@ -20,7 +20,6 @@ fun initSentry() {
         options.debug = BuildKonfig.isDebug
         options.release = "dev.appoutlet.foliary@${BuildKonfig.versionName}+${BuildKonfig.versionCode}"
         options.environment = "release"
-        options.attachScreenshot = true
         options.proguardUuid = BuildKonfig.versionUuid
         options.logs.enabled = true
     }
