@@ -1,3 +1,5 @@
+@file:Suppress("Filename", "MatchingDeclarationName")
+
 package dev.appoutlet.foliary.core.database
 
 import androidx.room.Room
@@ -13,7 +15,7 @@ import platform.Foundation.NSUserDomainMask
 @Module
 actual object PlatformDatabaseModule {
     @Single
-    private fun provideDatabaseBuilder(): RoomDatabase.Builder<FoliaryDatabase> {
+    fun provideDatabaseBuilder(): RoomDatabase.Builder<FoliaryDatabase> {
         val dbFilePath = documentDirectory() + "/foliary.db"
         return Room.databaseBuilder<FoliaryDatabase>(dbFilePath)
     }

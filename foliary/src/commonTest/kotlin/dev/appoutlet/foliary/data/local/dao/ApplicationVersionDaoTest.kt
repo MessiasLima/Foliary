@@ -1,9 +1,9 @@
 package dev.appoutlet.foliary.data.local.dao
 
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import dev.appoutlet.foliary.data.local.FoliaryDatabase
-import dev.appoutlet.foliary.data.applicationversion.model.ApplicationVersion
 import dev.appoutlet.foliary.core.database.getInMemoryDatabaseBuilder
+import dev.appoutlet.foliary.data.applicationversion.model.ApplicationVersion
+import dev.appoutlet.foliary.data.local.FoliaryDatabase
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first

@@ -1,3 +1,5 @@
+@file:Suppress("Filename")
+
 package dev.appoutlet.foliary.core.database
 
 import androidx.room.Room
