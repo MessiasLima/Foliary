@@ -71,27 +71,34 @@ kotlin {
             implementation(libs.room.runtime)
             implementation(libs.sentry)
             implementation(libs.sqlite.bundled)
+            implementation(libs.supabase.auth)
             implementation(libs.umami)
-
         }
+
 
         commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.compose.ui.test)
             implementation(libs.kotest.assertions)
+            implementation(libs.koin.test)
             implementation(libs.kotlinx.coroutines.test)
         }
 
         androidMain.dependencies {
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.sqlite.bundled)
+            implementation(libs.ktor.client.okhttp)
         }
 
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.appdirs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.ktor.client.cio)
         }
     }
 
@@ -136,6 +143,12 @@ val Properties.umamiBaseUrl: String
 val Properties.sentryDsn: String
     get() = getProperty("sentry.dsn", "")
 
+val Properties.supabaseUrl: String
+    get() = getProperty("supabase.url", "")
+
+val Properties.supabasePublishableKey: String
+    get() = getProperty("supabase.publishableKey", "")
+
 buildkonfig {
     packageName = "dev.appoutlet.foliary"
 
@@ -147,6 +160,8 @@ buildkonfig {
         buildConfigField(FieldSpec.Type.STRING, "umamiWebsiteId", props.umamiWebsiteId)
         buildConfigField(FieldSpec.Type.STRING, "umamiBaseUrl", props.umamiBaseUrl)
         buildConfigField(FieldSpec.Type.STRING, "sentryDsn", props.sentryDsn)
+        buildConfigField(FieldSpec.Type.STRING, "supabaseUrl", props.supabaseUrl)
+        buildConfigField(FieldSpec.Type.STRING, "supabasePublishableKey", props.supabasePublishableKey)
     }
 
     defaultConfigs("release") {
