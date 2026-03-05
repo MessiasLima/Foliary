@@ -1,8 +1,5 @@
 package dev.appoutlet.foliary.core.mvi
 
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
-
 fun <SideEffect : Action> ContainerHost<SideEffect>.emitState(
     showLoading: Boolean = true,
     block: suspend () -> State

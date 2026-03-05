@@ -2,7 +2,6 @@ package dev.appoutlet.foliary.core.ui.component.button
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -20,7 +19,7 @@ fun FoliaryPrimaryButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.height(56.dp),
+        modifier = modifier,
         enabled = enabled,
         shape = MaterialTheme.shapes.extraLarge,
         colors = ButtonDefaults.buttonColors(
@@ -40,7 +39,7 @@ fun FoliarySecondaryButton(
 ) {
     OutlinedButton(
         onClick = onClick,
-        modifier = modifier.height(52.dp),
+        modifier = modifier,
         enabled = enabled,
         shape = MaterialTheme.shapes.extraLarge,
         colors = ButtonDefaults.outlinedButtonColors(

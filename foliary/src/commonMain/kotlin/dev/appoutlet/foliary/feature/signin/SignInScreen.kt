@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -71,7 +72,10 @@ fun SignInScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 SignInHeader()
-                SignInForm(viewModel, viewData)
+                SignInForm(
+                    viewData = viewData,
+                    onEvent = viewModel::onEvent
+                )
             }
         }
     }
@@ -119,7 +123,10 @@ private fun SignInHeader() {
 }
 
 @Composable
-private fun SignInForm(viewModel: SignInViewModel, viewData: SignInViewData) {
+private fun SignInForm(
+    viewData: SignInViewData,
+    onEvent: (SignInEvent) -> Unit
+) {
     FoliaryCard(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -127,7 +134,7 @@ private fun SignInForm(viewModel: SignInViewModel, viewData: SignInViewData) {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SocialLoginButtons(viewModel)
+            SocialLoginButtons(onEvent = onEvent)
 
             Spacer(modifier = Modifier.height(DividerSpacer.dp))
 
@@ -135,7 +142,10 @@ private fun SignInForm(viewModel: SignInViewModel, viewData: SignInViewData) {
 
             Spacer(modifier = Modifier.height(DividerSpacer.dp))
 
-            EmailLoginForm(viewModel, viewData)
+            EmailLoginForm(
+                viewData = viewData,
+                onEvent = onEvent
+            )
 
             Spacer(modifier = Modifier.height(FooterSpacer.dp))
 
@@ -151,9 +161,9 @@ private fun SignInForm(viewModel: SignInViewModel, viewData: SignInViewData) {
 }
 
 @Composable
-private fun SocialLoginButtons(viewModel: SignInViewModel) {
+private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
     FoliarySecondaryButton(
-        onClick = { viewModel.onEvent(SignInEvent.OnGoogleSignInClicked) },
+        onClick = { onEvent(SignInEvent.OnGoogleSignInClicked) },
         modifier = Modifier.fillMaxWidth()
     ) {
         Icon(
@@ -167,7 +177,7 @@ private fun SocialLoginButtons(viewModel: SignInViewModel) {
 
     Spacer(modifier = Modifier.height(12.dp))
     FoliarySecondaryButton(
-        onClick = { viewModel.onEvent(SignInEvent.OnAppleSignInClicked) },
+        onClick = { onEvent(SignInEvent.OnAppleSignInClicked) },
         modifier = Modifier.fillMaxWidth()
     ) {
         Icon(
@@ -204,10 +214,13 @@ private fun OrDivider() {
 }
 
 @Composable
-private fun EmailLoginForm(viewModel: SignInViewModel, viewData: SignInViewData) {
+private fun EmailLoginForm(
+    viewData: SignInViewData,
+    onEvent: (SignInEvent) -> Unit
+) {
     OutlinedTextField(
         value = viewData.email,
-        onValueChange = { viewModel.onEvent(SignInEvent.OnEmailChanged(it)) },
+        onValueChange = { onEvent(SignInEvent.OnEmailChanged(it)) },
         modifier = Modifier.fillMaxWidth(),
         placeholder = { Text(text = "name@example.com") },
         leadingIcon = {
@@ -225,7 +238,7 @@ private fun EmailLoginForm(viewModel: SignInViewModel, viewData: SignInViewData)
     Spacer(modifier = Modifier.height(FormSpacer.dp))
 
     FoliaryPrimaryButton(
-        onClick = { viewModel.onEvent(SignInEvent.OnSendMagicLink) },
+        onClick = { onEvent(SignInEvent.OnSendMagicLink) },
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(text = "Send Magic Link", fontSize = 16.sp)
