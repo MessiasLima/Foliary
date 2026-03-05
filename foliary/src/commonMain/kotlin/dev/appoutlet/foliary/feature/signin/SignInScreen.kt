@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -44,7 +42,6 @@ import org.koin.compose.viewmodel.koinViewModel
 
 private const val LogoSize = 64
 private const val LogoIconSize = 32
-private const val LogoCornerRadius = 20
 private const val HeaderSpacer = 48
 private const val ContentSpacer = 24
 private const val SubtitleWidth = 280
@@ -87,7 +84,7 @@ private fun SignInHeader() {
     Box(
         modifier = Modifier
             .size(LogoSize.dp)
-            .clip(RoundedCornerShape(LogoCornerRadius.dp))
+            .clip(MaterialTheme.shapes.large)
             .background(MaterialTheme.colorScheme.secondaryContainer),
         contentAlignment = Alignment.Center
     ) {
@@ -220,7 +217,7 @@ private fun EmailLoginForm(viewModel: SignInViewModel, viewData: SignInViewData)
                 modifier = Modifier.size(ButtonIconSize.dp)
             )
         },
-        shape = RoundedCornerShape(12.dp),
+        shape = MaterialTheme.shapes.medium,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         singleLine = true
     )
