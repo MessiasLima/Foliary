@@ -71,11 +71,8 @@ kotlin {
             implementation(libs.room.runtime)
             implementation(libs.sentry)
             implementation(libs.sqlite.bundled)
-            implementation(project.dependencies.platform(libs.supabase.bom))
             implementation(libs.supabase.auth)
-            implementation(libs.supabase.kt)
             implementation(libs.umami)
-
         }
 
 
@@ -149,8 +146,8 @@ val Properties.sentryDsn: String
 val Properties.supabaseUrl: String
     get() = getProperty("supabase.url", "")
 
-val Properties.supabaseAnonKey: String
-    get() = getProperty("supabase.anonKey", "")
+val Properties.supabasePublishableKey: String
+    get() = getProperty("supabase.publishableKey", "")
 
 buildkonfig {
     packageName = "dev.appoutlet.foliary"
@@ -164,7 +161,7 @@ buildkonfig {
         buildConfigField(FieldSpec.Type.STRING, "umamiBaseUrl", props.umamiBaseUrl)
         buildConfigField(FieldSpec.Type.STRING, "sentryDsn", props.sentryDsn)
         buildConfigField(FieldSpec.Type.STRING, "supabaseUrl", props.supabaseUrl)
-        buildConfigField(FieldSpec.Type.STRING, "supabaseAnonKey", props.supabaseAnonKey)
+        buildConfigField(FieldSpec.Type.STRING, "supabasePublishableKey", props.supabasePublishableKey)
     }
 
     defaultConfigs("release") {
