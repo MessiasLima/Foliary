@@ -40,7 +40,6 @@ import dev.appoutlet.foliary.core.ui.component.button.FoliaryPrimaryButton
 import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
-import dev.appoutlet.foliary.core.ui.isApplePlatform
 import org.koin.compose.viewmodel.koinViewModel
 
 private const val LogoSize = 64
@@ -169,20 +168,18 @@ private fun SocialLoginButtons(viewModel: SignInViewModel) {
         Text(text = "Continue with Google", fontSize = 15.sp)
     }
 
-    if (isApplePlatform) {
-        Spacer(modifier = Modifier.height(12.dp))
-        FoliarySecondaryButton(
-            onClick = { viewModel.onEvent(SignInEvent.OnAppleSignInClicked) },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(
-                imageVector = Lucide.Apple,
-                contentDescription = null,
-                modifier = Modifier.size(ButtonIconSize.dp)
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            Text(text = "Continue with Apple", fontSize = 15.sp)
-        }
+    Spacer(modifier = Modifier.height(12.dp))
+    FoliarySecondaryButton(
+        onClick = { viewModel.onEvent(SignInEvent.OnAppleSignInClicked) },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Icon(
+            imageVector = Lucide.Apple,
+            contentDescription = null,
+            modifier = Modifier.size(ButtonIconSize.dp)
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Text(text = "Continue with Apple", fontSize = 15.sp)
     }
 }
 
