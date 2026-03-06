@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -39,19 +38,18 @@ import dev.appoutlet.foliary.core.ui.component.button.FoliaryPrimaryButton
 import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
+import foliary.foliary.generated.resources.Res
+import foliary.foliary.generated.resources.sign_in_continue_with_apple
+import foliary.foliary.generated.resources.sign_in_continue_with_google
+import foliary.foliary.generated.resources.sign_in_email_placeholder
+import foliary.foliary.generated.resources.sign_in_helper_text
+import foliary.foliary.generated.resources.sign_in_magic_link_sent
+import foliary.foliary.generated.resources.sign_in_or_divider
+import foliary.foliary.generated.resources.sign_in_send_magic_link
+import foliary.foliary.generated.resources.sign_in_subtitle
+import foliary.foliary.generated.resources.sign_in_title
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-
-private const val LogoSize = 64
-private const val LogoIconSize = 32
-private const val HeaderSpacer = 48
-private const val ContentSpacer = 24
-private const val SubtitleWidth = 280
-private const val CardSpacer = 40
-private const val ButtonIconSize = 20
-private const val DividerSpacer = 24
-private const val FormSpacer = 16
-private const val FooterSpacer = 8
-private const val SuccessColor = 0xFF2E7D32
 
 @Composable
 fun SignInScreen() {
@@ -83,27 +81,27 @@ fun SignInScreen() {
 
 @Composable
 private fun SignInHeader() {
-    Spacer(modifier = Modifier.height(HeaderSpacer.dp))
+    Spacer(modifier = Modifier.height(48.dp))
 
     Box(
         modifier = Modifier
-            .size(LogoSize.dp)
+            .size(64.dp)
             .clip(MaterialTheme.shapes.large)
             .background(MaterialTheme.colorScheme.secondaryContainer),
         contentAlignment = Alignment.Center
     ) {
         Icon(
             imageVector = Lucide.Leaf,
-            contentDescription = "App Logo",
+            contentDescription = null,
             tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(LogoIconSize.dp)
+            modifier = Modifier.size(32.dp)
         )
     }
 
-    Spacer(modifier = Modifier.height(ContentSpacer.dp))
+    Spacer(modifier = Modifier.height(24.dp))
 
     Text(
-        text = "Pomodoro",
+        text = stringResource(Res.string.sign_in_title),
         style = MaterialTheme.typography.displaySmall,
         color = MaterialTheme.colorScheme.primary,
         fontWeight = FontWeight.Medium
@@ -112,14 +110,14 @@ private fun SignInHeader() {
     Spacer(modifier = Modifier.height(12.dp))
 
     Text(
-        text = "A calm space for your deep work. Log in to continue your focus sessions.",
+        text = stringResource(Res.string.sign_in_subtitle),
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         textAlign = TextAlign.Center,
-        modifier = Modifier.width(SubtitleWidth.dp)
+        modifier = Modifier.width(280.dp)
     )
 
-    Spacer(modifier = Modifier.height(CardSpacer.dp))
+    Spacer(modifier = Modifier.height(40.dp))
 }
 
 @Composable
@@ -136,21 +134,21 @@ private fun SignInForm(
         ) {
             SocialLoginButtons(onEvent = onEvent)
 
-            Spacer(modifier = Modifier.height(DividerSpacer.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             OrDivider()
 
-            Spacer(modifier = Modifier.height(DividerSpacer.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             EmailLoginForm(
                 viewData = viewData,
                 onEvent = onEvent
             )
 
-            Spacer(modifier = Modifier.height(FooterSpacer.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "No password required. We'll send you a secure link to instantly sign in.",
+                text = stringResource(Res.string.sign_in_helper_text),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -163,30 +161,36 @@ private fun SignInForm(
 @Composable
 private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
     FoliarySecondaryButton(
-        onClick = { onEvent(SignInEvent.OnGoogleSignInClicked) },
+        onClick = { onEvent(SignInEvent.OnGoogleSignInClick) },
         modifier = Modifier.fillMaxWidth()
     ) {
         Icon(
             imageVector = Lucide.Chrome,
             contentDescription = null,
-            modifier = Modifier.size(ButtonIconSize.dp)
+            modifier = Modifier.size(20.dp)
         )
         Spacer(modifier = Modifier.width(12.dp))
-        Text(text = "Continue with Google", fontSize = 15.sp)
+        Text(
+            text = stringResource(Res.string.sign_in_continue_with_google),
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 
     Spacer(modifier = Modifier.height(12.dp))
     FoliarySecondaryButton(
-        onClick = { onEvent(SignInEvent.OnAppleSignInClicked) },
+        onClick = { onEvent(SignInEvent.OnAppleSignInClick) },
         modifier = Modifier.fillMaxWidth()
     ) {
         Icon(
             imageVector = Lucide.Apple,
             contentDescription = null,
-            modifier = Modifier.size(ButtonIconSize.dp)
+            modifier = Modifier.size(20.dp)
         )
         Spacer(modifier = Modifier.width(12.dp))
-        Text(text = "Continue with Apple", fontSize = 15.sp)
+        Text(
+            text = stringResource(Res.string.sign_in_continue_with_apple),
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 
@@ -200,11 +204,10 @@ private fun OrDivider() {
             color = MaterialTheme.colorScheme.outlineVariant
         )
         Text(
-            text = "Or",
+            text = stringResource(Res.string.sign_in_or_divider),
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(horizontal = 16.dp),
-            letterSpacing = 0.5.sp
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
         HorizontalDivider(
             modifier = Modifier.weight(1f),
@@ -222,12 +225,12 @@ private fun EmailLoginForm(
         value = viewData.email,
         onValueChange = { onEvent(SignInEvent.OnEmailChanged(it)) },
         modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(text = "name@example.com") },
+        placeholder = { Text(text = stringResource(Res.string.sign_in_email_placeholder)) },
         leadingIcon = {
             Icon(
                 imageVector = Lucide.Mail,
                 contentDescription = null,
-                modifier = Modifier.size(ButtonIconSize.dp)
+                modifier = Modifier.size(20.dp)
             )
         },
         shape = MaterialTheme.shapes.medium,
@@ -235,27 +238,30 @@ private fun EmailLoginForm(
         singleLine = true
     )
 
-    Spacer(modifier = Modifier.height(FormSpacer.dp))
+    Spacer(modifier = Modifier.height(16.dp))
 
     FoliaryPrimaryButton(
         onClick = { onEvent(SignInEvent.OnSendMagicLink) },
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text(text = "Send Magic Link", fontSize = 16.sp)
+        Text(
+            text = stringResource(Res.string.sign_in_send_magic_link),
+            style = MaterialTheme.typography.titleMedium
+        )
         Spacer(modifier = Modifier.width(8.dp))
         Icon(
             imageVector = Lucide.ArrowRight,
             contentDescription = null,
-            modifier = Modifier.size(ButtonIconSize.dp)
+            modifier = Modifier.size(20.dp)
         )
     }
 
     if (viewData.isMagicLinkSent) {
-        Spacer(modifier = Modifier.height(FooterSpacer.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Magic link sent! Check your inbox.",
+            text = stringResource(Res.string.sign_in_magic_link_sent),
             style = MaterialTheme.typography.bodySmall,
-            color = Color(SuccessColor),
+            color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center
         )
     }

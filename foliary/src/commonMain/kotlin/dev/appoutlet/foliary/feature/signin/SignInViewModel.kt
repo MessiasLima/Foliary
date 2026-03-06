@@ -28,8 +28,8 @@ class SignInViewModel(
     fun onEvent(event: SignInEvent) {
         log.i { event.toString() }
         when (event) {
-            SignInEvent.OnGoogleSignInClicked -> handleGoogleSignIn()
-            SignInEvent.OnAppleSignInClicked -> handleAppleSignIn()
+            SignInEvent.OnGoogleSignInClick -> handleGoogleSignIn()
+            SignInEvent.OnAppleSignInClick -> handleAppleSignIn()
             is SignInEvent.OnEmailChanged -> handleEmailChanged(event.email)
             SignInEvent.OnSendMagicLink -> handleSendMagicLink()
         }
@@ -91,8 +91,8 @@ data class SignInViewData(
 ) : ViewData
 
 sealed interface SignInEvent {
-    data object OnGoogleSignInClicked : SignInEvent
-    data object OnAppleSignInClicked : SignInEvent
+    data object OnGoogleSignInClick : SignInEvent
+    data object OnAppleSignInClick : SignInEvent
     data class OnEmailChanged(val email: String) : SignInEvent
     data object OnSendMagicLink : SignInEvent
 }
