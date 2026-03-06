@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.icons.lucide.Apple
 import com.composables.icons.lucide.ArrowRight
-import com.composables.icons.lucide.Chrome
+import com.composables.icons.lucide.Chromium
 import com.composables.icons.lucide.Leaf
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Mail
@@ -39,6 +39,7 @@ import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import foliary.foliary.generated.resources.Res
+import foliary.foliary.generated.resources.sign_in_app_logo_description
 import foliary.foliary.generated.resources.sign_in_continue_with_apple
 import foliary.foliary.generated.resources.sign_in_continue_with_google
 import foliary.foliary.generated.resources.sign_in_email_placeholder
@@ -92,7 +93,7 @@ private fun SignInHeader() {
     ) {
         Icon(
             imageVector = Lucide.Leaf,
-            contentDescription = null,
+            contentDescription = stringResource(Res.string.sign_in_app_logo_description),
             tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(32.dp)
         )
@@ -165,7 +166,7 @@ private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
         modifier = Modifier.fillMaxWidth()
     ) {
         Icon(
-            imageVector = Lucide.Chrome,
+            imageVector = Lucide.Chromium,
             contentDescription = null,
             modifier = Modifier.size(20.dp)
         )
