@@ -1,5 +1,19 @@
 <resources>
     <!-- region general -->
+    <string name="app_name">Foliary</string>
+    <!-- endregion -->
+
+    <!-- region Sign In -->
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">A calm space for your deep work. Log in to continue your focus sessions.</string>
+    <string name="sign_in_continue_with_google">Continue with Google</string>
+    <string name="sign_in_continue_with_apple">Continue with Apple</string>
+    <string name="sign_in_or_divider">Or</string>
+    <string name="sign_in_email_placeholder">name@example.com</string>
+    <string name="sign_in_send_magic_link">Send Magic Link</string>
+    <string name="sign_in_magic_link_sent">Magic link sent! Check your inbox.</string>
+    <string name="sign_in_helper_text">No password required. We\'ll send you a secure link to instantly sign in.</string>
+    <string name="sign_in_app_logo_description">App Logo</string>
     <!-- endregion -->
 
     <!-- region Error -->
