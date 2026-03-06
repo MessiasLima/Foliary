@@ -38,7 +38,9 @@ import dev.appoutlet.foliary.core.ui.component.button.FoliaryPrimaryButton
 import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
+import dev.appoutlet.foliary.core.ui.component.modifier.widthInNarrow
 import foliary.foliary.generated.resources.Res
+import foliary.foliary.generated.resources.ic_foliary
 import foliary.foliary.generated.resources.sign_in_app_logo_description
 import foliary.foliary.generated.resources.sign_in_continue_with_apple
 import foliary.foliary.generated.resources.sign_in_continue_with_google
@@ -49,6 +51,8 @@ import foliary.foliary.generated.resources.sign_in_or_divider
 import foliary.foliary.generated.resources.sign_in_send_magic_link
 import foliary.foliary.generated.resources.sign_in_subtitle
 import foliary.foliary.generated.resources.sign_in_title
+import org.jetbrains.compose.resources.imageResource
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -61,20 +65,20 @@ fun SignInScreen() {
         onAction = ::onAction,
     ) { viewData: SignInViewData ->
         Scaffold(
+            modifier = Modifier.fillMaxSize(),
             containerColor = MaterialTheme.colorScheme.background
         ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(horizontal = 24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                SignInHeader()
-                SignInForm(
-                    viewData = viewData,
-                    onEvent = viewModel::onEvent
-                )
+            Box(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
+                Column(
+                    modifier = Modifier.widthInNarrow().align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    SignInHeader()
+                    SignInForm(
+                        viewData = viewData,
+                        onEvent = viewModel::onEvent
+                    )
+                }
             }
         }
     }
@@ -82,43 +86,40 @@ fun SignInScreen() {
 
 @Composable
 private fun SignInHeader() {
-    Spacer(modifier = Modifier.height(48.dp))
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(
+            modifier = Modifier
+                .size(64.dp)
+                .clip(MaterialTheme.shapes.large)
+                .background(MaterialTheme.colorScheme.secondaryContainer),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                modifier = Modifier.fillMaxSize().padding(8.dp),
+                painter = painterResource(Res.drawable.ic_foliary),
+                contentDescription = stringResource(Res.string.sign_in_app_logo_description),
+                tint = MaterialTheme.colorScheme.primary,
+            )
+        }
 
-    Box(
-        modifier = Modifier
-            .size(64.dp)
-            .clip(MaterialTheme.shapes.large)
-            .background(MaterialTheme.colorScheme.secondaryContainer),
-        contentAlignment = Alignment.Center
-    ) {
-        Icon(
-            imageVector = Lucide.Leaf,
-            contentDescription = stringResource(Res.string.sign_in_app_logo_description),
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(32.dp)
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            text = stringResource(Res.string.sign_in_title),
+            style = MaterialTheme.typography.displaySmall,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Medium
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(
+            text = stringResource(Res.string.sign_in_subtitle),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center
         )
     }
-
-    Spacer(modifier = Modifier.height(24.dp))
-
-    Text(
-        text = stringResource(Res.string.sign_in_title),
-        style = MaterialTheme.typography.displaySmall,
-        color = MaterialTheme.colorScheme.primary,
-        fontWeight = FontWeight.Medium
-    )
-
-    Spacer(modifier = Modifier.height(12.dp))
-
-    Text(
-        text = stringResource(Res.string.sign_in_subtitle),
-        style = MaterialTheme.typography.bodyMedium,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        textAlign = TextAlign.Center,
-        modifier = Modifier.width(280.dp)
-    )
-
-    Spacer(modifier = Modifier.height(40.dp))
 }
 
 @Composable
