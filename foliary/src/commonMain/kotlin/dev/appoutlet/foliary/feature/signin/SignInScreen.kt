@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.sp
 import com.composables.icons.lucide.Apple
 import com.composables.icons.lucide.ArrowRight
 import com.composables.icons.lucide.Chromium
-import com.composables.icons.lucide.Leaf
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Mail
 import dev.appoutlet.foliary.core.navigation.Navigator
@@ -52,7 +51,6 @@ import foliary.foliary.generated.resources.sign_in_or_divider
 import foliary.foliary.generated.resources.sign_in_send_magic_link
 import foliary.foliary.generated.resources.sign_in_subtitle
 import foliary.foliary.generated.resources.sign_in_title
-import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -71,7 +69,7 @@ fun SignInScreen() {
         ) { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
                 Column(
-                    modifier = Modifier.widthInNarrow(400.dp)
+                    modifier = Modifier.widthInNarrow(480.dp)
                         .align(Alignment.Center)
                         .padding(horizontal = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -120,7 +118,6 @@ private fun SignInHeader() {
         Text(
             text = stringResource(Res.string.sign_in_subtitle),
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
         )
     }
@@ -135,7 +132,7 @@ private fun SignInForm(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            modifier = Modifier.fillMaxWidth().padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SocialLoginButtons(onEvent = onEvent)
@@ -151,7 +148,7 @@ private fun SignInForm(
                 onEvent = onEvent
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = stringResource(Res.string.sign_in_helper_text),
@@ -173,7 +170,6 @@ private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
         Icon(
             imageVector = Lucide.Chromium,
             contentDescription = null,
-            modifier = Modifier.size(20.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
@@ -191,7 +187,6 @@ private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
         Icon(
             imageVector = Lucide.Apple,
             contentDescription = null,
-            modifier = Modifier.size(20.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
@@ -237,12 +232,11 @@ private fun EmailLoginForm(
             Icon(
                 imageVector = Lucide.Mail,
                 contentDescription = null,
-                modifier = Modifier.size(20.dp)
             )
         },
-        shape = MaterialTheme.shapes.medium,
+        shape = MaterialTheme.shapes.extraLarge,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        singleLine = true
+        singleLine = true,
     )
 
     Spacer(modifier = Modifier.height(16.dp))
@@ -253,13 +247,14 @@ private fun EmailLoginForm(
     ) {
         Text(
             text = stringResource(Res.string.sign_in_send_magic_link),
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.bodyMedium
         )
+
         Spacer(modifier = Modifier.width(8.dp))
+
         Icon(
             imageVector = Lucide.ArrowRight,
             contentDescription = null,
-            modifier = Modifier.size(20.dp)
         )
     }
 
