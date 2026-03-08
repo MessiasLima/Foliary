@@ -9,6 +9,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import foliary.foliary.generated.resources.Domine_VariableFont_wght
 import foliary.foliary.generated.resources.Inter_VariableFont_opsz_wght
 import foliary.foliary.generated.resources.Res
@@ -16,7 +17,10 @@ import org.jetbrains.compose.resources.Font
 
 @Composable
 fun getTypography(colorScheme: ColorScheme): Typography {
-    val baseline = MaterialTheme.typography
+    val baseline = MaterialTheme.typography.copy(
+        bodyMedium = MaterialTheme.typography.bodyMedium.copy(fontSize = 15.sp),
+    )
+
     val displayFontFamily = getDisplayFontFamily()
 
     return Typography(

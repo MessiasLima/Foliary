@@ -175,14 +175,15 @@ private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
             contentDescription = null,
             modifier = Modifier.size(20.dp)
         )
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = stringResource(Res.string.sign_in_continue_with_google),
             style = MaterialTheme.typography.bodyMedium
         )
     }
 
-    Spacer(modifier = Modifier.height(12.dp))
+    Spacer(modifier = Modifier.height(8.dp))
+
     FoliarySecondaryButton(
         onClick = { onEvent(SignInEvent.OnAppleSignInClick) },
         modifier = Modifier.fillMaxWidth()
@@ -192,7 +193,7 @@ private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
             contentDescription = null,
             modifier = Modifier.size(20.dp)
         )
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = stringResource(Res.string.sign_in_continue_with_apple),
             style = MaterialTheme.typography.bodyMedium
@@ -207,7 +208,7 @@ private fun OrDivider() {
     ) {
         HorizontalDivider(
             modifier = Modifier.weight(1f),
-            color = MaterialTheme.colorScheme.outlineVariant
+            color = MaterialTheme.colorScheme.outline
         )
         Text(
             text = stringResource(Res.string.sign_in_or_divider),
@@ -217,7 +218,7 @@ private fun OrDivider() {
         )
         HorizontalDivider(
             modifier = Modifier.weight(1f),
-            color = MaterialTheme.colorScheme.outlineVariant
+            color = MaterialTheme.colorScheme.outline
         )
     }
 }
