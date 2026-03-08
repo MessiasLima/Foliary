@@ -12,8 +12,8 @@ actual fun SetupPlatformStatusBar(isDarkTheme: Boolean) {
     LaunchedEffect(isDarkTheme) {
         val window = (view.context as Activity).window
         WindowInsetsControllerCompat(window, window.decorView).apply {
-            isAppearanceLightStatusBars = isDarkTheme
-            isAppearanceLightNavigationBars = isDarkTheme
+            isAppearanceLightStatusBars = isDarkTheme.not()
+            isAppearanceLightNavigationBars = isDarkTheme.not()
         }
     }
 }

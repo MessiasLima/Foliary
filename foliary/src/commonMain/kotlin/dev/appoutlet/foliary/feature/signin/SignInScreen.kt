@@ -71,7 +71,7 @@ fun SignInScreen() {
                 Column(
                     modifier = Modifier.widthInNarrow(480.dp)
                         .align(Alignment.Center)
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
