@@ -9,6 +9,9 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -17,18 +20,23 @@ fun FoliaryCard(
     content: @Composable ColumnScope.() -> Unit
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .dropShadow(
+                shape = MaterialTheme.shapes.extraLarge,
+                shadow = Shadow(
+                    radius = 60.dp,
+                    spread = 0.dp,
+                    offset = DpOffset(0.dp, 0.dp),
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.06f),
+                )
+            ),
         shape = MaterialTheme.shapes.extraLarge,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
             contentColor = MaterialTheme.colorScheme.onSurface
         ),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-    ) {
-        Column(
-            modifier = Modifier.padding(24.dp),
-            content = content
-        )
-    }
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        content = content
+    )
 }

@@ -1,6 +1,7 @@
 package dev.appoutlet.foliary.feature.signin
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -70,8 +71,11 @@ fun SignInScreen() {
         ) { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
                 Column(
-                    modifier = Modifier.widthInNarrow().align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    modifier = Modifier.widthInNarrow(400.dp)
+                        .align(Alignment.Center)
+                        .padding(horizontal = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     SignInHeader()
                     SignInForm(
@@ -102,7 +106,7 @@ private fun SignInHeader() {
             )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = stringResource(Res.string.sign_in_title),
@@ -111,7 +115,7 @@ private fun SignInHeader() {
             fontWeight = FontWeight.Medium
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = stringResource(Res.string.sign_in_subtitle),
@@ -131,7 +135,7 @@ private fun SignInForm(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SocialLoginButtons(onEvent = onEvent)

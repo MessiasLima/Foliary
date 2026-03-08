@@ -7,14 +7,14 @@ import dev.appoutlet.foliary.core.logging.initSentry
 import java.awt.Dimension
 
 private const val WindowMinimumWidth = 350
-private const val WindowMinimumHeight = 600
+private const val WindowMinimumHeight = 900
 
 fun main() {
     initSentry()
     application {
         Window(
             title = "Foliary",
-            state = rememberWindowState(width = 800.dp, height = 600.dp),
+            state = rememberWindowState(width = 800.dp, height = WindowMinimumHeight.dp),
             onCloseRequest = ::exitApplication,
         ) {
             window.minimumSize = Dimension(WindowMinimumWidth, WindowMinimumHeight)
