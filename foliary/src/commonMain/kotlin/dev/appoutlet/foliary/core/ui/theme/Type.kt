@@ -9,6 +9,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import foliary.foliary.generated.resources.Domine_VariableFont_wght
 import foliary.foliary.generated.resources.Inter_VariableFont_opsz_wght
 import foliary.foliary.generated.resources.Res
@@ -51,7 +52,7 @@ fun getTypography(colorScheme: ColorScheme): Typography {
         titleMedium = baseline.titleMedium.copy(fontFamily = getBodyFontFamily(baseline.titleMedium)),
         titleSmall = baseline.titleSmall.copy(fontFamily = getBodyFontFamily(baseline.titleSmall)),
         bodyLarge = baseline.bodyLarge.copy(fontFamily = getBodyFontFamily(baseline.bodyLarge)),
-        bodyMedium = baseline.bodyMedium.copy(fontFamily = getBodyFontFamily(baseline.bodyMedium)),
+        bodyMedium = baseline.bodyMedium.copy(fontFamily = getBodyFontFamily(baseline.bodyMedium), fontSize = 15.sp),
         bodySmall = baseline.bodySmall.copy(fontFamily = getBodyFontFamily(baseline.bodySmall)),
         labelLarge = baseline.labelLarge.copy(fontFamily = getBodyFontFamily(baseline.labelLarge)),
         labelMedium = baseline.labelMedium.copy(fontFamily = getBodyFontFamily(baseline.labelMedium)),

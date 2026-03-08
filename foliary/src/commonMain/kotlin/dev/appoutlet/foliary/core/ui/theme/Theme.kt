@@ -92,7 +92,8 @@ fun FoliaryTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = getTypography(colorScheme),
-        content = content
+        content = content,
+        shapes = shapes
     )
 }
 
