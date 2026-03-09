@@ -11,5 +11,6 @@ class SignInViewDataMapper {
     ) = SignInViewData(
         email = email,
         isMagicLinkSent = isMagicLinkSent,
+        isLoading = loading,
     )
 }

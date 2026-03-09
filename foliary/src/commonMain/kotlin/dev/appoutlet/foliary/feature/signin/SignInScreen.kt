@@ -22,6 +22,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +46,7 @@ import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInNarrow
+import dev.appoutlet.foliary.feature.signin.composable.EmailLoginForm
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.ic_foliary
 import foliary.foliary.generated.resources.sign_in_app_logo_description
@@ -217,59 +223,6 @@ private fun OrDivider() {
         HorizontalDivider(
             modifier = Modifier.weight(1f),
             color = MaterialTheme.colorScheme.outline
-        )
-    }
-}
-
-@Composable
-private fun EmailLoginForm(
-    viewData: SignInViewData,
-    onEvent: (SignInEvent) -> Unit
-) {
-    OutlinedTextField(
-        value = viewData.email,
-        onValueChange = {
-            onEvent(SignInEvent.OnEmailChanged(it))
-        },
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(text = stringResource(Res.string.sign_in_email_placeholder)) },
-        leadingIcon = {
-            Icon(
-                imageVector = Lucide.Mail,
-                contentDescription = null,
-            )
-        },
-        shape = MaterialTheme.shapes.extraLarge,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        singleLine = true,
-    )
-
-    Spacer(modifier = Modifier.height(16.dp))
-
-    FoliaryPrimaryButton(
-        onClick = { onEvent(SignInEvent.OnSendMagicLink) },
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = stringResource(Res.string.sign_in_send_magic_link),
-            style = MaterialTheme.typography.bodyMedium
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Icon(
-            imageVector = Lucide.ArrowRight,
-            contentDescription = null,
-        )
-    }
-
-    if (viewData.isMagicLinkSent) {
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = stringResource(Res.string.sign_in_magic_link_sent),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.primary,
-            textAlign = TextAlign.Center
         )
     }
 }
