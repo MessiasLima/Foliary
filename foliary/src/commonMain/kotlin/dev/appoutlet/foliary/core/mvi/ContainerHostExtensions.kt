@@ -1,7 +1,7 @@
 package dev.appoutlet.foliary.core.mvi
 
 fun <SideEffect : Action> ContainerHost<SideEffect>.emitState(
-    showLoading: Boolean = true,
+    showLoading: Boolean = false,
     block: suspend () -> State
 ) {
     intent {
@@ -22,7 +22,7 @@ fun <SideEffect : Action> ContainerHost<SideEffect>.emitState(state: State) {
 }
 
 fun <SideEffect : Action> ContainerHost<SideEffect>.emitAction(
-    showLoading: Boolean = true,
+    showLoading: Boolean = false,
     block: suspend () -> SideEffect
 ) {
     intent {

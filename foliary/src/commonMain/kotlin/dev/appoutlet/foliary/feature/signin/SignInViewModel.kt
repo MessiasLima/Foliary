@@ -8,6 +8,8 @@ import dev.appoutlet.foliary.core.mvi.ContainerHost
 import dev.appoutlet.foliary.core.mvi.State
 import dev.appoutlet.foliary.core.mvi.ViewData
 import dev.appoutlet.foliary.core.mvi.container
+import dev.appoutlet.foliary.data.authentication.AuthenticationRepository
+import io.github.jan.supabase.exceptions.RestException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -17,6 +19,7 @@ import org.koin.core.annotation.KoinViewModel
 @KoinViewModel
 class SignInViewModel(
     private val signInViewDataMapper: SignInViewDataMapper,
+    private val authenticationRepository: AuthenticationRepository,
 ) : ViewModel(), ContainerHost<SignInAction> {
     private val log by logger()
 
@@ -57,8 +60,17 @@ class SignInViewModel(
         this.email.value = email
     }
 
-    private fun handleSendMagicLink(email: String) = intent {
-
+    private fun handleSendMagicLink(email: String) {
+        intent {
+            try {
+                loading.value = true
+                authenticationRepository.requestMagicLink(email)
+            } catch (restException: RestException) {
+                reduce { State.Error(restException) }
+            } finally {
+                loading.value = false
+            }
+        }
     }
 }
 
