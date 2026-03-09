@@ -1,11 +1,14 @@
 package dev.appoutlet.foliary.feature.signin.composable
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -19,6 +22,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -47,7 +51,7 @@ fun EmailLoginForm(
     onEvent: (SignInEvent) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
-    var email by rememberSaveable { mutableStateOf(viewData.email) }
+    var email by rememberSaveable { mutableStateOf("") }
     val emailValid by derivedStateOf {
         EmailRegex.matches(email)
     }
@@ -84,7 +88,8 @@ fun EmailLoginForm(
                     style = MaterialTheme.typography.bodySmall
                 )
             }
-        }
+        },
+        enabled = viewData.isLoading.not()
     )
 
     Spacer(modifier = Modifier.height(16.dp))
@@ -99,7 +104,8 @@ fun EmailLoginForm(
                 }
             }
         },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        enabled = viewData.isLoading.not()
     ) {
         Text(
             text = stringResource(Res.string.sign_in_send_magic_link),
@@ -108,10 +114,19 @@ fun EmailLoginForm(
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        Icon(
-            imageVector = Lucide.ArrowRight,
-            contentDescription = null,
-        )
+        AnimatedContent(viewData.isLoading) { isLoading ->
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    strokeWidth = 2.dp,
+                )
+            } else {
+                Icon(
+                    imageVector = Lucide.ArrowRight,
+                    contentDescription = null,
+                )
+            }
+        }
     }
 
     if (viewData.isMagicLinkSent) {

@@ -9,6 +9,8 @@ class DefaultAuthenticationRepository(
     private val auth: Auth,
 ) : AuthenticationRepository {
     override suspend fun requestMagicLink(email: String) {
-        auth.signInWith(OTP) { email }
+        auth.signInWith(OTP) {
+            this.email = email
+        }
     }
 }

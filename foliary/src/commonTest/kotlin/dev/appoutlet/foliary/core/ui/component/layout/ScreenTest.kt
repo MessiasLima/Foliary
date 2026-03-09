@@ -7,7 +7,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
 import dev.appoutlet.foliary.core.analytics.LocalAnalytics
 import dev.appoutlet.foliary.core.analytics.MockAnalytics
-import dev.appoutlet.foliary.core.mvi.State
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test

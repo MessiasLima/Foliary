@@ -13,35 +13,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.icons.lucide.Apple
-import com.composables.icons.lucide.ArrowRight
 import com.composables.icons.lucide.Chromium
 import com.composables.icons.lucide.Lucide
-import com.composables.icons.lucide.Mail
 import dev.appoutlet.foliary.core.navigation.Navigator
-import dev.appoutlet.foliary.core.ui.component.button.FoliaryPrimaryButton
 import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
@@ -52,11 +43,8 @@ import foliary.foliary.generated.resources.ic_foliary
 import foliary.foliary.generated.resources.sign_in_app_logo_description
 import foliary.foliary.generated.resources.sign_in_continue_with_apple
 import foliary.foliary.generated.resources.sign_in_continue_with_google
-import foliary.foliary.generated.resources.sign_in_email_placeholder
 import foliary.foliary.generated.resources.sign_in_helper_text
-import foliary.foliary.generated.resources.sign_in_magic_link_sent
 import foliary.foliary.generated.resources.sign_in_or_divider
-import foliary.foliary.generated.resources.sign_in_send_magic_link
 import foliary.foliary.generated.resources.sign_in_subtitle
 import foliary.foliary.generated.resources.sign_in_title
 import org.jetbrains.compose.resources.painterResource
@@ -70,6 +58,7 @@ fun SignInScreen() {
         screenName = "SignInScreen",
         viewModelProvider = { viewModel },
         onAction = ::onAction,
+        onTryAgain = viewModel::onTryAgain
     ) { viewData: SignInViewData ->
         Scaffold(
             modifier = Modifier.fillMaxSize(),

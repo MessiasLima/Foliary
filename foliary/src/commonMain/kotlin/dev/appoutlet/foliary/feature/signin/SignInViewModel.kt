@@ -1,43 +1,17 @@
 package dev.appoutlet.foliary.feature.signin
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import dev.appoutlet.foliary.core.logging.logger
 import dev.appoutlet.foliary.core.mvi.Action
-import dev.appoutlet.foliary.core.mvi.ContainerHost
-import dev.appoutlet.foliary.core.mvi.State
-import dev.appoutlet.foliary.core.mvi.ViewData
-import dev.appoutlet.foliary.core.mvi.container
+import dev.appoutlet.foliary.core.mvi.MviViewModel
 import dev.appoutlet.foliary.data.authentication.AuthenticationRepository
-import io.github.jan.supabase.exceptions.RestException
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.koin.core.annotation.KoinViewModel
 
 @KoinViewModel
 class SignInViewModel(
-    private val signInViewDataMapper: SignInViewDataMapper,
     private val authenticationRepository: AuthenticationRepository,
-) : ViewModel(), ContainerHost<SignInAction> {
-    private val log by logger()
+) : MviViewModel<SignInViewData, SignInAction>() {
+    override val container = container(SignInViewData())
 
-    private val email = MutableStateFlow("")
-    private val loading = MutableStateFlow(false)
-    private val isMagicLinkSent = MutableStateFlow(false)
-
-    override val container = container<SignInAction> {
-        combine(email, loading, isMagicLinkSent) { email, loading, isMagicLinkSent ->
-            signInViewDataMapper(
-                email = email,
-                isMagicLinkSent = isMagicLinkSent,
-                loading = loading,
-            )
-        }
-            .onEach { reduce { State.Success(it) } }
-            .launchIn(viewModelScope)
-    }
+    fun onTryAgain() = intent { reduce { SignInViewData() } }
 
     fun onEvent(event: SignInEvent) {
         log.d { event.toString() }
@@ -53,32 +27,20 @@ class SignInViewModel(
     }
 
     private fun handleAppleSignIn() = intent {
-
     }
 
-    private fun handleEmailChanged(email: String) {
-        this.email.value = email
+    private fun handleSendMagicLink(email: String) = intent {
+        reduce { state.copy(isLoading = true) }
+        authenticationRepository.requestMagicLink(email)
+        reduce { state.copy(isLoading = false, isMagicLinkSent = true) }
     }
 
-    private fun handleSendMagicLink(email: String) {
-        intent {
-            try {
-                loading.value = true
-                authenticationRepository.requestMagicLink(email)
-            } catch (restException: RestException) {
-                reduce { State.Error(restException) }
-            } finally {
-                loading.value = false
-            }
-        }
-    }
 }
 
 data class SignInViewData(
-    val email: String,
-    val isMagicLinkSent: Boolean,
-    val isLoading: Boolean,
-) : ViewData
+    val isMagicLinkSent: Boolean = false,
+    val isLoading: Boolean = false,
+)
 
 sealed interface SignInEvent {
     data object OnGoogleSignInClick : SignInEvent

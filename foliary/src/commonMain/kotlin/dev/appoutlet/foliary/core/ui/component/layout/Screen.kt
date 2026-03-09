@@ -1,48 +1,39 @@
 package dev.appoutlet.foliary.core.ui.component.layout
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.appoutlet.foliary.core.analytics.LocalAnalytics
-import dev.appoutlet.foliary.core.logging.getLogger
 import dev.appoutlet.foliary.core.mvi.Action
-import dev.appoutlet.foliary.core.mvi.ContainerHost
-import dev.appoutlet.foliary.core.mvi.State
-import dev.appoutlet.foliary.core.mvi.ViewData
+import dev.appoutlet.foliary.core.mvi.MviViewModel
 import dev.appoutlet.foliary.core.navigation.LocalNavigator
 import dev.appoutlet.foliary.core.navigation.Navigator
+import foliary.foliary.generated.resources.Res
+import foliary.foliary.generated.resources.error_default_message
+import foliary.foliary.generated.resources.error_default_title
+import org.jetbrains.compose.resources.stringResource
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Suppress("UNCHECKED_CAST")
 @Composable
-fun <ScreenViewData : ViewData, SideEffect : Action> Screen(
+fun <State : Any, SideEffect : Action> Screen(
     screenName: String,
-    viewModelProvider: @Composable () -> ContainerHost<SideEffect>,
-    modifier: Modifier = Modifier,
+    viewModelProvider: @Composable () -> MviViewModel<State, SideEffect>,
     onTryAgain: (() -> Unit)? = null,
-    error: @Composable (Throwable?) -> Unit = { DefaultErrorIndicator(it?.message, onTryAgain) },
-    loading: @Composable (String?) -> Unit = { DefaultLoadingIndicator(it) },
-    idle: @Composable () -> Unit = {},
     onAction: suspend (SideEffect, Navigator) -> Unit = { _, _ -> },
-    content: @Composable (viewData: ScreenViewData) -> Unit,
+    content: @Composable (viewData: State) -> Unit,
 ) {
     val navigator = LocalNavigator.current
     val analytics = LocalAnalytics.current
     val viewModel = viewModelProvider()
     val state by viewModel.collectAsState()
-    val log = remember { getLogger(screenName) }
+    val errorState by viewModel.errorState.collectAsStateWithLifecycle()
 
-    // Track screen view automatically
     LaunchedEffect(screenName) {
         analytics.trackScreen(screenName = screenName)
     }
@@ -51,50 +42,22 @@ fun <ScreenViewData : ViewData, SideEffect : Action> Screen(
         onAction(it, navigator)
     })
 
-    val isError by derivedStateOf { state is State.Error }
-    val isLoading by derivedStateOf { state is State.Loading }
-    val isIdle by derivedStateOf { state is State.Idle }
-    val isSuccess by derivedStateOf { state is State.Success<*> }
-
-    AnimatedVisibility(visible = isIdle, enter = fadeIn(), exit = fadeOut()) {
-        idle()
-    }
-
-    AnimatedVisibility(visible = isSuccess, enter = fadeIn(), exit = fadeOut()) {
-        val successState = state as? State.Success<*>
-        val viewData = remember(state) {
-            successState?.data as? ScreenViewData ?: error("View data type mismatch")
+    AnimatedContent(errorState != null) { hasError ->
+        if (hasError) {
+            viewModel.errorState.value?.let { (throwable, title, message) ->
+                ErrorIndicator(
+                    modifier = Modifier.fillMaxSize(),
+                    title = title ?: stringResource(Res.string.error_default_title),
+                    message = message ?: stringResource(Res.string.error_default_message),
+                    stackTrace = throwable.message,
+                    onTryAgain = {
+                        viewModel.dismissError()
+                        onTryAgain?.invoke()
+                    }
+                )
+            }
+        } else {
+            content(state)
         }
-        content(viewData)
     }
-
-    AnimatedVisibility(visible = isLoading, enter = fadeIn(), exit = fadeOut()) {
-        val loadingState = state as? State.Loading
-        loading(loadingState?.message)
-    }
-
-    AnimatedVisibility(visible = isError, enter = fadeIn(), exit = fadeOut()) {
-        val errorState = state as? State.Error
-        log.e(errorState?.throwable) { "Failure loading $screenName" }
-        error(errorState?.throwable)
-    }
-}
-
-@Composable
-private fun DefaultErrorIndicator(
-    errorMessage: String?,
-    onTryAgain: (() -> Unit)?,
-) {
-    ErrorIndicator(
-        modifier = Modifier.fillMaxSize(),
-        stackTrace = errorMessage,
-        onTryAgain = onTryAgain
-    )
-}
-
-@Composable
-private fun DefaultLoadingIndicator(
-    message: String? = null
-) {
-    LoadingIndicator(modifier = Modifier.fillMaxSize(), message = message)
 }
