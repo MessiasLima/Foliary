@@ -1,9 +1,13 @@
 package dev.appoutlet.foliary.core.ui.component.layout
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -47,27 +51,32 @@ fun <ScreenViewData : ViewData, SideEffect : Action> Screen(
         onAction(it, navigator)
     })
 
-    AnimatedContent(modifier = modifier.testTag(screenName), targetState = state) { state ->
-        when (state) {
-            is State.Error -> {
-                log.e(state.throwable) {
-                    state.throwable?.message ?: "A error occurred in $screenName"
-                }
+    val isError by derivedStateOf { state is State.Error }
+    val isLoading by derivedStateOf { state is State.Loading }
+    val isIdle by derivedStateOf { state is State.Idle }
+    val isSuccess by derivedStateOf { state is State.Success<*> }
 
-                error(state.throwable)
-            }
+    AnimatedVisibility(visible = isIdle, enter = fadeIn(), exit = fadeOut()) {
+        idle()
+    }
 
-            is State.Loading -> loading(state.message)
-
-            is State.Success<*> -> {
-                val viewData = remember(state) {
-                    state.data as? ScreenViewData ?: error("View data type mismatch")
-                }
-                content(viewData)
-            }
-
-            State.Idle -> idle()
+    AnimatedVisibility(visible = isSuccess, enter = fadeIn(), exit = fadeOut()) {
+        val successState = state as? State.Success<*>
+        val viewData = remember(state) {
+            successState?.data as? ScreenViewData ?: error("View data type mismatch")
         }
+        content(viewData)
+    }
+
+    AnimatedVisibility(visible = isLoading, enter = fadeIn(), exit = fadeOut()) {
+        val loadingState = state as? State.Loading
+        loading(loadingState?.message)
+    }
+
+    AnimatedVisibility(visible = isError, enter = fadeIn(), exit = fadeOut()) {
+        val errorState = state as? State.Error
+        log.e(errorState?.throwable) { "Failure loading $screenName" }
+        error(errorState?.throwable)
     }
 }
 

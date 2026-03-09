@@ -228,7 +228,9 @@ private fun EmailLoginForm(
 ) {
     OutlinedTextField(
         value = viewData.email,
-        onValueChange = { onEvent(SignInEvent.OnEmailChanged(it)) },
+        onValueChange = {
+            onEvent(SignInEvent.OnEmailChanged(it))
+        },
         modifier = Modifier.fillMaxWidth(),
         placeholder = { Text(text = stringResource(Res.string.sign_in_email_placeholder)) },
         leadingIcon = {

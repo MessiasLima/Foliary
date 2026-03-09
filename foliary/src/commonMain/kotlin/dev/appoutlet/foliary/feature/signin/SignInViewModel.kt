@@ -1,6 +1,8 @@
 package dev.appoutlet.foliary.feature.signin
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.appoutlet.foliary.core.analytics.Analytics
 import dev.appoutlet.foliary.core.logging.logger
 import dev.appoutlet.foliary.core.mvi.Action
@@ -8,22 +10,42 @@ import dev.appoutlet.foliary.core.mvi.ContainerHost
 import dev.appoutlet.foliary.core.mvi.State
 import dev.appoutlet.foliary.core.mvi.ViewData
 import dev.appoutlet.foliary.core.mvi.container
+import dev.appoutlet.foliary.core.mvi.emitState
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.providers.Apple
 import io.github.jan.supabase.auth.providers.Google
 import io.github.jan.supabase.auth.providers.builtin.OTP
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.core.annotation.KoinViewModel
 
 @KoinViewModel
 class SignInViewModel(
     private val auth: Auth,
     private val analytics: Analytics,
+    private val signInViewDataMapper: SignInViewDataMapper,
 ) : ViewModel(), ContainerHost<SignInAction> {
     private val log by logger()
-    override val container = container<SignInAction>(State.Success(SignInViewData()))
+
+    private val email = MutableStateFlow("")
+    private val loading = MutableStateFlow(false)
+    private val isMagicLinkSent = MutableStateFlow(false)
+
+    override val container = container<SignInAction> {
+        combine(email, loading, isMagicLinkSent) { email, loading, isMagicLinkSent ->
+            signInViewDataMapper(
+                email = email,
+                isMagicLinkSent = isMagicLinkSent,
+                loading = loading,
+            )
+        }
+            .onEach { reduce { State.Success(it) } }
+            .launchIn(viewModelScope)
+    }
 
     fun onEvent(event: SignInEvent) {
-        log.i { event.toString() }
         when (event) {
             SignInEvent.OnGoogleSignInClick -> handleGoogleSignIn()
             SignInEvent.OnAppleSignInClick -> handleAppleSignIn()
@@ -33,58 +55,24 @@ class SignInViewModel(
     }
 
     private fun handleGoogleSignIn() = intent {
-        analytics.trackEvent("login_provider_selected", mapOf("provider" to "google"))
-        reduce { State.Loading("Signing in with Google...") }
-        runCatching {
-            auth.signInWith(Google)
-        }.onSuccess {
-            reduce { State.Success(SignInViewData()) }
-            postSideEffect(SignInAction.NavigateToMain)
-        }.onFailure { throwable ->
-            log.e(throwable) { "Google sign in failed" }
-            reduce { State.Error(throwable) }
-        }
     }
 
     private fun handleAppleSignIn() = intent {
-        analytics.trackEvent("login_provider_selected", mapOf("provider" to "apple"))
-        reduce { State.Loading("Signing in with Apple...") }
-        runCatching {
-            auth.signInWith(Apple)
-        }.onSuccess {
-            reduce { State.Success(SignInViewData()) }
-            postSideEffect(SignInAction.NavigateToMain)
-        }.onFailure { throwable ->
-            log.e(throwable) { "Apple sign in failed" }
-            reduce { State.Error(throwable) }
-        }
+
     }
 
-    private fun handleEmailChanged(email: String) = intent {
-        val currentViewData = (state as? State.Success<SignInViewData>)?.data ?: SignInViewData()
-        reduce { State.Success(currentViewData.copy(email = email)) }
+    private fun handleEmailChanged(email: String) {
+        this.email.value = email
     }
 
     private fun handleSendMagicLink() = intent {
-        analytics.trackEvent("login_provider_selected", mapOf("provider" to "magic_link"))
-        val currentViewData = (state as? State.Success<SignInViewData>)?.data ?: return@intent
-        reduce { State.Loading("Sending magic link...") }
-        runCatching {
-            auth.signInWith(OTP) {
-                email = currentViewData.email
-            }
-        }.onSuccess {
-            reduce { State.Success(currentViewData.copy(isMagicLinkSent = true)) }
-        }.onFailure { throwable ->
-            log.e(throwable) { "Send magic link failed" }
-            reduce { State.Error(throwable) }
-        }
+
     }
 }
 
 data class SignInViewData(
-    val email: String = "",
-    val isMagicLinkSent: Boolean = false,
+    val email: String,
+    val isMagicLinkSent: Boolean,
 ) : ViewData
 
 sealed interface SignInEvent {
