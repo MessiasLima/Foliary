@@ -9,8 +9,9 @@ import java.awt.Dimension
 private const val WindowMinimumWidth = 350
 private const val WindowMinimumHeight = 900
 
-fun main() {
+fun main(args: Array<String>) {
     initSentry()
+    registerDeeplinkHandler(args)
     application {
         Window(
             title = "Foliary",
