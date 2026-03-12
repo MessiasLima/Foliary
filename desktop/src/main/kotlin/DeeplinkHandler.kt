@@ -7,9 +7,7 @@ import java.net.URI
 val log = getLogger("DeeplinkHandler")
 
 fun registerDeeplinkHandler(args: Array<String>) {
-    log.d { args.joinToString() }
     DeepLinkHandler.register(args) { uri ->
-        log.i { "Received URI: $uri" }
         DeepLinkDispatcher.dispatch(uri.toDeeplink())
     }
 }
@@ -35,6 +33,8 @@ private fun URI.toDeeplink(): Deeplink {
     )
 }
 
+// TODO set deeplink schema to foliary://
 // TODO handle single instance of application to receive deeplink callback
 // TODO store Supabase authentication on database
 // TODO check current authentication on start and navigate to main if needed
+// TODO remove apple login

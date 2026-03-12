@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.annotation.Single
 
+// TODO redirect url by platform
 private const val RedirectUrl = "foliary://auth"
 
 @Single
