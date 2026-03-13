@@ -1,10 +1,7 @@
-import dev.appoutlet.foliary.core.logging.getLogger
 import dev.appoutlet.foliary.feature.common.deeplink.DeepLinkDispatcher
 import dev.appoutlet.foliary.feature.common.deeplink.Deeplink
 import io.github.kdroidfilter.nucleus.core.runtime.DeepLinkHandler
 import java.net.URI
-
-val log = getLogger("DeeplinkHandler")
 
 fun registerDeeplinkHandler(args: Array<String>) {
     DeepLinkHandler.register(args) { uri ->
@@ -33,7 +30,6 @@ private fun URI.toDeeplink(): Deeplink {
     )
 }
 
-// TODO set deeplink schema to foliary://
 // TODO handle single instance of application to receive deeplink callback
 // TODO store Supabase authentication on database
 // TODO check current authentication on start and navigate to main if needed

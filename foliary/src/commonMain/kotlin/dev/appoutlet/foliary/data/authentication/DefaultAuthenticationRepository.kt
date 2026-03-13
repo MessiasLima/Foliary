@@ -8,9 +8,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.annotation.Single
 
-// TODO redirect url by platform
-private const val RedirectUrl = "foliary://auth"
-
 @Single
 class DefaultAuthenticationRepository(
     private val auth: Auth,
@@ -18,13 +15,13 @@ class DefaultAuthenticationRepository(
     override suspend fun sessionStatus() = auth.sessionStatus
 
     override suspend fun requestMagicLink(email: String) {
-        auth.signInWith(provider = OTP, redirectUrl = RedirectUrl) {
+        auth.signInWith(provider = OTP, redirectUrl = getRedirectUrl()) {
             this.email = email
         }
     }
 
     override suspend fun requestGoogleAuthentication() {
-        auth.signInWith(provider = Google, redirectUrl = RedirectUrl)
+        auth.signInWith(provider = Google, redirectUrl = getRedirectUrl())
     }
 
     override suspend fun importAuthToken(accessToken: String, refreshToken: String) {
@@ -36,3 +33,5 @@ class DefaultAuthenticationRepository(
         )
     }
 }
+
+expect fun getRedirectUrl(): String
