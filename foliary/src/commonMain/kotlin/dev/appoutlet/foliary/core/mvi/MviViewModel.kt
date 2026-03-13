@@ -5,14 +5,14 @@ import androidx.lifecycle.viewModelScope
 import dev.appoutlet.foliary.core.logging.logger
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.SettingsBuilder
 import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.Syntax
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 
-abstract class MviViewModel<State: Any, SideEffect : Action> : ViewModel(), ContainerHost<State, SideEffect> {
+abstract class MviViewModel<State : Any, SideEffect : Action> : ViewModel(), ContainerHost<State, SideEffect> {
 
     protected val log by logger()
 
@@ -37,5 +37,9 @@ abstract class MviViewModel<State: Any, SideEffect : Action> : ViewModel(), Cont
 
     fun dismissError() {
         errorState.update { null }
+    }
+
+    protected fun onError(error: ErrorState) {
+        errorState.tryEmit(error)
     }
 }

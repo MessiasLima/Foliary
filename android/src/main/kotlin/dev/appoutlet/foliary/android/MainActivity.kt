@@ -18,18 +18,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent { App() }
-        handleDeepLinks()
+        handleDeepLinks(intent)
     }
-
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        handleDeepLinks()
+        handleDeepLinks(intent)
     }
 
-    private fun handleDeepLinks() {
-        val action = intent?.action
-        val data = intent?.data
+    private fun handleDeepLinks(intent: Intent) {
+        val action = intent.action
+        val data = intent.data
 
         if (action != Intent.ACTION_VIEW) return
         if (data == null) return
@@ -56,4 +55,3 @@ class MainActivity : ComponentActivity() {
         )
     }
 }
-

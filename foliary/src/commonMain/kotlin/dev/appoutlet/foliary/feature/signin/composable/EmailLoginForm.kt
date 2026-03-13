@@ -22,9 +22,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.ArrowRight
 import com.composables.icons.lucide.Lucide
@@ -35,7 +33,6 @@ import dev.appoutlet.foliary.feature.signin.SignInViewData
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.sign_in_email_placeholder
 import foliary.foliary.generated.resources.sign_in_invalid_email
-import foliary.foliary.generated.resources.sign_in_magic_link_sent
 import foliary.foliary.generated.resources.sign_in_send_magic_link
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
@@ -47,7 +44,7 @@ private val EmailRegex = Regex(
 
 @Composable
 fun EmailLoginForm(
-    viewData: SignInViewData,
+    viewData: SignInViewData.UnAuthenticated,
     onEvent: (SignInEvent) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -89,7 +86,7 @@ fun EmailLoginForm(
                 )
             }
         },
-        enabled = viewData.isLoading.not()
+        enabled = viewData.requestingMagicLink.not()
     )
 
     Spacer(modifier = Modifier.height(16.dp))
@@ -105,7 +102,7 @@ fun EmailLoginForm(
             }
         },
         modifier = Modifier.fillMaxWidth(),
-        enabled = viewData.isLoading.not()
+        enabled = viewData.requestingMagicLink.not()
     ) {
         Text(
             text = stringResource(Res.string.sign_in_send_magic_link),
@@ -114,8 +111,8 @@ fun EmailLoginForm(
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        AnimatedContent(viewData.isLoading) { isLoading ->
-            if (isLoading) {
+        AnimatedContent(viewData.requestingMagicLink) { requestingMagicLink ->
+            if (requestingMagicLink) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(24.dp),
                     strokeWidth = 2.dp,
@@ -127,15 +124,5 @@ fun EmailLoginForm(
                 )
             }
         }
-    }
-
-    if (viewData.isMagicLinkSent) {
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = stringResource(Res.string.sign_in_magic_link_sent),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.primary,
-            textAlign = TextAlign.Center
-        )
     }
 }

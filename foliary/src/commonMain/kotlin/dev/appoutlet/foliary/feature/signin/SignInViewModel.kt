@@ -2,15 +2,16 @@ package dev.appoutlet.foliary.feature.signin
 
 import androidx.lifecycle.viewModelScope
 import dev.appoutlet.foliary.core.mvi.Action
+import dev.appoutlet.foliary.core.mvi.ErrorState
 import dev.appoutlet.foliary.core.mvi.MviViewModel
 import dev.appoutlet.foliary.data.authentication.AuthenticationRepository
 import dev.appoutlet.foliary.feature.common.deeplink.DeepLinkDispatcher
 import dev.appoutlet.foliary.feature.common.deeplink.Deeplink
+import io.github.jan.supabase.auth.event.AuthEvent
+import io.github.jan.supabase.auth.status.RefreshFailureCause
 import io.github.jan.supabase.auth.status.SessionStatus
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.koin.core.annotation.KoinViewModel
 
 @KoinViewModel
@@ -18,7 +19,7 @@ class SignInViewModel(
     private val authenticationRepository: AuthenticationRepository,
     private val deeplinkDispatcher: DeepLinkDispatcher
 ) : MviViewModel<SignInViewData, SignInAction>() {
-    override val container = container(SignInViewData()) {
+    override val container = container(SignInViewData.Idle) {
         deeplinkDispatcher.deeplinks
             .onEach(::processDeeplink)
             .launchIn(viewModelScope)
@@ -28,11 +29,31 @@ class SignInViewModel(
             .launchIn(viewModelScope)
     }
 
-    private fun handleSessionStatus(sessionStatus: SessionStatus) {
+    private fun handleSessionStatus(sessionStatus: SessionStatus) = intent {
+        when (sessionStatus) {
+            is SessionStatus.Authenticated -> {
+                val userName = sessionStatus.session.user?.email ?: ""
+                reduce { SignInViewData.Authenticated(userName) }
+            }
 
+            is SessionStatus.NotAuthenticated -> {
+                reduce { SignInViewData.UnAuthenticated() }
+            }
+
+            SessionStatus.Initializing -> reduce { SignInViewData.Loading }
+
+            is SessionStatus.RefreshFailure -> {
+                val errorState = when(val cause = sessionStatus.cause) {
+                    is RefreshFailureCause.InternalServerError -> ErrorState(cause.exception)
+                    is RefreshFailureCause.NetworkError -> ErrorState(cause.exception)
+                }
+
+                onError(errorState)
+            }
+        }
     }
 
-    fun onTryAgain() = intent { reduce { SignInViewData() } }
+    fun onTryAgain() = intent { reduce { SignInViewData.UnAuthenticated() } }
 
     private fun processDeeplink(deepLink: Deeplink) = intent {
         val accessToken = deepLink.queryParameters["access_token"] ?: return@intent
@@ -58,18 +79,19 @@ class SignInViewModel(
     }
 
     private fun handleSendMagicLink(email: String) = intent {
-        reduce { state.copy(isLoading = true) }
+        reduce { SignInViewData.UnAuthenticated(requestingMagicLink = true) }
         authenticationRepository.requestMagicLink(email)
-        reduce { state.copy(isLoading = false, isMagicLinkSent = true) }
+        reduce { SignInViewData.MagicLinkSent(email) }
     }
-
 }
 
-data class SignInViewData(
-    val isMagicLinkSent: Boolean = false,
-    val isLoading: Boolean = false,
-)
-
+sealed interface SignInViewData{
+    data object Idle : SignInViewData
+    data class UnAuthenticated(val requestingMagicLink: Boolean = false) : SignInViewData
+    data class MagicLinkSent(val email: String) : SignInViewData
+    data object Loading : SignInViewData
+    data class Authenticated(val userName: String) : SignInViewData
+}
 sealed interface SignInEvent {
     data object OnGoogleSignInClick : SignInEvent
     data object OnAppleSignInClick : SignInEvent

@@ -1,5 +1,9 @@
 package dev.appoutlet.foliary.feature.signin
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,8 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +37,7 @@ import com.composables.icons.lucide.Lucide
 import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
+import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInNarrow
 import dev.appoutlet.foliary.feature.signin.composable.EmailLoginForm
@@ -44,6 +47,7 @@ import foliary.foliary.generated.resources.sign_in_app_logo_description
 import foliary.foliary.generated.resources.sign_in_continue_with_apple
 import foliary.foliary.generated.resources.sign_in_continue_with_google
 import foliary.foliary.generated.resources.sign_in_helper_text
+import foliary.foliary.generated.resources.sign_in_magic_link_sent
 import foliary.foliary.generated.resources.sign_in_or_divider
 import foliary.foliary.generated.resources.sign_in_subtitle
 import foliary.foliary.generated.resources.sign_in_title
@@ -121,6 +125,8 @@ private fun SignInHeader() {
     }
 }
 
+// TODO adjust transition
+
 @Composable
 private fun SignInForm(
     viewData: SignInViewData,
@@ -129,33 +135,73 @@ private fun SignInForm(
     FoliaryCard(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth().padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            SocialLoginButtons(onEvent = onEvent)
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            OrDivider()
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            EmailLoginForm(
-                viewData = viewData,
-                onEvent = onEvent
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = stringResource(Res.string.sign_in_helper_text),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center,
-                lineHeight = 18.sp
-            )
+        AnimatedContent(
+            targetState = viewData,
+            label = "signInState",
+            modifier = Modifier.fillMaxWidth().padding(24.dp)
+        ) { state ->
+            when (state) {
+                is SignInViewData.Authenticated -> Authenticated(state)
+                SignInViewData.Idle -> {}
+                SignInViewData.Loading -> LoadingIndicator()
+                is SignInViewData.MagicLinkSent -> MagicLinkSentContent(state)
+                is SignInViewData.UnAuthenticated -> UnAuthenticatedContent(state = state, onEvent = onEvent)
+            }
         }
+    }
+}
+
+@Composable
+private fun Authenticated(state: SignInViewData.Authenticated) {
+
+}
+
+@Composable
+private fun UnAuthenticatedContent(
+    state: SignInViewData.UnAuthenticated,
+    onEvent: (SignInEvent) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        SocialLoginButtons(onEvent = onEvent)
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        OrDivider()
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        EmailLoginForm(
+            viewData = state,
+            onEvent = onEvent
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = stringResource(Res.string.sign_in_helper_text),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+            lineHeight = 18.sp
+        )
+    }
+}
+
+@Composable
+private fun MagicLinkSentContent(state: SignInViewData.MagicLinkSent) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(Res.string.sign_in_magic_link_sent),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary,
+            textAlign = TextAlign.Center
+        )
     }
 }
 

@@ -3,9 +3,6 @@ package dev.appoutlet.foliary.data.authentication
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.providers.Google
 import io.github.jan.supabase.auth.providers.builtin.OTP
-import io.github.jan.supabase.auth.status.SessionStatus
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.onEach
 import org.koin.core.annotation.Single
 
 @Single
@@ -27,7 +24,7 @@ class DefaultAuthenticationRepository(
     override suspend fun importAuthToken(accessToken: String, refreshToken: String) {
         auth.importAuthToken(
             accessToken = accessToken,
-            refreshToken= refreshToken,
+            refreshToken = refreshToken,
             retrieveUser = true,
             autoRefresh = true
         )
