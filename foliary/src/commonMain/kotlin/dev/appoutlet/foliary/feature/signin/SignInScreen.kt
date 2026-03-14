@@ -29,9 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.composables.icons.lucide.Apple
-import com.composables.icons.lucide.Chromium
-import com.composables.icons.lucide.Lucide
 import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryOutlinedButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
@@ -46,7 +43,6 @@ import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.ic_foliary
 import foliary.foliary.generated.resources.ic_google
 import foliary.foliary.generated.resources.sign_in_app_logo_description
-import foliary.foliary.generated.resources.sign_in_continue_with_apple
 import foliary.foliary.generated.resources.sign_in_continue_with_google
 import foliary.foliary.generated.resources.sign_in_helper_text
 import foliary.foliary.generated.resources.sign_in_or_divider
@@ -221,7 +217,6 @@ private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
 //            style = MaterialTheme.typography.bodyMedium
 //        )
 //    }
-
 }
 
 @Composable

@@ -7,7 +7,6 @@ import dev.appoutlet.foliary.core.mvi.MviViewModel
 import dev.appoutlet.foliary.data.authentication.AuthenticationRepository
 import dev.appoutlet.foliary.feature.common.deeplink.DeepLinkDispatcher
 import dev.appoutlet.foliary.feature.common.deeplink.Deeplink
-import io.github.jan.supabase.auth.event.AuthEvent
 import io.github.jan.supabase.auth.status.RefreshFailureCause
 import io.github.jan.supabase.auth.status.SessionStatus
 import kotlinx.coroutines.delay
@@ -56,7 +55,7 @@ class SignInViewModel(
             SessionStatus.Initializing -> reduce { SignInViewData.Loading }
 
             is SessionStatus.RefreshFailure -> {
-                val errorState = when(val cause = sessionStatus.cause) {
+                val errorState = when (val cause = sessionStatus.cause) {
                     is RefreshFailureCause.InternalServerError -> ErrorState(cause.exception)
                     is RefreshFailureCause.NetworkError -> ErrorState(cause.exception)
                 }
@@ -99,7 +98,7 @@ class SignInViewModel(
     }
 }
 
-sealed interface SignInViewData{
+sealed interface SignInViewData {
     data object Idle : SignInViewData
     data class UnAuthenticated(val requestingMagicLink: Boolean = false) : SignInViewData
     data class MagicLinkSent(val email: String) : SignInViewData

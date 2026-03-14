@@ -4,7 +4,7 @@ import io.github.jan.supabase.auth.SessionManager
 import io.github.jan.supabase.auth.status.SessionStatus
 import kotlinx.coroutines.flow.StateFlow
 
-interface AuthenticationRepository : SessionManager{
+interface AuthenticationRepository : SessionManager {
     suspend fun sessionStatus(): StateFlow<SessionStatus>
     suspend fun requestMagicLink(email: String)
     suspend fun requestGoogleAuthentication()

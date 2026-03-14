@@ -14,5 +14,5 @@ interface SessionDao {
     suspend fun deleteAll()
 
     @Query("SELECT * FROM Session LIMIT 1")
-    suspend fun load() : Session?
+    suspend fun load(): Session?
 }

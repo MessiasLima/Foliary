@@ -13,7 +13,6 @@ import foliary.foliary.generated.resources.sign_in_welcome
 import foliary.foliary.generated.resources.sign_in_welcome_back
 import org.jetbrains.compose.resources.stringResource
 
-
 @Composable
 fun Authenticated(
     state: SignInViewData.Authenticated,

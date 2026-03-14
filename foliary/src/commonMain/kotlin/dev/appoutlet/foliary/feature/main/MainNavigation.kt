@@ -1,6 +1,5 @@
 package dev.appoutlet.foliary.feature.main
 
-import androidx.compose.material3.Text
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import dev.appoutlet.foliary.core.navigation.Navigation

@@ -14,7 +14,7 @@ class DefaultAuthenticationRepository(
     private val auth: Auth,
     private val sessionDao: SessionDao,
     private val userSessionMapper: UserSessionMapper,
-    private val sessionMapper : SessionMapper
+    private val sessionMapper: SessionMapper
 ) : AuthenticationRepository {
     override suspend fun sessionStatus() = auth.sessionStatus
 
@@ -46,7 +46,7 @@ class DefaultAuthenticationRepository(
     }
 
     override suspend fun loadSession(): UserSession? {
-       val session = sessionDao.load()
+        val session = sessionDao.load()
         return session?.let {
             userSessionMapper(it)
         }

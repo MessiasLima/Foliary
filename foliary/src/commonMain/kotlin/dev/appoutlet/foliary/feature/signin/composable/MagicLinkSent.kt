@@ -1,6 +1,5 @@
 package dev.appoutlet.foliary.feature.signin.composable
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,7 +32,6 @@ import foliary.foliary.generated.resources.sign_in_magic_link_sent_message
 import foliary.foliary.generated.resources.sign_in_magic_link_sent_message_2
 import foliary.foliary.generated.resources.sign_in_magic_link_sent_new_email
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.delayEach
 import kotlinx.coroutines.flow.onEach
 import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Duration.Companion.seconds
