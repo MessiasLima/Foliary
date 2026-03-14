@@ -1,5 +1,7 @@
 package dev.appoutlet.foliary.feature.signin.composable
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,13 +38,15 @@ import kotlinx.coroutines.flow.onEach
 import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Duration.Companion.seconds
 
+private const val EmailOtpExpiration = 300
+
 @Composable
 fun MagicLinkSent(
     state: SignInViewData.MagicLinkSent,
     onEvent: (SignInEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var remainingTime by rememberSaveable { mutableStateOf(360) }
+    var remainingTime by rememberSaveable { mutableStateOf(EmailOtpExpiration) }
     LaunchedEffect(state) {
         snapshotFlow { remainingTime }
             .onEach { delay(1.seconds) }
@@ -70,7 +74,11 @@ fun MagicLinkSent(
         )
 
         Text(
-            modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+            modifier = Modifier.padding(top = 8.dp)
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background, MaterialTheme.shapes.medium)
+                .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.medium)
+                .padding(16.dp),
             text = state.email,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.primary,
@@ -85,12 +93,16 @@ fun MagicLinkSent(
         )
 
         Text(
-            text = stringResource(Res.string.sign_in_magic_link_sent_expiration, remainingTime),
+            text = stringResource(
+                Res.string.sign_in_magic_link_sent_expiration,
+                remainingTime.seconds
+            ),
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
 
         FoliarySecondaryButton(
+            modifier = Modifier.padding(top = 4.dp),
             enabled = remainingTime == 0,
             onClick = {
                 onEvent(SignInEvent.OnSelectNewEmail)
