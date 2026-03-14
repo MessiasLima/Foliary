@@ -143,7 +143,10 @@ private fun SignInForm(
                 SignInViewData.Idle -> {}
                 SignInViewData.Loading -> LoadingIndicator()
                 is SignInViewData.MagicLinkSent -> MagicLinkSent(state, onEvent)
-                is SignInViewData.UnAuthenticated -> UnAuthenticatedContent(state = state, onEvent = onEvent)
+                is SignInViewData.UnAuthenticated -> UnAuthenticatedContent(
+                    state = state,
+                    onEvent = onEvent
+                )
             }
         }
     }
@@ -200,22 +203,23 @@ private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
         )
     }
 
-    Spacer(modifier = Modifier.height(8.dp))
+    // Apple Sign-In disabled for now
 
-    FoliaryOutlinedButton(
-        onClick = { onEvent(SignInEvent.OnAppleSignInClick) },
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Icon(
-            imageVector = Lucide.Apple,
-            contentDescription = null,
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text = stringResource(Res.string.sign_in_continue_with_apple),
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
+//    FoliaryOutlinedButton(
+//        onClick = { onEvent(SignInEvent.OnAppleSignInClick) },
+//        modifier = Modifier.fillMaxWidth()
+//    ) {
+//        Icon(
+//            imageVector = Lucide.Apple,
+//            contentDescription = null,
+//        )
+//        Spacer(modifier = Modifier.width(16.dp))
+//        Text(
+//            text = stringResource(Res.string.sign_in_continue_with_apple),
+//            style = MaterialTheme.typography.bodyMedium
+//        )
+//    }
+
 }
 
 @Composable
