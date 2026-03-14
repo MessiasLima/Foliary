@@ -32,4 +32,3 @@ private fun URI.toDeeplink(): Deeplink {
 
 // TODO adjust secondary button
 // TODO Adjust requested magic link interface
-// TODO crate ticket to handle AuthRestExceptions in a user-friendly way

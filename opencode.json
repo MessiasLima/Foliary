@@ -9,11 +9,6 @@
       "headers": {
         "Authorization": "Bearer {env:GITHUB_TOKEN}"
       }
-    },
-    "Paper": {
-      "type": "remote",
-      "url": "http://127.0.0.1:29979/mcp",
-      "enabled": false
     }
   }
 }
