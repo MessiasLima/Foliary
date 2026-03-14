@@ -30,7 +30,6 @@ private fun URI.toDeeplink(): Deeplink {
     )
 }
 
-// TODO handle single instance of application to receive deeplink callback
 // TODO store Supabase authentication on database
 // TODO check current authentication on start and navigate to main if needed
 // TODO remove apple login
