@@ -67,88 +67,61 @@ Governed by **Detekt** (`config/detekt/detekt.yml`) and Kotlin conventions.
 - Use **KDoc** for public APIs; **TODO/FIXME forbidden**
 
 ## MVI Architecture
-Custom implementation on **Orbit MVI**.
+Foliary uses a custom MVI implementation built on top of **Orbit MVI**.
 
-### Components
-- **State**: `Idle`, `Loading`, `Success<ViewData>`, `Error`
-- **ViewData**: Interface for screen state data
-- **Action**: Interface for side effects
+### Core Components
+- **MviViewModel<State, Action>**: Base class for all ViewModels. Automatically manages `errorState` and provides a `container` with a default `CoroutineExceptionHandler`.
+- **Action**: Interface for side effects (e.g., navigation, showing toasts).
+- **Screen**: A layout wrapper that connects the ViewModel to the UI. It handles:
+    - Analytics tracking (via `screenName`).
+    - Side effect collection (`onAction`).
+    - Automatic error state UI (using `ErrorIndicator`).
 
-### ViewModel Pattern
+### Implementation Pattern
 ```kotlin
 @KoinViewModel
-class MyViewModel : ViewModel(), ContainerHost<MyAction> {
-    override val container = container<MyAction> { loadInitialData() }
-    fun onEvent(event: MyEvent) { /* handle */ }
-}
-```
+class FeatureViewModel : MviViewModel<FeatureState, FeatureAction>() {
+    override val container = container(initialState = FeatureState()) {
+        // Optional: load initial data
+    }
 
-### Screen Pattern
-```kotlin
+    fun onEvent(event: FeatureEvent) = intent {
+        // Logic goes here
+    }
+}
+
 @Composable
-fun MyScreen() {
-    val viewModel = koinViewModel<MyViewModel>()
+fun FeatureScreen() {
+    val viewModel = koinViewModel<FeatureViewModel>()
     Screen(
+        screenName = "FeatureName",
         viewModelProvider = { viewModel },
-        onAction = { action, navigator -> /* handle */ }
-    ) { viewData: MyViewData -> /* UI */ }
-}
-```
-
-### Navigation
-```kotlin
-@Single
-class MyNavigation : Navigation<MyNavKey> {
-    override fun setupRoute(scope: EntryProviderScope<NavKey>) {
-        scope.entry<MyNavKey> { MyScreen() }
-    }
-    override fun setupPolymorphism(builder: PolymorphicModuleBuilder<NavKey>) {
-        builder.subclass(MyNavKey::class, MyNavKey.serializer())
+        onAction = { action, navigator -> /* handle side effects */ }
+    ) { state ->
+        // Main UI content. Errors are handled automatically.
     }
 }
-
-@Serializable
-data object MyNavKey : NavKey
 ```
 
 ## Testing
 **Frameworks**: `kotlin.test`, Kotest assertions, `kotlinx-coroutines-test`
 
-**Important**: Always use Kotest assertions (e.g., `result shouldBe expected`, `list shouldHaveSize 0`) instead of standard `assert()` or `assertEquals()`.
+**Important**: Always use Kotest assertions (e.g., `result shouldBe expected`) instead of standard `assert()`.
 
 ```kotlin
-class TaskRepositoryImplTest {
+class FeatureTest {
     @Test
-    fun `should return todays tasks`() = runTest {
-        val result = subject.findTodaysTasks()
-        result shouldHaveSize 0
+    fun `should do something`() = runTest {
+        val result = subject.doSomething()
+        result shouldBe expectedValue
     }
 }
 ```
 
-**UI Tests**:
-```kotlin
-@OptIn(ExperimentalTestApi::class)
-class AppTest {
-    @Test
-    fun `the application should start`() = runComposeUiTest {
-        setContent { App() }
-        onNodeWithTag("SignInScreen").assertIsDisplayed()
-    }
-}
-```
-
-> **Tip**: Add `modifier.testTag("TagName")` to composables to easily reference them in tests when finding by text is not possible (e.g. Icons, Containers).
-
+### UI Tests
+Use `runComposeUiTest` and `onNodeWithTag` (via `modifier.testTag("TagName")`).
 
 ## Contribution Workflow
 1. **Branch**: `feature/short-description`
-2. **Lint**: `./gradlew detekt` before commit
-3. **Commit**: Imperative present-tense, ≤72 chars
-4. **Push**: Pre-push hook runs detekt
-5. **PR**: Target `main`, reference tickets
-
-## Resources
-- [Detekt](https://detekt.dev) | [Kotlin Style](https://kotlinlang.org/docs/coding-conventions.html)
-- [Compose Multiplatform](https://compose-multiplatform.com) | [Orbit MVI](https://orbit-mvi.org)
-- [Koin](https://insert-koin.io) | [Kermit](https://github.com/touchlab/Kermit)
+2. **Commit**: Imperative present-tense, ≤72 chars.
+3. **PR**: Target `main`. Must pass `detekt` and tests (min 80% coverage).

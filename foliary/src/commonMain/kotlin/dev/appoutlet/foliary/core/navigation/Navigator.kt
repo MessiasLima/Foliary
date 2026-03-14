@@ -5,6 +5,7 @@ import androidx.navigation3.runtime.NavKey
 
 interface Navigator {
     fun navigate(destination: NavKey)
+    fun setRoot(destination: NavKey)
     fun goBack()
 }
 
@@ -13,6 +14,11 @@ data class AppNavigator(val backStack: NavBackStack<NavKey>) : Navigator {
         if (backStack.last() != destination) {
             backStack.add(destination)
         }
+    }
+
+    override fun setRoot(destination: NavKey) {
+        backStack.clear()
+        backStack.add(destination)
     }
 
     override fun goBack() {

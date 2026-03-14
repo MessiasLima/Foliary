@@ -1,97 +1,116 @@
 package dev.appoutlet.foliary.feature.signin
 
-import androidx.lifecycle.ViewModel
-import dev.appoutlet.foliary.core.analytics.Analytics
-import dev.appoutlet.foliary.core.logging.logger
+import androidx.lifecycle.viewModelScope
 import dev.appoutlet.foliary.core.mvi.Action
-import dev.appoutlet.foliary.core.mvi.ContainerHost
-import dev.appoutlet.foliary.core.mvi.State
-import dev.appoutlet.foliary.core.mvi.ViewData
-import dev.appoutlet.foliary.core.mvi.container
-import io.github.jan.supabase.auth.Auth
-import io.github.jan.supabase.auth.providers.Apple
-import io.github.jan.supabase.auth.providers.Google
-import io.github.jan.supabase.auth.providers.builtin.OTP
+import dev.appoutlet.foliary.core.mvi.ErrorState
+import dev.appoutlet.foliary.core.mvi.MviViewModel
+import dev.appoutlet.foliary.data.authentication.AuthenticationRepository
+import dev.appoutlet.foliary.feature.common.deeplink.DeepLinkDispatcher
+import dev.appoutlet.foliary.feature.common.deeplink.Deeplink
+import io.github.jan.supabase.auth.status.RefreshFailureCause
+import io.github.jan.supabase.auth.status.SessionStatus
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.core.annotation.KoinViewModel
+import kotlin.time.Duration.Companion.seconds
 
 @KoinViewModel
 class SignInViewModel(
-    private val auth: Auth,
-    private val analytics: Analytics,
-) : ViewModel(), ContainerHost<SignInAction> {
-    private val log by logger()
-    override val container = container<SignInAction>(State.Success(SignInViewData()))
+    private val authenticationRepository: AuthenticationRepository,
+    private val deeplinkDispatcher: DeepLinkDispatcher
+) : MviViewModel<SignInViewData, SignInAction>() {
+    private var wasNotAuthenticated = false
+
+    override val container = container(SignInViewData.Idle) {
+        deeplinkDispatcher.deeplinks
+            .onEach(::processDeeplink)
+            .launchIn(viewModelScope)
+
+        authenticationRepository.sessionStatus()
+            .onEach(::handleSessionStatus)
+            .launchIn(viewModelScope)
+    }
+
+    private fun handleSessionStatus(sessionStatus: SessionStatus) = intent {
+        when (sessionStatus) {
+            is SessionStatus.Authenticated -> {
+                if (wasNotAuthenticated) {
+                    reduce {
+                        SignInViewData.Authenticated(
+                            userName = sessionStatus.session.user?.email ?: "",
+                            newUser = sessionStatus.isNew
+                        )
+                    }
+                    delay(1.seconds)
+                }
+                postSideEffect(SignInAction.NavigateToMain)
+            }
+
+            is SessionStatus.NotAuthenticated -> {
+                wasNotAuthenticated = true
+                reduce { SignInViewData.UnAuthenticated() }
+            }
+
+            SessionStatus.Initializing -> reduce { SignInViewData.Loading }
+
+            is SessionStatus.RefreshFailure -> {
+                val errorState = when (val cause = sessionStatus.cause) {
+                    is RefreshFailureCause.InternalServerError -> ErrorState(cause.exception)
+                    is RefreshFailureCause.NetworkError -> ErrorState(cause.exception)
+                }
+
+                onError(errorState)
+            }
+        }
+    }
+
+    fun onTryAgain() = intent { reduce { SignInViewData.UnAuthenticated() } }
+
+    private fun processDeeplink(deepLink: Deeplink) = intent {
+        val accessToken = deepLink.queryParameters["access_token"] ?: return@intent
+        val refreshToken = deepLink.queryParameters["refresh_token"] ?: return@intent
+
+        authenticationRepository.importAuthToken(accessToken, refreshToken)
+    }
 
     fun onEvent(event: SignInEvent) {
-        log.i { event.toString() }
+        log.d { event.toString() }
+
         when (event) {
             SignInEvent.OnGoogleSignInClick -> handleGoogleSignIn()
             SignInEvent.OnAppleSignInClick -> handleAppleSignIn()
-            is SignInEvent.OnEmailChanged -> handleEmailChanged(event.email)
-            SignInEvent.OnSendMagicLink -> handleSendMagicLink()
+            is SignInEvent.OnSendMagicLink -> handleSendMagicLink(event.email)
+            SignInEvent.OnSelectNewEmail -> onTryAgain()
         }
     }
 
     private fun handleGoogleSignIn() = intent {
-        analytics.trackEvent("login_provider_selected", mapOf("provider" to "google"))
-        reduce { State.Loading("Signing in with Google...") }
-        runCatching {
-            auth.signInWith(Google)
-        }.onSuccess {
-            reduce { State.Success(SignInViewData()) }
-            postSideEffect(SignInAction.NavigateToMain)
-        }.onFailure { throwable ->
-            log.e(throwable) { "Google sign in failed" }
-            reduce { State.Error(throwable) }
-        }
     }
 
     private fun handleAppleSignIn() = intent {
-        analytics.trackEvent("login_provider_selected", mapOf("provider" to "apple"))
-        reduce { State.Loading("Signing in with Apple...") }
-        runCatching {
-            auth.signInWith(Apple)
-        }.onSuccess {
-            reduce { State.Success(SignInViewData()) }
-            postSideEffect(SignInAction.NavigateToMain)
-        }.onFailure { throwable ->
-            log.e(throwable) { "Apple sign in failed" }
-            reduce { State.Error(throwable) }
-        }
     }
 
-    private fun handleEmailChanged(email: String) = intent {
-        val currentViewData = (state as? State.Success<SignInViewData>)?.data ?: SignInViewData()
-        reduce { State.Success(currentViewData.copy(email = email)) }
-    }
-
-    private fun handleSendMagicLink() = intent {
-        analytics.trackEvent("login_provider_selected", mapOf("provider" to "magic_link"))
-        val currentViewData = (state as? State.Success<SignInViewData>)?.data ?: return@intent
-        reduce { State.Loading("Sending magic link...") }
-        runCatching {
-            auth.signInWith(OTP) {
-                email = currentViewData.email
-            }
-        }.onSuccess {
-            reduce { State.Success(currentViewData.copy(isMagicLinkSent = true)) }
-        }.onFailure { throwable ->
-            log.e(throwable) { "Send magic link failed" }
-            reduce { State.Error(throwable) }
-        }
+    private fun handleSendMagicLink(email: String) = intent {
+        reduce { SignInViewData.UnAuthenticated(requestingMagicLink = true) }
+        authenticationRepository.requestMagicLink(email)
+        reduce { SignInViewData.MagicLinkSent(email) }
     }
 }
 
-data class SignInViewData(
-    val email: String = "",
-    val isMagicLinkSent: Boolean = false,
-) : ViewData
+sealed interface SignInViewData {
+    data object Idle : SignInViewData
+    data class UnAuthenticated(val requestingMagicLink: Boolean = false) : SignInViewData
+    data class MagicLinkSent(val email: String) : SignInViewData
+    data object Loading : SignInViewData
+    data class Authenticated(val userName: String, val newUser: Boolean) : SignInViewData
+}
 
 sealed interface SignInEvent {
     data object OnGoogleSignInClick : SignInEvent
     data object OnAppleSignInClick : SignInEvent
-    data class OnEmailChanged(val email: String) : SignInEvent
-    data object OnSendMagicLink : SignInEvent
+    data object OnSelectNewEmail : SignInEvent
+    data class OnSendMagicLink(val email: String) : SignInEvent
 }
 
 sealed interface SignInAction : Action {

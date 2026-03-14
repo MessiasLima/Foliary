@@ -1,5 +1,7 @@
 package dev.appoutlet.foliary.feature.signin
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,12 +15,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,31 +26,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.composables.icons.lucide.Apple
-import com.composables.icons.lucide.ArrowRight
-import com.composables.icons.lucide.Chromium
-import com.composables.icons.lucide.Lucide
-import com.composables.icons.lucide.Mail
 import dev.appoutlet.foliary.core.navigation.Navigator
-import dev.appoutlet.foliary.core.ui.component.button.FoliaryPrimaryButton
-import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
+import dev.appoutlet.foliary.core.ui.component.button.FoliaryOutlinedButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
+import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInNarrow
+import dev.appoutlet.foliary.feature.main.MainNavKey
+import dev.appoutlet.foliary.feature.signin.composable.Authenticated
+import dev.appoutlet.foliary.feature.signin.composable.EmailLoginForm
+import dev.appoutlet.foliary.feature.signin.composable.MagicLinkSent
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.ic_foliary
+import foliary.foliary.generated.resources.ic_google
 import foliary.foliary.generated.resources.sign_in_app_logo_description
-import foliary.foliary.generated.resources.sign_in_continue_with_apple
 import foliary.foliary.generated.resources.sign_in_continue_with_google
-import foliary.foliary.generated.resources.sign_in_email_placeholder
 import foliary.foliary.generated.resources.sign_in_helper_text
-import foliary.foliary.generated.resources.sign_in_magic_link_sent
 import foliary.foliary.generated.resources.sign_in_or_divider
-import foliary.foliary.generated.resources.sign_in_send_magic_link
 import foliary.foliary.generated.resources.sign_in_subtitle
 import foliary.foliary.generated.resources.sign_in_title
 import org.jetbrains.compose.resources.painterResource
@@ -64,6 +59,7 @@ fun SignInScreen() {
         screenName = "SignInScreen",
         viewModelProvider = { viewModel },
         onAction = ::onAction,
+        onTryAgain = viewModel::onTryAgain
     ) { viewData: SignInViewData ->
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -134,44 +130,68 @@ private fun SignInForm(
     FoliaryCard(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Column(
+        AnimatedContent(
+            targetState = viewData,
+            label = "signInState",
             modifier = Modifier.fillMaxWidth().padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            SocialLoginButtons(onEvent = onEvent)
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            OrDivider()
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            EmailLoginForm(
-                viewData = viewData,
-                onEvent = onEvent
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = stringResource(Res.string.sign_in_helper_text),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center,
-                lineHeight = 18.sp
-            )
+            contentKey = { it::class },
+        ) { state ->
+            when (state) {
+                is SignInViewData.Authenticated -> Authenticated(state)
+                SignInViewData.Idle -> {}
+                SignInViewData.Loading -> LoadingIndicator()
+                is SignInViewData.MagicLinkSent -> MagicLinkSent(state, onEvent)
+                is SignInViewData.UnAuthenticated -> UnAuthenticatedContent(
+                    state = state,
+                    onEvent = onEvent
+                )
+            }
         }
     }
 }
 
 @Composable
+private fun UnAuthenticatedContent(
+    state: SignInViewData.UnAuthenticated,
+    onEvent: (SignInEvent) -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        SocialLoginButtons(onEvent = onEvent)
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        OrDivider()
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        EmailLoginForm(
+            viewData = state,
+            onEvent = onEvent
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = stringResource(Res.string.sign_in_helper_text),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+            lineHeight = 18.sp
+        )
+    }
+}
+
+@Composable
 private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
-    FoliarySecondaryButton(
+    FoliaryOutlinedButton(
         onClick = { onEvent(SignInEvent.OnGoogleSignInClick) },
         modifier = Modifier.fillMaxWidth()
     ) {
-        Icon(
-            imageVector = Lucide.Chromium,
+        Image(
+            painter = painterResource(Res.drawable.ic_google),
             contentDescription = null,
         )
         Spacer(modifier = Modifier.width(16.dp))
@@ -181,22 +201,22 @@ private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
         )
     }
 
-    Spacer(modifier = Modifier.height(8.dp))
+    // Apple Sign-In disabled for now
 
-    FoliarySecondaryButton(
-        onClick = { onEvent(SignInEvent.OnAppleSignInClick) },
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Icon(
-            imageVector = Lucide.Apple,
-            contentDescription = null,
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text = stringResource(Res.string.sign_in_continue_with_apple),
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
+//    FoliaryOutlinedButton(
+//        onClick = { onEvent(SignInEvent.OnAppleSignInClick) },
+//        modifier = Modifier.fillMaxWidth()
+//    ) {
+//        Icon(
+//            imageVector = Lucide.Apple,
+//            contentDescription = null,
+//        )
+//        Spacer(modifier = Modifier.width(16.dp))
+//        Text(
+//            text = stringResource(Res.string.sign_in_continue_with_apple),
+//            style = MaterialTheme.typography.bodyMedium
+//        )
+//    }
 }
 
 @Composable
@@ -221,62 +241,11 @@ private fun OrDivider() {
     }
 }
 
-@Composable
-private fun EmailLoginForm(
-    viewData: SignInViewData,
-    onEvent: (SignInEvent) -> Unit
-) {
-    OutlinedTextField(
-        value = viewData.email,
-        onValueChange = { onEvent(SignInEvent.OnEmailChanged(it)) },
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(text = stringResource(Res.string.sign_in_email_placeholder)) },
-        leadingIcon = {
-            Icon(
-                imageVector = Lucide.Mail,
-                contentDescription = null,
-            )
-        },
-        shape = MaterialTheme.shapes.extraLarge,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        singleLine = true,
-    )
-
-    Spacer(modifier = Modifier.height(16.dp))
-
-    FoliaryPrimaryButton(
-        onClick = { onEvent(SignInEvent.OnSendMagicLink) },
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = stringResource(Res.string.sign_in_send_magic_link),
-            style = MaterialTheme.typography.bodyMedium
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Icon(
-            imageVector = Lucide.ArrowRight,
-            contentDescription = null,
-        )
-    }
-
-    if (viewData.isMagicLinkSent) {
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = stringResource(Res.string.sign_in_magic_link_sent),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.primary,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
 @Suppress("UnusedParameter")
 private fun onAction(action: SignInAction, navigator: Navigator) {
     when (action) {
         SignInAction.NavigateToMain -> {
-            // Navigate to main screen once implemented
+            navigator.navigate(MainNavKey)
         }
     }
 }
