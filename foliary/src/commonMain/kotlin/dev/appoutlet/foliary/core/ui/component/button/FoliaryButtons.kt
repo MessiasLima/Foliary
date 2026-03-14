@@ -54,6 +54,36 @@ fun FoliarySecondaryButton(
     enabled: Boolean = true,
     content: @Composable RowScope.() -> Unit
 ) {
+    Button(
+        onClick = onClick,
+        modifier = modifier
+            .dropShadow(
+                shape = MaterialTheme.shapes.extraLarge,
+                shadow = Shadow(
+                    radius = 60.dp,
+                    spread = 0.dp,
+                    offset = DpOffset(0.dp, 0.dp),
+                    color = MaterialTheme.colorScheme.secondary.copy(alpha = .1f),
+                )
+            ),
+        enabled = enabled,
+        shape = RoundedCornerShape(FiftyPercent),
+        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary
+        ),
+        content = content
+    )
+}
+
+@Composable
+fun FoliaryOutlinedButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    content: @Composable RowScope.() -> Unit
+) {
     OutlinedButton(
         onClick = onClick,
         modifier = modifier,

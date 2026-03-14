@@ -32,7 +32,7 @@ import com.composables.icons.lucide.Apple
 import com.composables.icons.lucide.Chromium
 import com.composables.icons.lucide.Lucide
 import dev.appoutlet.foliary.core.navigation.Navigator
-import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
+import dev.appoutlet.foliary.core.ui.component.button.FoliaryOutlinedButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
@@ -47,7 +47,6 @@ import foliary.foliary.generated.resources.sign_in_app_logo_description
 import foliary.foliary.generated.resources.sign_in_continue_with_apple
 import foliary.foliary.generated.resources.sign_in_continue_with_google
 import foliary.foliary.generated.resources.sign_in_helper_text
-import foliary.foliary.generated.resources.sign_in_magic_link_sent
 import foliary.foliary.generated.resources.sign_in_or_divider
 import foliary.foliary.generated.resources.sign_in_subtitle
 import foliary.foliary.generated.resources.sign_in_title
@@ -186,7 +185,7 @@ private fun UnAuthenticatedContent(
 
 @Composable
 private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
-    FoliarySecondaryButton(
+    FoliaryOutlinedButton(
         onClick = { onEvent(SignInEvent.OnGoogleSignInClick) },
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -203,7 +202,7 @@ private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
 
     Spacer(modifier = Modifier.height(8.dp))
 
-    FoliarySecondaryButton(
+    FoliaryOutlinedButton(
         onClick = { onEvent(SignInEvent.OnAppleSignInClick) },
         modifier = Modifier.fillMaxWidth()
     ) {

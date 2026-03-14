@@ -82,6 +82,7 @@ class SignInViewModel(
             SignInEvent.OnGoogleSignInClick -> handleGoogleSignIn()
             SignInEvent.OnAppleSignInClick -> handleAppleSignIn()
             is SignInEvent.OnSendMagicLink -> handleSendMagicLink(event.email)
+            SignInEvent.OnSelectNewEmail -> onTryAgain()
         }
     }
 
@@ -109,6 +110,7 @@ sealed interface SignInViewData{
 sealed interface SignInEvent {
     data object OnGoogleSignInClick : SignInEvent
     data object OnAppleSignInClick : SignInEvent
+    data object OnSelectNewEmail : SignInEvent
     data class OnSendMagicLink(val email: String) : SignInEvent
 }
 
