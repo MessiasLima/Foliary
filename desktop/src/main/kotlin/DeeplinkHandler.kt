@@ -30,7 +30,6 @@ private fun URI.toDeeplink(): Deeplink {
     )
 }
 
-// TODO remove apple login
 // TODO adjust secondary button
 // TODO Adjust requested magic link interface
-// TODO add Google logo to google login button
+// TODO crate ticket to handle AuthRestExceptions in a user-friendly way

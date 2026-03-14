@@ -1,6 +1,7 @@
 package dev.appoutlet.foliary.feature.signin
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,6 +44,7 @@ import dev.appoutlet.foliary.feature.signin.composable.EmailLoginForm
 import dev.appoutlet.foliary.feature.signin.composable.MagicLinkSent
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.ic_foliary
+import foliary.foliary.generated.resources.ic_google
 import foliary.foliary.generated.resources.sign_in_app_logo_description
 import foliary.foliary.generated.resources.sign_in_continue_with_apple
 import foliary.foliary.generated.resources.sign_in_continue_with_google
@@ -192,8 +194,8 @@ private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
         onClick = { onEvent(SignInEvent.OnGoogleSignInClick) },
         modifier = Modifier.fillMaxWidth()
     ) {
-        Icon(
-            imageVector = Lucide.Chromium,
+        Image(
+            painter = painterResource(Res.drawable.ic_google),
             contentDescription = null,
         )
         Spacer(modifier = Modifier.width(16.dp))
