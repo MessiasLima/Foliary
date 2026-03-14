@@ -29,6 +29,3 @@ private fun URI.toDeeplink(): Deeplink {
         queryParameters = regularQueryParameters + additionalQueryParameters
     )
 }
-
-// TODO adjust secondary button
-// TODO Adjust requested magic link interface

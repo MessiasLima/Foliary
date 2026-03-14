@@ -12,7 +12,7 @@
     <string name="sign_in_email_placeholder">name@example.com</string>
     <string name="sign_in_send_magic_link">Send Magic Link</string>
     <string name="sign_in_magic_link_sent">Magic link sent!</string>
-    <string name="sign_in_magic_link_sent_message">An email with a magic link was sent to. Check your inbox and your span folder</string>
+    <string name="sign_in_magic_link_sent_message">An email with a magic link was sent to: </string>
     <string name="sign_in_magic_link_sent_message_2">Check your inbox and your span folder</string>
     <string name="sign_in_magic_link_sent_expiration">The link will expire in %1$s seconds</string>
     <string name="sign_in_magic_link_sent_new_email">Use another email</string>

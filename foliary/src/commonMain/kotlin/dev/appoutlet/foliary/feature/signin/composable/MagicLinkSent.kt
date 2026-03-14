@@ -81,18 +81,18 @@ fun MagicLinkSent(
         )
 
         Text(
-            modifier = Modifier.padding(top = 8.dp),
+            modifier = Modifier.padding(vertical = 8.dp),
             text = stringResource(Res.string.sign_in_magic_link_sent_message_2),
             style = MaterialTheme.typography.bodyMedium
         )
 
         Text(
             text = stringResource(Res.string.sign_in_magic_link_sent_expiration, remainingTime),
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         FoliarySecondaryButton(
-            modifier = Modifier.padding(top = 8.dp),
             enabled = remainingTime == 0,
             onClick = {
                 onEvent(SignInEvent.OnSelectNewEmail)
