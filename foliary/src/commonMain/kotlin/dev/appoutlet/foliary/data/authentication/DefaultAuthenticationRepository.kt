@@ -29,6 +29,10 @@ class DefaultAuthenticationRepository(
             autoRefresh = true
         )
     }
+
+    override suspend fun signOut() {
+        auth.signOut()
+    }
 }
 
 expect fun getRedirectUrl(): String

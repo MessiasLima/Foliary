@@ -10,15 +10,19 @@ import dev.appoutlet.foliary.feature.common.deeplink.Deeplink
 import io.github.jan.supabase.auth.event.AuthEvent
 import io.github.jan.supabase.auth.status.RefreshFailureCause
 import io.github.jan.supabase.auth.status.SessionStatus
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.annotation.KoinViewModel
+import kotlin.time.Duration.Companion.seconds
 
 @KoinViewModel
 class SignInViewModel(
     private val authenticationRepository: AuthenticationRepository,
     private val deeplinkDispatcher: DeepLinkDispatcher
 ) : MviViewModel<SignInViewData, SignInAction>() {
+    private var wasNotAuthenticated = false
+
     override val container = container(SignInViewData.Idle) {
         deeplinkDispatcher.deeplinks
             .onEach(::processDeeplink)
@@ -32,11 +36,20 @@ class SignInViewModel(
     private fun handleSessionStatus(sessionStatus: SessionStatus) = intent {
         when (sessionStatus) {
             is SessionStatus.Authenticated -> {
-                val userName = sessionStatus.session.user?.email ?: ""
-                reduce { SignInViewData.Authenticated(userName) }
+                if (wasNotAuthenticated) {
+                    reduce {
+                        SignInViewData.Authenticated(
+                            userName = sessionStatus.session.user?.email ?: "",
+                            newUser = sessionStatus.isNew
+                        )
+                    }
+                    delay(1.seconds)
+                }
+                postSideEffect(SignInAction.NavigateToMain)
             }
 
             is SessionStatus.NotAuthenticated -> {
+                wasNotAuthenticated = true
                 reduce { SignInViewData.UnAuthenticated() }
             }
 
@@ -90,8 +103,9 @@ sealed interface SignInViewData{
     data class UnAuthenticated(val requestingMagicLink: Boolean = false) : SignInViewData
     data class MagicLinkSent(val email: String) : SignInViewData
     data object Loading : SignInViewData
-    data class Authenticated(val userName: String) : SignInViewData
+    data class Authenticated(val userName: String, val newUser: Boolean) : SignInViewData
 }
+
 sealed interface SignInEvent {
     data object OnGoogleSignInClick : SignInEvent
     data object OnAppleSignInClick : SignInEvent

@@ -1,9 +1,6 @@
 package dev.appoutlet.foliary.feature.signin
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,7 +37,10 @@ import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInNarrow
+import dev.appoutlet.foliary.feature.main.MainNavKey
+import dev.appoutlet.foliary.feature.signin.composable.Authenticated
 import dev.appoutlet.foliary.feature.signin.composable.EmailLoginForm
+import dev.appoutlet.foliary.feature.signin.composable.MagicLinkSent
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.ic_foliary
 import foliary.foliary.generated.resources.sign_in_app_logo_description
@@ -125,8 +125,6 @@ private fun SignInHeader() {
     }
 }
 
-// TODO adjust transition
-
 @Composable
 private fun SignInForm(
     viewData: SignInViewData,
@@ -138,22 +136,18 @@ private fun SignInForm(
         AnimatedContent(
             targetState = viewData,
             label = "signInState",
-            modifier = Modifier.fillMaxWidth().padding(24.dp)
+            modifier = Modifier.fillMaxWidth().padding(24.dp),
+            contentKey = { it::class },
         ) { state ->
             when (state) {
                 is SignInViewData.Authenticated -> Authenticated(state)
                 SignInViewData.Idle -> {}
                 SignInViewData.Loading -> LoadingIndicator()
-                is SignInViewData.MagicLinkSent -> MagicLinkSentContent(state)
+                is SignInViewData.MagicLinkSent -> MagicLinkSent(state, onEvent)
                 is SignInViewData.UnAuthenticated -> UnAuthenticatedContent(state = state, onEvent = onEvent)
             }
         }
     }
-}
-
-@Composable
-private fun Authenticated(state: SignInViewData.Authenticated) {
-
 }
 
 @Composable
@@ -186,21 +180,6 @@ private fun UnAuthenticatedContent(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
             lineHeight = 18.sp
-        )
-    }
-}
-
-@Composable
-private fun MagicLinkSentContent(state: SignInViewData.MagicLinkSent) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = stringResource(Res.string.sign_in_magic_link_sent),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.primary,
-            textAlign = TextAlign.Center
         )
     }
 }
@@ -266,7 +245,7 @@ private fun OrDivider() {
 private fun onAction(action: SignInAction, navigator: Navigator) {
     when (action) {
         SignInAction.NavigateToMain -> {
-            // Navigate to main screen once implemented
+            navigator.navigate(MainNavKey)
         }
     }
 }
