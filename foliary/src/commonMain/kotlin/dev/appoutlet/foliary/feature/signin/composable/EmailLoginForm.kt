@@ -60,32 +60,10 @@ fun EmailLoginForm(
         }
     }
 
-    OutlinedTextField(
-        value = email,
-        onValueChange = {
-            email = it
-        },
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(text = stringResource(Res.string.sign_in_email_placeholder)) },
-        leadingIcon = {
-            Icon(
-                imageVector = Lucide.Mail,
-                contentDescription = null,
-            )
-        },
-        shape = MaterialTheme.shapes.extraLarge,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        singleLine = true,
-        isError = emailErrorMessage.isNullOrBlank().not(),
-        supportingText = {
-            AnimatedVisibility(visible = emailErrorMessage != null) {
-                Text(
-                    text = emailErrorMessage ?: "",
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-        },
+    EmailTextField(
+        email = email,
+        onValueChange = { email = it },
+        emailErrorMessage = emailErrorMessage,
         enabled = viewData.requestingMagicLink.not()
     )
 
@@ -125,4 +103,39 @@ fun EmailLoginForm(
             }
         }
     }
+}
+
+@Composable
+private fun EmailTextField(
+    email: String,
+    onValueChange: (String) -> Unit,
+    emailErrorMessage: String?,
+    enabled: Boolean,
+) {
+    OutlinedTextField(
+        value = email,
+        onValueChange = onValueChange,
+        modifier = Modifier.fillMaxWidth(),
+        placeholder = { Text(text = stringResource(Res.string.sign_in_email_placeholder)) },
+        leadingIcon = {
+            Icon(
+                imageVector = Lucide.Mail,
+                contentDescription = null,
+            )
+        },
+        shape = MaterialTheme.shapes.extraLarge,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        singleLine = true,
+        isError = emailErrorMessage.isNullOrBlank().not(),
+        supportingText = {
+            AnimatedVisibility(visible = emailErrorMessage != null) {
+                Text(
+                    text = emailErrorMessage ?: "",
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        },
+        enabled = enabled
+    )
 }

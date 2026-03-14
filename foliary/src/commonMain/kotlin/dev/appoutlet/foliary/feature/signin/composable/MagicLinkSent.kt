@@ -47,13 +47,12 @@ fun MagicLinkSent(
     modifier: Modifier = Modifier
 ) {
     var remainingTime by rememberSaveable { mutableStateOf(EmailOtpExpiration) }
+
     LaunchedEffect(state) {
         snapshotFlow { remainingTime }
             .onEach { delay(1.seconds) }
             .collect {
-                if (remainingTime > 0) {
-                    remainingTime -= 1
-                }
+                if (remainingTime > 0) { remainingTime -= 1 }
             }
     }
 
@@ -87,7 +86,7 @@ fun MagicLinkSent(
         )
 
         Text(
-            modifier = Modifier.padding(vertical = 8.dp),
+            modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
             text = stringResource(Res.string.sign_in_magic_link_sent_message_2),
             style = MaterialTheme.typography.bodyMedium
         )
@@ -104,9 +103,7 @@ fun MagicLinkSent(
         FoliarySecondaryButton(
             modifier = Modifier.padding(top = 4.dp),
             enabled = remainingTime == 0,
-            onClick = {
-                onEvent(SignInEvent.OnSelectNewEmail)
-            },
+            onClick = { onEvent(SignInEvent.OnSelectNewEmail) },
         ) {
             Icon(imageVector = Lucide.ArrowLeft, contentDescription = null)
             Spacer(Modifier.size(16.dp))
