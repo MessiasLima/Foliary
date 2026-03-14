@@ -47,9 +47,14 @@ class MainActivity : ComponentActivity() {
                 key to value
             } ?: emptyMap()
 
+        if (scheme.isNullOrBlank() || host.isNullOrBlank()) {
+            log.w { "Invalid deeplink: missing scheme or host. URI: $this" }
+            return null
+        }
+
         return Deeplink(
-            schema = scheme ?: return null,
-            host = host ?: return null,
+            schema = scheme ?: "",
+            host = host ?: "",
             path = path ?: "",
             queryParameters = queryParameters + additionalQueryParameters
         )
