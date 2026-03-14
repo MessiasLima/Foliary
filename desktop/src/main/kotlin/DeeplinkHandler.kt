@@ -30,5 +30,7 @@ private fun URI.toDeeplink(): Deeplink {
     )
 }
 
-// TODO check current authentication on start and navigate to main if needed
 // TODO remove apple login
+// TODO adjust secondary button
+// TODO Adjust requested magic link interface
+// TODO add Google logo to google login button
