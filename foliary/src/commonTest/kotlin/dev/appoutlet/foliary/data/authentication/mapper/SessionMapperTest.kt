@@ -1,6 +1,6 @@
 package dev.appoutlet.foliary.data.authentication.mapper
 
-import io.github.jan.supabase.auth.user.UserSession
+import dev.appoutlet.foliary.data.authentication.model.userSessionFixture
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
@@ -9,16 +9,7 @@ class SessionMapperTest {
 
     @Test
     fun `should map UserSession to Session`() {
-        val userSession = UserSession(
-            accessToken = "access_token",
-            refreshToken = "refresh_token",
-            providerRefreshToken = "provider_refresh_token",
-            providerToken = "provider_token",
-            expiresIn = 3600L,
-            tokenType = "Bearer",
-            type = "authenticated",
-            user = null
-        )
+        val userSession = userSessionFixture()
 
         val result = mapper(userSession)
 
