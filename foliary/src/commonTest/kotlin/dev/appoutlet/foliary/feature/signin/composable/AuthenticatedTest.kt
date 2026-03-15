@@ -1,6 +1,7 @@
 package dev.appoutlet.foliary.feature.signin.composable
 
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
 import dev.appoutlet.foliary.feature.signin.SignInViewData
@@ -18,8 +19,8 @@ class AuthenticatedTest {
             Authenticated(state = state)
         }
 
-        onNodeWithText("Welcome,").assertExists()
-        onNodeWithText("$userName!").assertExists()
+        onNodeWithText("Welcome,").assertIsDisplayed()
+        onNodeWithText("$userName!").assertIsDisplayed()
     }
 
     @Test
@@ -31,7 +32,7 @@ class AuthenticatedTest {
             Authenticated(state = state)
         }
 
-        onNodeWithText("Welcome back,").assertExists()
-        onNodeWithText("$userName!").assertExists()
+        onNodeWithText("Welcome back,").assertIsDisplayed()
+        onNodeWithText("$userName!").assertIsDisplayed()
     }
 }
