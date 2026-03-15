@@ -8,37 +8,22 @@ Reference for AI agents working on **Foliary**, a Kotlin Multiplatform (KMP) app
 2. **NO UNNECESSARY COMMENTS**: Focus comments on *why* something is done, rather than *what*. Do not talk to the user via code comments.
 3. **MIMIC EXISTING STYLE**: Adhere rigorously to existing project conventions (formatting, structure, typing).
 
-## Build, Lint & Test Commands
+## Build & Test Commands
 > Execute from repository root.
+
+**⚠️ VERIFICATION RULES:**
+- **FAST ITERATIONS**: NEVER run `build` or all tests during development. It takes too long. Run **ONLY specific tests** related to the code you changed (single class or method). Running a specific test also compiles the code, catching compilation issues. All tests are executed on the CI pipeline anyway.
+- **JVM ONLY**: NEVER run Android or iOS tests unless explicitly required by the user. Always run JVM tests (`jvmTest`).
+- **NO LINTING**: The `detekt` command runs automatically before every push, so there is no need for the agent to run it.
 
 | Goal | Command |
 |------|---------|
-| Build all platforms | `./gradlew build` |
-| Run desktop app | `./gradlew run` |
-| Run all tests | `./gradlew allTests` |
-| Run JVM tests | `./gradlew foliary:jvmTest` |
-| Run Android tests | `./gradlew foliary:testDebugUnitTest` |
-| Run iOS tests | `./gradlew foliary:iosSimulatorArm64Test` |
 | Run single test class | `./gradlew foliary:jvmTest --tests "dev.appoutlet.foliary.data.task.TaskRepositoryImplTest"` |
 | Run single test method | `./gradlew foliary:jvmTest --tests "dev.appoutlet.foliary.data.task.TaskRepositoryImplTest.should return todays tasks"` |
-| Static analysis | `./gradlew detekt` |
-| Tests with coverage | `./gradlew jvmTest -Pkover koverVerify` |
-| Full check | `./gradlew check` |
 
 ### CI & Hooks
 - **Pre-push hook**: `config/githooks/pre-push.sh` runs `./gradlew detekt`
 - **PR verification**: `detekt` → `jvmTest -Pkover koverVerify` (min coverage: **80%**)
-
-## Code Style Guidelines
-Governed by **Detekt** (`config/detekt/detekt.yml`) and Kotlin conventions.
-
-
-### Imports
-**Order** (blank line between groups):
-1. `kotlin`/`kotlinx` → 2. `androidx`/platform → 3. Third-party → 4. `dev.appoutlet.foliary.*`
-
-**Rules**: No wildcard imports, no unused imports.
-**Forbidden**: `co.touchlab.kermit.Logger` – use `logger()` delegate.
 
 ### Naming Conventions
 | Element | Pattern | Example |
@@ -48,25 +33,15 @@ Governed by **Detekt** (`config/detekt/detekt.yml`) and Kotlin conventions.
 | Constants | `PascalCase` | `DefaultTimeout` |
 | Test classes | `PascalCase` + `Test` | `TaskRepositoryImplTest` |
 | Test methods | Backticks | `` `should return todays tasks` `` |
-
 ### Types & Immutability
 - Prefer `val` over `var`; use `data class` with `val` properties
 - Use `sealed interface` for state/actions
 - Handle nulls with `?.let`, `?:`, or `requireNotNull`
 
-### Error Handling & Logging
-- Catch specific exceptions; use `Result` or `runCatching { }`
-- Logging: `private val log by logger()` then `log.d { }` / `log.e { }`. For top-level functions or files, use `private val log = getLogger("Tag")`.
-
-### Dependency Injection (Koin)
-- ViewModels: `@KoinViewModel`; Services: `@Single`
-
-### UI – Compose Multiplatform
-- Stateless composables; **Material3 only** (Material2 forbidden)
-- `Modifier` as last parameter; always set `contentDescription`
-
-### Documentation
-- Use **KDoc** for public APIs; **TODO/FIXME forbidden**
+## Dependency Injection (Koin)
+- **ViewModels**: `@KoinViewModel`
+- **Services**: `@Single`
+- **Repositories**: Can be `@Factory` or `@Single` depending on how often they are used in the app. Use `@Single` for frequently used repos, and `@Factory` for rarely used ones.
 
 ## MVI Architecture
 Foliary uses a custom MVI implementation built on top of **Orbit MVI**.
@@ -122,8 +97,3 @@ class FeatureTest {
 
 ### UI Tests
 Use `runComposeUiTest` and `onNodeWithTag` (via `modifier.testTag("TagName")`).
-
-## Contribution Workflow
-1. **Branch**: `feature/short-description`
-2. **Commit**: Imperative present-tense, ≤72 chars.
-3. **PR**: Target `main`. Must pass `detekt` and tests (min 80% coverage).
