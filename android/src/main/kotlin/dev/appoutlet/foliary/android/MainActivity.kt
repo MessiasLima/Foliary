@@ -10,6 +10,7 @@ import dev.appoutlet.foliary.App
 import dev.appoutlet.foliary.core.logging.logger
 import dev.appoutlet.foliary.feature.common.deeplink.DeepLinkDispatcher
 import dev.appoutlet.foliary.feature.common.deeplink.Deeplink
+import dev.appoutlet.foliary.feature.common.deeplink.getAdditionalQueryParameters
 
 class MainActivity : ComponentActivity() {
     private val log by logger()
@@ -40,12 +41,7 @@ class MainActivity : ComponentActivity() {
 
     private fun Uri.toDeeplink(): Deeplink? {
         val queryParameters = this.queryParameterNames.associateWith { this.getQueryParameter(it) ?: "" }
-        val additionalQueryParameters = this.toString().split('#').getOrNull(1)
-            ?.split("&")
-            ?.associate {
-                val (key, value) = it.split('=')
-                key to value
-            } ?: emptyMap()
+        val additionalQueryParameters = this.toString().getAdditionalQueryParameters()
 
         if (scheme.isNullOrBlank() || host.isNullOrBlank()) {
             log.w { "Invalid deeplink: missing scheme or host. URI: $this" }

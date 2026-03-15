@@ -1,5 +1,6 @@
 import dev.appoutlet.foliary.feature.common.deeplink.DeepLinkDispatcher
 import dev.appoutlet.foliary.feature.common.deeplink.Deeplink
+import dev.appoutlet.foliary.feature.common.deeplink.getAdditionalQueryParameters
 import io.github.kdroidfilter.nucleus.core.runtime.DeepLinkHandler
 import java.net.URI
 
@@ -15,12 +16,7 @@ private fun URI.toDeeplink(): Deeplink {
         key to value
     } ?: emptyMap()
 
-    val additionalQueryParameters = this.toString().split('#').getOrNull(1)
-        ?.split("&")
-        ?.associate {
-            val (key, value) = it.split('=')
-            key to value
-        } ?: emptyMap()
+    val additionalQueryParameters = this.toString().getAdditionalQueryParameters()
 
     return Deeplink(
         schema = this.scheme ?: "",
