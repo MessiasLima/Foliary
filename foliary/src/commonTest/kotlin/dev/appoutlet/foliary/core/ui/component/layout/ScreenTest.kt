@@ -3,93 +3,97 @@ package dev.appoutlet.foliary.core.ui.component.layout
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
 import dev.appoutlet.foliary.core.analytics.LocalAnalytics
 import dev.appoutlet.foliary.core.analytics.MockAnalytics
-import dev.appoutlet.foliary.core.mvi.State
+import dev.appoutlet.foliary.core.mvi.ErrorState
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
 class ScreenTest {
-    @Test
-    fun `should start with idle state`() = runComposeUiTest {
-        setContent {
-            Screen(
-                screenName = "TestScreen",
-                viewModelProvider = { SampleViewModel(State.Idle) },
-                idle = { Text("Idle screen") },
-                content = { viewData: SampleViewData -> }
-            )
-        }
-
-        onNodeWithText("Idle screen").assertExists()
-    }
 
     @Test
-    fun `should show loading state`() = runComposeUiTest {
-        setContent {
-            Screen(
-                screenName = "TestScreen",
-                viewModelProvider = { SampleViewModel(State.Loading()) },
-                loading = { Text("Loading screen") },
-                content = { _: SampleViewData -> }
-            )
-        }
-
-        onNodeWithText("Loading screen").assertExists()
-    }
-
-    @Test
-    fun `should show error state`() = runComposeUiTest {
-        setContent {
-            Screen(
-                screenName = "TestScreen",
-                viewModelProvider = { SampleViewModel(State.Error(Exception("Error message"))) },
-                error = { Text("Error screen: ${it?.message}") },
-                content = { _: SampleViewData -> }
-            )
-        }
-
-        onNodeWithText("Error screen: Error message").assertExists()
-    }
-
-    @Test
-    fun `should show content state`() = runComposeUiTest {
-        setContent {
-            Screen(
-                screenName = "TestScreen",
-                viewModelProvider = { SampleViewModel(State.Success(SampleViewData)) },
-                content = { _: SampleViewData -> Text("Content screen") }
-            )
-        }
-
-        onNodeWithText("Content screen").assertExists()
-    }
-
-    @Test
-    fun `should track screen view with analytics`() = runComposeUiTest {
-        // Given a mock analytics instance
+    fun `should track screen view on launch`() = runComposeUiTest {
         val mockAnalytics = MockAnalytics()
+        val screenName = "TestScreen"
 
         setContent {
             CompositionLocalProvider(LocalAnalytics provides mockAnalytics) {
                 Screen(
-                    screenName = "TestScreen",
-                    viewModelProvider = { SampleViewModel(State.Idle) },
-                    idle = { Text("Idle screen") },
-                    content = { _: SampleViewData -> }
+                    screenName = screenName,
+                    viewModelProvider = { SampleViewModel(SampleViewData) },
+                    content = { Text("Content") }
                 )
             }
         }
 
-        // Wait for the screen to render
-        waitForIdle()
-
-        // Then screen should be tracked
         mockAnalytics.screenViews shouldHaveSize 1
-        mockAnalytics.screenViews[0] shouldBe "TestScreen"
+        mockAnalytics.screenViews[0] shouldBe screenName
+    }
+
+    @Test
+    fun `should show content when error state is null`() = runComposeUiTest {
+        setContent {
+            Text("Simple Text")
+        }
+
+        onNodeWithText("Simple Text").assertExists()
+    }
+
+    @Test
+    fun `should show error indicator when error state is not null`() = runComposeUiTest {
+        val viewModel = SampleViewModel(SampleViewData)
+        val errorTitle = "Error Title"
+        val errorMessage = "Some error message"
+
+        setContent {
+            Screen(
+                screenName = "TestScreen",
+                viewModelProvider = { viewModel },
+                content = { Text("Content") }
+            )
+        }
+
+        viewModel.setError(
+            ErrorState(
+                error = Exception(errorMessage),
+                message = errorMessage,
+                title = errorTitle
+            )
+        )
+
+        onNodeWithText(errorMessage).assertExists()
+        onNodeWithText(errorTitle).assertExists()
+        onNodeWithTag("ErrorIndicator:Icon").assertExists()
+        onNodeWithText("Content").assertDoesNotExist()
+    }
+
+    @Test
+    fun `should handle side effects`() = runComposeUiTest {
+        val viewModel = SampleViewModel(SampleViewData)
+        var actionReceived: SampleAction? = null
+
+        setContent {
+            Screen(
+                screenName = "TestScreen",
+                viewModelProvider = { viewModel },
+                onAction = { action, _ ->
+                    actionReceived = action
+                },
+                content = { Text("Content") }
+            )
+        }
+
+        viewModel.emitAction(SampleAction)
+
+        waitUntil("Action should be received") {
+            actionReceived != null
+        }
+
+        actionReceived shouldBe SampleAction
     }
 }

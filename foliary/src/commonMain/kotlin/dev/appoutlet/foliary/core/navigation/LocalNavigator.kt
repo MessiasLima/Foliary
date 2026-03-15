@@ -12,5 +12,9 @@ val LocalNavigator = compositionLocalOf<Navigator> {
         override fun goBack() {
             error("No implementation provided for LocalNavigator")
         }
+
+        override fun setRoot(destination: NavKey) {
+            error("No implementation provided for LocalNavigator")
+        }
     }
 }

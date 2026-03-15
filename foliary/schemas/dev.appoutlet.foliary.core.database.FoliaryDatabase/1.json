@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3060d0d248c94e9d030cdee7789af77e",
+    "identityHash": "588df0fceb5b7c0bd658e710a4ae336f",
     "entities": [
       {
         "tableName": "ApplicationVersion",
@@ -33,11 +33,63 @@
             "buildNumber"
           ]
         }
+      },
+      {
+        "tableName": "Session",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accessToken` TEXT NOT NULL, `refreshToken` TEXT NOT NULL, `providerRefreshToken` TEXT, `providerToken` TEXT, `expiresIn` INTEGER NOT NULL, `tokenType` TEXT NOT NULL, `type` TEXT NOT NULL, PRIMARY KEY(`accessToken`))",
+        "fields": [
+          {
+            "fieldPath": "accessToken",
+            "columnName": "accessToken",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "refreshToken",
+            "columnName": "refreshToken",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "providerRefreshToken",
+            "columnName": "providerRefreshToken",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "providerToken",
+            "columnName": "providerToken",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "expiresIn",
+            "columnName": "expiresIn",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tokenType",
+            "columnName": "tokenType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "accessToken"
+          ]
+        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3060d0d248c94e9d030cdee7789af77e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '588df0fceb5b7c0bd658e710a4ae336f')"
     ]
   }
 }

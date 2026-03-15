@@ -53,7 +53,8 @@ fun ErrorIndicator(
             Icon(
                 modifier = Modifier.size(64.dp).testTag("ErrorIndicator:Icon"),
                 imageVector = Lucide.CircleX,
-                contentDescription = null
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.error
             )
             Spacer(Modifier.size(16.dp))
             title?.let {
@@ -75,15 +76,14 @@ fun ErrorIndicator(
                 )
             }
 
+            Spacer(Modifier.size(16.dp))
+
             onTryAgain?.let {
-                Spacer(Modifier.size(16.dp))
                 Button(onClick = onTryAgain) { Text(text = tryAgainText) }
             }
 
             stackTrace?.let {
                 var showStackTrace by rememberSaveable { mutableStateOf(false) }
-
-                Spacer(Modifier.size(16.dp))
 
                 OutlinedButton(
                     modifier = Modifier.testTag("ErrorIndicator:ToggleStackTrace"),

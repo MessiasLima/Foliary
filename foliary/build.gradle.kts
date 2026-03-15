@@ -52,7 +52,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.coil)
             implementation(libs.coil.network.ktor)
-            implementation(libs.kermit)
+            api(libs.kermit)
             implementation(libs.kermit.koin)
             implementation(libs.koin.annotations)
             implementation(libs.koin.compose)
