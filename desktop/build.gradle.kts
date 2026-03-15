@@ -19,6 +19,9 @@ dependencies {
     implementation(project(":foliary"))
     implementation(compose.desktop.currentOs)
     implementation(libs.nucleus.core.runtime)
+
+    testImplementation(kotlin("test"))
+    testImplementation(libs.kotest.assertions)
 }
 
 nucleus.application {

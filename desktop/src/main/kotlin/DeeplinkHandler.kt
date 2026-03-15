@@ -10,10 +10,10 @@ fun registerDeeplinkHandler(args: Array<String>) {
     }
 }
 
-private fun URI.toDeeplink(): Deeplink {
+internal fun URI.toDeeplink(): Deeplink {
     val regularQueryParameters = this.query?.split('&')?.associate {
-        val (key, value) = it.split('=')
-        key to value
+        val arg = it.split('=', limit = 2)
+        arg[0] to arg.getOrElse(1) { "" }
     } ?: emptyMap()
 
     val additionalQueryParameters = this.toString().getAdditionalQueryParameters()

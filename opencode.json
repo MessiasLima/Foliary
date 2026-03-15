@@ -3,10 +3,10 @@
   "autoupdate": true,
   "agent": {
     "build": {
-      "model": "gemini-3-flash-preview"
+      "model": "google/gemini-3-flash-preview"
     },
     "plan": {
-      "model": "gemini-3.1-pro-preview"
+      "model": "google/gemini-3.1-pro-preview"
     }
   },
   "mcp": {
