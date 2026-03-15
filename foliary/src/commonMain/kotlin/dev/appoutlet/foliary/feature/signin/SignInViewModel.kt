@@ -49,7 +49,7 @@ class SignInViewModel(
 
             is SessionStatus.NotAuthenticated -> {
                 wasNotAuthenticated = true
-                reduce { SignInViewData.UnAuthenticated() }
+                reduce { SignInViewData.NotAuthenticated() }
             }
 
             SessionStatus.Initializing -> reduce { SignInViewData.Loading }
@@ -65,7 +65,7 @@ class SignInViewModel(
         }
     }
 
-    fun onTryAgain() = intent { reduce { SignInViewData.UnAuthenticated() } }
+    fun onTryAgain() = intent { reduce { SignInViewData.NotAuthenticated() } }
 
     private fun processDeeplink(deepLink: Deeplink) = intent {
         val accessToken = deepLink.queryParameters["access_token"] ?: return@intent
@@ -93,7 +93,7 @@ class SignInViewModel(
     }
 
     private fun handleSendMagicLink(email: String) = intent {
-        reduce { SignInViewData.UnAuthenticated(requestingMagicLink = true) }
+        reduce { SignInViewData.NotAuthenticated(requestingMagicLink = true) }
         authenticationRepository.requestMagicLink(email)
         reduce { SignInViewData.MagicLinkSent(email) }
     }
@@ -101,7 +101,7 @@ class SignInViewModel(
 
 sealed interface SignInViewData {
     data object Idle : SignInViewData
-    data class UnAuthenticated(val requestingMagicLink: Boolean = false) : SignInViewData
+    data class NotAuthenticated(val requestingMagicLink: Boolean = false) : SignInViewData
     data class MagicLinkSent(val email: String) : SignInViewData
     data object Loading : SignInViewData
     data class Authenticated(val userName: String, val newUser: Boolean) : SignInViewData

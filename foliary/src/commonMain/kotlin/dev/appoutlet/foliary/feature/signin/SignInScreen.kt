@@ -141,7 +141,7 @@ private fun SignInForm(
                 SignInViewData.Idle -> {}
                 SignInViewData.Loading -> LoadingIndicator()
                 is SignInViewData.MagicLinkSent -> MagicLinkSent(state, onEvent)
-                is SignInViewData.UnAuthenticated -> UnAuthenticatedContent(
+                is SignInViewData.NotAuthenticated -> UnAuthenticatedContent(
                     state = state,
                     onEvent = onEvent
                 )
@@ -152,7 +152,7 @@ private fun SignInForm(
 
 @Composable
 private fun UnAuthenticatedContent(
-    state: SignInViewData.UnAuthenticated,
+    state: SignInViewData.NotAuthenticated,
     onEvent: (SignInEvent) -> Unit
 ) {
     Column(

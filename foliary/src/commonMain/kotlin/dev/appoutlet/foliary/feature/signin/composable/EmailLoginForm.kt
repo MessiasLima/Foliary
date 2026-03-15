@@ -44,7 +44,7 @@ private val EmailRegex = Regex(
 
 @Composable
 fun EmailLoginForm(
-    viewData: SignInViewData.UnAuthenticated,
+    viewData: SignInViewData.NotAuthenticated,
     onEvent: (SignInEvent) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
