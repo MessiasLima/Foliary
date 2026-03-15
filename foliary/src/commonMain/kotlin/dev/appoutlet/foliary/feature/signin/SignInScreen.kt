@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.appoutlet.foliary.core.auth.isGoogleAuthSupported
 import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryOutlinedButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
@@ -39,6 +40,7 @@ import dev.appoutlet.foliary.feature.main.MainNavKey
 import dev.appoutlet.foliary.feature.signin.composable.Authenticated
 import dev.appoutlet.foliary.feature.signin.composable.EmailLoginForm
 import dev.appoutlet.foliary.feature.signin.composable.MagicLinkSent
+import dev.appoutlet.foliary.feature.signin.composable.SocialLoginButtons
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.ic_foliary
 import foliary.foliary.generated.resources.ic_google
@@ -184,23 +186,6 @@ private fun UnAuthenticatedContent(
     }
 }
 
-@Composable
-private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
-    FoliaryOutlinedButton(
-        onClick = { onEvent(SignInEvent.OnGoogleSignInClick) },
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Image(
-            painter = painterResource(Res.drawable.ic_google),
-            contentDescription = null,
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text = stringResource(Res.string.sign_in_continue_with_google),
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
-}
 
 @Composable
 private fun OrDivider() {
