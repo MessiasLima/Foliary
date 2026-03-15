@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.appoutlet.foliary.core.analytics.LocalAnalytics
 import dev.appoutlet.foliary.core.mvi.Action
@@ -42,7 +43,10 @@ fun <State : Any, SideEffect : Action> Screen(
         onAction(it, navigator)
     })
 
-    AnimatedContent(errorState != null) { hasError ->
+    AnimatedContent(
+        modifier = Modifier.testTag(screenName),
+        targetState = errorState != null,
+    ) { hasError ->
         if (hasError) {
             viewModel.errorState.value?.let { (throwable, title, message) ->
                 ErrorIndicator(
