@@ -43,43 +43,6 @@ Reference for AI agents working on **Foliary**, a Kotlin Multiplatform (KMP) app
 - **Services**: `@Single`
 - **Repositories**: Can be `@Factory` or `@Single` depending on how often they are used in the app. Use `@Single` for frequently used repos, and `@Factory` for rarely used ones.
 
-## MVI Architecture
-Foliary uses a custom MVI implementation built on top of **Orbit MVI**.
-
-### Core Components
-- **MviViewModel<State, Action>**: Base class for all ViewModels. Automatically manages `errorState` and provides a `container` with a default `CoroutineExceptionHandler`.
-- **Action**: Interface for side effects (e.g., navigation, showing toasts).
-- **Screen**: A layout wrapper that connects the ViewModel to the UI. It handles:
-    - Analytics tracking (via `screenName`).
-    - Side effect collection (`onAction`).
-    - Automatic error state UI (using `ErrorIndicator`).
-
-### Implementation Pattern
-```kotlin
-@KoinViewModel
-class FeatureViewModel : MviViewModel<FeatureState, FeatureAction>() {
-    override val container = container(initialState = FeatureState()) {
-        // Optional: load initial data
-    }
-
-    fun onEvent(event: FeatureEvent) = intent {
-        // Logic goes here
-    }
-}
-
-@Composable
-fun FeatureScreen() {
-    val viewModel = koinViewModel<FeatureViewModel>()
-    Screen(
-        screenName = "FeatureName",
-        viewModelProvider = { viewModel },
-        onAction = { action, navigator -> /* handle side effects */ }
-    ) { state ->
-        // Main UI content. Errors are handled automatically.
-    }
-}
-```
-
 ## Testing
 **Frameworks**: `kotlin.test`, Kotest assertions, `kotlinx-coroutines-test`
 
