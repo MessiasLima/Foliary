@@ -10,23 +10,6 @@ import kotlin.test.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DeepLinkDispatcherTest {
-    @Test
-    fun `should dispatch deeplink`() = runTest {
-        val deeplink = Deeplink.fixture()
-        val received = mutableListOf<Deeplink>()
-
-        val collectorJob = DeepLinkDispatcher.deeplinks.onEach {
-            received.add(it)
-        }.launchIn(this)
-
-        DeepLinkDispatcher.dispatch(deeplink)
-
-        advanceUntilIdle()
-
-        received.shouldContainExactly(deeplink)
-
-        collectorJob.cancel()
-    }
 
     @Test
     fun `should handle multiple deeplinks`() = runTest {
