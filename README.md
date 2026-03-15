@@ -10,13 +10,6 @@ A calm place for your deep focus.
 - Pomodoro Timer – focus sessions with built‑in breaks
 - Cross‑Platform – Android, iOS, and Desktop (JVM)
 
-## Platform Specifics
-
-### Google Sign-In
-Google Sign-In is supported only on **Android** and **Desktop** platforms.
-- **Android:** Ensure the necessary Google Services configuration is in place.
-- **Desktop:** Uses standard OAuth flows. Redirect URI is configured to `foliary://auth`.
-
 ---
 
 ## License

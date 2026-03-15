@@ -29,7 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.appoutlet.foliary.core.auth.isGoogleAuthSupported
 import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryOutlinedButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
