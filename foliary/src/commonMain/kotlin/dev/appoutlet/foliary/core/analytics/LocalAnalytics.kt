@@ -1,7 +1,6 @@
 package dev.appoutlet.foliary.core.analytics
 
 import androidx.compose.runtime.staticCompositionLocalOf
-import org.koin.mp.KoinPlatform
 
 /**
  * CompositionLocal for providing Analytics instance throughout the composable hierarchy.

@@ -1,6 +1,5 @@
 package dev.appoutlet.foliary.data.authentication.mapper
 
-import dev.appoutlet.foliary.data.authentication.model.Session
 import io.github.jan.supabase.auth.user.UserSession
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test

@@ -1,7 +1,6 @@
 package dev.appoutlet.foliary
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Composition
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import dev.appoutlet.foliary.core.analytics.Analytics

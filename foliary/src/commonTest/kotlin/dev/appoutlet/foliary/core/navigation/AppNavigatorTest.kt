@@ -3,9 +3,8 @@ package dev.appoutlet.foliary.core.navigation
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
-import kotlin.test.Test
 import kotlinx.serialization.Serializable
+import kotlin.test.Test
 
 class AppNavigatorTest {
 
