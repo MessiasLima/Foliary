@@ -8,6 +8,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import dev.appoutlet.foliary.App
+import dev.appoutlet.foliary.core.logging.getLogger
 import dev.appoutlet.foliary.core.logging.initSentry
 import java.awt.Dimension
 
@@ -19,12 +20,13 @@ fun main(args: Array<String>) {
     registerDeeplinkHandler(args)
     application {
         var restoreRequested by remember { mutableStateOf(false) }
-
+        val log = getLogger("Main")
         manageSingleInstance(
             onRestoreRequest = { requested ->
                 restoreRequested = requested
             },
             onSecondInstance = {
+                log.i { "Second instance started" }
                 return@application
             }
         )
