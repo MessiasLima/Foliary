@@ -30,7 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.appoutlet.foliary.core.auth.isGoogleAuthSupported
 import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryOutlinedButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
@@ -193,11 +192,8 @@ private fun UnAuthenticatedContent(
 @Composable
 internal fun SocialLoginButtons(
     onEvent: (SignInEvent) -> Unit,
-    requestingGoogleAuthentication: Boolean = false,
-    isGoogleAuthSupported: Boolean = isGoogleAuthSupported()
+    requestingGoogleAuthentication: Boolean = false
 ) {
-    if (!isGoogleAuthSupported) return
-
     FoliaryOutlinedButton(
         onClick = { onEvent(SignInEvent.OnGoogleSignInClick) },
         modifier = Modifier.fillMaxWidth(),

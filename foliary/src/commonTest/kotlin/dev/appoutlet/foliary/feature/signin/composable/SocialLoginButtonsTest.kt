@@ -12,11 +12,10 @@ import kotlin.test.Test
 class SocialLoginButtonsTest {
 
     @Test
-    fun shouldShowGoogleButtonWhenSupported() = runComposeUiTest {
+    fun shouldShowGoogleButton() = runComposeUiTest {
         setContent {
             SocialLoginButtons(
-                onEvent = {},
-                isGoogleAuthSupported = true
+                onEvent = {}
             )
         }
 
@@ -24,23 +23,10 @@ class SocialLoginButtonsTest {
     }
 
     @Test
-    fun shouldNotShowGoogleButtonWhenNotSupported() = runComposeUiTest {
-        setContent {
-            SocialLoginButtons(
-                onEvent = {},
-                isGoogleAuthSupported = false
-            )
-        }
-
-        onNodeWithText("Continue with Google").assertDoesNotExist()
-    }
-
-    @Test
     fun shouldDisableButtonWhenRequesting() = runComposeUiTest {
          setContent {
             SocialLoginButtons(
                 onEvent = {},
-                isGoogleAuthSupported = true,
                 requestingGoogleAuthentication = true
             )
         }

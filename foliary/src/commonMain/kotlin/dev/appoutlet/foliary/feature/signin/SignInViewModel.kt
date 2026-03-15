@@ -1,7 +1,6 @@
 package dev.appoutlet.foliary.feature.signin
 
 import androidx.lifecycle.viewModelScope
-import dev.appoutlet.foliary.core.auth.isGoogleAuthSupported
 import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.ErrorState
 import dev.appoutlet.foliary.core.mvi.MviViewModel
@@ -87,8 +86,6 @@ class SignInViewModel(
     }
 
     private fun handleGoogleSignIn() = intent {
-        if (!isGoogleAuthSupported()) return@intent
-
         val currentState = state
         if (currentState !is SignInViewData.NotAuthenticated) return@intent
 
