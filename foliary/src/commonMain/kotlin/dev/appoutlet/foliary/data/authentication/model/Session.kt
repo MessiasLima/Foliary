@@ -12,4 +12,6 @@ data class Session(
     val expiresIn: Long,
     val tokenType: String,
     val type: String,
-)
+) {
+    companion object
+}
