@@ -26,7 +26,7 @@ class DeepLinkUtilsTest {
     fun `should parse multiple parameters from fragment`() {
         val result = "https://example.com#access_token=123&refresh_token=456&type=bearer"
             .getAdditionalQueryParameters()
-        
+
         result shouldBe mapOf(
             "access_token" to "123",
             "refresh_token" to "456",
@@ -38,7 +38,7 @@ class DeepLinkUtilsTest {
     fun `should filter out blank keys or values`() {
         val result = "https://example.com#valid=ok&empty_val=& =blank_key&=no_key"
             .getAdditionalQueryParameters()
-        
+
         result shouldBe mapOf("valid" to "ok")
     }
 
