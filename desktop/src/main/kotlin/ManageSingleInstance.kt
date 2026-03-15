@@ -4,7 +4,6 @@ import androidx.compose.ui.window.ApplicationScope
 import io.github.kdroidfilter.nucleus.core.runtime.DeepLinkHandler
 import io.github.kdroidfilter.nucleus.core.runtime.SingleInstanceManager
 
-
 @Composable
 inline fun ApplicationScope.manageSingleInstance(
     crossinline onRestoreRequest: (Boolean) -> Unit,

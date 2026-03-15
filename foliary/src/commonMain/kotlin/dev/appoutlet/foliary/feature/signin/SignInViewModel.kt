@@ -86,6 +86,7 @@ class SignInViewModel(
     }
 
     private fun handleGoogleSignIn() = intent {
+        TODO("Will be implemented in https://github.com/MessiasLima/Foliary/issues/16")
     }
 
     private fun handleAppleSignIn() = intent {
