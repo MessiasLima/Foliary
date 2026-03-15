@@ -1,6 +1,7 @@
 package dev.appoutlet.foliary.feature.signin
 
 import androidx.lifecycle.viewModelScope
+import dev.appoutlet.foliary.core.auth.isGoogleAuthSupported
 import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.ErrorState
 import dev.appoutlet.foliary.core.mvi.MviViewModel
@@ -86,22 +87,45 @@ class SignInViewModel(
     }
 
     private fun handleGoogleSignIn() = intent {
-        TODO("Will be implemented in https://github.com/MessiasLima/Foliary/issues/16")
+        if (!isGoogleAuthSupported()) return@intent
+
+        val currentState = state
+        if (currentState !is SignInViewData.NotAuthenticated) return@intent
+
+        reduce { currentState.copy(requestingGoogleAuthentication = true) }
+        runCatching {
+            authenticationRepository.requestGoogleAuthentication()
+        }.onFailure {
+            reduce { currentState.copy(requestingGoogleAuthentication = false) }
+            onError(ErrorState(it))
+        }
     }
 
     private fun handleAppleSignIn() = intent {
     }
 
     private fun handleSendMagicLink(email: String) = intent {
-        reduce { SignInViewData.NotAuthenticated(requestingMagicLink = true) }
-        authenticationRepository.requestMagicLink(email)
-        reduce { SignInViewData.MagicLinkSent(email) }
+        val currentState = state
+        if (currentState !is SignInViewData.NotAuthenticated) return@intent
+
+        reduce { currentState.copy(requestingMagicLink = true) }
+        runCatching {
+            authenticationRepository.requestMagicLink(email)
+        }.onSuccess {
+            reduce { SignInViewData.MagicLinkSent(email) }
+        }.onFailure {
+            reduce { currentState.copy(requestingMagicLink = false) }
+            onError(ErrorState(it))
+        }
     }
 }
 
 sealed interface SignInViewData {
     data object Idle : SignInViewData
-    data class NotAuthenticated(val requestingMagicLink: Boolean = false) : SignInViewData
+    data class NotAuthenticated(
+        val requestingMagicLink: Boolean = false,
+        val requestingGoogleAuthentication: Boolean = false
+    ) : SignInViewData
     data class MagicLinkSent(val email: String) : SignInViewData
     data object Loading : SignInViewData
     data class Authenticated(val userName: String, val newUser: Boolean) : SignInViewData

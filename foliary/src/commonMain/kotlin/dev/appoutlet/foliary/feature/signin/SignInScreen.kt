@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.appoutlet.foliary.core.auth.isGoogleAuthSupported
 import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryOutlinedButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
@@ -39,7 +41,6 @@ import dev.appoutlet.foliary.feature.main.MainNavKey
 import dev.appoutlet.foliary.feature.signin.composable.Authenticated
 import dev.appoutlet.foliary.feature.signin.composable.EmailLoginForm
 import dev.appoutlet.foliary.feature.signin.composable.MagicLinkSent
-import dev.appoutlet.foliary.feature.signin.composable.SocialLoginButtons
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.ic_foliary
 import foliary.foliary.generated.resources.ic_google
@@ -160,7 +161,10 @@ private fun UnAuthenticatedContent(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SocialLoginButtons(onEvent = onEvent)
+        SocialLoginButtons(
+            onEvent = onEvent,
+            requestingGoogleAuthentication = state.requestingGoogleAuthentication
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -185,6 +189,41 @@ private fun UnAuthenticatedContent(
     }
 }
 
+
+@Composable
+internal fun SocialLoginButtons(
+    onEvent: (SignInEvent) -> Unit,
+    requestingGoogleAuthentication: Boolean = false,
+    isGoogleAuthSupported: Boolean = isGoogleAuthSupported()
+) {
+    if (!isGoogleAuthSupported) return
+
+    FoliaryOutlinedButton(
+        onClick = { onEvent(SignInEvent.OnGoogleSignInClick) },
+        modifier = Modifier.fillMaxWidth(),
+        enabled = requestingGoogleAuthentication.not()
+    ) {
+        AnimatedContent(requestingGoogleAuthentication) { requesting ->
+            if (requesting) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(20.dp),
+                    strokeWidth = 2.dp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            } else {
+                Image(
+                    painter = painterResource(Res.drawable.ic_google),
+                    contentDescription = null,
+                )
+            }
+        }
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = stringResource(Res.string.sign_in_continue_with_google),
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
 
 @Composable
 private fun OrDivider() {
