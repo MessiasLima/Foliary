@@ -3,6 +3,11 @@
 ## Overview
 Reference for AI agents working on **Foliary**, a Kotlin Multiplatform (KMP) app using Compose Multiplatform, Orbit MVI, Koin, Room, and Kermit.
 
+## ⚠️ HARD RULES FOR AGENTS ⚠️
+1. **NO NEW LIBRARIES**: NEVER add any new third-party library or dependency without the user's explicit requirement or permission. If you think a library is needed, you MUST ask the user first. This is a HARD RULE.
+2. **NO UNNECESSARY COMMENTS**: Focus comments on *why* something is done, rather than *what*. Do not talk to the user via code comments.
+3. **MIMIC EXISTING STYLE**: Adhere rigorously to existing project conventions (formatting, structure, typing).
+
 ## Build, Lint & Test Commands
 > Execute from repository root.
 
@@ -27,9 +32,6 @@ Reference for AI agents working on **Foliary**, a Kotlin Multiplatform (KMP) app
 ## Code Style Guidelines
 Governed by **Detekt** (`config/detekt/detekt.yml`) and Kotlin conventions.
 
-### Formatting
-- **Max line length**: 120 chars (tests exempt)
-- **Indentation**: 4 spaces, no tabs
 
 ### Imports
 **Order** (blank line between groups):
@@ -54,7 +56,7 @@ Governed by **Detekt** (`config/detekt/detekt.yml`) and Kotlin conventions.
 
 ### Error Handling & Logging
 - Catch specific exceptions; use `Result` or `runCatching { }`
-- Logging: `private val log by logger()` then `log.d { }` / `log.e { }`
+- Logging: `private val log by logger()` then `log.d { }` / `log.e { }`. For top-level functions or files, use `private val log = getLogger("Tag")`.
 
 ### Dependency Injection (Koin)
 - ViewModels: `@KoinViewModel`; Services: `@Single`
