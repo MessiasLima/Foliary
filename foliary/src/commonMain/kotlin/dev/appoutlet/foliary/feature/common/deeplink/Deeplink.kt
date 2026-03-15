@@ -5,4 +5,6 @@ data class Deeplink(
     val host: String,
     val path: String,
     val queryParameters: Map<String, String>
-)
+) {
+    companion object
+}
