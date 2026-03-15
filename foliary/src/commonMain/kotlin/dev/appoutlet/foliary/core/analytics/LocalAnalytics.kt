@@ -10,4 +10,4 @@ import org.koin.mp.KoinPlatform
  * Uses staticCompositionLocalOf since Analytics is a singleton that doesn't change at runtime.
  * Defaults to DebugAnalytics for safety if not provided.
  */
-val LocalAnalytics = staticCompositionLocalOf<Analytics> { KoinPlatform.getKoin().get() }
+val LocalAnalytics = staticCompositionLocalOf<Analytics> { DebugAnalytics() }
