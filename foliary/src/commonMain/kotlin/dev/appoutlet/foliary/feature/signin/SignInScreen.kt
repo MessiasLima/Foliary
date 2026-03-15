@@ -200,23 +200,6 @@ private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
             style = MaterialTheme.typography.bodyMedium
         )
     }
-
-    // Apple Sign-In disabled for now
-
-//    FoliaryOutlinedButton(
-//        onClick = { onEvent(SignInEvent.OnAppleSignInClick) },
-//        modifier = Modifier.fillMaxWidth()
-//    ) {
-//        Icon(
-//            imageVector = Lucide.Apple,
-//            contentDescription = null,
-//        )
-//        Spacer(modifier = Modifier.width(16.dp))
-//        Text(
-//            text = stringResource(Res.string.sign_in_continue_with_apple),
-//            style = MaterialTheme.typography.bodyMedium
-//        )
-//    }
 }
 
 @Composable
@@ -241,11 +224,10 @@ private fun OrDivider() {
     }
 }
 
-@Suppress("UnusedParameter")
 private fun onAction(action: SignInAction, navigator: Navigator) {
     when (action) {
         SignInAction.NavigateToMain -> {
-            navigator.navigate(MainNavKey)
+            navigator.setRoot(MainNavKey)
         }
     }
 }
