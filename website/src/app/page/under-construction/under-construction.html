@@ -1,40 +1,22 @@
-<div class="p-8 max-w-4xl mx-auto space-y-12">
-  <header>
-    <h1 class="text-4xl mb-2">Foliary Design System</h1>
-    <p class="text-on-surface-variant">Angular Implementation Preview (Under Construction)</p>
-  </header>
-
-  <section>
-    <h2 class="text-2xl mb-4">Typography</h2>
-    <div class="space-y-4">
-      <h1>Heading 1 (Domine)</h1>
-      <h2>Heading 2 (Domine)</h2>
-      <h3>Heading 3 (Domine)</h3>
-      <p>Body Text (Inter). This is what the standard body text looks like in the application. It uses the inter font and the on-surface color.</p>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="text-2xl mb-4">Cards</h2>
-    <foliary-card class="p-6">
-      <h3 class="text-xl mb-2">Card Title</h3>
-      <p class="mb-4">This is a Foliary card. It uses the exact surface, outline, and shadow values translated from the Kotlin Compose design system.</p>
-      <div class="flex gap-4">
-        <button foliary-primary-button>Action</button>
-        <button foliary-outlined-button>Cancel</button>
+<div class="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center">
+  <foliary-card class="max-w-md w-full p-8 md:p-12">
+    <div class="flex flex-col items-center">
+      <div class="mb-8 p-4 bg-secondary-container rounded-2xl">
+        <img src="icon.png" alt="Foliary Icon" class="w-16 h-16">
       </div>
-    </foliary-card>
-  </section>
-
-  <section>
-    <h2 class="text-2xl mb-4">Buttons</h2>
-    <div class="flex flex-wrap gap-4 items-center p-6 bg-surface-container rounded-xl">
-      <button foliary-primary-button>Primary Button</button>
-      <button foliary-secondary-button>Secondary Button</button>
-      <button foliary-outlined-button>Outlined Button</button>
       
-      <button foliary-primary-button disabled>Disabled Primary</button>
-      <button foliary-outlined-button disabled>Disabled Outlined</button>
+      <h1 class="text-3xl md:text-4xl mb-4">Under Construction</h1>
+      
+      <p class="text-on-surface-variant mb-8 leading-relaxed">
+        We're working hard to bring Foliary to the web. Our team is currently 
+        planting the seeds for a better productivity experience.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
+        <a foliary-primary-button href="https://github.com/MessiasLima/Foliary" target="_blank" class="w-full sm:w-auto">
+          View on GitHub
+        </a>
+      </div>
     </div>
-  </section>
+  </foliary-card>
 </div>
