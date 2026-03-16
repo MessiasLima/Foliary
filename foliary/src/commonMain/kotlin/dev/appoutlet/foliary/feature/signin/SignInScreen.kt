@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -159,7 +160,10 @@ private fun UnAuthenticatedContent(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SocialLoginButtons(onEvent = onEvent)
+        SocialLoginButtons(
+            state = state,
+            onEvent = onEvent
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -185,15 +189,28 @@ private fun UnAuthenticatedContent(
 }
 
 @Composable
-private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
+private fun SocialLoginButtons(
+    state: SignInViewData.NotAuthenticated,
+    onEvent: (SignInEvent) -> Unit
+) {
     FoliaryOutlinedButton(
         onClick = { onEvent(SignInEvent.OnGoogleSignInClick) },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        enabled = state.requestingGoogleAuthentication.not() && state.requestingMagicLink.not()
     ) {
-        Image(
-            painter = painterResource(Res.drawable.ic_google),
-            contentDescription = null,
-        )
+        AnimatedContent(state.requestingGoogleAuthentication) { requestingGoogleAuthentication ->
+            if (requestingGoogleAuthentication) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    strokeWidth = 2.dp,
+                )
+            } else {
+                Image(
+                    painter = painterResource(Res.drawable.ic_google),
+                    contentDescription = null,
+                )
+            }
+        }
         Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = stringResource(Res.string.sign_in_continue_with_google),
