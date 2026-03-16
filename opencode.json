@@ -1,22 +1,30 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "autoupdate": true,
-  "agent": {
-    "build": {
-      "model": "google/gemini-3-flash-preview"
+    "$schema": "https://opencode.ai/config.json",
+    "autoupdate": true,
+    "agent": {
+        "build": {
+            "model": "google/gemini-3-flash-preview"
+        },
+        "plan": {
+            "model": "google/gemini-3.1-pro-preview"
+        }
     },
-    "plan": {
-      "model": "google/gemini-3.1-pro-preview"
+    "mcp": {
+        "GitHub": {
+            "enabled": false,
+            "type": "remote",
+            "url": "https://api.githubcopilot.com/mcp",
+            "headers": {
+                "Authorization": "Bearer {env:GITHUB_TOKEN}"
+            }
+        },
+        "Banani": {
+            "enabled": false,
+            "type": "remote",
+            "url": "https://app.banani.co/api/mcp/mcp",
+            "headers": {
+                "Authorization": "Bearer {env:BANANI_TOKEN}"
+            }
+        }
     }
-  },
-  "mcp": {
-    "GitHub": {
-      "enabled": false,
-      "type": "remote",
-      "url": "https://api.githubcopilot.com/mcp",
-      "headers": {
-        "Authorization": "Bearer {env:GITHUB_TOKEN}"
-      }
-    }
-  }
 }

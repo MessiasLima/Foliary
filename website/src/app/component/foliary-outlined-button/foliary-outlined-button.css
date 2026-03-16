@@ -1,0 +1,11 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+:host:disabled, :host[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

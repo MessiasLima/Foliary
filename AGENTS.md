@@ -3,6 +3,8 @@
 ## Overview
 Reference for AI agents working on **Foliary**, a Kotlin Multiplatform (KMP) app using Compose Multiplatform, Orbit MVI, Koin, Room, and Kermit.
 
+The project also contains an application website located in the `website/` directory, which is an Angular application built using Tailwind CSS.
+
 ## ⚠️ HARD RULES FOR AGENTS ⚠️
 1. **NO NEW LIBRARIES**: NEVER add any new third-party library or dependency without the user's explicit requirement or permission. If you think a library is needed, you MUST ask the user first. This is a HARD RULE.
 2. **NO UNNECESSARY COMMENTS**: Focus comments on *why* something is done, rather than *what*. Do not talk to the user via code comments.
