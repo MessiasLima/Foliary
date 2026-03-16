@@ -64,7 +64,7 @@ fun EmailLoginForm(
         email = email,
         onValueChange = { email = it },
         emailErrorMessage = emailErrorMessage,
-        enabled = viewData.requestingMagicLink.not()
+        enabled = viewData.isLoading.not()
     )
 
     Spacer(modifier = Modifier.height(16.dp))
@@ -80,7 +80,7 @@ fun EmailLoginForm(
             }
         },
         modifier = Modifier.fillMaxWidth(),
-        enabled = viewData.requestingMagicLink.not()
+        enabled = viewData.isLoading.not()
     ) {
         Text(
             text = stringResource(Res.string.sign_in_send_magic_link),

@@ -7,6 +7,7 @@ Reference for AI agents working on **Foliary**, a Kotlin Multiplatform (KMP) app
 1. **NO NEW LIBRARIES**: NEVER add any new third-party library or dependency without the user's explicit requirement or permission. If you think a library is needed, you MUST ask the user first. This is a HARD RULE.
 2. **NO UNNECESSARY COMMENTS**: Focus comments on *why* something is done, rather than *what*. Do not talk to the user via code comments.
 3. **MIMIC EXISTING STYLE**: Adhere rigorously to existing project conventions (formatting, structure, typing).
+4. **NO GENERIC CATCH**: DO NOT catch generic exceptions like `catch (throwable: Throwable)` or `catch (e: Exception)`. This is an antipattern for coroutines as it can catch `CancellationException`. Catch specific exceptions or re-throw `CancellationException` if you must catch a broad type.
 
 ## Build & Test Commands
 > Execute from repository root.
