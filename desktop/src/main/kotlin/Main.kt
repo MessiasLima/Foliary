@@ -15,11 +15,6 @@ import java.awt.Dimension
 private const val WindowMinimumWidth = 350
 private const val WindowMinimumHeight = 900
 
-// TODO: Create Foliary Website to redirect to when Google Successfull login
-// TODO: Use the Foliary website as redirect url for Google
-// TODO: Create ticket to enhance the Authenticated screen on Sign In: Use the user name when possible
-// TODO: Create ticket to enhance the SignIn Screen, Avoid blinking when opening the app in a already authenticated app
-
 fun main(args: Array<String>) {
     initSentry()
     registerDeeplinkHandler(args)

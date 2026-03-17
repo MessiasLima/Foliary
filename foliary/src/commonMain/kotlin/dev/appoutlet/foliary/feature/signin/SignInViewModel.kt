@@ -87,20 +87,9 @@ class SignInViewModel(
         log.d { event.toString() }
 
         when (event) {
-            SignInEvent.OnGoogleSignInClick -> handleGoogleSignIn()
-            SignInEvent.OnAppleSignInClick -> handleAppleSignIn()
             is SignInEvent.OnSendMagicLink -> handleSendMagicLink(event.email)
             SignInEvent.OnSelectNewEmail -> onTryAgain()
         }
-    }
-
-    private fun handleGoogleSignIn() = intent {
-        reduce { SignInViewData.NotAuthenticated(requestingGoogleAuthentication = true) }
-        authenticationRepository.requestGoogleAuthentication()
-        reduce { SignInViewData.NotAuthenticated(requestingGoogleAuthentication = false) }
-    }
-
-    private fun handleAppleSignIn() = intent {
     }
 
     private fun handleSendMagicLink(email: String) = intent {
@@ -113,11 +102,10 @@ class SignInViewModel(
 sealed interface SignInViewData {
     data object Idle : SignInViewData
     data class NotAuthenticated(
-        val requestingMagicLink: Boolean = false,
-        val requestingGoogleAuthentication: Boolean = false
+        val requestingMagicLink: Boolean = false
     ) : SignInViewData {
         val isLoading: Boolean
-            get() = requestingMagicLink || requestingGoogleAuthentication
+            get() = requestingMagicLink
     }
     data class MagicLinkSent(val email: String) : SignInViewData
     data object Loading : SignInViewData
@@ -125,8 +113,6 @@ sealed interface SignInViewData {
 }
 
 sealed interface SignInEvent {
-    data object OnGoogleSignInClick : SignInEvent
-    data object OnAppleSignInClick : SignInEvent
     data object OnSelectNewEmail : SignInEvent
     data class OnSendMagicLink(val email: String) : SignInEvent
 }
