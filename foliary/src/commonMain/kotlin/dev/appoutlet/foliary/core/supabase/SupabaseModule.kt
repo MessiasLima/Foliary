@@ -21,7 +21,7 @@ class SupabaseModule {
         ) {
             install(Auth)
             install(ComposeAuth) {
-                googleNativeLogin(serverClientId = BuildKonfig.googleServerClientId)
+                googleNativeLogin(serverClientId = BuildKonfig.googleWebClientId)
             }
         }
     }

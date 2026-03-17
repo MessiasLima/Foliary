@@ -150,8 +150,8 @@ val Properties.supabaseUrl: String
 val Properties.supabasePublishableKey: String
     get() = getProperty("supabase.publishableKey", "")
 
-val Properties.googleServerClientId: String
-    get() = getProperty("google.serverClientId", "")
+val Properties.googleWebClientId: String
+    get() = getProperty("google.webClientId", "")
 
 buildkonfig {
     packageName = "dev.appoutlet.foliary"
@@ -166,7 +166,7 @@ buildkonfig {
         buildConfigField(FieldSpec.Type.STRING, "sentryDsn", props.sentryDsn)
         buildConfigField(FieldSpec.Type.STRING, "supabaseUrl", props.supabaseUrl)
         buildConfigField(FieldSpec.Type.STRING, "supabasePublishableKey", props.supabasePublishableKey)
-        buildConfigField(FieldSpec.Type.STRING, "googleServerClientId", props.googleServerClientId)
+        buildConfigField(FieldSpec.Type.STRING, "googleWebClientId", props.googleWebClientId)
     }
 
     defaultConfigs("release") {

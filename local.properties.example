@@ -21,4 +21,4 @@ supabase.url=
 supabase.publishableKey=
 
 # Google Configuration
-google.serverClientId=
+google.webClientId=
