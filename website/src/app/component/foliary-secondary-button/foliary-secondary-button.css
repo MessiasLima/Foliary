@@ -1,0 +1,13 @@
+:host {
+  /* Shadow based on secondaryContainer color with 10% alpha */
+  box-shadow: 0px 0px 60px 0px color-mix(in srgb, var(--color-secondary-container) 10%, transparent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+:host:disabled, :host[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

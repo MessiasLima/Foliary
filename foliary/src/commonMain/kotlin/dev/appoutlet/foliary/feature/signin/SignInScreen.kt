@@ -48,8 +48,13 @@ import foliary.foliary.generated.resources.sign_in_helper_text
 import foliary.foliary.generated.resources.sign_in_or_divider
 import foliary.foliary.generated.resources.sign_in_subtitle
 import foliary.foliary.generated.resources.sign_in_title
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.compose.auth.composable.GoogleDialogType
+import io.github.jan.supabase.compose.auth.composable.rememberSignInWithGoogle
+import io.github.jan.supabase.compose.auth.composeAuth
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -159,7 +164,7 @@ private fun UnAuthenticatedContent(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SocialLoginButtons(onEvent = onEvent)
+        SocialLoginButtons(state = state)
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -185,10 +190,18 @@ private fun UnAuthenticatedContent(
 }
 
 @Composable
-private fun SocialLoginButtons(onEvent: (SignInEvent) -> Unit) {
+private fun SocialLoginButtons(
+    state: SignInViewData.NotAuthenticated,
+) {
+    val supabase = koinInject<SupabaseClient>()
+    val action = supabase.composeAuth.rememberSignInWithGoogle(
+        type = GoogleDialogType.BOTTOM_SHEET
+    )
+
     FoliaryOutlinedButton(
-        onClick = { onEvent(SignInEvent.OnGoogleSignInClick) },
-        modifier = Modifier.fillMaxWidth()
+        onClick = { action.startFlow() },
+        modifier = Modifier.fillMaxWidth(),
+        enabled = state.isLoading.not()
     ) {
         Image(
             painter = painterResource(Res.drawable.ic_google),

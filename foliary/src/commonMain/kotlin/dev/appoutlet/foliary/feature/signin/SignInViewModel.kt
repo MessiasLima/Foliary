@@ -68,6 +68,15 @@ class SignInViewModel(
     fun onTryAgain() = intent { reduce { SignInViewData.NotAuthenticated() } }
 
     private fun processDeeplink(deepLink: Deeplink) = intent {
+        val error = deepLink.queryParameters["error"]
+        val errorDescription = deepLink.queryParameters["error_description"]
+
+        if (error != null) {
+            reduce { SignInViewData.NotAuthenticated() }
+            onError(ErrorState(error = Throwable(error), message = errorDescription))
+            return@intent
+        }
+
         val accessToken = deepLink.queryParameters["access_token"] ?: return@intent
         val refreshToken = deepLink.queryParameters["refresh_token"] ?: return@intent
 
@@ -78,18 +87,9 @@ class SignInViewModel(
         log.d { event.toString() }
 
         when (event) {
-            SignInEvent.OnGoogleSignInClick -> handleGoogleSignIn()
-            SignInEvent.OnAppleSignInClick -> handleAppleSignIn()
             is SignInEvent.OnSendMagicLink -> handleSendMagicLink(event.email)
             SignInEvent.OnSelectNewEmail -> onTryAgain()
         }
-    }
-
-    private fun handleGoogleSignIn() = intent {
-        TODO("Will be implemented in https://github.com/MessiasLima/Foliary/issues/16")
-    }
-
-    private fun handleAppleSignIn() = intent {
     }
 
     private fun handleSendMagicLink(email: String) = intent {
@@ -101,15 +101,18 @@ class SignInViewModel(
 
 sealed interface SignInViewData {
     data object Idle : SignInViewData
-    data class NotAuthenticated(val requestingMagicLink: Boolean = false) : SignInViewData
+    data class NotAuthenticated(
+        val requestingMagicLink: Boolean = false
+    ) : SignInViewData {
+        val isLoading: Boolean
+            get() = requestingMagicLink
+    }
     data class MagicLinkSent(val email: String) : SignInViewData
     data object Loading : SignInViewData
     data class Authenticated(val userName: String, val newUser: Boolean) : SignInViewData
 }
 
 sealed interface SignInEvent {
-    data object OnGoogleSignInClick : SignInEvent
-    data object OnAppleSignInClick : SignInEvent
     data object OnSelectNewEmail : SignInEvent
     data class OnSendMagicLink(val email: String) : SignInEvent
 }

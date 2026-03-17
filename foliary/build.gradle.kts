@@ -72,6 +72,7 @@ kotlin {
             implementation(libs.sentry)
             implementation(libs.sqlite.bundled)
             implementation(libs.supabase.auth)
+            implementation(libs.supabase.compose.auth)
             implementation(libs.umami)
         }
 
@@ -149,6 +150,9 @@ val Properties.supabaseUrl: String
 val Properties.supabasePublishableKey: String
     get() = getProperty("supabase.publishableKey", "")
 
+val Properties.googleWebClientId: String
+    get() = getProperty("google.webClientId", "")
+
 buildkonfig {
     packageName = "dev.appoutlet.foliary"
 
@@ -162,6 +166,7 @@ buildkonfig {
         buildConfigField(FieldSpec.Type.STRING, "sentryDsn", props.sentryDsn)
         buildConfigField(FieldSpec.Type.STRING, "supabaseUrl", props.supabaseUrl)
         buildConfigField(FieldSpec.Type.STRING, "supabasePublishableKey", props.supabasePublishableKey)
+        buildConfigField(FieldSpec.Type.STRING, "googleWebClientId", props.googleWebClientId)
     }
 
     defaultConfigs("release") {
