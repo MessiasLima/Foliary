@@ -98,4 +98,4 @@ sentry = { module = "io.sentry:sentry-kotlin-multiplatform", version.ref = "sent
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 supabase-auth = { module = "io.github.jan-tennert.supabase:auth-kt", version.ref = "supabase" }
 supabase-compose-auth = { module = "io.github.jan-tennert.supabase:compose-auth", version.ref = "supabase" }
-umami = "dev.appoutlet:umami:0.4.0"
+umami = "dev.appoutlet:umami:0.5.0"
