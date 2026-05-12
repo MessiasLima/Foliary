@@ -64,7 +64,7 @@ compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.re
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
 compose-ui-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "compose-multiplatform" }
 compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
-detekt-composeRules = "io.nlopez.compose.rules:detekt:0.5.6"
+detekt-composeRules = "io.nlopez.compose.rules:detekt:0.5.8"
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 kermit-koin = { module = "co.touchlab:kermit-koin", version.ref = "kermit" }
