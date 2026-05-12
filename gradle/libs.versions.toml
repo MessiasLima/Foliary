@@ -34,7 +34,7 @@ versionUuid = "198fd94c-4cab-4167-b7cc-2ee195b5818e"
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-kmp-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
-buildKonfig = "com.codingfeline.buildkonfig:0.17.1"
+buildKonfig = "com.codingfeline.buildkonfig:0.20.0"
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
