@@ -1,5 +1,6 @@
 package dev.appoutlet.foliary.data.authentication
 
+import dev.appoutlet.foliary.core.allopen.Open
 import dev.appoutlet.foliary.data.authentication.database.SessionDao
 import dev.appoutlet.foliary.data.authentication.mapper.SessionMapper
 import dev.appoutlet.foliary.data.authentication.mapper.UserSessionMapper
@@ -9,13 +10,14 @@ import io.github.jan.supabase.auth.user.UserSession
 import org.koin.core.annotation.Single
 
 @Single
+@Open
 class DefaultAuthenticationRepository(
     private val auth: Auth,
     private val sessionDao: SessionDao,
     private val userSessionMapper: UserSessionMapper,
     private val sessionMapper: SessionMapper
 ) : AuthenticationRepository {
-    override suspend fun sessionStatus() = auth.sessionStatus
+    override fun sessionStatus() = auth.sessionStatus
 
     override suspend fun requestMagicLink(email: String) {
         auth.signInWith(provider = OTP, redirectUrl = getRedirectUrl()) {
