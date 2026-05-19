@@ -40,11 +40,10 @@ class DefaultAuthenticationRepository(
         sessionDao.deleteAll()
     }
 
-    override suspend fun loadSession(): UserSession? {
+    override suspend fun loadSession(): UserSession {
         val session = sessionDao.load()
-        return session?.let {
-            userSessionMapper(it)
-        }
+        requireNotNull(session)
+        return userSessionMapper(session)
     }
 
     override suspend fun saveSession(session: UserSession) {
