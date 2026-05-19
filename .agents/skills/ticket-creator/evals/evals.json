@@ -1,0 +1,100 @@
+{
+  "skill_name": "ticket-creator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Please draft a GitHub bug ticket for this repo. In the notifications screen, tapping 'Mark all as read' sometimes leaves the unread badge visible until the user restarts the app. Investigate the current implementation, check for existing issues, and prepare the issue for my review. Do not create it yet.",
+      "expected_output": "A bug-ticket draft that includes duplicate-search handling, repo-specific findings from the notifications implementation, and the bug template structure without creating the issue.",
+      "files": [],
+      "expectations": [
+        "The draft identifies the request as a bug ticket and uses the bug template headings: Description, Steps to Reproduce, Actual Behavior, Expected Behavior, and Additional Information.",
+        "The response references the notifications implementation with concrete repo context such as NotificationsViewModel, NotificationsOrchestrator, NotificationRepository, or DefaultNotificationRepository.",
+        "The response mentions a duplicate-issue search in the current GitHub repository before drafting.",
+        "The response stops in draft/approval mode and does not create the issue yet.",
+        "The draft strictly follows the rule of NOT repeating the ticket title as a heading or text inside the issue body description.",
+        "When the issue is created (or when writing the body file), the body file content must NOT start with a code fence delimiter (```). The file written to .opencode/issues/<slug>.md must contain raw markdown, not a code-fenced block."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Write a task ticket to review and update outdated build and dependency versions in this repository, starting from `gradle/libs.versions.toml`. Capture scope, constraints, and outcome-focused acceptance criteria, but stop at the draft for my review.",
+      "expected_output": "A task-ticket draft grounded in the version catalog with outcome-based acceptance criteria and no issue creation.",
+      "files": [],
+      "expectations": [
+        "The draft identifies the request as a task ticket and uses the task template structure with Description, Scope and constraints, Acceptance criteria, and optional Additional information.",
+        "The response references gradle/libs.versions.toml as part of the codebase investigation.",
+        "The acceptance criteria are outcome-oriented checklist items instead of vague implementation activity.",
+        "The response stops in draft/approval mode and does not create the issue yet.",
+        "The draft strictly follows the rule of NOT repeating the ticket title as a heading or text inside the issue body description.",
+        "When the issue is created (or when writing the body file), the body file content must NOT start with a code fence delimiter (```). The file written to .opencode/issues/<slug>.md must contain raw markdown, not a code-fenced block."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Create a spike ticket to investigate extracting notifications into dedicated `data/notification` and `feature/notifications` modules as described in `modularisation.md`. Research the current notification implementation first and stop at the draft.",
+      "expected_output": "A spike-ticket draft that combines modularisation plan context with concrete notification implementation findings and leaves the issue uncreated.",
+      "files": [],
+      "expectations": [
+        "The proposed title starts with `Spike: `.",
+        "The draft uses the spike template structure with Background, Current Knowledge, Scope, Outcomes, and Deliverables.",
+        "The response references modularisation.md together with current notification implementation files such as NotificationsScreen, NotificationsViewModel, NotificationsOrchestrator, or data/notification classes.",
+        "The response stops in draft/approval mode and does not create the issue yet.",
+        "The draft strictly follows the rule of NOT repeating the ticket title as a heading or text inside the issue body description.",
+        "When the issue is created (or when writing the body file), the body file content must NOT start with a code fence delimiter (```). The file written to .opencode/issues/<slug>.md must contain raw markdown, not a code-fenced block."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Draft a feature ticket for adding an unread-only filter to the notifications screen, including support when multiple sites are selected. Investigate the current notifications flow in the codebase before drafting. Do not create the issue yet.",
+      "expected_output": "A feature-ticket draft that describes the user benefit, technical considerations, and GIVEN/WHEN/THEN acceptance criteria for an unread-only notifications filter.",
+      "files": [],
+      "expectations": [
+        "The draft identifies the request as a feature ticket and uses the feature template structure with Description and Acceptance criteria.",
+        "The acceptance criteria are checklist items written in GIVEN / WHEN / THEN form.",
+        "The response references notifications flow details such as NotificationsScreen, NotificationsViewModel, NotificationsViewDataMapper, selectedSites, or hasUnreadNotifications.",
+        "The response stops in draft/approval mode and does not create the issue yet.",
+        "The draft strictly follows the rule of NOT repeating the ticket title as a heading or text inside the issue body description.",
+        "When the issue is created (or when writing the body file), the body file content must NOT start with a code fence delimiter (```). The file written to .opencode/issues/<slug>.md must contain raw markdown, not a code-fenced block."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Create a bug ticket for the Sentry issue 111242862.",
+      "expected_output": "A bug-ticket draft that includes Sentry event data (such as the error message, stack trace, and environment info) along with duplicate-search handling and repo-specific context.",
+      "files": [],
+      "expectations": [
+        "The draft identifies the request as a bug ticket and uses the bug template headings.",
+        "The draft uses Sentry commands to fetch the issue and event info.",
+        "The draft includes the specific Sentry error message (Failed to connect to linux.do) and related stack trace details.",
+        "The response mentions a duplicate-issue search in the current GitHub repository before drafting.",
+        "The response stops in draft/approval mode and does not create the issue yet."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Review this ticket for me:\n\nTitle: Fix notifications\n\nBody:\n## Description\nThe notifications thing is broken. It should work properly.\n\n## Acceptance Criteria\n- [ ] Fix the bug\n- [ ] Test everything works\n\n## Additional Information\nThis is high priority.",
+      "expected_output": "A structured ticket review with: (1) Blockers, Improvements, and Suggestions grouped by severity, (2) an improved version of the ticket in a fenced markdown code block, (3) explanations for each issue found.",
+      "files": [],
+      "expectations": [
+        "The response groups feedback into three severity levels: Blockers, Improvements, and Suggestions.",
+        "The response includes an improved version of the ticket inside a fenced markdown code block.",
+        "The response explains why each issue matters, not just what is wrong.",
+        "The improved ticket replaces weasel words (like 'properly', 'everything', 'works') with concrete, verifiable criteria.",
+        "The improved ticket adds missing context such as steps to reproduce, expected vs actual behavior, or scope boundaries."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "I need to add a dark mode toggle to the application settings. This should include:\n- A toggle in the settings UI\n- System-wide theme switching across all screens\n- Persisting the user's preference\n- Supporting both Android and iOS\n- Updating design docs\n\nBreak this down into tickets for me.",
+      "expected_output": "A feature breakdown with multiple small, focused tickets grouped by area (e.g., backend, frontend-android, frontend-ios, design), with dependencies and sequencing called out.",
+      "files": [],
+      "expectations": [
+        "The response proposes at least 3 separate tickets instead of one mega-ticket.",
+        "The response groups tickets by area (e.g., UI, backend, design, platform-specific).",
+        "The response calls out dependencies and sequencing (which tickets block others).",
+        "Each proposed ticket has a clear, outcome-oriented title that describes what it accomplishes.",
+        "The response surfaces hidden scope such as empty states, loading states, error states, or backwards compatibility concerns."
+      ]
+    }
+  ]
+}
