@@ -1,6 +1,5 @@
 package dev.appoutlet.foliary.core.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -84,11 +83,13 @@ private val darkScheme = darkColorScheme(
 
 @Composable
 fun FoliaryTheme(
-    isDarkTheme: Boolean = isSystemInDarkTheme(),
+    isDarkTheme: Boolean = false, // isSystemInDarkTheme(), Dark mode will be enabled later
     content: @Composable () -> Unit
 ) {
     SetupPlatformStatusBar(isDarkTheme)
+
     val colorScheme = if (isDarkTheme) darkScheme else lightScheme
+
     MaterialTheme(
         colorScheme = colorScheme,
         typography = getTypography(colorScheme),

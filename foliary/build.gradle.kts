@@ -2,6 +2,7 @@ import com.codingfeline.buildkonfig.compiler.FieldSpec
 import java.util.Properties
 
 plugins {
+    alias(libs.plugins.allopen)
     alias(libs.plugins.android.kmp.library)
     alias(libs.plugins.buildKonfig)
     alias(libs.plugins.compose.compiler)
@@ -172,4 +173,8 @@ buildkonfig {
     defaultConfigs("release") {
         buildConfigField(FieldSpec.Type.BOOLEAN, "isDebug", "false")
     }
+}
+
+allOpen {
+    annotations("dev.appoutlet.foliary.core.allopen.Open")
 }
