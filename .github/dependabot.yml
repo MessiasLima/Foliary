@@ -8,6 +8,8 @@ updates:
     ignore:
       - dependency-name: "org.jetbrains.compose.*"
       - dependency-name: "org.jetbrains.androidx.*"
+      # Should be updated together with AGP
+      - dependency-name: "gradle-wrapper"
 
   - package-ecosystem: "github-actions"
     directory: "/"
