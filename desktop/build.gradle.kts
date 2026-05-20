@@ -27,6 +27,15 @@ dependencies {
 nucleus.application {
     mainClass = "MainKt"
 
+    buildTypes {
+        release {
+            proguard {
+                isEnabled = true
+                configurationFiles.from(project.file("proguard-rules.pro"))
+            }
+        }
+    }
+
     nativeDistributions {
         targetFormats(TargetFormat.Dmg, TargetFormat.Nsis, TargetFormat.Deb)
         packageName = "Foliary"
