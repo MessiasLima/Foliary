@@ -26,3 +26,8 @@ updates:
       angular:
         patterns:
           - "@angular/*"
+      tailwind:
+        patterns:
+          - "tailwindcss"
+          - "postcss"
+          - "@tailwindcss/postcss"
