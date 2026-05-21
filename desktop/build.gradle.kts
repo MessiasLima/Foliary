@@ -1,3 +1,6 @@
+import io.github.kdroidfilter.nucleus.desktop.application.dsl.SnapConfinement
+import io.github.kdroidfilter.nucleus.desktop.application.dsl.SnapGrade
+import io.github.kdroidfilter.nucleus.desktop.application.dsl.SnapPlug
 import io.github.kdroidfilter.nucleus.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -19,6 +22,7 @@ dependencies {
     implementation(project(":foliary"))
     implementation(compose.desktop.currentOs)
     implementation(libs.nucleus.core.runtime)
+    implementation(libs.nucleus.aot.runtime)
 
     testImplementation(kotlin("test"))
     testImplementation(libs.kotest.assertions)
@@ -28,10 +32,53 @@ nucleus.application {
     mainClass = "MainKt"
 
     nativeDistributions {
-        targetFormats(TargetFormat.Dmg, TargetFormat.Nsis, TargetFormat.Deb)
         packageName = "Foliary"
         packageVersion = libs.versions.versionName.get()
+        enableAotCache = true
         protocol("Foliary", "foliary")
+
+        targetFormats(
+            TargetFormat.Snap,
+            TargetFormat.Flatpak,
+            TargetFormat.AppX,
+            TargetFormat.Dmg
+        )
+
+        linux {
+            iconFile.set(project.file("appIcons/LinuxIcon.png"))
+            shortcut = true
+            packageName = "Foliary"
+            appRelease = libs.versions.versionCode.get()
+            appCategory = "Utility"
+            startupWMClass = "dev-appoutlet-Foliary"
+
+            snap {
+                confinement = SnapConfinement.Strict
+                grade = SnapGrade.Stable
+                base = "core26"
+            }
+
+            flatpak {
+                license.set(rootProject.file("LICENSE"))
+            }
+        }
+
+        windows {
+            iconFile.set(project.file("appIcons/WindowsIcon.ico"))
+            upgradeUuid = libs.versions.versionUuid.get()
+            console = false
+            perUserInstall = true
+            appx {  }
+        }
+
+        macOS {
+            bundleID = "dev.appoutlet.Foliary"
+            dockName = "Foliary"
+            appCategory = "public.app-category.utilities"
+            minimumSystemVersion = "12.0"
+            macOsSdkVersion = "26.0"
+            iconFile.set(project.file("appIcons/MacosIcon.icns"))
+        }
     }
 }
 
