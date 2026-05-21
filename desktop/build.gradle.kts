@@ -31,6 +31,17 @@ dependencies {
 nucleus.application {
     mainClass = "MainKt"
 
+    buildTypes {
+        release {
+            proguard {
+                isEnabled = true
+                obfuscate = true
+                optimize = true
+                configurationFiles.from(project.file("proguard-rules.pro"))
+            }
+        }
+    }
+
     nativeDistributions {
         packageName = "Foliary"
         packageVersion = libs.versions.versionName.get()
