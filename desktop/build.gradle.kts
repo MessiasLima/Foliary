@@ -1,6 +1,5 @@
 import io.github.kdroidfilter.nucleus.desktop.application.dsl.SnapConfinement
 import io.github.kdroidfilter.nucleus.desktop.application.dsl.SnapGrade
-import io.github.kdroidfilter.nucleus.desktop.application.dsl.SnapPlug
 import io.github.kdroidfilter.nucleus.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -34,9 +33,9 @@ nucleus.application {
     buildTypes {
         release {
             proguard {
-                isEnabled = true
-                obfuscate = true
-                optimize = true
+                isEnabled = false
+                obfuscate = false
+                optimize = false
                 configurationFiles.from(project.file("proguard-rules.pro"))
             }
         }
@@ -45,7 +44,8 @@ nucleus.application {
     nativeDistributions {
         packageName = "Foliary"
         packageVersion = libs.versions.versionName.get()
-        enableAotCache = true
+        enableAotCache = false
+
         protocol("Foliary", "foliary")
 
         targetFormats(
