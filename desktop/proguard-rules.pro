@@ -8,5 +8,3 @@
 # Ktor
 -keep class io.ktor.client.engine.** { *; }
 -keep class io.ktor.serialization.kotlinx.json.** { *; }
-
--dontwarn **

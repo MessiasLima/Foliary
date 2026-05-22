@@ -33,7 +33,7 @@ nucleus.application {
     buildTypes {
         release {
             proguard {
-                isEnabled = true
+                isEnabled = false
                 obfuscate = false
                 optimize = false
                 configurationFiles.from(project.file("proguard-rules.pro"))
