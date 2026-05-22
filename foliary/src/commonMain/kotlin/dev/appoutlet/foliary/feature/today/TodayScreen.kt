@@ -16,10 +16,9 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun TodayScreen() {
-    val viewModel = koinViewModel<TodayViewModel>()
     Screen(
         screenName = "TodayScreen",
-        viewModelProvider = { viewModel }
+        viewModelProvider = { koinViewModel<TodayViewModel>() }
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize()

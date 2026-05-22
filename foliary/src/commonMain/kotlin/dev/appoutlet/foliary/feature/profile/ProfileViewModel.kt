@@ -11,12 +11,24 @@ class ProfileViewModel(
 ) : MviViewModel<ProfileViewData, ProfileAction>() {
     override val container = container(ProfileViewData)
 
-    fun logOut() {
-        intent {
-            authenticationRepository.signOut()
+    fun onEvent(event: ProfileEvent) {
+        when (event) {
+            ProfileEvent.OnLogOutClick -> onLogOutClick()
         }
     }
+
+    private fun onLogOutClick() = intent {
+        authenticationRepository.signOut()
+        postSideEffect(ProfileAction.NavigateToSignIn)
+    }
+
 }
 
 object ProfileViewData
-object ProfileAction : Action
+sealed interface ProfileAction : Action {
+    data object NavigateToSignIn : ProfileAction
+}
+
+sealed interface ProfileEvent {
+    data object OnLogOutClick : ProfileEvent
+}
