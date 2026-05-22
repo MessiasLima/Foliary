@@ -10,15 +10,12 @@ import androidx.compose.ui.window.rememberWindowState
 import dev.appoutlet.foliary.App
 import dev.appoutlet.foliary.core.logging.getLogger
 import dev.appoutlet.foliary.core.logging.initSentry
-import io.github.kdroidfilter.nucleus.aot.runtime.AotRuntime
 import java.awt.Dimension
 
 private const val WindowMinimumWidth = 350
 private const val WindowMinimumHeight = 900
 
 fun main(args: Array<String>) {
-    if (AotRuntime.isTraining()) { aotTraining() }
-
     initSentry()
     registerDeeplinkHandler(args)
     application {
