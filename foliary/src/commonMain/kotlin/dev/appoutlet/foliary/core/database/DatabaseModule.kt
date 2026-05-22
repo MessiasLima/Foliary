@@ -2,7 +2,6 @@ package dev.appoutlet.foliary.core.database
 
 import androidx.room.RoomDatabase
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import dev.appoutlet.foliary.core.encryption.PlatformEncryptionModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import org.koin.core.annotation.Configuration
