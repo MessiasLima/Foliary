@@ -12,11 +12,13 @@ import org.koin.core.annotation.Single
 @Single
 @Open
 class DefaultAuthenticationRepository(
-    private val auth: Auth,
+    lazyAuth: Lazy<Auth>,
     private val sessionDao: SessionDao,
     private val userSessionMapper: UserSessionMapper,
     private val sessionMapper: SessionMapper
 ) : AuthenticationRepository {
+    private val auth by lazyAuth
+
     override fun sessionStatus() = auth.sessionStatus
 
     override suspend fun requestMagicLink(email: String) {

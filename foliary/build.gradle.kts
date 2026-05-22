@@ -62,6 +62,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ksafe)
             implementation(libs.lucideIcons)
             implementation(libs.material3.adaptive.navigation3)
             implementation(libs.material3.adaptive.navigationSuite)
