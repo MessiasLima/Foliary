@@ -21,7 +21,6 @@ class ProfileViewModel(
         authenticationRepository.signOut()
         postSideEffect(ProfileAction.NavigateToSignIn)
     }
-
 }
 
 object ProfileViewData

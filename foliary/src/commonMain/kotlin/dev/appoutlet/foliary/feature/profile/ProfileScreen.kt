@@ -42,9 +42,8 @@ fun ProfileScreen() {
     }
 }
 
-
 private fun onAction(action: ProfileAction, navigator: Navigator) {
-    when(action) {
+    when (action) {
         ProfileAction.NavigateToSignIn -> navigator.setRoot(SignInNavKey)
     }
 }

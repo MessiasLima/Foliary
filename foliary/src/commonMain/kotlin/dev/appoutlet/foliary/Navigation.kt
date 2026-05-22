@@ -1,5 +1,8 @@
 package dev.appoutlet.foliary
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -17,7 +20,9 @@ import org.koin.compose.koinInject
 @Composable
 fun Navigation() {
     val navigationAggregator = koinInject<NavigationAggregator>()
-    val config = remember(navigationAggregator) { getSavedStateConfiguration(navigationAggregator.navigation) }
+    val config = remember(navigationAggregator) {
+        getSavedStateConfiguration(navigationAggregator.navigation)
+    }
     val backStack = rememberNavBackStack(configuration = config, SignInNavKey)
     CompositionLocalProvider(LocalNavigator provides AppNavigator(backStack)) {
         NavDisplay(
@@ -26,8 +31,13 @@ fun Navigation() {
                 rememberSaveableStateHolderNavEntryDecorator(),
             ),
             entryProvider = entryProvider {
-                for (navigation in navigationAggregator.navigation) { navigation.setupRoute(this) }
+                for (navigation in navigationAggregator.navigation) {
+                    navigation.setupRoute(this)
+                }
             },
+            transitionSpec = { fadeIn() togetherWith fadeOut() },
+            popTransitionSpec = { fadeIn() togetherWith fadeOut() },
+            predictivePopTransitionSpec = { fadeIn() togetherWith fadeOut() },
         )
     }
 }
