@@ -64,6 +64,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.lucideIcons)
             implementation(libs.material3.adaptive.navigation3)
+            implementation(libs.material3.adaptive.navigationSuite)
             implementation(libs.multiplatformSettings)
             implementation(libs.navigation3.ui)
             implementation(libs.orbit.compose)

@@ -31,4 +31,18 @@
     <string name="error_show_details">Show details</string>
     <string name="error_hide_details">Hide details</string>
     <!-- endregion -->
+
+    <!-- region Main -->
+    <string name="main_nav_today">Today</string>
+    <string name="main_nav_profile">Profile</string>
+    <!-- endregion -->
+
+    <!-- region Profile -->
+    <string name="profile_logout">Log out</string>
+    <string name="profile_title">Profile</string>
+    <!-- endregion -->
+
+    <!-- region Today -->
+    <string name="today_title">Today</string>
+    <!-- endregion -->
 </resources>
