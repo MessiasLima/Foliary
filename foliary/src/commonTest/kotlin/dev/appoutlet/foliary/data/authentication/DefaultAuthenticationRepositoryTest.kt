@@ -4,10 +4,12 @@ import dev.appoutlet.foliary.data.authentication.model.userSessionFixture
 import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
 import dev.mokkery.mock
 import dev.mokkery.verifySuspend
 import eu.anifantakis.lib.ksafe.KSafe
 import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.auth.providers.builtin.OTP
 import kotlin.io.path.createTempDirectory
 import io.github.jan.supabase.auth.status.SessionStatus
 import io.kotest.assertions.throwables.shouldThrow
@@ -77,6 +79,17 @@ class DefaultAuthenticationRepositoryTest {
         subject.signOut()
 
         verifySuspend { mockAuth.signOut() }
+    }
+
+    @Test
+    fun `should request magic link`() = runTest {
+        val fixtureEmail = "test@example.com"
+
+        subject.requestMagicLink(fixtureEmail)
+
+        verifySuspend {
+            mockAuth.signInWith(provider = OTP, redirectUrl = getRedirectUrl(), config = any())
+        }
     }
 
     @Test
