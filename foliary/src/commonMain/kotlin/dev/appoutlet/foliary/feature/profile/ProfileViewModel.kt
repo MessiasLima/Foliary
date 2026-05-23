@@ -27,6 +27,7 @@ class ProfileViewModel(
 }
 
 object ProfileViewData
+
 sealed interface ProfileAction : Action {
     data object NavigateToSignIn : ProfileAction
 }

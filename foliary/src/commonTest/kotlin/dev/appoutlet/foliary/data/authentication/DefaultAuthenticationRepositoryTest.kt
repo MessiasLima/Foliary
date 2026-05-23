@@ -10,12 +10,12 @@ import dev.mokkery.verifySuspend
 import eu.anifantakis.lib.ksafe.KSafe
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.providers.builtin.OTP
-import kotlin.io.path.createTempDirectory
 import io.github.jan.supabase.auth.status.SessionStatus
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
+import kotlin.io.path.createTempDirectory
 import kotlin.test.Test
 
 class DefaultAuthenticationRepositoryTest {
