@@ -22,6 +22,9 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(libs.nucleus.core.runtime)
     implementation(libs.nucleus.aot.runtime)
+    implementation(libs.nucleus.decorated.window.core)
+    implementation(libs.nucleus.decorated.window.jbr)
+    implementation(libs.nucleus.decorated.window.material3)
 
     testImplementation(kotlin("test"))
     testImplementation(libs.kotest.assertions)
