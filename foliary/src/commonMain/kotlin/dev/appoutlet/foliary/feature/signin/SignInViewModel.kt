@@ -18,7 +18,7 @@ import kotlin.time.Duration.Companion.seconds
 @KoinViewModel
 class SignInViewModel(
     private val authenticationRepository: AuthenticationRepository,
-    private val deeplinkDispatcher: DeepLinkDispatcher
+    private val deeplinkDispatcher: DeepLinkDispatcher,
 ) : MviViewModel<SignInViewData, SignInAction>() {
     private var wasNotAuthenticated = false
 

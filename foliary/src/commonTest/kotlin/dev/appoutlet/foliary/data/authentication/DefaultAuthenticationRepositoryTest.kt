@@ -1,36 +1,30 @@
 package dev.appoutlet.foliary.data.authentication
 
-import dev.appoutlet.foliary.data.authentication.database.SessionDao
-import dev.appoutlet.foliary.data.authentication.mapper.SessionMapper
-import dev.appoutlet.foliary.data.authentication.mapper.UserSessionMapper
-import dev.appoutlet.foliary.data.authentication.model.Session
-import dev.appoutlet.foliary.data.authentication.model.fixture
 import dev.appoutlet.foliary.data.authentication.model.userSessionFixture
 import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
-import dev.mokkery.every
 import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
 import dev.mokkery.mock
 import dev.mokkery.verifySuspend
+import eu.anifantakis.lib.ksafe.KSafe
 import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.auth.providers.builtin.OTP
 import io.github.jan.supabase.auth.status.SessionStatus
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
+import kotlin.io.path.createTempDirectory
 import kotlin.test.Test
 
 class DefaultAuthenticationRepositoryTest {
-    val mockAuth = mock<Auth>(mode = MockMode.autoUnit)
-    val mockSessionDao = mock<SessionDao>(mode = MockMode.autoUnit)
-    val mockUserSessionMapper = mock<UserSessionMapper>()
-    val mockSessionMapper = mock<SessionMapper>()
+    private val mockAuth = mock<Auth>(mode = MockMode.autoUnit)
+    private val ksafe = KSafe(baseDir = createTempDirectory("ksafe-test").toFile())
 
     val subject = DefaultAuthenticationRepository(
-        auth = mockAuth,
-        sessionDao = mockSessionDao,
-        userSessionMapper = mockUserSessionMapper,
-        sessionMapper = mockSessionMapper
+        lazyAuth = lazy { mockAuth },
+        ksafe = ksafe,
     )
 
     @Test
@@ -46,18 +40,19 @@ class DefaultAuthenticationRepositoryTest {
 
     @Test
     fun `should delete session`() = runTest {
+        val fixtureUserSession = userSessionFixture()
+        subject.saveSession(fixtureUserSession)
+
         subject.deleteSession()
 
-        verifySuspend { mockSessionDao.deleteAll() }
+        shouldThrow<IllegalArgumentException> { subject.loadSession() }
     }
 
     @Test
     fun `should load session`() = runTest {
-        val fixtureSession = Session.fixture()
         val fixtureUserSession = userSessionFixture()
 
-        everySuspend { mockSessionDao.load() } returns fixtureSession
-        every { mockUserSessionMapper(fixtureSession) } returns fixtureUserSession
+        subject.saveSession(fixtureUserSession)
 
         val result = subject.loadSession()
 
@@ -66,21 +61,17 @@ class DefaultAuthenticationRepositoryTest {
 
     @Test
     fun `should throw when loading session and none exists`() = runTest {
-        everySuspend { mockSessionDao.load() } returns null
-
         shouldThrow<IllegalArgumentException> { subject.loadSession() }
     }
 
     @Test
     fun `should save session`() = runTest {
         val fixtureUserSession = userSessionFixture()
-        val fixtureSession = Session.fixture()
-
-        every { mockSessionMapper(fixtureUserSession) } returns fixtureSession
 
         subject.saveSession(fixtureUserSession)
 
-        verifySuspend { mockSessionDao.insert(fixtureSession) }
+        val result = subject.loadSession()
+        result shouldBe fixtureUserSession
     }
 
     @Test
@@ -88,6 +79,17 @@ class DefaultAuthenticationRepositoryTest {
         subject.signOut()
 
         verifySuspend { mockAuth.signOut() }
+    }
+
+    @Test
+    fun `should request magic link`() = runTest {
+        val fixtureEmail = "test@example.com"
+
+        subject.requestMagicLink(fixtureEmail)
+
+        verifySuspend {
+            mockAuth.signInWith(provider = OTP, redirectUrl = getRedirectUrl(), config = any())
+        }
     }
 
     @Test

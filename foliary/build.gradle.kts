@@ -62,6 +62,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ksafe)
             implementation(libs.lucideIcons)
             implementation(libs.material3.adaptive.navigation3)
             implementation(libs.material3.adaptive.navigationSuite)
@@ -78,13 +79,13 @@ kotlin {
             implementation(libs.umami)
         }
 
-
         commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.compose.ui.test)
             implementation(libs.kotest.assertions)
             implementation(libs.koin.test)
             implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.orbit.test)
         }
 
         androidMain.dependencies {

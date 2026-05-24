@@ -50,6 +50,7 @@ fun MainScreen() {
                 NavigationSuiteType.NavigationRail,
                 NavigationSuiteType.WideNavigationRailExpanded,
                 NavigationSuiteType.WideNavigationRailCollapsed -> 16.dp
+
                 else -> 0.dp
             }
         }
