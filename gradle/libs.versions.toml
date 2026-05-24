@@ -32,7 +32,7 @@ versionName = "1.0.0"
 versionUuid = "198fd94c-4cab-4167-b7cc-2ee195b5818e"
 
 [plugins]
-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin"}
+allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-kmp-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 buildKonfig = "com.codingfeline.buildkonfig:0.21.2"
@@ -95,6 +95,7 @@ nucleus-core-runtime = { module = "io.github.kdroidfilter:nucleus.core-runtime",
 orbit-compose = { module = "org.orbit-mvi:orbit-compose", version.ref = "orbit" }
 orbit-core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbit" }
 orbit-viewModel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orbit" }
+orbit-test = { module = "org.orbit-mvi:orbit-test", version.ref = "orbit" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 sentry = { module = "io.sentry:sentry-kotlin-multiplatform", version.ref = "sentry" }

@@ -79,13 +79,13 @@ kotlin {
             implementation(libs.umami)
         }
 
-
         commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.compose.ui.test)
             implementation(libs.kotest.assertions)
             implementation(libs.koin.test)
             implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.orbit.test)
         }
 
         androidMain.dependencies {
