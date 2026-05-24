@@ -9,5 +9,9 @@ import org.koin.core.annotation.Single
 @Module
 actual object EncryptionModule {
     @Single
-    fun provideKSafe(): KSafe = KSafe()
+    fun provideKSafe(): KSafe = KSafeWrapper.ksafe
+}
+
+private object KSafeWrapper{
+    val ksafe = KSafe()
 }
