@@ -53,5 +53,7 @@ class ViewModelClassScope<ViewModel : MviViewModel<ViewData, Action>, ViewData :
     fun advanceTimeBy(delayTime: Duration) = testScope.advanceTimeBy(delayTime)
     fun advanceUntilIdle() = testScope.advanceUntilIdle()
     suspend fun awaitState() = orbitTestContext.awaitState()
+    suspend fun awaitSideEffect() = orbitTestContext.awaitSideEffect()
     suspend fun expectState(viewData: ViewData) = orbitTestContext.expectState(viewData)
+    suspend fun expectSideEffect(action: Action) = orbitTestContext.expectSideEffect(action)
 }

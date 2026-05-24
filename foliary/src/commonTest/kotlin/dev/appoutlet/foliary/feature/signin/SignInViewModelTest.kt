@@ -2,17 +2,16 @@ package dev.appoutlet.foliary.feature.signin
 
 import dev.appoutlet.foliary.core.testing.ViewModelTest
 import dev.appoutlet.foliary.data.authentication.AuthenticationRepository
+import dev.appoutlet.foliary.data.authentication.model.userSessionFixture
 import dev.appoutlet.foliary.feature.common.deeplink.DeepLinkDispatcher
-import dev.appoutlet.foliary.feature.common.deeplink.Deeplink
-import dev.appoutlet.foliary.feature.common.deeplink.fixture
 import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every
-import dev.mokkery.matcher.any
 import dev.mokkery.mock
-import dev.mokkery.verify.VerifyMode
 import dev.mokkery.verifySuspend
+import io.github.jan.supabase.auth.status.SessionSource
 import io.github.jan.supabase.auth.status.SessionStatus
+import io.github.jan.supabase.auth.user.UserInfo
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,37 +35,77 @@ class SignInViewModelTest : ViewModelTest<SignInViewModel, SignInViewData, SignI
     }
 
     @Test
-    fun `should import auth token from deeplink`() = test {
-        val deeplink = Deeplink.fixture(
-            queryParameters = mapOf(
-                "access_token" to "access-token-value",
-                "refresh_token" to "refresh-token-value",
-            )
-        )
+    fun `should show loading when session is initializing`() = test {
+        expectState(SignInViewData.Loading)
+    }
 
-        DeepLinkDispatcher.dispatch(deeplink)
+    @Test
+    fun `should show not authenticated when session is not authenticated`() {
+        sessionStatusFlow.value = SessionStatus.NotAuthenticated()
 
-        advanceTimeBy(1.seconds)
-
-        verifySuspend {
-            mockAuthenticationRepository.importAuthToken(
-                "access-token-value",
-                "refresh-token-value"
-            )
+        test {
+            expectState(SignInViewData.NotAuthenticated())
         }
     }
 
     @Test
-    fun `should not import auth token when deeplink is missing tokens`() = test {
-        val deeplink = Deeplink.fixture(
-            queryParameters = mapOf("other" to "param")
+    fun `should navigate to main when session is already authenticated`() {
+        sessionStatusFlow.value = SessionStatus.Authenticated(userSessionFixture())
+
+        test {
+            expectSideEffect(SignInAction.NavigateToMain)
+        }
+    }
+
+    @Test
+    fun `should show authenticated before navigating when user signs in`() {
+        val email = "user@example.com"
+        val session = userSessionFixture().copy(
+            user = UserInfo(
+                aud = "authenticated",
+                id = "user-id",
+                email = email,
+            )
         )
 
-        DeepLinkDispatcher.dispatch(deeplink)
-        advanceUntilIdle()
+        sessionStatusFlow.value = SessionStatus.NotAuthenticated()
 
-        verifySuspend(mode = VerifyMode.exactly(0)) {
-            mockAuthenticationRepository.importAuthToken(any(), any())
+        test {
+            expectState(SignInViewData.NotAuthenticated())
+
+            sessionStatusFlow.value = SessionStatus.Authenticated(
+                session = session,
+                source = SessionSource.External,
+            )
+
+            expectState(SignInViewData.Authenticated(userName = email, newUser = true))
+            advanceTimeBy(1.seconds)
+            expectSideEffect(SignInAction.NavigateToMain)
         }
+    }
+
+    @Test
+    fun `should request magic link`() {
+        val email = "user@example.com"
+        sessionStatusFlow.value = SessionStatus.NotAuthenticated()
+
+        test {
+            expectState(SignInViewData.NotAuthenticated())
+
+            viewModel.onEvent(SignInEvent.OnSendMagicLink(email))
+
+            expectState(SignInViewData.NotAuthenticated(requestingMagicLink = true))
+            verifySuspend { mockAuthenticationRepository.requestMagicLink(email) }
+            expectState(SignInViewData.MagicLinkSent(email))
+        }
+    }
+
+    @Test
+    fun `should return to not authenticated when selecting new email`() = test {
+        expectState(SignInViewData.Loading)
+
+        viewModel.onEvent(SignInEvent.OnSelectNewEmail)
+
+        expectState(SignInViewData.NotAuthenticated())
     }
 }
