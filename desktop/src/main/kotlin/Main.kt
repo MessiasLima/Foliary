@@ -1,4 +1,5 @@
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -11,6 +12,7 @@ import dev.appoutlet.foliary.App
 import dev.appoutlet.foliary.core.logging.getLogger
 import dev.appoutlet.foliary.core.logging.initSentry
 import java.awt.Dimension
+import java.awt.Window
 
 private const val WindowMinimumWidth = 350
 private const val WindowMinimumHeight = 900
@@ -20,7 +22,9 @@ fun main(args: Array<String>) {
     registerDeeplinkHandler(args)
     application {
         var restoreRequested by remember { mutableStateOf(false) }
+        var appWindow by remember { mutableStateOf<Window?>(null) }
         val log = getLogger("Main")
+
         manageSingleInstance(
             onRestoreRequest = { requested ->
                 restoreRequested = requested
@@ -31,15 +35,22 @@ fun main(args: Array<String>) {
             }
         )
 
+        FoliaryTray(onBringToFront = { restoreRequested = true })
+
         Window(
             title = "Foliary",
             state = rememberWindowState(width = 800.dp, height = WindowMinimumHeight.dp),
-            onCloseRequest = ::exitApplication,
+            onCloseRequest = {
+                appWindow?.isVisible = false
+            },
         ) {
             window.minimumSize = Dimension(WindowMinimumWidth, WindowMinimumHeight)
 
+            SideEffect { appWindow = window }
+
             LaunchedEffect(restoreRequested) {
                 if (restoreRequested) {
+                    window.isVisible = true
                     window.toFront()
                     restoreRequested = false
                 }
