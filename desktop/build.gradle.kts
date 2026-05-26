@@ -12,7 +12,7 @@ plugins {
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll(
-            "-Xskip-prerelease-check"
+            "-Xskip-prerelease-check",
         )
     }
 }
@@ -20,10 +20,10 @@ kotlin {
 dependencies {
     implementation(project(":foliary"))
     implementation(compose.desktop.currentOs)
-    implementation(libs.composenativetray)
-    implementation(libs.lucideIcons)
     implementation(libs.nucleus.core.runtime)
     implementation(libs.nucleus.aot.runtime)
+    implementation(libs.nucleus.decoratedWindow.jbr)
+    implementation(libs.nucleus.decoratedWindow.material3)
 
     testImplementation(kotlin("test"))
     testImplementation(libs.kotest.assertions)
