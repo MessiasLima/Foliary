@@ -39,7 +39,9 @@ fun ApplicationScope.DecoratedWindow(content: @Composable () -> Unit) {
         }
     )
 
-    FoliaryTray(onBringToFront = { restoreRequested = true })
+    appWindow?.let { window ->
+        FoliaryTray({ window })
+    }
 
     FoliaryTheme {
         MaterialDecoratedWindow(
