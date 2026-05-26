@@ -103,6 +103,7 @@ kotlin {
             implementation(libs.appdirs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.cio)
+            implementation(libs.nucleus.core.runtime)
         }
     }
 
@@ -158,6 +159,7 @@ val Properties.googleWebClientId: String
 
 buildkonfig {
     packageName = "dev.appoutlet.foliary"
+    exposeObjectWithName.set("BuildKonfig")
 
     defaultConfigs {
         buildConfigField(FieldSpec.Type.BOOLEAN, "isDebug", "true")

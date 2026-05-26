@@ -19,6 +19,7 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.CalendarCheck
 import com.composables.icons.lucide.Lucide
@@ -55,6 +56,8 @@ fun MainScreen() {
             }
         }
 
+        val windowDecorationPadding = remember { getWindowDecorationPadding() }
+
         NavigationSuiteScaffold(
             modifier = Modifier
                 .fillMaxSize()
@@ -62,7 +65,7 @@ fun MainScreen() {
             layoutType = layoutType,
             navigationSuiteItems = {
                 item(
-                    modifier = Modifier.padding(top = itemTopPadding),
+                    modifier = Modifier.padding(top = windowDecorationPadding + itemTopPadding),
                     selected = viewData.selectedTab == MainTab.Today,
                     onClick = { viewModel.onTabSelected(MainTab.Today) },
                     icon = { Icon(Lucide.CalendarCheck, contentDescription = null) },
@@ -117,3 +120,5 @@ private fun getItemColors(): NavigationSuiteItemColors {
         navigationDrawerItemColors = NavigationDrawerItemDefaults.colors(),
     )
 }
+
+expect fun getWindowDecorationPadding(): Dp
