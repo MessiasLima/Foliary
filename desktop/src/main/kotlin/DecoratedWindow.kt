@@ -1,6 +1,7 @@
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,6 +17,7 @@ import io.github.kdroidfilter.nucleus.window.DecoratedWindowScope
 import io.github.kdroidfilter.nucleus.window.material.MaterialDecoratedWindow
 import io.github.kdroidfilter.nucleus.window.material.MaterialTitleBar
 import io.github.kdroidfilter.nucleus.window.styling.LocalTitleBarStyle
+import java.awt.Window
 
 private val log = getLogger("Decorated Window")
 
@@ -25,6 +27,7 @@ private const val WindowMinimumHeight = 900
 @Composable
 fun ApplicationScope.DecoratedWindow(content: @Composable () -> Unit) {
     var restoreRequested by remember { mutableStateOf(false) }
+    var appWindow by remember { mutableStateOf<Window?>(null) }
 
     manageSingleInstance(
         onRestoreRequest = { requested ->
@@ -36,15 +39,22 @@ fun ApplicationScope.DecoratedWindow(content: @Composable () -> Unit) {
         }
     )
 
+    FoliaryTray(onBringToFront = { restoreRequested = true })
+
     FoliaryTheme {
         MaterialDecoratedWindow(
             title = "Foliary",
             state = rememberWindowState(width = 800.dp, height = WindowMinimumHeight.dp),
-            onCloseRequest = ::exitApplication,
+            onCloseRequest = {
+                appWindow?.isVisible = false
+            },
             minimumSize = DpSize(WindowMinimumWidth.dp, WindowMinimumHeight.dp),
         ) {
+            SideEffect { appWindow = window }
+
             LaunchedEffect(restoreRequested) {
                 if (restoreRequested) {
+                    window.isVisible = true
                     window.toFront()
                     restoreRequested = false
                 }
