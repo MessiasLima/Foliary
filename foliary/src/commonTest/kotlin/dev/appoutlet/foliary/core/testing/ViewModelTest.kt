@@ -3,8 +3,8 @@ package dev.appoutlet.foliary.core.testing
 import dev.appoutlet.foliary.core.mvi.MviViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
@@ -23,7 +23,7 @@ abstract class ViewModelTest<ViewModel : MviViewModel<ViewData, Action>, ViewDat
 
     @BeforeTest
     fun setup() {
-        Dispatchers.setMain(StandardTestDispatcher())
+        Dispatchers.setMain(UnconfinedTestDispatcher())
         viewModel = createViewModel()
     }
 
