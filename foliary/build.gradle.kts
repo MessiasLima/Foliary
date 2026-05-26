@@ -103,6 +103,7 @@ kotlin {
             implementation(libs.appdirs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.cio)
+            implementation(libs.nucleus.core.runtime)
         }
     }
 

@@ -23,7 +23,7 @@ private const val WindowMinimumWidth = 350
 private const val WindowMinimumHeight = 900
 
 @Composable
-fun ApplicationScope.DecoratedWindow(content: @Composable () -> Unit){
+fun ApplicationScope.DecoratedWindow(content: @Composable () -> Unit) {
     var restoreRequested by remember { mutableStateOf(false) }
 
     manageSingleInstance(
