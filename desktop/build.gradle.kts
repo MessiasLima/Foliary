@@ -92,7 +92,7 @@ nucleus.application {
             appCategory = "public.app-category.utilities"
             minimumSystemVersion = "12.0"
             macOsSdkVersion = "26.0"
-            iconFile.set(project.file("appIcons/MacosIcon.icns"))
+            iconFile.set(project.file("appIcons/icon.icns"))
         }
     }
 }
