@@ -1,0 +1,83 @@
+{
+  "$schema": "https://lingo.dev/schema/i18n.json",
+  "version": 1.15,
+  "locale": {
+    "source": "en",
+    "targets": [
+      "af",
+      "ar",
+      "az",
+      "bar",
+      "be",
+      "bg",
+      "bn",
+      "ca",
+      "cs",
+      "cy",
+      "da",
+      "de",
+      "el",
+      "es",
+      "et",
+      "eu",
+      "fa",
+      "fi",
+      "fil",
+      "fr",
+      "ga",
+      "gl",
+      "he",
+      "hi",
+      "hr",
+      "hu",
+      "id",
+      "it",
+      "ja",
+      "kk",
+      "km",
+      "ko",
+      "lt",
+      "lv",
+      "ms",
+      "mt",
+      "nap",
+      "nl",
+      "nn-rNO",
+      "no",
+      "pa",
+      "pl",
+      "pt",
+      "pt-rBR",
+      "ro",
+      "rw",
+      "ru",
+      "sk",
+      "sl",
+      "so",
+      "sq",
+      "sr",
+      "sv",
+      "sw",
+      "ta",
+      "te",
+      "th",
+      "ti",
+      "tl",
+      "tr",
+      "uk",
+      "ur",
+      "vi",
+      "zh"
+    ]
+  },
+  "buckets": {
+    "android": {
+      "include": [
+        {
+          "path": "foliary/src/commonMain/composeResources/values-[locale]/strings.xml",
+          "delimiter": "-"
+        }
+      ]
+    }
+  }
+}
