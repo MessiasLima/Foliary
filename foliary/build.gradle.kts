@@ -119,6 +119,12 @@ kotlin {
     }
 }
 
+compose {
+    resources {
+        publicResClass = true
+    }
+}
+
 room {
     schemaDirectory("$projectDir/schemas")
 }

@@ -45,4 +45,9 @@
     <!-- region Today -->
     <string name="today_title">Foliary</string>
     <!-- endregion -->
+
+    <!-- region System trat -->
+    <string name="open_app">Open Foliary</string>
+    <string name="quit">Quit</string>
+    <!-- endregion -->
 </resources>

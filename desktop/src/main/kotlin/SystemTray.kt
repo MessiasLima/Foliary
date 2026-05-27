@@ -6,20 +6,28 @@ import com.composables.icons.lucide.Lucide
 import com.kdroid.composetray.tray.api.Tray
 import com.kdroid.composetray.utils.isMenuBarInDarkMode
 import java.awt.Window
+import foliary.foliary.generated.resources.Res
+import foliary.foliary.generated.resources.app_name
+import foliary.foliary.generated.resources.open_app
+import foliary.foliary.generated.resources.quit
+import org.jetbrains.compose.resources.stringResource
 
-// TODO: Create string resources (add rule on readme)
 // TODO: Replace Lucide icon by the application icon
 @Composable
 fun ApplicationScope.FoliaryTray(window: () -> Window) {
+    val appName = stringResource(Res.string.app_name)
+    val openApp = stringResource(Res.string.open_app)
+    val quit = stringResource(Res.string.quit)
+
     Tray(
         icon = Lucide.Leaf,
         tint = if (isMenuBarInDarkMode()) Color.White else Color.Black,
-        tooltip = "Foliary",
+        tooltip = appName,
         primaryAction = { toggleWindow(window()) }
     ) {
-        Item(label = "Open Foliary") { bringToFront(window()) }
+        Item(label = openApp) { bringToFront(window()) }
         Divider()
-        Item(label = "Quit") { exitApplication() }
+        Item(label = quit) { exitApplication() }
     }
 }
 
