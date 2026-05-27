@@ -1,5 +1,6 @@
 {
-  "version": 1.6,
+  "$schema": "https://lingo.dev/schema/i18n.json",
+  "version": 1.15,
   "locale": {
     "source": "en",
     "targets": [
@@ -78,6 +79,5 @@
         }
       ]
     }
-  },
-  "$schema": "https://lingo.dev/schema/i18n.json"
+  }
 }
