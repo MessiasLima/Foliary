@@ -60,7 +60,7 @@ nucleus.application {
         )
 
         linux {
-            iconFile.set(project.file("appIcons/LinuxIcon.png"))
+            iconFile.set(project.file("icons/LinuxIcon.png"))
             shortcut = true
             packageName = "Foliary"
             appRelease = libs.versions.versionCode.get()
@@ -79,7 +79,7 @@ nucleus.application {
         }
 
         windows {
-            iconFile.set(project.file("appIcons/WindowsIcon.ico"))
+            iconFile.set(project.file("icons/icon.ico"))
             upgradeUuid = libs.versions.versionUuid.get()
             console = false
             perUserInstall = true
@@ -92,7 +92,7 @@ nucleus.application {
             appCategory = "public.app-category.utilities"
             minimumSystemVersion = "12.0"
             macOsSdkVersion = "26.0"
-            iconFile.set(project.file("appIcons/icon.icns"))
+            iconFile.set(project.file("icons/icon.icns"))
         }
     }
 }
