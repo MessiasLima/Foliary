@@ -194,7 +194,7 @@ The workflow no longer checks for dependency updates.
 
 ## 📜 License & Code of Conduct
 
-Foliary is licensed under the **Elastic License 2.0** – see the `LICENSE` file for full details.
+Foliary is licensed under the **GNU General Public License 3.0** – see the `LICENSE` file for full details.
 
 We adopt the **Contributor Covenant Code of Conduct** – see the `CODE_OF_CONDUCT.md` file for details.
 

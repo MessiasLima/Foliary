@@ -14,7 +14,7 @@ A calm place for your deep focus.
 
 ## License
 
-Foliary is released under the **Elastic License 2.0**. See the `LICENSE` file for details.
+Foliary is released under the **GNU General Public License 3.0**. See the `LICENSE` file for details.
 
 ## Contributing
 
