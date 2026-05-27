@@ -7,7 +7,7 @@
 <p align="center">A calm place for your deep focus.</p>
 
 <p align="center">
-<a href="https://github.com/MessiasLima/Foliary?tab=GPL-3.0-1-ov-file">
+<a href="https://github.com/MessiasLima/Foliary/blob/main/LICENSE">
 <img alt="GitHub License" src="https://img.shields.io/github/license/messiaslima/foliary?style=for-the-badge">
 </a>
 </p>
