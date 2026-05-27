@@ -52,6 +52,8 @@ nucleus.application {
 
         protocol("Foliary", "foliary")
 
+        modules("java.instrument", "java.management", "java.prefs", "jdk.unsupported")
+
         targetFormats(
             TargetFormat.Snap,
             TargetFormat.Flatpak,

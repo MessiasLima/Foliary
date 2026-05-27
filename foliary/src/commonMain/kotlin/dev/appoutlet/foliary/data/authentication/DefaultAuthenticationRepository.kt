@@ -1,5 +1,6 @@
 package dev.appoutlet.foliary.data.authentication
 
+import androidx.compose.runtime.key
 import dev.appoutlet.foliary.core.allopen.Open
 import eu.anifantakis.lib.ksafe.KSafe
 import eu.anifantakis.lib.ksafe.invoke
@@ -14,8 +15,7 @@ class DefaultAuthenticationRepository(
     lazyAuth: Lazy<Auth>,
     ksafe: KSafe,
 ) : AuthenticationRepository {
-    // TODO: investigate why the release does not persist the session
-    private var userSession by ksafe<UserSession?>(null)
+    private var userSession by ksafe<UserSession?>(defaultValue = null, key = "session")
 
     private val auth by lazyAuth
 
