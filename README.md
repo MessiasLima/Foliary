@@ -1,6 +1,14 @@
-# Foliary
+<p align="center">
+  <img src="website/public/icon.png" width="128" alt="Foliary Icon" />
+</p>
 
-A calm place for your deep focus.
+<h1 align="center">Foliary</h1>
+
+<p align="center">A calm place for your deep focus.</p>
+
+<p align="center">
+<img alt="GitHub License" src="https://img.shields.io/github/license/messiaslima/foliary?style=for-the-badge">
+</p>
 
 **Foliary is currently in the very early stages of development.** There is no working version available yet, but the goal is to provide a simple Todo list combined with a Pomodoro timer that works on Android, iOS, and Desktop.
 
@@ -14,7 +22,7 @@ A calm place for your deep focus.
 
 ## License
 
-Foliary is released under the **Elastic License 2.0**. See the `LICENSE` file for details.
+Foliary is released under the **GNU General Public License 3.0**. See the `LICENSE` file for details.
 
 ## Contributing
 
