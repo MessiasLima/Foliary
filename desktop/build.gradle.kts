@@ -60,7 +60,7 @@ nucleus.application {
         )
 
         linux {
-            iconFile.set(project.file("icons/LinuxIcon.png"))
+            iconFile.set(project.file("icons/icon.png"))
             shortcut = true
             packageName = "Foliary"
             appRelease = libs.versions.versionCode.get()
