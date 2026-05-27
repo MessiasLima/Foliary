@@ -1,4 +1,5 @@
 name: OpenCode
+run-name: OpenCode - ${{ github.ref_name }}
 
 on:
   issue_comment:
@@ -30,4 +31,4 @@ jobs:
         env:
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
         with:
-          model: opencode-go/glm-5.1
+          model: opencode-go/kimi-k2.6
