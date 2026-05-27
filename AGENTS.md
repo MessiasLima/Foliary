@@ -10,6 +10,7 @@ The project also contains an application website located in the `website/` direc
 2. **NO UNNECESSARY COMMENTS**: Focus comments on *why* something is done, rather than *what*. Do not talk to the user via code comments.
 3. **MIMIC EXISTING STYLE**: Adhere rigorously to existing project conventions (formatting, structure, typing).
 4. **NO GENERIC CATCH**: DO NOT catch generic exceptions like `catch (throwable: Throwable)` or `catch (e: Exception)`. This is an antipattern for coroutines as it can catch `CancellationException`. Catch specific exceptions or re-throw `CancellationException` if you must catch a broad type.
+5. **NO PLAIN STRINGS IN UI**: Application screens must NEVER use plain hardcoded strings. Always create a string resource entry in `@foliary/src/commonMain/composeResources/values/strings.xml` and reference it via `stringResource(Res.string.your_string_name)`.
 
 ## Build & Test Commands
 > Execute from repository root.
