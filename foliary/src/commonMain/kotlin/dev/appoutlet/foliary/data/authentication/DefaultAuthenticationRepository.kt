@@ -14,7 +14,7 @@ class DefaultAuthenticationRepository(
     lazyAuth: Lazy<Auth>,
     ksafe: KSafe,
 ) : AuthenticationRepository {
-    private var userSession by ksafe<UserSession?>(null)
+    private var userSession by ksafe<UserSession?>(defaultValue = null, key = "session")
 
     private val auth by lazyAuth
 
