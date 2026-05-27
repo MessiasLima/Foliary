@@ -1,0 +1,41 @@
+name: Update translations
+run-name: Update translation
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - foliary/src/commonMain/composeResources/values/strings.xml
+      - i18n.json
+      - .github/workflows/translations.yml
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-translation:
+    name: Update translation files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Copy values/strings.xml to values-en/strings.xml
+        run: |
+          mkdir -p foliary/src/commonMain/composeResources/values-en
+          cp foliary/src/commonMain/composeResources/values/strings.xml foliary/src/commonMain/composeResources/values-en/strings.xml
+
+      - uses: lingodotdev/lingo.dev@main
+        with:
+          api-key: ${{ secrets.LINGODOTDEV_API_KEY }}
+          pull-request: true
+          pull-request-title: "feat: update translations"
+          commit-message: "feat: update localization files"
+        env:
+          GH_TOKEN: ${{ github.token }}
