@@ -14,6 +14,7 @@ class DefaultAuthenticationRepository(
     lazyAuth: Lazy<Auth>,
     ksafe: KSafe,
 ) : AuthenticationRepository {
+    // TODO: investigate why the release does not persist the session
     private var userSession by ksafe<UserSession?>(null)
 
     private val auth by lazyAuth
