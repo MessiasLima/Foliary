@@ -7,7 +7,9 @@
 <p align="center">A calm place for your deep focus.</p>
 
 <p align="center">
+<a href="https://github.com/MessiasLima/Foliary?tab=GPL-3.0-1-ov-file">
 <img alt="GitHub License" src="https://img.shields.io/github/license/messiaslima/foliary?style=for-the-badge">
+</a>
 </p>
 
 **Foliary is currently in the very early stages of development.** There is no working version available yet, but the goal is to provide a simple Todo list combined with a Pomodoro timer that works on Android, iOS, and Desktop.
