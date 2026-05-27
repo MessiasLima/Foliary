@@ -1,6 +1,5 @@
 package dev.appoutlet.foliary.data.authentication
 
-import androidx.compose.runtime.key
 import dev.appoutlet.foliary.core.allopen.Open
 import eu.anifantakis.lib.ksafe.KSafe
 import eu.anifantakis.lib.ksafe.invoke
