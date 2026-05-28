@@ -2,8 +2,8 @@
 
 package dev.appoutlet.foliary.core.database
 
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room3.Room
+import androidx.room3.RoomDatabase
 import dev.appoutlet.foliary.core.appdirs.Directories
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single

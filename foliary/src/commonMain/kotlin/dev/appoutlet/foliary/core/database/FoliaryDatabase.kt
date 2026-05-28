@@ -1,8 +1,8 @@
 package dev.appoutlet.foliary.core.database
 
-import androidx.room.ConstructedBy
-import androidx.room.Database
-import androidx.room.RoomDatabase
+import androidx.room3.ConstructedBy
+import androidx.room3.Database
+import androidx.room3.RoomDatabase
 import dev.appoutlet.foliary.data.applicationversion.ApplicationVersionDao
 import dev.appoutlet.foliary.data.applicationversion.model.ApplicationVersion
 import dev.appoutlet.foliary.data.authentication.database.SessionDao
