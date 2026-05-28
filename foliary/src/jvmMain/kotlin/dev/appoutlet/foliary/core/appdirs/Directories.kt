@@ -12,10 +12,10 @@ object Directories {
 
     val userDirectory by lazy {
         val folder = appDirs.getUserDataDir(roaming = true)
-        createFolderIfItDoesntExists(folder)
+        createFolderIfItDoesNotExist(folder)
     }
 
-    private fun createFolderIfItDoesntExists(databaseFolder: String): File {
+    private fun createFolderIfItDoesNotExist(databaseFolder: String): File {
         val file = File(databaseFolder)
         if (!file.exists()) {
             file.mkdirs()
