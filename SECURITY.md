@@ -4,10 +4,7 @@
 
 We provide security patches only for the latest stable release of Foliary. To ensure you have the most recent security fixes, we recommend always staying up to date with the latest version.
 
-| Version | Supported |
-| ------- | --------- |
-| Latest  | ✅ Yes    |
-| < Latest | ❌ No     |
+
 
 ## Reporting a Vulnerability
 
