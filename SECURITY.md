@@ -12,7 +12,7 @@ If you discover a security vulnerability, please do not open a public issue. Rep
 
 ### Preferred Method: GitHub Private Reporting
 
-Please use the GitHub Private Vulnerability Reporting feature. This is the most secure and efficient way for us to track and resolve the issue.
+Please use the [GitHub Private Vulnerability Reporting feature](https://github.com/MessiasLima/Foliary/security/advisories/new). This is the most secure and efficient way for us to track and resolve the issue.
 
 ### Alternative Method: Email
 
