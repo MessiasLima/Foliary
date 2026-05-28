@@ -197,9 +197,9 @@ For complete documentation, visit: https://docs.sentry.io/platforms/kotlin/guide
 
 #### License & Code of Conduct
 
-Foliary is licensed under the **GNU General Public License 3.0** – see the `LICENSE` file for full details.
+Foliary is licensed under the **GNU General Public License 3.0** – see the [LICENSE](LICENSE) file for full details.
 
-We adopt the **Contributor Covenant Code of Conduct** – see the `CODE_OF_CONDUCT.md` file for details.
+We adopt the **Contributor Covenant Code of Conduct** – see the [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) file for details.
 
 #### Helpful Resources
 

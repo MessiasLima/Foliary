@@ -24,11 +24,11 @@
 
 ## License
 
-Foliary is released under the **GNU General Public License 3.0**. See the `LICENSE` file for details.
+Foliary is released under the **GNU General Public License 3.0**. See the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
-If you would like to help shape the project, please see the `CONTRIBUTING.md` file for guidelines.
+If you would like to help shape the project, please see the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines.
 
 ---
 
