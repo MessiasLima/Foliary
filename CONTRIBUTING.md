@@ -1,27 +1,22 @@
-# Contributing to **Foliary**
+# Contributing to Foliary
 
-Thank you for your interest in contributing to Foliary! This repository hosts a Kotlin Multiplatform (KMP) application that runs on Android, iOS, and Desktop (JVM) using Compose Multiplatform. Below are the updated guidelines to help you get started, set up the development environment, run the project, and submit changes.
-
----
-
-## 📋 Table of Contents
-
-1. [Prerequisites](#prerequisites)
-2. [Clone the Repository](#clone-the-repository)
-3. [Project Structure Overview](#project-structure-overview)
-4. [Building & Running](#building--running)
-5. [Testing](#testing)
-6. [Code Style & Formatting](#code-style--formatting)
-7. [Dependency Management](#dependency-management)
-8. [Issue Reporting & Branch Naming](#issue-reporting--branch-naming)
-9. [Pull‑Request Workflow](#pull-request‑workflow)
-10. [Continuous Integration (GitHub Actions)](#continuous-integration-github-actions)
-11. [License & Code of Conduct](#license--code-of-conduct)
-12. [Helpful Resources](#helpful-resources)
+Thank you for your interest in contributing to Foliary! This repository hosts a Kotlin Multiplatform (KMP) application that runs on Android, iOS, and Desktop (JVM) using Compose Multiplatform.
 
 ---
 
-## 1️⃣ Prerequisites
+## How to Contribute
+
+There are two main ways to contribute to Foliary:
+
+### Reporting Bugs
+
+Found a bug? Open an issue at [github.com/MessiasLima/Foliary/issues](https://github.com/MessiasLima/Foliary/issues) with a clear description of the problem, steps to reproduce, and the version you are using.
+
+### Coding
+
+If you want to contribute code, read through the sections below to set up your development environment and follow our workflow.
+
+#### Prerequisites
 
 | Tool | Minimum version | Why it's needed |
 |------|------------------|----------------|
@@ -31,82 +26,60 @@ Thank you for your interest in contributing to Foliary! This repository hosts a 
 | **Gradle** | **9.2.1** (wrapper version) | Newest features and faster builds. |
 | **Git** | Any recent version | Version control and contribution workflow. |
 
-> **Note** – The project is configured for JDK 21 with the JetBrains Runtime (JBR). We have not tested the application with older JDK versions, so compatibility cannot be guaranteed.
+> **Note** – The project is configured for JDK 21 with the JetBrains Runtime (JBR). We have not tested the application with older JDK versions, so compatibility cannot be guaranteed.
 
----
-
-## 2️⃣ Clone the Repository
+#### Clone the Repository
 
 ```bash
 # Fork the repository on GitHub first (optional but recommended)
-git clone https://github.com/<your‑username>/Foliary.git
+git clone https://github.com/<your-username>/Foliary.git
 cd Foliary
 ```
 
-The repository uses a **Git‑Town** workflow (`git-town.toml`). If you are unfamiliar with it, you can still use regular Git commands; just avoid rebasing the `main` branch directly.
 
----
 
-## 3️⃣ Project Structure Overview
+#### Project Structure Overview
 
 ```
 Foliary/                     # Root of the repo
-├─ android/                 # Android‑specific source set & Gradle module
-├─ desktop/                 # Desktop (JVM) entry‑point (Main.kt)
+├─ android/                 # Android-specific source set & Gradle module
+├─ desktop/                 # Desktop (JVM) entry-point (Main.kt)
 ├─ ios/                     # Xcode project consuming the shared framework
 ├─ foliary/                 # Multiplatform shared module
 │   ├─ src/commonMain/kotlin   # Business logic, UI (Compose), Koin modules
-│   ├─ src/androidMain/kotlin  # Android‑specific implementations
-│   ├─ src/iosMain/kotlin      # iOS‑specific implementations
-│   └─ src/jvmMain/kotlin      # Desktop‑specific implementations
-├─ .run/                    # IDE run configurations for Desktop (hot‑reload) – auto‑appears in JetBrains IDE run menu
+│   ├─ src/androidMain/kotlin  # Android-specific implementations
+│   ├─ src/iosMain/kotlin      # iOS-specific implementations
+│   └─ src/jvmMain/kotlin      # Desktop-specific implementations
+├─ .run/                    # IDE run configurations for Desktop (hot-reload) – auto-appears in JetBrains IDE run menu
 ├─ build.gradle.kts          # Root Gradle script (plugins, repositories)
 ├─ settings.gradle.kts       # Module inclusion
 └─ gradle/                  # Wrapper & additional scripts
 ```
 
----
+#### Building & Running
 
-## 4️⃣ Building & Running
+**Desktop (JVM)**
 
-### General commands (run from the repository root)
-
-```bash
-# Clean the project
-./gradlew clean
-
-# Assemble all targets (Android APK, iOS framework, Desktop JAR)
-./gradlew assemble
-```
-
-### Desktop (JVM)
-
-The project ships pre‑configured run configurations located in the `.run/` folder. They provide hot‑reload support and appear automatically in the **Run** menu of JetBrains IDEs.
+The project ships pre-configured run configurations located in the `.run/` folder. They provide hot-reload support and appear automatically in the **Run** menu of JetBrains IDEs.
 
 ```bash
 # You can also launch the app directly via Gradle
 ./gradlew :desktop:run
 ```
 
-### Android
+**Android**
 
 1. Open the project in **Android Studio** (`File > Open > foliary/android`).
 2. Sync Gradle (the wrapper will download Gradle 9.2.1 automatically).
-3. Build & run on a device or emulator:
-   ```bash
-   ./gradlew :android:assembleDebug   # Generates an APK in android/build/outputs/apk/debug
-   ```
-   Or click the **Run** button in Android Studio.
+3. Build & run on a device or emulator using the **Run** button in Android Studio.
 
-### iOS
+**iOS**
 
 The iOS integration is fully automated – you **do not** need to invoke any Gradle tasks. Simply open the Xcode workspace at `ios/Foliary.xcworkspace` and press **Run**. Xcode will build the shared `FoliaryShared` framework and launch the app on the selected simulator or device.
 
----
+#### Testing
 
-## 5️⃣ Testing
-
-The project contains unit tests for the shared module and platform‑specific UI tests (Compose Multiplatform testing works on the JVM, no Android emulator required).
+The project contains unit tests for the shared module and platform-specific UI tests (Compose Multiplatform testing works on the JVM, no Android emulator required).
 
 ```bash
 # Run only the shared JVM tests
@@ -121,23 +94,19 @@ The project contains unit tests for the shared module and platform‑specific UI
 
 Test reports are generated under `build/reports/tests/` for each module.
 
----
-
-## 6️⃣ Code Style & Formatting
+#### Code Style & Formatting
 
 * **Kotlin** – The project follows the official Kotlin coding conventions.
-  * **Detekt** – static analysis (run automatically via a **pre‑push** git hook).
-  * **ktlint** – code formatting (also enforced by the pre‑push hook).
+  * **Detekt** – static analysis (run automatically via a **pre-push** git hook).
+  * **ktlint** – code formatting (also enforced by the pre-push hook).
 * **Compose** – UI code should follow the Compose style guide (use `Modifier` chaining, avoid deeply nested layouts).
 * **XML resources** (Android) – lint is enforced via the Android Gradle plugin.
 
-### Pre‑push Git Hook
+**Pre-push Git Hook**
 
-A pre‑push hook is provided in the repository that runs `./gradlew detekt` before any push to a remote. This ensures that static analysis always passes locally, and the CI will have a clean check.
+A pre-push hook is provided in the repository that runs `./gradlew detekt` before any push to a remote. This ensures that static analysis always passes locally, and the CI will have a clean check.
 
----
-
-## 7️⃣ Dependency Management
+#### Dependency Management
 
 All dependencies are defined in the version catalog `gradle/libs.versions.toml`. When adding a new library:
 1. **Only add a dependency if it is strictly necessary** – avoid unnecessary external libraries.
@@ -145,30 +114,29 @@ All dependencies are defined in the version catalog `gradle/libs.versions.toml`.
 3. Reference it in the appropriate section (`[libraries]`).
 4. Use the alias in Gradle, e.g., `implementation(libs.koin.core)`.
 
-Never hard‑code version numbers in `build.gradle.kts`; always go through the catalog to keep the project reproducible across platforms.
+Never hard-code version numbers in `build.gradle.kts`; always go through the catalog to keep the project reproducible across platforms.
 
----
+#### Branch Naming
 
-## 8️⃣ Issue Reporting & Branch Naming
+Use the pattern:
 
-* **Issues** – We will provide issue and pull‑request templates soon, so just open a clear description of the problem or feature.
-* **Branch naming** – Use the pattern:
-  ```
-  <issue-number>-<short-description>
-  ```
-  For example, `123-fix-padding` for a change that resolves issue #123. This makes it easy to track which PR addresses which issue.
+```
+<issue-number>-<short-description>
+```
+
+For example, `123-fix-padding` for a change that resolves issue #123. This makes it easy to track which PR addresses which issue.
 
 All branches should be based on the latest `main`.
 
----
+#### Pull-Request Workflow
 
-## 9️⃣ Pull‑Request Workflow
+If you are new to contributing on GitHub, check out [Contributing to a project](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project) for a step-by-step guide.
 
 1. **Fork** the repository (if you haven't already).
 2. **Create a branch** from `main` using the naming convention above.
 3. **Make your changes** – keep commits atomic and descriptive.
 4. **Run the full test suite** locally (`./gradlew allTests`).
-5. **Push** the branch to your fork. The pre‑push hook will automatically run Detekt and ktlint; you do not need to run them manually.
+5. **Push** the branch to your fork. The pre-push hook will automatically run Detekt and ktlint; you do not need to run them manually.
 6. Open a **Pull Request** against `MessiasLima/Foliary:main`.
    * Provide a concise title.
    * Reference the related issue (`Fixes #123`).
@@ -176,129 +144,46 @@ All branches should be based on the latest `main`.
 7. The CI will automatically:
    * Build all platforms.
    * Run unit and UI tests.
-   * Verify that the code passes static analysis (already checked by the pre‑push hook).
-8. Address any review comments. When approved, a maintainer will merge the PR using **squash‑merge**.
+   * Verify that the code passes static analysis (already checked by the pre-push hook).
+8. Address any review comments. When approved, a maintainer will merge the PR using **squash-merge**.
 
----
+#### Continuous Integration (GitHub Actions)
 
-## 🔁 Continuous Integration (GitHub Actions)
+The workflow defined at `.github/workflows/pull-request.yml` runs on every PR (excluding changes to `website/`) and performs the following steps:
+* **Static analysis** – Detekt checks (also enforced locally by the pre-push hook).
+* **Unit tests & coverage** – JVM tests run with Kover to verify a minimum of 80% code coverage.
 
-The workflow defined at `.github/workflows/pull-request.yml` runs on every PR and performs the following steps:
-* **Gradle build** for all targets.
-* **Unit & UI tests** (Compose Multiplatform UI tests run on the JVM; no Android instrumented tests are required).
-* **Static analysis** – Detekt and ktlint checks (redundant with the pre‑push hook but kept for CI safety).
+#### Analytics Configuration
 
-The workflow no longer checks for dependency updates.
+Foliary uses **Umami** analytics for privacy-focused usage tracking. This is a production-only concern – analytics are **automatically disabled in debug builds**. Contributors do not need to set up analytics.
 
----
+**How It Works**
 
-## 📜 License & Code of Conduct
-
-Foliary is licensed under the **GNU General Public License 3.0** – see the `LICENSE` file for full details.
-
-We adopt the **Contributor Covenant Code of Conduct** – see the `CODE_OF_CONDUCT.md` file for details.
-
----
-
-## 🔍 Analytics Configuration
-
-Foliary uses **Umami** analytics for privacy-focused usage tracking. Analytics are **automatically disabled in debug builds** and fail gracefully if configuration is missing in release builds, so contributors can work without setting up analytics.
-
-### Why We Use Analytics
-
-Analytics help us understand how users interact with Foliary, enabling us to:
-- **Improve user experience**: Identify which features are most valuable and which need improvement
-- **Guide development priorities**: Focus on features that matter most to users
-- **Detect issues**: Identify patterns that might indicate bugs or usability problems
-- **Measure impact**: Understand the effectiveness of new features and improvements
-
-All analytics are collected with a strong focus on user privacy (see Privacy section below).
-
-### Setting Up Analytics (Optional for Contributors)
-
-Analytics configuration is **optional** for contributors working on debug builds. If you want to test analytics functionality or work on release builds:
-
-1. **Copy the template**:
-   ```bash
-   cp local.properties.example local.properties
-   ```
-
-2. **Add the configuration** to `local.properties`:
-   ```properties
-   umami.websiteId=your-website-uuid-here
-   umami.baseUrl=https://your-umami-instance.com
-   ```
-   
-   > **Note**: If not configured, the app will automatically use debug mode analytics (logs only, no tracking) even in release builds. This ensures the app never crashes due to missing analytics configuration.
-
-3. **Build the project**:
-   ```bash
-   ./gradlew build
-   ```
-
-### How It Works
-
-- **Automatic screen tracking**: All screens using the `Screen` component are automatically tracked
-- **Debug mode**: Debug builds always use `DebugAnalytics` (logs only, no network calls)
-- **Release mode**: Release builds use `ReleaseAnalytics` if configured, otherwise fall back to `DebugAnalytics`
-- **Event naming**: Use `snake_case` for event names (e.g., `button_clicked`, `task_completed`)
+- **Debug builds**: Use `DebugAnalytics` (logs only, no network calls)
+- **Release builds**: Use `ReleaseAnalytics` if configured, otherwise fall back to `DebugAnalytics`
+- **Event naming**: Use `snake_case` (e.g., `button_clicked`, `task_completed`)
 - **Screen naming**: Use `PascalCase` with "Screen" suffix (e.g., `SignInScreen`, `TaskListScreen`)
 
-### Tracking Custom Events in ViewModels
-
-To track user actions, inject the `Analytics` interface into your ViewModel:
+To track custom events, inject the `Analytics` interface into your ViewModel:
 
 ```kotlin
 @KoinViewModel
 class MyViewModel(
     private val analytics: Analytics
 ) : ViewModel() {
-    
     fun onButtonClick() {
         analytics.trackEvent("button_clicked", mapOf("button_id" to "submit"))
-        // Your logic here
     }
 }
 ```
 
-### Privacy
-
-Umami is a privacy-focused, open-source analytics platform that:
-- **Does not collect personal identifiable information (PII)**: No names, emails, or user data
-- **Does not use cookies**: No tracking across sites or persistent identifiers
-- **Is GDPR compliant by design**: Built with European privacy standards in mind
-- **Respects user privacy**: Only collects anonymous usage patterns
-- **Is self-hosted**: Data stays under our control, not sold to third parties
-
-We believe in transparent analytics that benefit users without compromising their privacy.
-
 For more information about Umami, visit: https://umami.is
 
-
----
-
-## 💾 Database Configuration
-
-Foliary uses Room for local data persistence with multiplatform support.
-
-### Platform Specifics
-- **Android**: Database is stored in the application's internal database directory.
-- **iOS**: Database is stored in the `NSDocumentDirectory`.
-- **JVM**: Database is stored in the user data directory (managed by `Kotlin-Multiplatform-AppDirs`).
-
-### Schema Export
-Room schemas are exported to the `foliary/schemas` directory. To generate/update the schema, run:
-```bash
-./gradlew :foliary:kspAndroidMain
-```
-
----
-
-## 🔍 Error Tracking Configuration
+#### Error Tracking Configuration
 
 Foliary uses **Sentry** for error tracking and crash reporting. Error tracking is **automatically disabled in debug builds**, so contributors can work without any configuration.
 
-### Setup (Optional for Contributors)
+**Setup (Optional for Contributors)**
 
 To test error tracking in release builds, add your Sentry DSN to `local.properties`:
 
@@ -310,9 +195,13 @@ If not configured, the app gracefully skips Sentry initialization in release bui
 
 For complete documentation, visit: https://docs.sentry.io/platforms/kotlin/guides/compose-multiplatform/
 
----
+#### License & Code of Conduct
 
-## 📚 Helpful Resources
+Foliary is licensed under the **GNU General Public License 3.0** – see the [LICENSE](LICENSE) file for full details.
+
+We adopt the **Contributor Covenant Code of Conduct** – see the [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) file for details.
+
+#### Helpful Resources
 
 * **Kotlin Multiplatform documentation** – https://kotlinlang.org/docs/multiplatform.html
 * **Compose Multiplatform guide** – https://compose-multiplatform.com/docs/overview
@@ -320,8 +209,11 @@ For complete documentation, visit: https://docs.sentry.io/platforms/kotlin/guide
 * **Koin DI** – https://insert-koin.io
 * **Detekt** – https://detekt.dev
 * **ktlint** – https://ktlint.github.io
-* **Git‑Town workflow** – https://github.com/git-town/git-town
 
 ---
 
-Thank you for helping make Foliary better! 🎉
+## Questions & Support
+
+Thank you for considering a contribution to Foliary!
+
+If you have any questions or need support, feel free to [open an issue](https://github.com/MessiasLima/Foliary/issues) and I will be happy to help.
