@@ -207,6 +207,7 @@ We adopt the **Contributor Covenant Code of Conduct** – see the [CODE_OF_CONDU
 * **Compose Multiplatform guide** – https://compose-multiplatform.com/docs/overview
 * **Orbit MVI** – https://orbit-mvi.org
 * **Koin DI** – https://insert-koin.io
+* **Room** – https://developer.android.com/kotlin/multiplatform/room
 * **Detekt** – https://detekt.dev
 * **ktlint** – https://ktlint.github.io
 

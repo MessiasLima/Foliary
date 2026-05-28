@@ -3,8 +3,8 @@
 package dev.appoutlet.foliary.core.database
 
 import android.content.Context
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room3.Room
+import androidx.room3.RoomDatabase
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
 
