@@ -23,7 +23,7 @@
 Run this command and follow the prompts:
 
 ```bash
-npx maizzle new
+npx create-maizzle
 ```
 
 ## Documentation
