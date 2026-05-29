@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "maizzle serve",
+    "build": "maizzle build",
+    "postinstall": "maizzle prepare",
+    "make:template": "maizzle make:template"
+  },
+  "dependencies": {
+    "@maizzle/framework": "next"
+  }
+}
