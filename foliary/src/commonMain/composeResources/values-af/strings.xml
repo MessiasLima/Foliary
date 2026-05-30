@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">\'n Rustige ruimte vir jou diep werk. Meld aan om met jou fokussessies voort te gaan.</string>
+    <string name="sign_in_continue_with_google">Gaan voort met Google</string>
+    <string name="sign_in_continue_with_apple">Gaan voort met Apple</string>
+    <string name="sign_in_or_divider">of</string>
+    <string name="sign_in_email_placeholder">naam@voorbeeld.com</string>
+    <string name="sign_in_send_magic_link">Stuur towerskakel</string>
+    <string name="sign_in_magic_link_sent">Towerskakel gestuur!</string>
+    <string name="sign_in_magic_link_sent_message">\'n E-pos met \'n towerskakel is gestuur na: </string>
+    <string name="sign_in_magic_link_sent_message_2">Gaan jou inkassie en jou rommelposvouer na</string>
+    <string name="sign_in_magic_link_sent_expiration">Die skakel sal oor %1$s verval</string>
+    <string name="sign_in_magic_link_sent_new_email">Gebruik \'n ander e-pos</string>
+    <string name="sign_in_invalid_email">Verskaf asseblief \'n geldige e-posadres.</string>
+    <string name="sign_in_helper_text">Geen wagwoord nodig nie. Ons sal vir jou \'n veilige skakel stuur om dadelik aan te meld.</string>
+    <string name="sign_in_app_logo_description">App-logo</string>
+    <string name="sign_in_welcome_back">Welkom terug,</string>
+    <string name="sign_in_welcome">Welkom,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Iets het foutgegaan</string>
+    <string name="error_default_message">\'n Onverwagte fout het voorgekom. Kontak ondersteuning as die probleem voortduur</string>
+    <string name="error_default_try_again">Probeer weer</string>
+    <string name="error_show_details">Wys besonderhede</string>
+    <string name="error_hide_details">Versteek besonderhede</string>
+    <string name="main_nav_today">Vandag</string>
+    <string name="main_nav_profile">Profiel</string>
+    <string name="profile_logout">Teken uit</string>
+    <string name="profile_title">Profiel</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Maak Foliary oop</string>
+    <string name="quit">Verlaat</string>
+    </resources>

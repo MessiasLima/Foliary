@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Ruang tenang untuk bekerja dengan fokus. Masuk untuk melanjutkan sesi fokus Anda.</string>
+    <string name="sign_in_continue_with_google">Lanjutkan dengan Google</string>
+    <string name="sign_in_continue_with_apple">Lanjutkan dengan Apple</string>
+    <string name="sign_in_or_divider">atau</string>
+    <string name="sign_in_email_placeholder">nama@contoh.com</string>
+    <string name="sign_in_send_magic_link">Kirim Tautan Ajaib</string>
+    <string name="sign_in_magic_link_sent">Tautan ajaib terkirim!</string>
+    <string name="sign_in_magic_link_sent_message">Email berisi tautan ajaib telah dikirim ke: </string>
+    <string name="sign_in_magic_link_sent_message_2">Periksa kotak masuk dan folder spam Anda</string>
+    <string name="sign_in_magic_link_sent_expiration">Tautan ini akan kedaluwarsa dalam %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Gunakan email lain</string>
+    <string name="sign_in_invalid_email">Silakan masukkan email yang valid.</string>
+    <string name="sign_in_helper_text">Tidak perlu kata sandi. Kami akan mengirimkan tautan aman untuk langsung masuk.</string>
+    <string name="sign_in_app_logo_description">Logo Aplikasi</string>
+    <string name="sign_in_welcome_back">Selamat datang kembali,</string>
+    <string name="sign_in_welcome">Selamat datang,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Terjadi kesalahan</string>
+    <string name="error_default_message">Terjadi kesalahan yang tidak terduga. Hubungi dukungan jika masalah berlanjut</string>
+    <string name="error_default_try_again">Coba lagi</string>
+    <string name="error_show_details">Tampilkan detail</string>
+    <string name="error_hide_details">Sembunyikan detail</string>
+    <string name="main_nav_today">Hari Ini</string>
+    <string name="main_nav_profile">Profil</string>
+    <string name="profile_logout">Keluar</string>
+    <string name="profile_title">Profil</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Buka Foliary</string>
+    <string name="quit">Keluar</string>
+    </resources>

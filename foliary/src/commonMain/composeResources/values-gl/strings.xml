@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Un espazo tranquilo para o teu traballo profundo. Inicia sesión para continuar coas túas sesións de concentración.</string>
+    <string name="sign_in_continue_with_google">Continuar con Google</string>
+    <string name="sign_in_continue_with_apple">Continuar con Apple</string>
+    <string name="sign_in_or_divider">ou</string>
+    <string name="sign_in_email_placeholder">nome@exemplo.com</string>
+    <string name="sign_in_send_magic_link">Enviar ligazón máxica</string>
+    <string name="sign_in_magic_link_sent">Ligazón máxica enviada!</string>
+    <string name="sign_in_magic_link_sent_message">Enviouse un correo electrónico cunha ligazón máxica a: </string>
+    <string name="sign_in_magic_link_sent_message_2">Revisa a túa caixa de entrada e o teu cartafol de spam</string>
+    <string name="sign_in_magic_link_sent_expiration">La ligazón caducará en %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Usar outro correo electrónico</string>
+    <string name="sign_in_invalid_email">Introduce un correo electrónico válido.</string>
+    <string name="sign_in_helper_text">Non se precisa contrasinal. Enviarémosche unha ligazón segura para iniciar sesión ao instante.</string>
+    <string name="sign_in_app_logo_description">Logotipo da aplicación</string>
+    <string name="sign_in_welcome_back">Dámosche a benvida de novo,</string>
+    <string name="sign_in_welcome">Dámosche a benvida,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Algo saíu mal</string>
+    <string name="error_default_message">Produciuse un erro inesperado. Ponte en contacto co soporte se o problema persiste</string>
+    <string name="error_default_try_again">Téntao de novo</string>
+    <string name="error_show_details">Mostrar detalles</string>
+    <string name="error_hide_details">Ocultar detalles</string>
+    <string name="main_nav_today">Hoxe</string>
+    <string name="main_nav_profile">Perfil</string>
+    <string name="profile_logout">Pechar sesión</string>
+    <string name="profile_title">Perfil</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Abrir Foliary</string>
+    <string name="quit">Saír</string>
+    </resources>

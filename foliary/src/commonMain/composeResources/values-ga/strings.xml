@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Spás socair do d\'obair dhomhain. Logáil isteach chun leanúint le do sheisiúin fhócais.</string>
+    <string name="sign_in_continue_with_google">Lean ar aghaidh le Google</string>
+    <string name="sign_in_continue_with_apple">Lean ar aghaidh le Apple</string>
+    <string name="sign_in_or_divider">nó</string>
+    <string name="sign_in_email_placeholder">ainm@sampla.com</string>
+    <string name="sign_in_send_magic_link">Seol Nasc Draíochta</string>
+    <string name="sign_in_magic_link_sent">Nasc draíochta seolta!</string>
+    <string name="sign_in_magic_link_sent_message">Seoladh ríomhphost le nasc draíochta chuig: </string>
+    <string name="sign_in_magic_link_sent_message_2">Seiceáil do bhosca isteach agus d\'fhillteán spaim</string>
+    <string name="sign_in_magic_link_sent_expiration">Rachaidh an nasc in éag i gceann %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Úsáid ríomhphost eile</string>
+    <string name="sign_in_invalid_email">Cuir seoladh ríomhphoist bailí ar fáil, le do thoil.</string>
+    <string name="sign_in_helper_text">Ní gá focal faire a úsáid. Seolfaimid nasc slán chugat chun logáil isteach láithreach.</string>
+    <string name="sign_in_app_logo_description">Lógó na hAipe</string>
+    <string name="sign_in_welcome_back">Fáilte ar ais,</string>
+    <string name="sign_in_welcome">Fáilte,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Tharla rud éigin mícheart</string>
+    <string name="error_default_message">Tharla earráid gan choinne. Déan teagmháil leis an tacaíocht má leanann an fhadhb</string>
+    <string name="error_default_try_again">Bain triail as arís</string>
+    <string name="error_show_details">Taispeáin sonraí</string>
+    <string name="error_hide_details">Folaigh sonraí</string>
+    <string name="main_nav_today">Inniu</string>
+    <string name="main_nav_profile">Próifíl</string>
+    <string name="profile_logout">Logáil amach</string>
+    <string name="profile_title">Próifíl</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Oscail Foliary</string>
+    <string name="quit">Scoir</string>
+    </resources>

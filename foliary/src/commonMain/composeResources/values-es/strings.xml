@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Un espacio tranquilo para tu trabajo profundo. Inicia sesión para continuar tus sesiones de enfoque.</string>
+    <string name="sign_in_continue_with_google">Continuar con Google</string>
+    <string name="sign_in_continue_with_apple">Continuar con Apple</string>
+    <string name="sign_in_or_divider">o</string>
+    <string name="sign_in_email_placeholder">nombre@ejemplo.com</string>
+    <string name="sign_in_send_magic_link">Enviar enlace mágico</string>
+    <string name="sign_in_magic_link_sent">¡Enlace mágico enviado!</string>
+    <string name="sign_in_magic_link_sent_message">Hemos enviado un correo electrónico con un enlace mágico a: </string>
+    <string name="sign_in_magic_link_sent_message_2">Revisa tu bandeja de entrada y tu carpeta de spam</string>
+    <string name="sign_in_magic_link_sent_expiration">El enlace expirará en %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Usar otro correo electrónico</string>
+    <string name="sign_in_invalid_email">Por favor, introduce un correo electrónico válido.</string>
+    <string name="sign_in_helper_text">No se requiere contraseña. Te enviaremos un enlace seguro para iniciar sesión al instante.</string>
+    <string name="sign_in_app_logo_description">Logotipo de la app</string>
+    <string name="sign_in_welcome_back">Te damos la bienvenida de nuevo,</string>
+    <string name="sign_in_welcome">Te damos la bienvenida,</string>
+    <string name="sign_in_username">¡%1$s!</string>
+    <string name="error_default_title">Algo salió mal</string>
+    <string name="error_default_message">Ocurrió un error inesperado. Ponte en contacto con el soporte técnico si el problema persiste.</string>
+    <string name="error_default_try_again">Intentar de nuevo</string>
+    <string name="error_show_details">Mostrar detalles</string>
+    <string name="error_hide_details">Ocultar detalles</string>
+    <string name="main_nav_today">Hoy</string>
+    <string name="main_nav_profile">Perfil</string>
+    <string name="profile_logout">Cerrar sesión</string>
+    <string name="profile_title">Perfil</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Abrir Foliary</string>
+    <string name="quit">Salir</string>
+    </resources>

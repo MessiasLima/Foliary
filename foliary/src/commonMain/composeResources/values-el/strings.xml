@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Ένας ήρεμος χώρος για τη βαθιά σου εργασία. Συνδέσου για να συνεχίσεις τις συνεδρίες εστίασής σου.</string>
+    <string name="sign_in_continue_with_google">Συνέχεια με την Google</string>
+    <string name="sign_in_continue_with_apple">Συνέχεια με την Apple</string>
+    <string name="sign_in_or_divider">ή</string>
+    <string name="sign_in_email_placeholder">name@example.com</string>
+    <string name="sign_in_send_magic_link">Αποστολή μαγικού συνδέσμου</string>
+    <string name="sign_in_magic_link_sent">Ο μαγικός σύνδεσμος στάλθηκε!</string>
+    <string name="sign_in_magic_link_sent_message">Ένα email με έναν μαγικό σύνδεσμο στάλθηκε στο: </string>
+    <string name="sign_in_magic_link_sent_message_2">Έλεγξε τα εισερχόμενά σου και τον φάκελο της ανεπιθύμητης αλληλογραφίας</string>
+    <string name="sign_in_magic_link_sent_expiration">Ο σύνδεσμος θα λήξει σε %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Χρήση άλλου email</string>
+    <string name="sign_in_invalid_email">Παρακαλώ καταχωρίστε ένα έγκυρο email.</string>
+    <string name="sign_in_helper_text">Δεν απαιτείται κωδικός πρόσβασης. Θα σου στείλουμε έναν ασφαλή σύνδεσμο για άμεση σύνδεση.</string>
+    <string name="sign_in_app_logo_description">Λογότυπο εφαρμογής</string>
+    <string name="sign_in_welcome_back">Καλώς ήρθες ξανά,</string>
+    <string name="sign_in_welcome">Καλώς ήρθες,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Κάτι πήγε στραβά</string>
+    <string name="error_default_message">Παρουσιάστηκε ένα απρόσμενο σφάλμα. Επικοινώνησε με την υποστήριξη εάν το πρόβλημα επιμένει</string>
+    <string name="error_default_try_again">Δοκίμασε ξανά</string>
+    <string name="error_show_details">Εμφάνιση λεπτομερειών</string>
+    <string name="error_hide_details">Απόκρυψη λεπτομερειών</string>
+    <string name="main_nav_today">Σήμερα</string>
+    <string name="main_nav_profile">Προφίλ</string>
+    <string name="profile_logout">Αποσύνδεση</string>
+    <string name="profile_title">Προφίλ</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Άνοιγμα του Foliary</string>
+    <string name="quit">Έξοδος</string>
+    </resources>

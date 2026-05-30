@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Зейін қойып, терең жұмыстан ләззат алатын тыныш кеңістік. Зейін қою сессияларын жалғастыру үшін жүйеге кіріңіз.</string>
+    <string name="sign_in_continue_with_google">Google арқылы жалғастыру</string>
+    <string name="sign_in_continue_with_apple">Apple арқылы жалғастыру</string>
+    <string name="sign_in_or_divider">немесе</string>
+    <string name="sign_in_email_placeholder">name@example.com</string>
+    <string name="sign_in_send_magic_link">Сиқырлы сілтеме жіберу</string>
+    <string name="sign_in_magic_link_sent">Сиқырлы сілтеме жіберілді!</string>
+    <string name="sign_in_magic_link_sent_message">Сиқырлы сілтемесі бар хат мына мекенжайға жіберілді: </string>
+    <string name="sign_in_magic_link_sent_message_2">Кіріс жәшігін және спам қалтасын тексеріңіз</string>
+    <string name="sign_in_magic_link_sent_expiration">Сілтеменің жарамдылық мерзімі %1$s ішінде аяқталады</string>
+    <string name="sign_in_magic_link_sent_new_email">Басқа электрондық поштаны пайдалану</string>
+    <string name="sign_in_invalid_email">Дұрыс электрондық пошта мекенжайын енгізіңіз.</string>
+    <string name="sign_in_helper_text">Құпия сөз қажет емес. Жүйеге бірден кіру үшін сізге қауіпсіз сілтеме жібереміз.</string>
+    <string name="sign_in_app_logo_description">Қолданба логотипі</string>
+    <string name="sign_in_welcome_back">Қайта қош келдіңіз,</string>
+    <string name="sign_in_welcome">Қош келдіңіз,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Бірдеңе дұрыс болмады</string>
+    <string name="error_default_message">Күтпеген қате орын алды. Егер мәселе шешілмесе, қолдау қызметіне хабарласыңыз</string>
+    <string name="error_default_try_again">Қайтадан байқап көру</string>
+    <string name="error_show_details">Мәліметтерді көрсету</string>
+    <string name="error_hide_details">Мәліметтерді жасыру</string>
+    <string name="main_nav_today">Бүгін</string>
+    <string name="main_nav_profile">Профиль</string>
+    <string name="profile_logout">Жүйеден шығу</string>
+    <string name="profile_title">Профиль</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Foliary-ді ашу</string>
+    <string name="quit">Шығу</string>
+    </resources>

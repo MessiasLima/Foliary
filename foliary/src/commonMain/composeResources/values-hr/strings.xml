@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Miran prostor za vaš duboki rad. Prijavite se za nastavak sesija fokusiranja.</string>
+    <string name="sign_in_continue_with_google">Nastavite s Googleom</string>
+    <string name="sign_in_continue_with_apple">Nastavite s Appleom</string>
+    <string name="sign_in_or_divider">ili</string>
+    <string name="sign_in_email_placeholder">ime@primjer.com</string>
+    <string name="sign_in_send_magic_link">Pošaljite magičnu poveznicu</string>
+    <string name="sign_in_magic_link_sent">Magična poveznica je poslana!</string>
+    <string name="sign_in_magic_link_sent_message">E-pošta s magičnom poveznicom poslana je na: </string>
+    <string name="sign_in_magic_link_sent_message_2">Provjerite svoj ulazni spremnik i mapu neželjene pošte</string>
+    <string name="sign_in_magic_link_sent_expiration">Poveznica će isteći za %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Upotrijebite drugu e-adresu</string>
+    <string name="sign_in_invalid_email">Molimo unesite valjanu adresu e-pošte.</string>
+    <string name="sign_in_helper_text">Lozinka nije potrebna. Poslat ćemo vam sigurnu poveznicu za trenutačnu prijavu.</string>
+    <string name="sign_in_app_logo_description">Logotip aplikacije</string>
+    <string name="sign_in_welcome_back">Dobro došli natrag,</string>
+    <string name="sign_in_welcome">Dobro došli,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Nešto je pošlo po zlu</string>
+    <string name="error_default_message">Došlo je do neočekivane pogreške. Ako se problem nastavi, obratite se podršci</string>
+    <string name="error_default_try_again">Pokušajte ponovno</string>
+    <string name="error_show_details">Prikaži pojedinosti</string>
+    <string name="error_hide_details">Sakrij pojedinosti</string>
+    <string name="main_nav_today">Danas</string>
+    <string name="main_nav_profile">Profil</string>
+    <string name="profile_logout">Odjava</string>
+    <string name="profile_title">Profil</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Otvori Foliary</string>
+    <string name="quit">Izađi</string>
+    </resources>

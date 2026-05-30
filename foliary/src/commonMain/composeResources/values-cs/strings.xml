@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Klidné místo pro vaši hlubokou práci. Přihlaste se a pokračujte v soustředění.</string>
+    <string name="sign_in_continue_with_google">Pokračovat přes Google</string>
+    <string name="sign_in_continue_with_apple">Pokračovat přes Apple</string>
+    <string name="sign_in_or_divider">nebo</string>
+    <string name="sign_in_email_placeholder">jmeno@priklad.cz</string>
+    <string name="sign_in_send_magic_link">Poslat magický odkaz</string>
+    <string name="sign_in_magic_link_sent">Magický odkaz odeslán!</string>
+    <string name="sign_in_magic_link_sent_message">E-mail s magickým odkazem byl odeslán na adresu: </string>
+    <string name="sign_in_magic_link_sent_message_2">Zkontrolujte si doručenou poštu a složku se spamem</string>
+    <string name="sign_in_magic_link_sent_expiration">Platnost odkazu vyprší za %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Použít jiný e-mail</string>
+    <string name="sign_in_invalid_email">Zadejte prosím platnou e-mailovou adresu.</string>
+    <string name="sign_in_helper_text">Není potřeba žádné heslo. Pošleme vám bezpečný odkaz pro okamžité přihlášení.</string>
+    <string name="sign_in_app_logo_description">Logo aplikace</string>
+    <string name="sign_in_welcome_back">Vítejte zpět,</string>
+    <string name="sign_in_welcome">Vítejte,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Něco se pokazilo</string>
+    <string name="error_default_message">Došlo k neočekávané chybě. Pokud problém přetrvává, kontaktujte podporu</string>
+    <string name="error_default_try_again">Zkusit znovu</string>
+    <string name="error_show_details">Zobrazit podrobnosti</string>
+    <string name="error_hide_details">Skrýt podrobnosti</string>
+    <string name="main_nav_today">Dnes</string>
+    <string name="main_nav_profile">Profil</string>
+    <string name="profile_logout">Odhlásit se</string>
+    <string name="profile_title">Profil</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Otevřít Foliary</string>
+    <string name="quit">Ukončit</string>
+    </resources>

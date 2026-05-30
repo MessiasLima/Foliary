@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Gune lasai bat zure lan sakonarentzat. Hasi saioa zure kontzentrazio-saioekin jarraitzeko.</string>
+    <string name="sign_in_continue_with_google">Jarraitu Googlerekin</string>
+    <string name="sign_in_continue_with_apple">Jarraitu Applerekin</string>
+    <string name="sign_in_or_divider">edo</string>
+    <string name="sign_in_email_placeholder">izena@adibidea.com</string>
+    <string name="sign_in_send_magic_link">Bidali esteka magikoa</string>
+    <string name="sign_in_magic_link_sent">Bidalitako esteka magikoa!</string>
+    <string name="sign_in_magic_link_sent_message">Esteka magikoa duen mezu elektroniko bat bidali da helbide honetara: </string>
+    <string name="sign_in_magic_link_sent_message_2">Egiaztatu sarrera-ontzia eta spam karpeta</string>
+    <string name="sign_in_magic_link_sent_expiration">Esteka %1$s barruan iraungiko da</string>
+    <string name="sign_in_magic_link_sent_new_email">Erabili beste helbide elektroniko bat</string>
+    <string name="sign_in_invalid_email">Sartu baliozko helbide elektroniko bat.</string>
+    <string name="sign_in_helper_text">Ez da pasahitzik behar. Esteka seguru bat bidaliko dizugu saioa berehala hasteko.</string>
+    <string name="sign_in_app_logo_description">Aplikazioaren logotipoa</string>
+    <string name="sign_in_welcome_back">Ongi etorri berriro,</string>
+    <string name="sign_in_welcome">Ongi etorri,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Zerbait gaizki joan da</string>
+    <string name="error_default_message">Ustekabeko errore bat gertatu da. Jarri harremanetan laguntza-taldearekin arazoak jarraitzen badu</string>
+    <string name="error_default_try_again">Saiatu berriro</string>
+    <string name="error_show_details">Erakutsi xehetasunak</string>
+    <string name="error_hide_details">Ezkutatu xehetasunak</string>
+    <string name="main_nav_today">Gaur</string>
+    <string name="main_nav_profile">Profila</string>
+    <string name="profile_logout">Saioa itxi</string>
+    <string name="profile_title">Profila</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Ireki Foliary</string>
+    <string name="quit">Irten</string>
+    </resources>

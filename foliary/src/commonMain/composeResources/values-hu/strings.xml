@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Egy nyugodt tér az elmélyült munkához. Jelentkezz be a fókuszalkalmak folytatásához.</string>
+    <string name="sign_in_continue_with_google">Folytatás Google-fiókkal</string>
+    <string name="sign_in_continue_with_apple">Folytatás Apple-fiókkal</string>
+    <string name="sign_in_or_divider">vagy</string>
+    <string name="sign_in_email_placeholder">nev@pelda.com</string>
+    <string name="sign_in_send_magic_link">Varázslink küldése</string>
+    <string name="sign_in_magic_link_sent">Varázslink elküldve!</string>
+    <string name="sign_in_magic_link_sent_message">Elküldtük a varázslinket a következő e-mail-címre: </string>
+    <string name="sign_in_magic_link_sent_message_2">Ellenőrizd a beérkező leveleket és a spam mappát</string>
+    <string name="sign_in_magic_link_sent_expiration">A link %1$s múlva lejár</string>
+    <string name="sign_in_magic_link_sent_new_email">Másik e-mail-cím használata</string>
+    <string name="sign_in_invalid_email">Kérjük, adj meg egy érvényes e-mail-címet.</string>
+    <string name="sign_in_helper_text">Nincs szükség jelszóra. Küldünk egy biztonságos linket, amellyel azonnal bejelentkezhetsz.</string>
+    <string name="sign_in_app_logo_description">Alkalmazás logója</string>
+    <string name="sign_in_welcome_back">Üdv újra itt,</string>
+    <string name="sign_in_welcome">Üdvözlünk,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Valami hiba történt</string>
+    <string name="error_default_message">Váratlan hiba történt. Ha a probléma továbbra is fennáll, lépj kapcsolatba az ügyfélszolgálattal</string>
+    <string name="error_default_try_again">Próbáld újra</string>
+    <string name="error_show_details">Részletek megjelenítése</string>
+    <string name="error_hide_details">Részletek elrejtése</string>
+    <string name="main_nav_today">Ma</string>
+    <string name="main_nav_profile">Profil</string>
+    <string name="profile_logout">Kijelentkezés</string>
+    <string name="profile_title">Profil</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Foliary megnyitása</string>
+    <string name="quit">Kilépés</string>
+    </resources>

@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">A ruahiga Plotz für dei diafes Arbadn. Möid di o, um mit deine Fokus-Sessions weidazumacha.</string>
+    <string name="sign_in_continue_with_google">Mit Google weidamacha</string>
+    <string name="sign_in_continue_with_apple">Mit Apple weidamacha</string>
+    <string name="sign_in_or_divider">oda</string>
+    <string name="sign_in_email_placeholder">name@example.com</string>
+    <string name="sign_in_send_magic_link">Magic-Link sendn</string>
+    <string name="sign_in_magic_link_sent">Magic-Link is gsendt!</string>
+    <string name="sign_in_magic_link_sent_message">A E-Mail mit an Magic-Link is gsendt worn an: </string>
+    <string name="sign_in_magic_link_sent_message_2">Schau in dei Postfachal und in dein Spam-Ordner</string>
+    <string name="sign_in_magic_link_sent_expiration">Der Link laft in %1$s o</string>
+    <string name="sign_in_magic_link_sent_new_email">A andere E-Mail-Adressn hernehma</string>
+    <string name="sign_in_invalid_email">Bittschen gib a gültige E-Mail-Adressn o.</string>
+    <string name="sign_in_helper_text">Koa Passwoat neadg. Mia schicka dir an sichern Link, mit demst di sofort omöidn kannst.</string>
+    <string name="sign_in_app_logo_description">App-Logo</string>
+    <string name="sign_in_welcome_back">Grias di wieda,</string>
+    <string name="sign_in_welcome">Grias di,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Do is wos schiefganga</string>
+    <string name="error_default_message">Do is a unerwarteta Fehler auftretn. Schreib an Support, wann des Problem weidabsteht.</string>
+    <string name="error_default_try_again">Nomoi probiern</string>
+    <string name="error_show_details">Details zoagn</string>
+    <string name="error_hide_details">Details ausblendn</string>
+    <string name="main_nav_today">Heit</string>
+    <string name="main_nav_profile">Profil</string>
+    <string name="profile_logout">Ausloggn</string>
+    <string name="profile_title">Profil</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Foliary öffna</string>
+    <string name="quit">Beendn</string>
+    </resources>

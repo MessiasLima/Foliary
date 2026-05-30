@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Uno spazio tranquillo per il tuo deep work. Accedi per continuare le tue sessioni di concentrazione.</string>
+    <string name="sign_in_continue_with_google">Continua con Google</string>
+    <string name="sign_in_continue_with_apple">Continua con Apple</string>
+    <string name="sign_in_or_divider">o</string>
+    <string name="sign_in_email_placeholder">nome@esempio.com</string>
+    <string name="sign_in_send_magic_link">Invia Magic Link</string>
+    <string name="sign_in_magic_link_sent">Magic link inviato!</string>
+    <string name="sign_in_magic_link_sent_message">Abbiamo inviato un\'e-mail con un magic link a: </string>
+    <string name="sign_in_magic_link_sent_message_2">Controlla la tua casella di posta e la cartella dello spam</string>
+    <string name="sign_in_magic_link_sent_expiration">Il link scadrà tra %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Usa un\'altra e-mail</string>
+    <string name="sign_in_invalid_email">Inserisci un indirizzo e-mail valido.</string>
+    <string name="sign_in_helper_text">Nessuna password richiesta. Ti invieremo un link sicuro per accedere istantaneamente.</string>
+    <string name="sign_in_app_logo_description">Logo dell\'app</string>
+    <string name="sign_in_welcome_back">Ti diamo il bentornato,</string>
+    <string name="sign_in_welcome">Ti diamo il benvenuto,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Qualcosa è andato storto</string>
+    <string name="error_default_message">Si è verificato un errore imprevisto. Contatta il supporto se il problema persiste</string>
+    <string name="error_default_try_again">Riprova</string>
+    <string name="error_show_details">Mostra dettagli</string>
+    <string name="error_hide_details">Nascondi dettagli</string>
+    <string name="main_nav_today">Oggi</string>
+    <string name="main_nav_profile">Profilo</string>
+    <string name="profile_logout">Disconnetti</string>
+    <string name="profile_title">Profilo</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Apri Foliary</string>
+    <string name="quit">Esci</string>
+    </resources>

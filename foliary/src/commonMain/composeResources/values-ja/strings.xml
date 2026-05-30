@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">ディープワークのための穏やかな空間。ログインして、フォーカスセッションを続けましょう。</string>
+    <string name="sign_in_continue_with_google">Googleで続ける</string>
+    <string name="sign_in_continue_with_apple">Appleで続ける</string>
+    <string name="sign_in_or_divider">または</string>
+    <string name="sign_in_email_placeholder">name@example.com</string>
+    <string name="sign_in_send_magic_link">マジックリンクを送信</string>
+    <string name="sign_in_magic_link_sent">マジックリンクを送信しました！</string>
+    <string name="sign_in_magic_link_sent_message">マジックリンクを記載したメールを以下に送信しました：</string>
+    <string name="sign_in_magic_link_sent_message_2">受信トレイまたは迷惑メールフォルダをご確認ください</string>
+    <string name="sign_in_magic_link_sent_expiration">リンクの有効期限は %1$s です</string>
+    <string name="sign_in_magic_link_sent_new_email">別のメールアドレスを使用する</string>
+    <string name="sign_in_invalid_email">有効なメールアドレスを入力してください。</string>
+    <string name="sign_in_helper_text">パスワードは不要です。すぐに安全にログインできるリンクをお送りします。</string>
+    <string name="sign_in_app_logo_description">アプリのロゴ</string>
+    <string name="sign_in_welcome_back">おかえりなさい、</string>
+    <string name="sign_in_welcome">ようこそ、</string>
+    <string name="sign_in_username">%1$s さん！</string>
+    <string name="error_default_title">問題が発生しました</string>
+    <string name="error_default_message">予期しないエラーが発生しました。問題が解決しない場合は、サポートまでお問い合わせください</string>
+    <string name="error_default_try_again">もう一度お試しください</string>
+    <string name="error_show_details">詳細を表示</string>
+    <string name="error_hide_details">詳細を非表示</string>
+    <string name="main_nav_today">今日</string>
+    <string name="main_nav_profile">プロフィール</string>
+    <string name="profile_logout">ログアウト</string>
+    <string name="profile_title">プロフィール</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Foliaryを開く</string>
+    <string name="quit">終了</string>
+    </resources>
