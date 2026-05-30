@@ -5,6 +5,22 @@ Reference for AI agents working on **Foliary**, a Kotlin Multiplatform (KMP) app
 
 The project also contains an application website located in the `website/` directory, which is an Angular application built using Tailwind CSS.
 
+Additionally, the project contains email templates for authentication (e.g., sign-up confirmation) in the `emails/` directory. This is a **Maizzle** project that uses Tailwind CSS to build responsive HTML emails.
+
+| Goal | Command (run from `emails/`) |
+|------|------------------------------|
+| Develop (live reload) | `npm run dev` |
+| Build for production | `npm run build` |
+
+**Key conventions:**
+- Templates live in `emails/` and use Maizzle components (`<x-main>`, `<x-button>`, `<x-spacer>`, `<x-divider>`).
+- Front matter YAML configures `title`, `preheader`, and `bodyClass`.
+- Tailwind config is in `tailwind.config.js` and uses a custom Foliary color palette.
+- Template variables use Go template syntax (`{{ .VariableName }}`) for integration with the backend auth provider (Supabase).
+- The production build outputs optimized, inlined HTML to `build_production/`.
+
+- See the [Supabase email template variables documentation](https://supabase.com/docs/guides/local-development/customizing-email-templates#template-variables) for available variables.
+
 ## ⚠️ HARD RULES FOR AGENTS ⚠️
 1. **NO NEW LIBRARIES**: NEVER add any new third-party library or dependency without the user's explicit requirement or permission. If you think a library is needed, you MUST ask the user first. This is a HARD RULE.
 2. **NO UNNECESSARY COMMENTS**: Focus comments on *why* something is done, rather than *what*. Do not talk to the user via code comments.
