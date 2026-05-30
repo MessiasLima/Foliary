@@ -44,7 +44,7 @@ jobs:
         id: deployment
         uses: actions/upload-pages-artifact@v4
         with:
-          path: dist/foliary/browser/
+          path: website/dist/foliary/browser/
 
   deploy:
     environment:
