@@ -16,3 +16,4 @@ Pods/
 *.gpg
 *yarn.lock
 .opencode/
+i18n.cache

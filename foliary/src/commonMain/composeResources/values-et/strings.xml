@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Rahulik paik sinu keskendunud tööks. Logi sisse, et jätkata oma keskendumissessioone.</string>
+    <string name="sign_in_continue_with_google">Jätka Google\'iga</string>
+    <string name="sign_in_continue_with_apple">Jätka Apple\'iga</string>
+    <string name="sign_in_or_divider">või</string>
+    <string name="sign_in_email_placeholder">nimi@example.com</string>
+    <string name="sign_in_send_magic_link">Saada võlulink</string>
+    <string name="sign_in_magic_link_sent">Võlulink saadetud!</string>
+    <string name="sign_in_magic_link_sent_message">E-kiri võlulingiga saadeti aadressile: </string>
+    <string name="sign_in_magic_link_sent_message_2">Kontrolli oma postkasti ja rämpsposti kausta</string>
+    <string name="sign_in_magic_link_sent_expiration">Link aegub %1$s pärast</string>
+    <string name="sign_in_magic_link_sent_new_email">Kasuta teist e-posti aadressi</string>
+    <string name="sign_in_invalid_email">Palun sisesta kehtiv e-posti aadress.</string>
+    <string name="sign_in_helper_text">Parooli pole vaja. Saadame sulle turvalise lingi, millega saad kohe sisse logida.</string>
+    <string name="sign_in_app_logo_description">Rakenduse logo</string>
+    <string name="sign_in_welcome_back">Tere tulemast tagasi,</string>
+    <string name="sign_in_welcome">Tere tulemast,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Midagi läks valesti</string>
+    <string name="error_default_message">Tekkis ootamatu viga. Kui probleem püsib, võta ühendust klienditoega</string>
+    <string name="error_default_try_again">Proovi uuesti</string>
+    <string name="error_show_details">Näita üksikasju</string>
+    <string name="error_hide_details">Peida üksikasjad</string>
+    <string name="main_nav_today">Täna</string>
+    <string name="main_nav_profile">Profiil</string>
+    <string name="profile_logout">Logi välja</string>
+    <string name="profile_title">Profiil</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Ava Foliary</string>
+    <string name="quit">Välju</string>
+    </resources>

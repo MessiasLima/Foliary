@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">مساحة هادئة لعملك العميق. سجّل الدخول لمواصلة جلسات تركيزك.</string>
+    <string name="sign_in_continue_with_google">المتابعة باستخدام Google</string>
+    <string name="sign_in_continue_with_apple">المتابعة باستخدام Apple</string>
+    <string name="sign_in_or_divider">أو</string>
+    <string name="sign_in_email_placeholder">name@example.com</string>
+    <string name="sign_in_send_magic_link">إرسال الرابط السحري</string>
+    <string name="sign_in_magic_link_sent">تم إرسال الرابط السحري!</string>
+    <string name="sign_in_magic_link_sent_message">تم إرسال بريد إلكتروني يحتوي على رابط سحري إلى: </string>
+    <string name="sign_in_magic_link_sent_message_2">تحقق من صندوق الوارد ومجلد الرسائل غير المرغوب فيها</string>
+    <string name="sign_in_magic_link_sent_expiration">ستنتهي صلاحية الرابط خلال %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">استخدام بريد إلكتروني آخر</string>
+    <string name="sign_in_invalid_email">يرجى إدخال بريد إلكتروني صالح.</string>
+    <string name="sign_in_helper_text">لا حاجة لكلمة مرور. سنرسل لك رابطاً آمناً لتسجيل الدخول فوراً.</string>
+    <string name="sign_in_app_logo_description">شعار التطبيق</string>
+    <string name="sign_in_welcome_back">مرحباً بعودتك،</string>
+    <string name="sign_in_welcome">مرحباً بك،</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">حدث خطأ ما</string>
+    <string name="error_default_message">حدث خطأ غير متوقع. يرجى الاتصال بالدعم إذا استمرت المشكلة</string>
+    <string name="error_default_try_again">إعادة المحاولة</string>
+    <string name="error_show_details">عرض التفاصيل</string>
+    <string name="error_hide_details">إخفاء التفاصيل</string>
+    <string name="main_nav_today">اليوم</string>
+    <string name="main_nav_profile">الملف الشخصي</string>
+    <string name="profile_logout">تسجيل الخروج</string>
+    <string name="profile_title">الملف الشخصي</string>
+    <string name="today_title">فولياري</string>
+    <string name="open_app">افتح فولياري</string>
+    <string name="quit">إنهاء</string>
+    </resources>

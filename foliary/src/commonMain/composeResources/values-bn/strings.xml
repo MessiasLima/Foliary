@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">আপনার গভীর মনোযোগসহকারে কাজ করার জন্য একটি শান্ত পরিবেশ। আপনার ফোকাস সেশনগুলো চালিয়ে যেতে লগ ইন করুন।</string>
+    <string name="sign_in_continue_with_google">Google-এর সাথে এগিয়ে যান</string>
+    <string name="sign_in_continue_with_apple">Apple-এর সাথে এগিয়ে যান</string>
+    <string name="sign_in_or_divider">অথবা</string>
+    <string name="sign_in_email_placeholder">name@example.com</string>
+    <string name="sign_in_send_magic_link">ম্যাজিক লিঙ্ক পাঠান</string>
+    <string name="sign_in_magic_link_sent">ম্যাজিক লিঙ্ক পাঠানো হয়েছে!</string>
+    <string name="sign_in_magic_link_sent_message">এই ইমেলে একটি ম্যাজিক লিঙ্ক পাঠানো হয়েছে: </string>
+    <string name="sign_in_magic_link_sent_message_2">আপনার ইনবক্স এবং স্প্যাম ফোল্ডার পরীক্ষা করুন</string>
+    <string name="sign_in_magic_link_sent_expiration">%1$s এর মধ্যে লিঙ্কটির মেয়াদ শেষ হয়ে যাবে</string>
+    <string name="sign_in_magic_link_sent_new_email">অন্য ইমেল ব্যবহার করুন</string>
+    <string name="sign_in_invalid_email">অনুগ্রহ করে একটি সঠিক ইমেল প্রদান করুন।</string>
+    <string name="sign_in_helper_text">কোনো পাসওয়ার্ডের প্রয়োজন নেই। তাৎক্ষণিকভাবে সাইন ইন করার জন্য আমরা আপনাকে একটি সুরক্ষিত লিঙ্ক পাঠাব।</string>
+    <string name="sign_in_app_logo_description">অ্যাপ লোগো</string>
+    <string name="sign_in_welcome_back">আবারও স্বাগতম,</string>
+    <string name="sign_in_welcome">স্বাগতম,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">কোথাও কোনো সমস্যা হয়েছে</string>
+    <string name="error_default_message">একটি অপ্রত্যাশিত সমস্যা ঘটেছে। সমস্যাটি সমাধান না হলে সাপোর্টের সাথে যোগাযোগ করুন</string>
+    <string name="error_default_try_again">আবার চেষ্টা করুন</string>
+    <string name="error_show_details">বিস্তারিত দেখুন</string>
+    <string name="error_hide_details">বিস্তারিত লুকান</string>
+    <string name="main_nav_today">আজ</string>
+    <string name="main_nav_profile">প্রোফাইল</string>
+    <string name="profile_logout">লগ আউট করুন</string>
+    <string name="profile_title">প্রোফাইল</string>
+    <string name="today_title">ফোলিয়ারি</string>
+    <string name="open_app">ফোলিয়ারি খুলুন</string>
+    <string name="quit">প্রস্থান করুন</string>
+    </resources>

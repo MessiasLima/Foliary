@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Спакойная прастора для вашай глыбокай працы. Увайдзіце, каб працягнуць сеансы засяроджанасці.</string>
+    <string name="sign_in_continue_with_google">Працягнуць праз Google</string>
+    <string name="sign_in_continue_with_apple">Працягнуць праз Apple</string>
+    <string name="sign_in_or_divider">або</string>
+    <string name="sign_in_email_placeholder">name@example.com</string>
+    <string name="sign_in_send_magic_link">Даслаць чароўную спасылку</string>
+    <string name="sign_in_magic_link_sent">Чароўная спасылка даслана!</string>
+    <string name="sign_in_magic_link_sent_message">Ліст з чароўнай спасылкай быў дасланы на: </string>
+    <string name="sign_in_magic_link_sent_message_2">Праверце паштовую скрыню і тэчку «Спам»</string>
+    <string name="sign_in_magic_link_sent_expiration">Тэрмін дзеяння спасылкі скончыцца праз %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Выкарыстаць іншую пошту</string>
+    <string name="sign_in_invalid_email">Калі ласка, увядзіце карэктны адрас электроннай пошты.</string>
+    <string name="sign_in_helper_text">Пароль не патрабуецца. Мы дашлем вам бяспечную спасылку для імгненнага ўваходу.</string>
+    <string name="sign_in_app_logo_description">Лагатып дадатку</string>
+    <string name="sign_in_welcome_back">З вяртаннем,</string>
+    <string name="sign_in_welcome">Сардэчна запрашаем,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Штосьці пайшло не так</string>
+    <string name="error_default_message">Адбылася непрадбачаная памылка. Звяжыцеся з падтрымкай, калі праблема не знікне</string>
+    <string name="error_default_try_again">Паспрабаваць зноў</string>
+    <string name="error_show_details">Паказаць падрабязнасці</string>
+    <string name="error_hide_details">Схаваць падрабязнасці</string>
+    <string name="main_nav_today">Сёння</string>
+    <string name="main_nav_profile">Профіль</string>
+    <string name="profile_logout">Выйсці</string>
+    <string name="profile_title">Профіль</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Адкрыць Foliary</string>
+    <string name="quit">Выхад</string>
+    </resources>

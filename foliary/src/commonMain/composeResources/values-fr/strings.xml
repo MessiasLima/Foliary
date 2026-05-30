@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Un espace calme pour votre travail de concentration. Connectez-vous pour poursuivre vos sessions.</string>
+    <string name="sign_in_continue_with_google">Continuer avec Google</string>
+    <string name="sign_in_continue_with_apple">Continuer avec Apple</string>
+    <string name="sign_in_or_divider">ou</string>
+    <string name="sign_in_email_placeholder">nom@exemple.com</string>
+    <string name="sign_in_send_magic_link">Envoyer le lien magique</string>
+    <string name="sign_in_magic_link_sent">Lien magique envoyé !</string>
+    <string name="sign_in_magic_link_sent_message">Un e-mail contenant un lien magique a été envoyé à : </string>
+    <string name="sign_in_magic_link_sent_message_2">Vérifiez votre boîte de réception et votre dossier de courriers indésirables</string>
+    <string name="sign_in_magic_link_sent_expiration">Le lien expirera dans %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Utiliser une autre adresse e-mail</string>
+    <string name="sign_in_invalid_email">Veuillez saisir une adresse e-mail valide.</string>
+    <string name="sign_in_helper_text">Aucun mot de passe requis. Nous vous enverrons un lien sécurisé pour vous connecter instantanément.</string>
+    <string name="sign_in_app_logo_description">Logo de l\'application</string>
+    <string name="sign_in_welcome_back">Ravi de vous revoir,</string>
+    <string name="sign_in_welcome">Bienvenue,</string>
+    <string name="sign_in_username">%1$s !</string>
+    <string name="error_default_title">Une erreur est survenue</string>
+    <string name="error_default_message">Une erreur inattendue s\'est produite. Contactez l\'assistance si le problème persiste.</string>
+    <string name="error_default_try_again">Réessayer</string>
+    <string name="error_show_details">Afficher les détails</string>
+    <string name="error_hide_details">Masquer les détails</string>
+    <string name="main_nav_today">Aujourd\'hui</string>
+    <string name="main_nav_profile">Profil</string>
+    <string name="profile_logout">Se déconnecter</string>
+    <string name="profile_title">Profil</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Ouvrir Foliary</string>
+    <string name="quit">Quitter</string>
+    </resources>

@@ -1,0 +1,34 @@
+version: 1
+checksums:
+  b3de08abca2930bd066cd3f797a1e43e:
+    app_name: f3258b28a1e37c2f4b5878b903761453
+    sign_in_title: f3258b28a1e37c2f4b5878b903761453
+    sign_in_subtitle: c94dbbbfc30e54dcea675213b0a3cd85
+    sign_in_continue_with_google: 296841ac969a7f5d0fffc144f2488bbb
+    sign_in_continue_with_apple: 8b13538d47736d8b7b0b0edbbeb9c741
+    sign_in_or_divider: 7b133c38bec0d5ee23cc6bcf9a8de50b
+    sign_in_email_placeholder: 03e1a04b846b5c2d57591802c4f12c1e
+    sign_in_send_magic_link: 2355c2172034c18bec99cfbf0071465f
+    sign_in_magic_link_sent: 24ae78dcc1ff299eb6503b7069616890
+    sign_in_magic_link_sent_message: 78ccb9458ee7ad199d2f9d4c38a01bf8
+    sign_in_magic_link_sent_message_2: 741705393781a0012c73ee9a5e7cdac0
+    sign_in_magic_link_sent_expiration: 98d85c664de00f9392f6bd8b81d43596
+    sign_in_magic_link_sent_new_email: 9d9da32285b0b15346f5381a249c6ff5
+    sign_in_invalid_email: f879fb149802b00263dd747918801244
+    sign_in_helper_text: 522fd4a6b651020c11ed13ac378c505f
+    sign_in_app_logo_description: 56cc37c32ec7b87185503e0848a1c0cb
+    sign_in_welcome_back: 0cc55c3fc31f3c13c840b00638f13a46
+    sign_in_welcome: f9cb0eae2d645acf86be5180c02ab0f2
+    sign_in_username: a2a040f3291433cc2ca41868882dfb4a
+    error_default_title: a3cd2f01c073f1f5ff436d4b132d39cf
+    error_default_message: 87293941112b245d44cd738beb284838
+    error_default_try_again: 33dd8820e743e35a66e6977f69e9d3b5
+    error_show_details: c5171ffea9808869974b7a34e10f8c0f
+    error_hide_details: 51086404511c662af46ac4e54838f38f
+    main_nav_today: 142173f9752e18e92109623a3ee68cad
+    main_nav_profile: d7878693f91303a438852d617f6d35df
+    profile_logout: 9a236bb8f8bec867ec0d0950d38bcc71
+    profile_title: d7878693f91303a438852d617f6d35df
+    today_title: f3258b28a1e37c2f4b5878b903761453
+    open_app: 98d48f4e2cbf39c43abbc6dd32eb4ff9
+    quit: e4546c0aa9f1fa3e788cadec5e62f8ef

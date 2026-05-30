@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Isang kalmadong espasyo para sa iyong deep work. Mag-log in para ipagpatuloy ang iyong focus sessions.</string>
+    <string name="sign_in_continue_with_google">Magpatuloy gamit ang Google</string>
+    <string name="sign_in_continue_with_apple">Magpatuloy gamit ang Apple</string>
+    <string name="sign_in_or_divider">o</string>
+    <string name="sign_in_email_placeholder">name@example.com</string>
+    <string name="sign_in_send_magic_link">Ipadala ang Magic Link</string>
+    <string name="sign_in_magic_link_sent">Naipadala na ang magic link!</string>
+    <string name="sign_in_magic_link_sent_message">Isang email na may magic link ang ipinadala sa: </string>
+    <string name="sign_in_magic_link_sent_message_2">Tingnan ang iyong inbox at spam folder</string>
+    <string name="sign_in_magic_link_sent_expiration">Mag-e-expire ang link sa loob ng %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Gumamit ng ibang email</string>
+    <string name="sign_in_invalid_email">Mangyaring magbigay ng wastong email.</string>
+    <string name="sign_in_helper_text">Hindi kailangan ng password. Padadalhan ka namin ng secure na link para makapag-sign in agad.</string>
+    <string name="sign_in_app_logo_description">Logo ng App</string>
+    <string name="sign_in_welcome_back">Maligayang pagbabalik,</string>
+    <string name="sign_in_welcome">Maligayang pagdating,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">May nagkaproblema</string>
+    <string name="error_default_message">May hindi inaasahang error na naganap. Makipag-ugnayan sa suporta kung magpapatuloy ang problema</string>
+    <string name="error_default_try_again">Subukan ulit</string>
+    <string name="error_show_details">Ipakita ang mga detalye</string>
+    <string name="error_hide_details">Itago ang mga detalye</string>
+    <string name="main_nav_today">Ngayong Araw</string>
+    <string name="main_nav_profile">Profile</string>
+    <string name="profile_logout">Mag-log out</string>
+    <string name="profile_title">Profile</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Buksan ang Foliary</string>
+    <string name="quit">Lumabas</string>
+    </resources>

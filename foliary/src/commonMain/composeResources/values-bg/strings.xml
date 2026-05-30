@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Спокойно пространство за твоята задълбочена работа. Влез, за да продължиш сесиите си за фокус.</string>
+    <string name="sign_in_continue_with_google">Продължи с Google</string>
+    <string name="sign_in_continue_with_apple">Продължи с Apple</string>
+    <string name="sign_in_or_divider">или</string>
+    <string name="sign_in_email_placeholder">name@example.com</string>
+    <string name="sign_in_send_magic_link">Изпрати магически линк</string>
+    <string name="sign_in_magic_link_sent">Магическият линк е изпратен!</string>
+    <string name="sign_in_magic_link_sent_message">Имейл с магически линк беше изпратен до: </string>
+    <string name="sign_in_magic_link_sent_message_2">Провери входящата си кутия и папка „Спам“</string>
+    <string name="sign_in_magic_link_sent_expiration">Линкът ще изтече след %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Използвай друг имейл</string>
+    <string name="sign_in_invalid_email">Моля, въведи валиден имейл.</string>
+    <string name="sign_in_helper_text">Не е необходима парола. Ще ти изпратим сигурен линк за незабавно влизане.</string>
+    <string name="sign_in_app_logo_description">Лого на приложението</string>
+    <string name="sign_in_welcome_back">Радваме се да те видим отново,</string>
+    <string name="sign_in_welcome">Привет,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Нещо се обърка</string>
+    <string name="error_default_message">Възникна неочаквана грешка. Свържи се с поддръжката, ако проблемът продължи</string>
+    <string name="error_default_try_again">Опитай отново</string>
+    <string name="error_show_details">Покажи детайли</string>
+    <string name="error_hide_details">Скрий детайлите</string>
+    <string name="main_nav_today">Днес</string>
+    <string name="main_nav_profile">Профил</string>
+    <string name="profile_logout">Излизане</string>
+    <string name="profile_title">Профил</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Отвори Foliary</string>
+    <string name="quit">Изход</string>
+    </resources>

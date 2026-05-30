@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Un espai tranquil per al teu treball profund. Inicia sessió per continuar amb les teves sessions de concentració.</string>
+    <string name="sign_in_continue_with_google">Continua amb Google</string>
+    <string name="sign_in_continue_with_apple">Continua amb Apple</string>
+    <string name="sign_in_or_divider">o</string>
+    <string name="sign_in_email_placeholder">nom@exemple.com</string>
+    <string name="sign_in_send_magic_link">Envia l\'enllaç màgic</string>
+    <string name="sign_in_magic_link_sent">S\'ha enviat l\'enllaç màgic!</string>
+    <string name="sign_in_magic_link_sent_message">S\'ha enviat un correu amb un enllaç màgic a: </string>
+    <string name="sign_in_magic_link_sent_message_2">Revisa la teva bústia d\'entrada i la carpeta de correu brossa</string>
+    <string name="sign_in_magic_link_sent_expiration">L\'enllaç caducarà en %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Fes servir un altre correu</string>
+    <string name="sign_in_invalid_email">Si us plau, introdueix un correu electrònic vàlid.</string>
+    <string name="sign_in_helper_text">No cal contrasenya. T\'enviarem un enllaç segur per iniciar sessió a l\'instant.</string>
+    <string name="sign_in_app_logo_description">Logotip de l\'aplicació</string>
+    <string name="sign_in_welcome_back">Hola de nou,</string>
+    <string name="sign_in_welcome">Et donem la benvinguda,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Alguna cosa ha anat malament</string>
+    <string name="error_default_message">S\'ha produït un error inesperat. Contacta amb el servei de suport si el problema persisteix</string>
+    <string name="error_default_try_again">Torna-ho a provar</string>
+    <string name="error_show_details">Mostra els detalls</string>
+    <string name="error_hide_details">Oculta els detalls</string>
+    <string name="main_nav_today">Avui</string>
+    <string name="main_nav_profile">Perfil</string>
+    <string name="profile_logout">Tancar la sessió</string>
+    <string name="profile_title">Perfil</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Obrir Foliary</string>
+    <string name="quit">Sortir</string>
+    </resources>
