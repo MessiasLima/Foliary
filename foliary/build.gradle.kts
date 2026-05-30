@@ -128,6 +128,12 @@ compose {
 room3 {
     schemaDirectory("$projectDir/schemas")
 }
+dependencies {
+    add("kspAndroid", libs.room.compiler)
+    add("kspJvm", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+}
 
 apply(from = "$rootDir/config/detekt/detekt.gradle")
 
