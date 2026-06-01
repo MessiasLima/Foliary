@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Ruang tenang untuk kerja berfokus anda. Log masuk untuk meneruskan sesi fokus anda.</string>
+    <string name="sign_in_continue_with_google">Teruskan dengan Google</string>
+    <string name="sign_in_continue_with_apple">Teruskan dengan Apple</string>
+    <string name="sign_in_or_divider">atau</string>
+    <string name="sign_in_email_placeholder">nama@contoh.com</string>
+    <string name="sign_in_send_magic_link">Hantar Pautan Ajaib</string>
+    <string name="sign_in_magic_link_sent">Pautan ajaib telah dihantar!</string>
+    <string name="sign_in_magic_link_sent_message">E-mel dengan pautan ajaib telah dihantar ke: </string>
+    <string name="sign_in_magic_link_sent_message_2">Sila semak peti masuk dan folder spam anda</string>
+    <string name="sign_in_magic_link_sent_expiration">Pautan ini akan tamat tempoh dalam %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Gunakan e-mel lain</string>
+    <string name="sign_in_invalid_email">Sila masukkan e-mel yang sah.</string>
+    <string name="sign_in_helper_text">Tiada kata laluan diperlukan. Kami akan menghantar pautan selamat untuk anda log masuk serta-merta.</string>
+    <string name="sign_in_app_logo_description">Logo Aplikasi</string>
+    <string name="sign_in_welcome_back">Selamat kembali,</string>
+    <string name="sign_in_welcome">Selamat datang,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Sesuatu tidak kena</string>
+    <string name="error_default_message">Ralat yang tidak dijangka telah berlaku. Hubungi sokongan jika masalah berterusan</string>
+    <string name="error_default_try_again">Cuba lagi</string>
+    <string name="error_show_details">Tunjukkan butiran</string>
+    <string name="error_hide_details">Sembunyikan butiran</string>
+    <string name="main_nav_today">Hari Ini</string>
+    <string name="main_nav_profile">Profil</string>
+    <string name="profile_logout">Log keluar</string>
+    <string name="profile_title">Profil</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Buka Foliary</string>
+    <string name="quit">Keluar</string>
+    </resources>

@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Mierīga telpa tavam padziļinātajam darbam. Pieraksties, lai turpinātu savas fokusa sesijas.</string>
+    <string name="sign_in_continue_with_google">Turpināt ar Google</string>
+    <string name="sign_in_continue_with_apple">Turpināt ar Apple</string>
+    <string name="sign_in_or_divider">vai</string>
+    <string name="sign_in_email_placeholder">vards@piemers.lv</string>
+    <string name="sign_in_send_magic_link">Sūtīt maģisko saiti</string>
+    <string name="sign_in_magic_link_sent">Maģiskā saite nosūtīta!</string>
+    <string name="sign_in_magic_link_sent_message">E-pasts ar maģisko saiti tika nosūtīts uz: </string>
+    <string name="sign_in_magic_link_sent_message_2">Pārbaudi savu iesūtni un mēstuļu mapi</string>
+    <string name="sign_in_magic_link_sent_expiration">Saite zaudēs derīgumu pēc %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Izmantot citu e-pastu</string>
+    <string name="sign_in_invalid_email">Lūdzu, norādi derīgu e-pasta adresi.</string>
+    <string name="sign_in_helper_text">Parole nav nepieciešama. Mēs nosūtīsim tev drošu saiti, lai uzreiz pierakstītos.</string>
+    <string name="sign_in_app_logo_description">Lietotnes logotips</string>
+    <string name="sign_in_welcome_back">Prieks tevi atkal redzēt,</string>
+    <string name="sign_in_welcome">Sveiks,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Kaut kas nogāja greizi</string>
+    <string name="error_default_message">Radās negaidīta kļūda. Ja problēma atkārtojas, sazinies ar atbalsta dienestu</string>
+    <string name="error_default_try_again">Mēģināt vēlreiz</string>
+    <string name="error_show_details">Rādīt detaļas</string>
+    <string name="error_hide_details">Slēpt detaļas</string>
+    <string name="main_nav_today">Šodien</string>
+    <string name="main_nav_profile">Profils</string>
+    <string name="profile_logout">Izrakstīties</string>
+    <string name="profile_title">Profils</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Atvērt Foliary</string>
+    <string name="quit">Iziet</string>
+    </resources>
