@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">លំហដ៏ស្ងប់ស្ងាត់សម្រាប់ការងារផ្ដោតអារម្មណ៍ស៊ីជម្រៅរបស់អ្នក។ ចូលគណនីដើម្បីបន្តវគ្គផ្ដោតអារម្មណ៍របស់អ្នក។</string>
+    <string name="sign_in_continue_with_google">បន្តជាមួយ Google</string>
+    <string name="sign_in_continue_with_apple">បន្តជាមួយ Apple</string>
+    <string name="sign_in_or_divider">ឬ</string>
+    <string name="sign_in_email_placeholder">name@example.com</string>
+    <string name="sign_in_send_magic_link">ផ្ញើតំណភ្ជាប់ Magic</string>
+    <string name="sign_in_magic_link_sent">បានផ្ញើតំណភ្ជាប់ Magic ហើយ!</string>
+    <string name="sign_in_magic_link_sent_message">អ៊ីមែលដែលមានតំណភ្ជាប់ Magic ត្រូវបានផ្ញើទៅកាន់៖ </string>
+    <string name="sign_in_magic_link_sent_message_2">សូមពិនិត្យមើលប្រអប់សំបុត្រ ឬប្រអប់សារឥតបានការ (spam) របស់អ្នក</string>
+    <string name="sign_in_magic_link_sent_expiration">តំណភ្ជាប់នេះនឹងហួសសុពលភាពក្នុងរយៈពេល %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">ប្រើប្រាស់អ៊ីមែលផ្សេងទៀត</string>
+    <string name="sign_in_invalid_email">សូមផ្ដល់អាសយដ្ឋានអ៊ីមែលដែលមានសុពលភាព។</string>
+    <string name="sign_in_helper_text">មិនត្រូវការលេខសម្ងាត់ឡើយ។ យើងនឹងផ្ញើតំណភ្ជាប់ដែលមានសុវត្ថិភាព ដើម្បីឱ្យអ្នកអាចចូលប្រើប្រាស់បានភ្លាមៗ។</string>
+    <string name="sign_in_app_logo_description">រូបសញ្ញាកម្មវិធី</string>
+    <string name="sign_in_welcome_back">សូមស្វាគមន៍ការត្រឡប់មកវិញ</string>
+    <string name="sign_in_welcome">សូមស្វាគមន៍</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">មានបញ្ហាអ្វីមួយបានកើតឡើង</string>
+    <string name="error_default_message">មានកំហុសដែលមិនបានរំពឹងទុកបានកើតឡើង។ សូមទាក់ទងផ្នែកគាំទ្រ ប្រសិនបើបញ្ហានៅតែបន្តកើតមាន</string>
+    <string name="error_default_try_again">ព្យាយាមម្ដងទៀត</string>
+    <string name="error_show_details">បង្ហាញព័ត៌មានលម្អិត</string>
+    <string name="error_hide_details">លាក់ព័ត៌មានលម្អិត</string>
+    <string name="main_nav_today">ថ្ងៃនេះ</string>
+    <string name="main_nav_profile">ប្រវត្តិរូប</string>
+    <string name="profile_logout">ចាកចេញ</string>
+    <string name="profile_title">ប្រវត្តិរូប</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">បើក Foliary</string>
+    <string name="quit">ចាកចេញ</string>
+    </resources>

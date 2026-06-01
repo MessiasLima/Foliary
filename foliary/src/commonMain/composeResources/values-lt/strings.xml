@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Rami erdvė jūsų giliam darbui. Prisijunkite, kad tęstumėte susikaupimo sesijas.</string>
+    <string name="sign_in_continue_with_google">Tęsti su „Google“</string>
+    <string name="sign_in_continue_with_apple">Tęsti su „Apple“</string>
+    <string name="sign_in_or_divider">arba</string>
+    <string name="sign_in_email_placeholder">vardas@pavyzdys.lt</string>
+    <string name="sign_in_send_magic_link">Siųsti stebuklingą nuorodą</string>
+    <string name="sign_in_magic_link_sent">Stebuklinga nuoroda išsiųsta!</string>
+    <string name="sign_in_magic_link_sent_message">El. laiškas su stebuklinga nuoroda išsiųstas adresu: </string>
+    <string name="sign_in_magic_link_sent_message_2">Patikrinkite gautų laiškų dėžutę ir šlamšto aplanką</string>
+    <string name="sign_in_magic_link_sent_expiration">Nuoroda nustos galioti po %1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Naudoti kitą el. paštą</string>
+    <string name="sign_in_invalid_email">Prašome įvesti galiojantį el. pašto adresą.</string>
+    <string name="sign_in_helper_text">Slaptažodis nereikalingas. Atsiųsime jums saugią nuorodą, kad galėtumėte iškart prisijungti.</string>
+    <string name="sign_in_app_logo_description">Programėlės logotipas</string>
+    <string name="sign_in_welcome_back">Sveiki sugrįžę,</string>
+    <string name="sign_in_welcome">Sveiki,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Kažkas nutiko ne taip</string>
+    <string name="error_default_message">Įvyko netikėta klaida. Jei problema kartojasi, susisiekite su pagalba</string>
+    <string name="error_default_try_again">Bandyti dar kartą</string>
+    <string name="error_show_details">Rodyti detales</string>
+    <string name="error_hide_details">Slėpti detales</string>
+    <string name="main_nav_today">Šiandien</string>
+    <string name="main_nav_profile">Profilis</string>
+    <string name="profile_logout">Atsijungti</string>
+    <string name="profile_title">Profilis</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Atidaryti „Foliary“</string>
+    <string name="quit">Išeiti</string>
+    </resources>

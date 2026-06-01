@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Foliary</string>
+    <string name="sign_in_title">Foliary</string>
+    <string name="sign_in_subtitle">Spazju kalm għal xogħol b\'konċentrazzjoni sħiħa. Idħol biex tkompli bis-sessjonijiet ta\' fokus tiegħek.</string>
+    <string name="sign_in_continue_with_google">Kompli b\'Google</string>
+    <string name="sign_in_continue_with_apple">Kompli b\'Apple</string>
+    <string name="sign_in_or_divider">jew</string>
+    <string name="sign_in_email_placeholder">isem@eżempju.com</string>
+    <string name="sign_in_send_magic_link">Ibgħat il-Magic Link</string>
+    <string name="sign_in_magic_link_sent">Il-Magic link intbagħtet!</string>
+    <string name="sign_in_magic_link_sent_message">Intbagħtet imejl b\'magic link lil: </string>
+    <string name="sign_in_magic_link_sent_message_2">Iċċekkja l-inbox u l-fowlder tal-ispam tiegħek</string>
+    <string name="sign_in_magic_link_sent_expiration">Il-link tiskadi f\'%1$s</string>
+    <string name="sign_in_magic_link_sent_new_email">Uża imejl oħra</string>
+    <string name="sign_in_invalid_email">Jekk jogħġbok daħħal imejl valida.</string>
+    <string name="sign_in_helper_text">M\'hemmx bżonn password. Se nibagħtulek link sigura biex tidħol mill-ewwel.</string>
+    <string name="sign_in_app_logo_description">Logo tal-App</string>
+    <string name="sign_in_welcome_back">Merħba lura,</string>
+    <string name="sign_in_welcome">Merħba,</string>
+    <string name="sign_in_username">%1$s!</string>
+    <string name="error_default_title">Ġara xi ħaġa ħażina</string>
+    <string name="error_default_message">Seħħ żball mhux mistenni. Ikkuntattja lill-assistenza jekk il-problema tippersisti</string>
+    <string name="error_default_try_again">Erġa\' pprova</string>
+    <string name="error_show_details">Uri d-dettalji</string>
+    <string name="error_hide_details">Aħbi d-dettalji</string>
+    <string name="main_nav_today">Illum</string>
+    <string name="main_nav_profile">Profil</string>
+    <string name="profile_logout">Oħroġ mill-kont</string>
+    <string name="profile_title">Profil</string>
+    <string name="today_title">Foliary</string>
+    <string name="open_app">Iftaħ Foliary</string>
+    <string name="quit">Oħroġ</string>
+    </resources>
