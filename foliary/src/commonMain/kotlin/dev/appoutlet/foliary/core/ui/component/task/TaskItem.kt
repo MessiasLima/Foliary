@@ -1,27 +1,36 @@
 package dev.appoutlet.foliary.core.ui.component.task
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Checkbox
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.Info
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.Play
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
-import dev.appoutlet.foliary.core.ui.theme.FoliaryTheme
+import dev.appoutlet.foliary.core.ui.component.card.FoliaryCardDefaults
+import dev.appoutlet.foliary.core.ui.component.checkbox.FoliaryCheckbox
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.task_item_overdue
 import org.jetbrains.compose.resources.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TaskItem(
@@ -29,9 +38,30 @@ fun TaskItem(
     modifier: Modifier = Modifier,
     description: String? = null,
     isCompleted: Boolean = false,
+    onCompletedChange: (Boolean) -> Unit = { },
+    onStartClick: () -> Unit = {},
     isOverdue: Boolean = false,
 ) {
-    FoliaryCard(modifier = modifier.fillMaxWidth()) {
+    val titleColor = animateColorAsState(
+        targetValue = if (isCompleted) {
+            MaterialTheme.colorScheme.onSurface.copy(alpha = CompletedAlpha)
+        } else {
+            MaterialTheme.colorScheme.primary
+        },
+    )
+
+    val cardContainerColor = animateColorAsState(
+        targetValue = if (isCompleted) {
+            MaterialTheme.colorScheme.surfaceDim
+        } else {
+            MaterialTheme.colorScheme.surface
+        },
+    )
+
+    FoliaryCard(
+        modifier = modifier.fillMaxWidth(),
+        colors = FoliaryCardDefaults.colors(containerColor = cardContainerColor.value),
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -39,9 +69,9 @@ fun TaskItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Checkbox(
+            FoliaryCheckbox(
                 checked = isCompleted,
-                onCheckedChange = null,
+                onCheckedChange = onCompletedChange,
                 modifier = Modifier.testTag("TaskItem:Checkbox"),
             )
 
@@ -53,13 +83,9 @@ fun TaskItem(
                     text = title,
                     modifier = Modifier.testTag("TaskItem:Title"),
                     style = MaterialTheme.typography.titleMedium,
-                    color = if (isCompleted) {
-                        MaterialTheme.colorScheme.onSurface.copy(alpha = CompletedAlpha)
-                    } else {
-                        MaterialTheme.colorScheme.onSurface
-                    },
+                    color = titleColor.value,
                     textDecoration = if (isCompleted) TextDecoration.LineThrough else null,
-                    maxLines = 1,
+                    maxLines = MaxTitleLines,
                     overflow = TextOverflow.Ellipsis,
                 )
 
@@ -68,71 +94,68 @@ fun TaskItem(
                         text = it,
                         modifier = Modifier.testTag("TaskItem:Description"),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = MaterialTheme.colorScheme.onBackground,
                         maxLines = MaxDescriptionLines,
                         overflow = TextOverflow.Ellipsis,
                     )
                 }
 
-                if (isOverdue && !isCompleted) {
-                    OverduePill()
+                Row {
+                    if (isOverdue && !isCompleted) {
+                        OverduePill()
+                    }
                 }
             }
+
+            StartButton(onClick = onStartClick)
         }
     }
 }
 
 @Composable
 private fun OverduePill() {
-    Surface(
+    Row(
         modifier = Modifier
             .padding(top = 4.dp)
+            .clip(CircleShape)
+            .background(color = MaterialTheme.colorScheme.surfaceDim, shape = CircleShape)
+            .padding(horizontal = 8.dp, vertical = 4.dp)
             .testTag("TaskItem:OverduePill"),
-        shape = MaterialTheme.shapes.small,
-        color = MaterialTheme.colorScheme.errorContainer,
-        contentColor = MaterialTheme.colorScheme.onErrorContainer,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
+        Icon(
+            modifier = Modifier.size(12.dp),
+            imageVector = Lucide.Info,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.error
+        )
+
         Text(
             text = stringResource(Res.string.task_item_overdue),
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            modifier = Modifier,
             style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.error
+        )
+    }
+}
+
+@Composable
+private fun StartButton(onClick: () -> Unit) {
+    IconButton(
+        onClick = onClick,
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = MaterialTheme.colorScheme.secondary
+        )
+    ) {
+        Icon(
+            imageVector = Lucide.Play,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary
         )
     }
 }
 
 private const val CompletedAlpha = 0.38f
 private const val MaxDescriptionLines = 3
-
-@Preview
-@Composable
-private fun TaskItemPreview() {
-    FoliaryTheme {
-        TaskItem(
-            title = "Write API Documentation",
-            description = "Draft the OpenAPI spec for the new endpoints",
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun TaskItemOverduePreview() {
-    FoliaryTheme {
-        TaskItem(
-            title = "Pay electricity bill",
-            isOverdue = true,
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun TaskItemCompletedPreview() {
-    FoliaryTheme {
-        TaskItem(
-            title = "Inbox Zero",
-            description = "Process all unread emails and archive newsletters",
-            isCompleted = true,
-        )
-    }
-}
+private const val MaxTitleLines = 2
