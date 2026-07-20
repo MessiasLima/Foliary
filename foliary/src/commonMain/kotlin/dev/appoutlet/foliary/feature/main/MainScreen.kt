@@ -46,17 +46,15 @@ fun MainScreen() {
             adaptiveInfo = currentWindowAdaptiveInfoV2(),
         )
 
-        val itemTopPadding = remember(layoutType) {
+        val (windowDecorationPadding, itemTopPadding) = remember(layoutType) {
             when (layoutType) {
                 NavigationSuiteType.NavigationRail,
                 NavigationSuiteType.WideNavigationRailExpanded,
-                NavigationSuiteType.WideNavigationRailCollapsed -> 16.dp
+                NavigationSuiteType.WideNavigationRailCollapsed -> getWindowDecorationPadding() to 16.dp
 
-                else -> 0.dp
+                else -> 0.dp to 0.dp
             }
         }
-
-        val windowDecorationPadding = remember { getWindowDecorationPadding() }
 
         NavigationSuiteScaffold(
             modifier = Modifier

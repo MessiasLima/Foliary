@@ -5,28 +5,28 @@ android-minSdk = "31"
 android-targetSdk = "37"
 androidx-activityCompose = "1.12.4"
 androidx-lifecycle = "2.11.0-beta01"
-coil = "3.4.0"
+coil = "3.5.0"
 compose-multiplatform = "1.11.0"
 detekt = "1.23.8"
 kermit = "2.1.0"
-koin = "4.2.1"
-koin-compiler = "1.0.0"
-kotest = "6.1.11"
-ktor = "3.5.0"
+koin = "4.2.2"
+koin-compiler = "1.0.2"
+kotest = "6.2.1"
+ktor = "3.5.1"
 kotlin = "2.3.21"
 kotlinx-coroutines = "1.11.0"
 kotlinx-serialization = "1.11.0"
-ksp = "2.3.8"
+ksp = "2.3.9"
 material3 = "1.11.0-alpha07"
 multiplatformSettings = "1.3.0"
 navigation3 = "1.1.1"
-composenativetray = "1.3.0"
+composenativetray = "1.3.3"
 nucleus = "1.15.7"
 appdirs = "2.0.0"
 orbit = "11.0.0"
 room = "3.0.0-alpha05"
 sqlite = "2.6.2"
-sentry = "0.26.0"
+sentry = "0.27.0"
 supabase = "3.6.0"
 versionCode = "1"
 versionName = "1.0.0"
@@ -67,7 +67,7 @@ compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.re
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
 compose-ui-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "compose-multiplatform" }
 compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
-detekt-composeRules = "io.nlopez.compose.rules:detekt:0.5.9"
+detekt-composeRules = "io.nlopez.compose.rules:detekt:0.6.2"
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 kermit-koin = { module = "co.touchlab:kermit-koin", version.ref = "kermit" }
@@ -86,7 +86,7 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
-ksafe = "eu.anifantakis:ksafe:2.1.0"
+ksafe = "eu.anifantakis:ksafe:2.1.3"
 lucideIcons = "com.composables:icons-lucide-cmp:2.2.1"
 material3-adaptive-navigation3 = "org.jetbrains.compose.material3.adaptive:adaptive-navigation3:1.3.0-alpha07"
 material3-adaptive-navigationSuite = { module = "org.jetbrains.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3" }
@@ -106,4 +106,4 @@ sentry = { module = "io.sentry:sentry-kotlin-multiplatform", version.ref = "sent
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 supabase-auth = { module = "io.github.jan-tennert.supabase:auth-kt", version.ref = "supabase" }
 supabase-compose-auth = { module = "io.github.jan-tennert.supabase:compose-auth", version.ref = "supabase" }
-umami = "dev.appoutlet:umami:0.5.0"
+umami = "dev.appoutlet:umami:0.5.1"
