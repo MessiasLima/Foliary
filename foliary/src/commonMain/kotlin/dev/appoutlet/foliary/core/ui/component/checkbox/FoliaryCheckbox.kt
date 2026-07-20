@@ -1,6 +1,9 @@
 package dev.appoutlet.foliary.core.ui.component.checkbox
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -60,7 +63,7 @@ fun FoliaryCheckbox(
             .border(BorderStroke(2.dp, borderColor), CircleShape),
         contentAlignment = Alignment.Center,
     ) {
-        if (checked) {
+        AnimatedVisibility(visible = checked, enter = fadeIn(), exit = fadeOut()) {
             Checkmark(color = MaterialTheme.colorScheme.onPrimary)
         }
     }
