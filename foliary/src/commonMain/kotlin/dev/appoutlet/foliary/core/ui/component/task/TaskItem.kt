@@ -42,14 +42,6 @@ fun TaskItem(
     onStartClick: () -> Unit = {},
     isOverdue: Boolean = false,
 ) {
-    val titleColor = animateColorAsState(
-        targetValue = if (isCompleted) {
-            MaterialTheme.colorScheme.onSurface.copy(alpha = CompletedAlpha)
-        } else {
-            MaterialTheme.colorScheme.primary
-        },
-    )
-
     val cardContainerColor = animateColorAsState(
         targetValue = if (isCompleted) {
             MaterialTheme.colorScheme.surfaceDim
@@ -75,39 +67,64 @@ fun TaskItem(
                 modifier = Modifier.testTag("TaskItem:Checkbox"),
             )
 
-            Column(
+            TaskItemContent(
+                title = title,
+                description = description,
+                isCompleted = isCompleted,
+                isOverdue = isOverdue,
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-            ) {
-                Text(
-                    text = title,
-                    modifier = Modifier.testTag("TaskItem:Title"),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = titleColor.value,
-                    textDecoration = if (isCompleted) TextDecoration.LineThrough else null,
-                    maxLines = MaxTitleLines,
-                    overflow = TextOverflow.Ellipsis,
-                )
-
-                description?.let {
-                    Text(
-                        text = it,
-                        modifier = Modifier.testTag("TaskItem:Description"),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        maxLines = MaxDescriptionLines,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-
-                Row {
-                    if (isOverdue && !isCompleted) {
-                        OverduePill()
-                    }
-                }
-            }
+            )
 
             StartButton(onClick = onStartClick)
+        }
+    }
+}
+
+@Composable
+private fun TaskItemContent(
+    title: String,
+    description: String?,
+    isCompleted: Boolean,
+    isOverdue: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    val titleColor = animateColorAsState(
+        targetValue = if (isCompleted) {
+            MaterialTheme.colorScheme.onSurface.copy(alpha = CompletedAlpha)
+        } else {
+            MaterialTheme.colorScheme.primary
+        },
+    )
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        Text(
+            text = title,
+            modifier = Modifier.testTag("TaskItem:Title"),
+            style = MaterialTheme.typography.titleMedium,
+            color = titleColor.value,
+            textDecoration = if (isCompleted) TextDecoration.LineThrough else null,
+            maxLines = MaxTitleLines,
+            overflow = TextOverflow.Ellipsis,
+        )
+
+        description?.let {
+            Text(
+                text = it,
+                modifier = Modifier.testTag("TaskItem:Description"),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+                maxLines = MaxDescriptionLines,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+
+        Row {
+            if (isOverdue && !isCompleted) {
+                OverduePill()
+            }
         }
     }
 }
@@ -144,6 +161,7 @@ private fun OverduePill() {
 private fun StartButton(onClick: () -> Unit) {
     IconButton(
         onClick = onClick,
+        modifier = Modifier.testTag("TaskItem:StartButton"),
         colors = IconButtonDefaults.iconButtonColors(
             containerColor = MaterialTheme.colorScheme.secondary
         )
