@@ -1,11 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'foliary-card',
     standalone: true,
     templateUrl: './foliary-card.html',
     styleUrl: './foliary-card.css',
-    changeDetection: ChangeDetectionStrategy.Eager,
     host: {
         class: 'bg-surface text-on-surface border border-outline rounded-xl',
     },
