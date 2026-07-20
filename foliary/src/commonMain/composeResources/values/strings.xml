@@ -46,6 +46,10 @@
     <string name="today_title">Foliary</string>
     <!-- endregion -->
 
+    <!-- region Task Item -->
+    <string name="task_item_overdue">Overdue</string>
+    <!-- endregion -->
+
     <!-- region System trat -->
     <string name="open_app">Open Foliary</string>
     <string name="quit">Quit</string>
