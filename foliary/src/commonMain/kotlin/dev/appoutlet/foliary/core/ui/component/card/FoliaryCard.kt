@@ -30,7 +30,7 @@ fun FoliaryCard(
                     offset = DpOffset(0.dp, 0.dp),
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
                 )
-        ),
+            ),
         shape = MaterialTheme.shapes.extraLarge,
         colors = colors,
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
