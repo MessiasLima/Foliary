@@ -30,5 +30,6 @@ checksums:
     profile_logout: 9a236bb8f8bec867ec0d0950d38bcc71
     profile_title: d7878693f91303a438852d617f6d35df
     today_title: f3258b28a1e37c2f4b5878b903761453
+    task_item_overdue: 24caaa2b5d7a2447ab7664e3771cf98c
     open_app: 98d48f4e2cbf39c43abbc6dd32eb4ff9
     quit: e4546c0aa9f1fa3e788cadec5e62f8ef
