@@ -23,9 +23,9 @@ fun FoliaryCard(
                 shape = MaterialTheme.shapes.extraLarge,
                 shadow = Shadow(
                     radius = 60.dp,
-                    spread = 0.dp,
+                    spread = 10.dp,
                     offset = DpOffset(0.dp, 0.dp),
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.06f),
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
                 )
             ),
         shape = MaterialTheme.shapes.extraLarge,
