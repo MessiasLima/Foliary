@@ -13,6 +13,6 @@ interface TaskDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(vararg task: Task)
 
-    @Query("SELECT * FROM Task WHERE dueDate > :today ORDER BY dueDate DESC")
+    @Query("SELECT * FROM Task WHERE dueDate < :today AND completionDate IS NULL ORDER BY dueDate DESC")
     fun findTodayTasks(today: Instant): Flow<List<Task>>
 }
