@@ -13,7 +13,7 @@ koin = "4.2.2"
 koin-compiler = "1.0.2"
 kotest = "6.2.1"
 ktor = "3.5.1"
-kotlin = "2.3.21"
+kotlin = "2.4.10"
 kotlinx-coroutines = "1.11.0"
 kotlinx-serialization = "1.11.0"
 ksp = "2.3.9"
@@ -47,7 +47,7 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-mokkery = "dev.mokkery:3.3.0"
+mokkery = "dev.mokkery:3.4.2"
 nucleus = { id = "io.github.kdroidfilter.nucleus", version.ref = "nucleus" }
 room = { id = "androidx.room3", version.ref = "room" }
 sentry = { id = "io.sentry.kotlin.multiplatform.gradle", version.ref = "sentry" }
