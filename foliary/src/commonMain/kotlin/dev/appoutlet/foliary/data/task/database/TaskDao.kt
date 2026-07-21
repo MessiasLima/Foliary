@@ -14,7 +14,7 @@ interface TaskDao {
     suspend fun save(vararg task: Task)
 
     @Query("SELECT * FROM Task")
-    suspend fun findAll() : List<Task>
+    suspend fun findAll(): List<Task>
 
     @Query("SELECT * FROM Task WHERE dueDate <= :endOfToday AND completionDate IS NULL ORDER BY dueDate DESC")
     fun findTodayTasks(endOfToday: Instant): Flow<List<Task>>

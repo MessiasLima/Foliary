@@ -3,7 +3,6 @@ package dev.appoutlet.foliary.data.task.database.entity
 import androidx.room3.Embedded
 import androidx.room3.Entity
 import androidx.room3.PrimaryKey
-import kotlinx.serialization.internal.NamedCompanion
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
 

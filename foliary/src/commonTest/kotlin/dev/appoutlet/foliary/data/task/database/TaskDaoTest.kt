@@ -7,11 +7,8 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
-import kotlin.time.Clock
-import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Instant
-import kotlin.uuid.Uuid
 
 class TaskDaoTest : DaoTest() {
     private val dao by lazy { database.taskDao() }

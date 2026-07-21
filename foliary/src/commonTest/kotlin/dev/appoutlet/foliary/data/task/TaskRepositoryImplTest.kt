@@ -1,7 +1,6 @@
 package dev.appoutlet.foliary.data.task
 
 import dev.appoutlet.foliary.data.task.database.TaskDao
-import dev.appoutlet.foliary.data.task.database.TaskDaoTest
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.data.task.database.entity.fixture
 import dev.appoutlet.foliary.data.time.TimeProvider
@@ -12,12 +11,8 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.time.Clock
-import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Instant
-import kotlin.uuid.Uuid
 
 class TaskRepositoryImplTest {
     private val mockTaskDao = mock<TaskDao>()
