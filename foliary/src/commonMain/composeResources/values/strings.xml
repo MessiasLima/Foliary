@@ -44,6 +44,18 @@
 
     <!-- region Today -->
     <string name="today_title">Foliary</string>
+    <string name="today_add_task_content_description">Add task</string>
+    <!-- endregion -->
+
+    <!-- region Create Task -->
+    <string name="create_task_title">Create task</string>
+    <string name="create_task_title_label">Title</string>
+    <string name="create_task_title_placeholder">What needs to be done?</string>
+    <string name="create_task_description_label">Description</string>
+    <string name="create_task_description_placeholder">Add details (optional)</string>
+    <string name="create_task_save">Save</string>
+    <string name="create_task_title_required">Title is required</string>
+    <string name="create_task_back_content_description">Back</string>
     <!-- endregion -->
 
     <!-- region Task Item -->

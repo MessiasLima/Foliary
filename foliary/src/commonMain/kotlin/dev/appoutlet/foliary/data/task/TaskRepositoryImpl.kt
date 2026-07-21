@@ -14,4 +14,8 @@ class TaskRepositoryImpl(
     override fun findTodayTasks(): Flow<List<Task>> {
         return taskDao.findTodayTasks(timeProvider.endOfToday())
     }
+
+    override suspend fun save(task: Task) {
+        taskDao.save(task)
+    }
 }
