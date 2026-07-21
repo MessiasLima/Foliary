@@ -39,7 +39,7 @@ Additionally, the project contains email templates for authentication (e.g., sig
 | Goal | Command |
 |------|---------|
 | Run single test class | `./gradlew foliary:jvmTest --tests "dev.appoutlet.foliary.data.task.TaskRepositoryImplTest"` |
-| Run single test method | `./gradlew foliary:jvmTest --tests "dev.appoutlet.foliary.data.task.TaskRepositoryImplTest.should return todays tasks"` |
+| Run single test method | `./gradlew foliary:jvmTest --tests "dev.appoutlet.foliary.data.task.TaskRepositoryImplTest.should return tasks due today and overdue tasks"` |
 
 ### CI & Hooks
 - **Pre-push hook**: `config/githooks/pre-push.sh` runs `./gradlew detekt`
@@ -52,7 +52,7 @@ Additionally, the project contains email templates for authentication (e.g., sig
 | Functions/Properties | `camelCase` | `onEvent`, `userName` |
 | Constants | `PascalCase` | `DefaultTimeout` |
 | Test classes | `PascalCase` + `Test` | `TaskRepositoryImplTest` |
-| Test methods | Backticks | `` `should return todays tasks` `` |
+| Test methods | Backticks | `` `should return tasks due today and overdue tasks` `` |
 ### Types & Immutability
 - Prefer `val` over `var`; use `data class` with `val` properties
 - Use `sealed interface` for state/actions
@@ -68,15 +68,4 @@ Additionally, the project contains email templates for authentication (e.g., sig
 
 **Important**: Always use Kotest assertions (e.g., `result shouldBe expected`) instead of standard `assert()`.
 
-```kotlin
-class FeatureTest {
-    @Test
-    fun `should do something`() = runTest {
-        val result = subject.doSomething()
-        result shouldBe expectedValue
-    }
-}
-```
-
-### UI Tests
-Use `runComposeUiTest` and `onNodeWithTag` (via `modifier.testTag("TagName")`).
+**Skill**: Before writing, updating, or reviewing tests, load the `testing` skill.

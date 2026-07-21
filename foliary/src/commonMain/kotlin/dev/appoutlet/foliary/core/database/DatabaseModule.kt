@@ -22,6 +22,9 @@ class DatabaseModule {
 
     @Single
     fun provideApplicationVersionDao(database: FoliaryDatabase) = database.applicationVersionDao()
+
+    @Single
+    fun provideTaskDao(database: FoliaryDatabase) = database.taskDao()
 }
 
 @Module

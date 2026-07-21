@@ -1,0 +1,34 @@
+[
+  {
+    "query": "Add a focused JVM test for `TaskRepositoryImpl.findTodayTasks()` and reuse the existing task fixtures instead of hand-building objects.",
+    "should_trigger": true
+  },
+  {
+    "query": "Fix `TaskDaoTest` after I changed the Room query for today's tasks. Keep it using the real database and update the assertions.",
+    "should_trigger": true
+  },
+  {
+    "query": "Write a `SignInViewModel` test for the magic-link flow using our Orbit test helpers and whatever shared base class the repo already has.",
+    "should_trigger": true
+  },
+  {
+    "query": "There is no fixture for this new entity yet. Create the companion `fixture()` function from scratch in `commonTest` before you add the repository test.",
+    "should_trigger": true
+  },
+  {
+    "query": "Create a new task details screen in Compose Multiplatform and wire it into navigation.",
+    "should_trigger": false
+  },
+  {
+    "query": "Update `AGENTS.md` so it tells agents to load the testing skill before writing tests.",
+    "should_trigger": false
+  },
+  {
+    "query": "Run `./gradlew foliary:jvmTest --tests \"dev.appoutlet.foliary.data.task.TaskRepositoryImplTest\"` and tell me whether it passes.",
+    "should_trigger": false
+  },
+  {
+    "query": "Refactor `TaskRepositoryImpl` production logic to use a different query, but do not add or change any tests yet.",
+    "should_trigger": false
+  }
+]
