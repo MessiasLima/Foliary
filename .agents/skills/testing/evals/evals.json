@@ -1,0 +1,70 @@
+{
+  "skill_name": "testing",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add a focused JVM test for `TaskRepositoryImpl.findTodayTasks()` in `commonTest`. Reuse existing task fixtures, mock `TaskDao` and `TimeProvider` with Mokkery, and assert the returned `Flow` with `.first()`.",
+      "expected_output": "A repository-style unit test that stays in commonTest, uses Mokkery mocks, uses `Task.fixture()`, stubs the DAO with `flowOf(...)`, and asserts with Kotest `shouldBe`.",
+      "files": [],
+      "expectations": [
+        "The solution keeps the test in `commonTest`.",
+        "The solution uses Mokkery mocks for `TaskDao` and `TimeProvider`.",
+        "The solution reuses `Task.fixture()` instead of manually building task objects.",
+        "The solution stubs the DAO flow with `flowOf(...)` and reads it with `.first()`.",
+        "The solution uses Kotest assertions such as `shouldBe`."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Update `TaskDaoTest` coverage for `findTodayTasks()` so it verifies overdue tasks and tasks due today. Use the real in-memory database rather than mocks.",
+      "expected_output": "A DAO test that extends `DaoTest`, gets the DAO from `database`, inserts fixture entities, and reads the result flow with `.first()`.",
+      "files": [],
+      "expectations": [
+        "The solution extends `DaoTest`.",
+        "The solution gets the DAO from `database` instead of mocking it.",
+        "The solution inserts fixture entities rather than manually constructing them.",
+        "The solution reads DAO flow results with `.first()`.",
+        "The solution keeps the assertion focused on the query behavior."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Create a `SignInViewModel` test for the loading state and the magic-link request flow. Keep it aligned with our Orbit test helpers.",
+      "expected_output": "A ViewModel test that extends `ViewModelTest`, builds the subject in `createViewModel()`, uses the inherited `test { ... }` helper, asserts states with `expectState(...)`, and verifies the repository call with Mokkery.",
+      "files": [],
+      "expectations": [
+        "The solution extends `ViewModelTest`.",
+        "The solution creates the subject in `createViewModel()`.",
+        "The solution uses the inherited `test { ... }` helper.",
+        "The solution asserts states with `expectState(...)`.",
+        "The solution verifies the collaborator call with Mokkery when needed."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Create a fixture function from scratch for this new entity and follow Foliary's fixture conventions exactly:\n\n```kotlin\npackage dev.appoutlet.foliary.feature.garden.model\n\nimport dev.appoutlet.foliary.data.task.database.entity.Location\nimport kotlin.uuid.Uuid\n\ndata class Garden(\n    val id: Uuid,\n    val name: String,\n    val description: String?,\n    val location: Location?,\n    val tags: List<String>,\n) {\n    companion object\n}\n```\n\nReturn the `GardenFixture.kt` content you would add under `commonTest`.",
+      "expected_output": "A `GardenFixture.kt` implementation under the same package in `commonTest` that defines `fun Garden.Companion.fixture(...)`, mirrors the constructor signature exactly, keeps defaults non-null and realistic, uses `Location.fixture()` for the nested entity, and provides at least one default tag.",
+      "files": [],
+      "expectations": [
+        "The solution places the fixture in the same package as `Garden`, but under `commonTest`.",
+        "The solution defines `fun Garden.Companion.fixture(...)`.",
+        "The solution mirrors the constructor signature exactly, including argument order, names, types, and nullability.",
+        "The solution uses non-null, realistic defaults for every parameter, including `description`.",
+        "The solution uses `Location.fixture()` as the default value for `location`.",
+        "The solution gives `tags` a default list with at least one element."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Fix this failing test setup. `ReminderRepositoryImpl` depends on a regular Kotlin class `ReminderTimeProvider` that Mokkery cannot mock. Show the minimal production-code change needed to make mocking work and explain why.\n\n```kotlin\npackage dev.appoutlet.foliary.data.reminder\n\nclass ReminderTimeProvider {\n    fun now(): Instant = Clock.System.now()\n}\n\nclass ReminderRepositoryImpl(private val timeProvider: ReminderTimeProvider) {\n    fun currentTime(): Instant = timeProvider.now()\n}\n\nclass ReminderRepositoryImplTest {\n    private val timeProvider = mock<ReminderTimeProvider>()\n    private val subject = ReminderRepositoryImpl(timeProvider)\n}\n```",
+      "expected_output": "A short answer that explains Kotlin classes are final by default, Mokkery cannot mock final classes, and the fix is to annotate `ReminderTimeProvider` with `@Open` (or make it an `interface` / `open class`).",
+      "files": [],
+      "expectations": [
+        "The solution explains that regular Kotlin classes are final by default.",
+        "The solution states that Mokkery cannot mock final classes.",
+        "The solution mentions applying the `@Open` annotation to `ReminderTimeProvider`.",
+        "The solution mentions an acceptable alternative such as making `ReminderTimeProvider` an interface or an `open class`."
+      ]
+    }
+  ]
+}

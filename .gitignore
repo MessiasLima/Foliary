@@ -17,3 +17,4 @@ Pods/
 *yarn.lock
 .opencode/
 i18n.cache
+.agents/skills/*-workspace
