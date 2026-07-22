@@ -33,17 +33,14 @@ import foliary.foliary.generated.resources.task_item_overdue
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun TaskItem(
-    title: String,
+fun FoliaryTaskCard(
+    task: FoliaryTaskCardViewData,
     modifier: Modifier = Modifier,
-    description: String? = null,
-    isCompleted: Boolean = false,
     onCompletedChange: (Boolean) -> Unit = { },
     onStartClick: () -> Unit = {},
-    isOverdue: Boolean = false,
 ) {
     val cardContainerColor = animateColorAsState(
-        targetValue = if (isCompleted) {
+        targetValue = if (task.isCompleted) {
             MaterialTheme.colorScheme.surfaceDim
         } else {
             MaterialTheme.colorScheme.surface
@@ -62,16 +59,13 @@ fun TaskItem(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             FoliaryCheckbox(
-                checked = isCompleted,
+                checked = task.isCompleted,
                 onCheckedChange = onCompletedChange,
-                modifier = Modifier.testTag("TaskItem:Checkbox"),
+                modifier = Modifier.testTag("FoliaryTaskCard:Checkbox"),
             )
 
-            TaskItemContent(
-                title = title,
-                description = description,
-                isCompleted = isCompleted,
-                isOverdue = isOverdue,
+            FoliaryTaskCardContent(
+                task = task,
                 modifier = Modifier.weight(1f),
             )
 
@@ -81,15 +75,12 @@ fun TaskItem(
 }
 
 @Composable
-private fun TaskItemContent(
-    title: String,
-    description: String?,
-    isCompleted: Boolean,
-    isOverdue: Boolean,
+private fun FoliaryTaskCardContent(
+    task: FoliaryTaskCardViewData,
     modifier: Modifier = Modifier,
 ) {
     val titleColor = animateColorAsState(
-        targetValue = if (isCompleted) {
+        targetValue = if (task.isCompleted) {
             MaterialTheme.colorScheme.onSurface.copy(alpha = CompletedAlpha)
         } else {
             MaterialTheme.colorScheme.primary
@@ -101,19 +92,19 @@ private fun TaskItemContent(
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Text(
-            text = title,
-            modifier = Modifier.testTag("TaskItem:Title"),
+            text = task.title,
+            modifier = Modifier.testTag("FoliaryTaskCard:Title"),
             style = MaterialTheme.typography.titleMedium,
             color = titleColor.value,
-            textDecoration = if (isCompleted) TextDecoration.LineThrough else null,
+            textDecoration = if (task.isCompleted) TextDecoration.LineThrough else null,
             maxLines = MaxTitleLines,
             overflow = TextOverflow.Ellipsis,
         )
 
-        description?.let {
+        task.description?.let {
             Text(
                 text = it,
-                modifier = Modifier.testTag("TaskItem:Description"),
+                modifier = Modifier.testTag("FoliaryTaskCard:Description"),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground,
                 maxLines = MaxDescriptionLines,
@@ -122,7 +113,7 @@ private fun TaskItemContent(
         }
 
         Row {
-            if (isOverdue && !isCompleted) {
+            if (task.isOverdue && !task.isCompleted) {
                 OverduePill()
             }
         }
@@ -137,7 +128,7 @@ private fun OverduePill() {
             .clip(CircleShape)
             .background(color = MaterialTheme.colorScheme.surfaceDim, shape = CircleShape)
             .padding(horizontal = 8.dp, vertical = 4.dp)
-            .testTag("TaskItem:OverduePill"),
+            .testTag("FoliaryTaskCard:OverduePill"),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
@@ -161,7 +152,7 @@ private fun OverduePill() {
 private fun StartButton(onClick: () -> Unit) {
     IconButton(
         onClick = onClick,
-        modifier = Modifier.testTag("TaskItem:StartButton"),
+        modifier = Modifier.testTag("FoliaryTaskCard:StartButton"),
         colors = IconButtonDefaults.iconButtonColors(
             containerColor = MaterialTheme.colorScheme.secondary
         )

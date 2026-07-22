@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Käytä toista sähköpostiosoitetta</string>
     <string name="sign_in_invalid_email">Anna kelvollinen sähköpostiosoite.</string>
     <string name="sign_in_helper_text">Salasanaa ei tarvita. Lähetämme sinulle turvallisen linkin, jolla voit kirjautua sisään heti.</string>
-    <string name="sign_in_app_logo_description">Sovelluksen logo</string>
+    <string name="sign_in_app_logo_a11y">Sovelluksen logo</string>
     <string name="sign_in_welcome_back">Tervetuloa takaisin,</string>
     <string name="sign_in_welcome">Tervetuloa,</string>
     <string name="sign_in_username">%1$s!</string>

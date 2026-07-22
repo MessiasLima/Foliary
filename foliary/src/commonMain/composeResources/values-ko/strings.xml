@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">다른 이메일 사용하기</string>
     <string name="sign_in_invalid_email">올바른 이메일 주소를 입력해 주세요.</string>
     <string name="sign_in_helper_text">비밀번호는 필요하지 않습니다. 즉시 로그인할 수 있는 안전한 링크를 보내드립니다.</string>
-    <string name="sign_in_app_logo_description">앱 로고</string>
+    <string name="sign_in_app_logo_a11y">앱 로고</string>
     <string name="sign_in_welcome_back">다시 돌아오신 것을 환영합니다,</string>
     <string name="sign_in_welcome">환영합니다,</string>
     <string name="sign_in_username">%1$s님!</string>

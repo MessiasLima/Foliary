@@ -12,6 +12,11 @@ class TaskRepositoryImpl(
     private val timeProvider: TimeProvider,
 ) : TaskRepository {
     override fun findTodayTasks(): Flow<List<Task>> {
-        return taskDao.findTodayTasks(timeProvider.endOfToday())
+        val endOfToday = timeProvider.endOfToday()
+        return taskDao.findTodayTasks(endOfToday)
+    }
+
+    override suspend fun save(task: Task) {
+        taskDao.save(task)
     }
 }

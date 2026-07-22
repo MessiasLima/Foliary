@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Gunakan email lain</string>
     <string name="sign_in_invalid_email">Silakan masukkan email yang valid.</string>
     <string name="sign_in_helper_text">Tidak perlu kata sandi. Kami akan mengirimkan tautan aman untuk langsung masuk.</string>
-    <string name="sign_in_app_logo_description">Logo Aplikasi</string>
+    <string name="sign_in_app_logo_a11y">Logo Aplikasi</string>
     <string name="sign_in_welcome_back">Selamat datang kembali,</string>
     <string name="sign_in_welcome">Selamat datang,</string>
     <string name="sign_in_username">%1$s!</string>

@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Fes servir un altre correu</string>
     <string name="sign_in_invalid_email">Si us plau, introdueix un correu electrònic vàlid.</string>
     <string name="sign_in_helper_text">No cal contrasenya. T\'enviarem un enllaç segur per iniciar sessió a l\'instant.</string>
-    <string name="sign_in_app_logo_description">Logotip de l\'aplicació</string>
+    <string name="sign_in_app_logo_a11y">Logotip de l\'aplicació</string>
     <string name="sign_in_welcome_back">Hola de nou,</string>
     <string name="sign_in_welcome">Et donem la benvinguda,</string>
     <string name="sign_in_username">%1$s!</string>

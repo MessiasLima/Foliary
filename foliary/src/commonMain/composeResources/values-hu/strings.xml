@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Másik e-mail-cím használata</string>
     <string name="sign_in_invalid_email">Kérjük, adj meg egy érvényes e-mail-címet.</string>
     <string name="sign_in_helper_text">Nincs szükség jelszóra. Küldünk egy biztonságos linket, amellyel azonnal bejelentkezhetsz.</string>
-    <string name="sign_in_app_logo_description">Alkalmazás logója</string>
+    <string name="sign_in_app_logo_a11y">Alkalmazás logója</string>
     <string name="sign_in_welcome_back">Üdv újra itt,</string>
     <string name="sign_in_welcome">Üdvözlünk,</string>
     <string name="sign_in_username">%1$s!</string>

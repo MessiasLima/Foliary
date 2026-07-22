@@ -50,6 +50,8 @@ class DefaultAuthenticationRepository(
     override suspend fun saveSession(session: UserSession) {
         userSession = session
     }
+
+    override fun currentUser() = auth.currentUserOrNull()
 }
 
 expect fun getRedirectUrl(): String

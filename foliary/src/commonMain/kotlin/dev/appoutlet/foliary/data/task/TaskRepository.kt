@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface TaskRepository {
     fun findTodayTasks(): Flow<List<Task>>
+    suspend fun save(task: Task)
 }

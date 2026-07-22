@@ -24,6 +24,7 @@ fun Navigation() {
         getSavedStateConfiguration(navigationAggregator.navigation)
     }
     val backStack = rememberNavBackStack(configuration = config, SignInNavKey)
+
     CompositionLocalProvider(LocalNavigator provides AppNavigator(backStack)) {
         NavDisplay(
             backStack = backStack,

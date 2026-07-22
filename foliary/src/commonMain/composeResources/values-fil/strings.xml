@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Gumamit ng ibang email</string>
     <string name="sign_in_invalid_email">Mangyaring magbigay ng wastong email.</string>
     <string name="sign_in_helper_text">Hindi kailangan ng password. Padadalhan ka namin ng secure na link para makapag-sign in agad.</string>
-    <string name="sign_in_app_logo_description">Logo ng App</string>
+    <string name="sign_in_app_logo_a11y">Logo ng App</string>
     <string name="sign_in_welcome_back">Maligayang pagbabalik,</string>
     <string name="sign_in_welcome">Maligayang pagdating,</string>
     <string name="sign_in_username">%1$s!</string>

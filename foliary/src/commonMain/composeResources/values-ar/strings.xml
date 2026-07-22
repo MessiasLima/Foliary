@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">استخدام بريد إلكتروني آخر</string>
     <string name="sign_in_invalid_email">يرجى إدخال بريد إلكتروني صالح.</string>
     <string name="sign_in_helper_text">لا حاجة لكلمة مرور. سنرسل لك رابطاً آمناً لتسجيل الدخول فوراً.</string>
-    <string name="sign_in_app_logo_description">شعار التطبيق</string>
+    <string name="sign_in_app_logo_a11y">شعار التطبيق</string>
     <string name="sign_in_welcome_back">مرحباً بعودتك،</string>
     <string name="sign_in_welcome">مرحباً بك،</string>
     <string name="sign_in_username">%1$s!</string>

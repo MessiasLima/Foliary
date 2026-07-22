@@ -14,13 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import dev.appoutlet.foliary.core.ui.component.modifier.widthInNarrow
+import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
 
 @Composable
 fun LoadingIndicator(modifier: Modifier = Modifier, message: String? = null) {
     Box(modifier, contentAlignment = Alignment.Center) {
         Column(
-            modifier = Modifier.fillMaxWidth().widthInNarrow().padding(16.dp),
+            modifier = Modifier.fillMaxWidth().widthInCompact().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LinearProgressIndicator(modifier = Modifier.testTag("LoadingIndicator:Progress"))

@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Басқа электрондық поштаны пайдалану</string>
     <string name="sign_in_invalid_email">Дұрыс электрондық пошта мекенжайын енгізіңіз.</string>
     <string name="sign_in_helper_text">Құпия сөз қажет емес. Жүйеге бірден кіру үшін сізге қауіпсіз сілтеме жібереміз.</string>
-    <string name="sign_in_app_logo_description">Қолданба логотипі</string>
+    <string name="sign_in_app_logo_a11y">Қолданба логотипі</string>
     <string name="sign_in_welcome_back">Қайта қош келдіңіз,</string>
     <string name="sign_in_welcome">Қош келдіңіз,</string>
     <string name="sign_in_username">%1$s!</string>

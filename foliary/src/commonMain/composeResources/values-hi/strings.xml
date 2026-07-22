@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">दूसरा ईमेल इस्तेमाल करें</string>
     <string name="sign_in_invalid_email">कृपया एक मान्य ईमेल पता दर्ज करें।</string>
     <string name="sign_in_helper_text">किसी पासवर्ड की आवश्यकता नहीं है। तुरंत साइन इन करने के लिए हम आपको एक सुरक्षित लिंक भेजेंगे।</string>
-    <string name="sign_in_app_logo_description">ऐप का लोगो</string>
+    <string name="sign_in_app_logo_a11y">ऐप का लोगो</string>
     <string name="sign_in_welcome_back">वापसी पर आपका स्वागत है,</string>
     <string name="sign_in_welcome">आपका स्वागत है,</string>
     <string name="sign_in_username">%1$s!</string>
