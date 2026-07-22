@@ -17,40 +17,33 @@ class CreateTaskViewModel(
 
     fun onEvent(event: CreateTaskEvent) {
         when (event) {
-            is CreateTaskEvent.OnTitleChanged -> onTitleChanged(event.title)
-            is CreateTaskEvent.OnDescriptionChanged -> onDescriptionChanged(event.description)
-            CreateTaskEvent.OnSaveClick -> onSaveClick()
-            CreateTaskEvent.OnBackClick -> onBackClick()
+            is CreateTaskEvent.TitleChanged -> onTitleChange(event.title)
+            is CreateTaskEvent.DescriptionChanged -> onDescriptionChange(event.description)
+            CreateTaskEvent.SaveClicked -> onSaveClick()
+            CreateTaskEvent.BackClicked -> onBackClick()
         }
     }
 
-    private fun onTitleChanged(title: String) = intent {
+    private fun onTitleChange(title: String) = intent {
         reduce {
             state.copy(
                 title = title,
-                showTitleError = title.isBlank() && state.showTitleError
+                saveButtonEnabled = title.isNotBlank()
             )
         }
     }
 
-    private fun onDescriptionChanged(description: String) = intent {
+    private fun onDescriptionChange(description: String?) = intent {
         reduce { state.copy(description = description) }
     }
 
     private fun onSaveClick() = intent {
-        val trimmedTitle = state.title.trim()
-
-        if (trimmedTitle.isBlank()) {
-            reduce { state.copy(showTitleError = true) }
-            return@intent
-        }
-
-        reduce { state.copy(isSaving = true) }
+        reduce { state.copy(saveButtonEnabled = false) }
 
         val task = Task(
-            id = Uuid.random(),
-            title = trimmedTitle,
-            description = state.description.trim().ifBlank { null },
+            id = state.id ?: Uuid.random(),
+            title = state.title.trim(),
+            description = state.description?.trim(),
             creationDate = timeProvider.now(),
             dueDate = null,
             completionDate = null,
@@ -60,6 +53,9 @@ class CreateTaskViewModel(
         )
 
         taskRepository.save(task)
+
+        reduce { state.copy(saveButtonEnabled = true) }
+
         postSideEffect(CreateTaskAction.NavigateBack)
     }
 
@@ -69,17 +65,17 @@ class CreateTaskViewModel(
 }
 
 data class CreateTaskViewData(
+    val id: Uuid? = null,
     val title: String = "",
-    val description: String = "",
-    val showTitleError: Boolean = false,
-    val isSaving: Boolean = false,
+    val description: String? = null,
+    val saveButtonEnabled: Boolean = false,
 )
 
 sealed interface CreateTaskEvent {
-    data class OnTitleChanged(val title: String) : CreateTaskEvent
-    data class OnDescriptionChanged(val description: String) : CreateTaskEvent
-    data object OnSaveClick : CreateTaskEvent
-    data object OnBackClick : CreateTaskEvent
+    data class TitleChanged(val title: String) : CreateTaskEvent
+    data class DescriptionChanged(val description: String?) : CreateTaskEvent
+    data object SaveClicked : CreateTaskEvent
+    data object BackClicked : CreateTaskEvent
 }
 
 sealed interface CreateTaskAction : Action {

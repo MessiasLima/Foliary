@@ -40,14 +40,14 @@ class CreateTaskViewModelTest : ViewModelTest<CreateTaskViewModel, CreateTaskVie
 
     @Test
     fun `blank title on save shows validation error`() = test {
-        viewModel.onEvent(CreateTaskEvent.OnSaveClick)
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
 
         expectState(CreateTaskViewData(showTitleError = true))
     }
 
     @Test
     fun `blank title on save does not call repository`() = test {
-        viewModel.onEvent(CreateTaskEvent.OnSaveClick)
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
 
         expectState(CreateTaskViewData(showTitleError = true))
         verifyNoMoreCalls(mockTaskRepository)
@@ -55,10 +55,10 @@ class CreateTaskViewModelTest : ViewModelTest<CreateTaskViewModel, CreateTaskVie
 
     @Test
     fun `entering a valid title clears the title error`() = test {
-        viewModel.onEvent(CreateTaskEvent.OnSaveClick)
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
         expectState(CreateTaskViewData(showTitleError = true))
 
-        viewModel.onEvent(CreateTaskEvent.OnTitleChanged("Task"))
+        viewModel.onEvent(CreateTaskEvent.TitleChanged("Task"))
         expectState(CreateTaskViewData(title = "Task", showTitleError = false))
     }
 
@@ -67,10 +67,10 @@ class CreateTaskViewModelTest : ViewModelTest<CreateTaskViewModel, CreateTaskVie
         val slot = Capture.slot<Task>()
         everySuspend { mockTaskRepository.save(capture(slot)) } returns Unit
 
-        viewModel.onEvent(CreateTaskEvent.OnTitleChanged("Task title"))
+        viewModel.onEvent(CreateTaskEvent.TitleChanged("Task title"))
         expectState(CreateTaskViewData(title = "Task title"))
 
-        viewModel.onEvent(CreateTaskEvent.OnSaveClick)
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
         expectState(CreateTaskViewData(title = "Task title", isSaving = true))
 
         verifySuspend { mockTaskRepository.save(any()) }
@@ -93,13 +93,13 @@ class CreateTaskViewModelTest : ViewModelTest<CreateTaskViewModel, CreateTaskVie
         val slot = Capture.slot<Task>()
         everySuspend { mockTaskRepository.save(capture(slot)) } returns Unit
 
-        viewModel.onEvent(CreateTaskEvent.OnTitleChanged("Task title"))
+        viewModel.onEvent(CreateTaskEvent.TitleChanged("Task title"))
         expectState(CreateTaskViewData(title = "Task title"))
 
-        viewModel.onEvent(CreateTaskEvent.OnDescriptionChanged("Description"))
+        viewModel.onEvent(CreateTaskEvent.DescriptionChanged("Description"))
         expectState(CreateTaskViewData(title = "Task title", description = "Description"))
 
-        viewModel.onEvent(CreateTaskEvent.OnSaveClick)
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
         expectState(CreateTaskViewData(title = "Task title", description = "Description", isSaving = true))
 
         verifySuspend { mockTaskRepository.save(any()) }
@@ -116,13 +116,13 @@ class CreateTaskViewModelTest : ViewModelTest<CreateTaskViewModel, CreateTaskVie
         val slot = Capture.slot<Task>()
         everySuspend { mockTaskRepository.save(capture(slot)) } returns Unit
 
-        viewModel.onEvent(CreateTaskEvent.OnTitleChanged("Task title"))
+        viewModel.onEvent(CreateTaskEvent.TitleChanged("Task title"))
         expectState(CreateTaskViewData(title = "Task title"))
 
-        viewModel.onEvent(CreateTaskEvent.OnDescriptionChanged("   "))
+        viewModel.onEvent(CreateTaskEvent.DescriptionChanged("   "))
         expectState(CreateTaskViewData(title = "Task title", description = "   "))
 
-        viewModel.onEvent(CreateTaskEvent.OnSaveClick)
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
         expectState(CreateTaskViewData(title = "Task title", description = "   ", isSaving = true))
 
         slot.get().description shouldBe null
@@ -131,7 +131,7 @@ class CreateTaskViewModelTest : ViewModelTest<CreateTaskViewModel, CreateTaskVie
 
     @Test
     fun `back event emits NavigateBack without saving`() = test {
-        viewModel.onEvent(CreateTaskEvent.OnBackClick)
+        viewModel.onEvent(CreateTaskEvent.BackClicked)
 
         expectSideEffect(CreateTaskAction.NavigateBack)
         verifyNoMoreCalls(mockTaskRepository)
