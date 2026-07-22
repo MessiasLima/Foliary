@@ -17,16 +17,29 @@ class TodayViewModel(
     private val authenticationRepository: AuthenticationRepository,
     private val foliaryTaskCardViewDataMapper: FoliaryTaskCardViewDataMapper
 ) : MviViewModel<TodayViewData, TodayAction>() {
-    private val currentUser by lazy { authenticationRepository.currentUser() }
+    private val currentUser by lazy {
+        authenticationRepository.currentUser()
+    }
+
+    private val userName by lazy {
+        if (currentUser == null) {
+            log.w { "User is not authenticated" }
+        }
+
+        currentUser?.name() ?: ""
+    }
 
     override val container = container(TodayViewData.Idle) {
-        val user = currentUser ?: error("User not authenticated")
         taskRepository.findTodayTasks()
             .onStart { reduce { TodayViewData.Loading } }
-            .map { tasks -> tasks.map { foliaryTaskCardViewDataMapper(it)} }
+            .map { tasks -> tasks.map { foliaryTaskCardViewDataMapper(it) } }
             .collect { tasks ->
                 reduce {
-                    TodayViewData.Loaded(userName = user.name() ?: "", tasks = tasks)
+                    if (tasks.isEmpty()) {
+                        TodayViewData.Empty(userName = userName)
+                    } else {
+                        TodayViewData.Loaded(userName = userName, tasks = tasks)
+                    }
                 }
             }
     }
@@ -44,11 +57,15 @@ class TodayViewModel(
 
 sealed interface TodayViewData {
     data object Idle : TodayViewData
+
     data object Loading : TodayViewData
+
     data class Loaded(
         val userName: String,
         val tasks: List<FoliaryTaskCardViewData>,
     ) : TodayViewData
+
+    data class Empty(val userName: String) : TodayViewData
 }
 
 sealed interface TodayAction : Action {

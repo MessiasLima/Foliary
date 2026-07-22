@@ -31,7 +31,7 @@ fun UserInfo.metadata(key: UserInfoMetadataKey): JsonPrimitive? {
 
     return when (jsonElement) {
         is JsonPrimitive -> {
-           if (jsonElement != JsonNull) jsonElement else null
+            if (jsonElement != JsonNull) jsonElement else null
         }
         is JsonArray -> null
         is JsonObject -> null
@@ -41,5 +41,3 @@ fun UserInfo.metadata(key: UserInfoMetadataKey): JsonPrimitive? {
 fun UserInfo.name(): String? {
     return (metadata(UserInfo.Metadata.Name) ?: metadata(UserInfo.Metadata.FullName))?.content
 }
-
-

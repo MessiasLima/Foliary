@@ -32,7 +32,6 @@ import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.task_item_overdue
 import org.jetbrains.compose.resources.stringResource
 
-
 @Composable
 fun FoliaryTaskCard(
     task: FoliaryTaskCardViewData,
