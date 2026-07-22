@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Usar otro correo electrónico</string>
     <string name="sign_in_invalid_email">Por favor, introduce un correo electrónico válido.</string>
     <string name="sign_in_helper_text">No se requiere contraseña. Te enviaremos un enlace seguro para iniciar sesión al instante.</string>
-    <string name="sign_in_app_logo_description">Logotipo de la app</string>
+    <string name="sign_in_app_logo_a11y">Logotipo de la app</string>
     <string name="sign_in_welcome_back">Te damos la bienvenida de nuevo,</string>
     <string name="sign_in_welcome">Te damos la bienvenida,</string>
     <string name="sign_in_username">¡%1$s!</string>

@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Bruk en annen e-post</string>
     <string name="sign_in_invalid_email">Vennligst oppgi en gyldig e-postadresse.</string>
     <string name="sign_in_helper_text">Passord er ikke nødvendig. Vi sender deg en sikker lenke slik at du kan logge inn umiddelbart.</string>
-    <string name="sign_in_app_logo_description">App-logo</string>
+    <string name="sign_in_app_logo_a11y">App-logo</string>
     <string name="sign_in_welcome_back">Velkommen tilbake,</string>
     <string name="sign_in_welcome">Velkommen,</string>
     <string name="sign_in_username">%1$s!</string>

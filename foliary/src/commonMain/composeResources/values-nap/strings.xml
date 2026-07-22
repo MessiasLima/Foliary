@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Usa n\'ata email</string>
     <string name="sign_in_invalid_email">Pe\' piacere, miette n\'email valida.</string>
     <string name="sign_in_helper_text">Nun serve nisciuna password. Te mannamo nu link sicuro pe\' trasì sùbbeto.</string>
-    <string name="sign_in_app_logo_description">Logo d\' \'a app</string>
+    <string name="sign_in_app_logo_a11y">Logo d\' \'a app</string>
     <string name="sign_in_welcome_back">Benturnato,</string>
     <string name="sign_in_welcome">Benvenuto,</string>
     <string name="sign_in_username">%1$s!</string>

@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">שימוש באימייל אחר</string>
     <string name="sign_in_invalid_email">נא להזין כתובת אימייל תקינה.</string>
     <string name="sign_in_helper_text">אין צורך בסיסמה. נשלח אליכם קישור מאובטח להתחברות מיידית.</string>
-    <string name="sign_in_app_logo_description">לוגו האפליקציה</string>
+    <string name="sign_in_app_logo_a11y">לוגו האפליקציה</string>
     <string name="sign_in_welcome_back">ברוכים השבים,</string>
     <string name="sign_in_welcome">ברוכים הבאים,</string>
     <string name="sign_in_username">%1$s!</string>

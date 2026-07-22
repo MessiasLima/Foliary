@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">استفاده از ایمیل دیگر</string>
     <string name="sign_in_invalid_email">لطفاً یک ایمیل معتبر وارد کنید.</string>
     <string name="sign_in_helper_text">نیازی به رمز عبور نیست. ما یک لینک امن برای ورود سریع شما ارسال می‌کنیم.</string>
-    <string name="sign_in_app_logo_description">لوگوی اپلیکیشن</string>
+    <string name="sign_in_app_logo_a11y">لوگوی اپلیکیشن</string>
     <string name="sign_in_welcome_back">خوش برگشتید،</string>
     <string name="sign_in_welcome">خوش آمدید،</string>
     <string name="sign_in_username">%1$s!</string>

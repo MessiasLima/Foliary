@@ -3,6 +3,7 @@ package dev.appoutlet.foliary.feature.createtask
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -12,21 +13,28 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.ArrowLeft
 import com.composables.icons.lucide.Lucide
-import dev.appoutlet.foliary.core.navigation.Navigator
+import dev.appoutlet.foliary.core.ui.component.button.FoliaryBackIconButton
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryPrimaryButton
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
+import dev.appoutlet.foliary.core.ui.component.textfield.FoliaryTextField
+import dev.appoutlet.foliary.feature.main.getWindowDecorationPadding
 import foliary.foliary.generated.resources.Res
-import foliary.foliary.generated.resources.create_task_back_content_description
 import foliary.foliary.generated.resources.create_task_description_label
 import foliary.foliary.generated.resources.create_task_description_placeholder
 import foliary.foliary.generated.resources.create_task_save
@@ -35,85 +43,58 @@ import foliary.foliary.generated.resources.create_task_title_label
 import foliary.foliary.generated.resources.create_task_title_placeholder
 import foliary.foliary.generated.resources.create_task_title_required
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun CreateTaskScreen() {
-    val viewModel = koinViewModel<CreateTaskViewModel>()
+fun CreateTaskScreen(viewData: CreateTaskViewData, onEvent: (CreateTaskEvent) -> Unit) {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
 
-    Screen(
-        screenName = "CreateTaskScreen",
-        viewModelProvider = { viewModel },
-        onAction = ::onAction
-    ) { viewData: CreateTaskViewData ->
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            topBar = {
-                CenterAlignedTopAppBar(
+        }
+    ) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                TopAppBar(
+                    modifier = Modifier.padding(top = getWindowDecorationPadding()),
                     navigationIcon = {
-                        IconButton(
-                            onClick = { viewModel.onEvent(CreateTaskEvent.OnBackClick) }
-                        ) {
-                            Icon(
-                                imageVector = Lucide.ArrowLeft,
-                                contentDescription = stringResource(Res.string.create_task_back_content_description)
-                            )
-                        }
+                        FoliaryBackIconButton(onClick = { onEvent(CreateTaskEvent.OnBackClick) })
                     },
-                    title = { Text(text = stringResource(Res.string.create_task_title)) }
+                    title = { Text(text = stringResource(Res.string.create_task_title), color = MaterialTheme.colorScheme.primary) },
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+                    actions = {}
+                )
+
+                FoliaryTextField(
+                    modifier = Modifier.widthInCompact().fillMaxWidth().padding(horizontal = 16.dp),
+                    value = viewData.title,
+                    onValueChange = { onEvent(CreateTaskEvent.OnTitleChanged(it)) },
+                    placeholder = { Text(text = stringResource(Res.string.create_task_title_placeholder)) },
+                    singleLine = true
+                )
+
+
+                FoliaryTextField(
+                    modifier = Modifier.widthInCompact().fillMaxWidth().padding(horizontal = 16.dp),
+                    value = viewData.description,
+                    onValueChange = { onEvent(CreateTaskEvent.OnDescriptionChanged(it)) },
+                    placeholder = { Text(text = stringResource(Res.string.create_task_description_placeholder)) },
+                    minLines = 3
                 )
             }
-        ) { paddingValues ->
-            Box(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-            ) {
-                Column(
-                    modifier = Modifier
-                        .widthInCompact(480.dp)
-                        .align(Alignment.TopCenter)
-                        .padding(horizontal = 24.dp, vertical = 24.dp)
-                        .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(24.dp)
-                ) {
-                    OutlinedTextField(
-                        value = viewData.title,
-                        onValueChange = { viewModel.onEvent(CreateTaskEvent.OnTitleChanged(it)) },
-                        modifier = Modifier.fillMaxWidth(),
-                        label = { Text(text = stringResource(Res.string.create_task_title_label)) },
-                        placeholder = { Text(text = stringResource(Res.string.create_task_title_placeholder)) },
-                        isError = viewData.showTitleError,
-                        supportingText = if (viewData.showTitleError) {
-                            { Text(text = stringResource(Res.string.create_task_title_required)) }
-                        } else null,
-                        singleLine = true
-                    )
 
-                    OutlinedTextField(
-                        value = viewData.description,
-                        onValueChange = { viewModel.onEvent(CreateTaskEvent.OnDescriptionChanged(it)) },
-                        modifier = Modifier.fillMaxWidth().heightIn(min = 120.dp),
-                        label = { Text(text = stringResource(Res.string.create_task_description_label)) },
-                        placeholder = { Text(text = stringResource(Res.string.create_task_description_placeholder)) },
-                        minLines = 3
-                    )
-
-                    FoliaryPrimaryButton(
-                        onClick = { viewModel.onEvent(CreateTaskEvent.OnSaveClick) },
-                        modifier = Modifier.fillMaxWidth(),
-                        enabled = viewData.isSaving.not()
-                    ) {
-                        Text(text = stringResource(Res.string.create_task_save))
-                    }
-                }
-            }
+            FoliaryPrimaryButton(
+                modifier = Modifier.widthInCompact().fillMaxWidth().align(Alignment.BottomCenter).padding(16.dp),
+                onClick = { onEvent(CreateTaskEvent.OnSaveClick) },
+                enabled = viewData.isSaving.not(),
+                content = { Text(text = stringResource(Res.string.create_task_save)) }
+            )
         }
-    }
-}
-
-private fun onAction(action: CreateTaskAction, navigator: Navigator) {
-    when (action) {
-        CreateTaskAction.NavigateBack -> navigator.goBack()
     }
 }

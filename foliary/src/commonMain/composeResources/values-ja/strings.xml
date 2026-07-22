@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">別のメールアドレスを使用する</string>
     <string name="sign_in_invalid_email">有効なメールアドレスを入力してください。</string>
     <string name="sign_in_helper_text">パスワードは不要です。すぐに安全にログインできるリンクをお送りします。</string>
-    <string name="sign_in_app_logo_description">アプリのロゴ</string>
+    <string name="sign_in_app_logo_a11y">アプリのロゴ</string>
     <string name="sign_in_welcome_back">おかえりなさい、</string>
     <string name="sign_in_welcome">ようこそ、</string>
     <string name="sign_in_username">%1$s さん！</string>

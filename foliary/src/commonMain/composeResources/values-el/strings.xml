@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Χρήση άλλου email</string>
     <string name="sign_in_invalid_email">Παρακαλώ καταχωρίστε ένα έγκυρο email.</string>
     <string name="sign_in_helper_text">Δεν απαιτείται κωδικός πρόσβασης. Θα σου στείλουμε έναν ασφαλή σύνδεσμο για άμεση σύνδεση.</string>
-    <string name="sign_in_app_logo_description">Λογότυπο εφαρμογής</string>
+    <string name="sign_in_app_logo_a11y">Λογότυπο εφαρμογής</string>
     <string name="sign_in_welcome_back">Καλώς ήρθες ξανά,</string>
     <string name="sign_in_welcome">Καλώς ήρθες,</string>
     <string name="sign_in_username">%1$s!</string>

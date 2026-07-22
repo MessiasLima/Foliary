@@ -45,7 +45,7 @@ import dev.appoutlet.foliary.core.ui.component.task.TaskItem
 import dev.appoutlet.foliary.feature.createtask.CreateTaskNavKey
 import dev.appoutlet.foliary.feature.main.getWindowDecorationPadding
 import foliary.foliary.generated.resources.Res
-import foliary.foliary.generated.resources.today_add_task_content_description
+import foliary.foliary.generated.resources.today_add_task_a11y
 import foliary.foliary.generated.resources.today_title
 import foliary.foliary.generated.resources.today_welcome
 import org.jetbrains.compose.resources.stringResource
@@ -105,7 +105,7 @@ private fun TodayScreenContent(viewData: TodayViewData, onEvent: (TodayEvent) ->
                 ) {
                     Icon(
                         imageVector = Lucide.Plus,
-                        contentDescription = stringResource(Res.string.today_add_task_content_description)
+                        contentDescription = stringResource(Res.string.today_add_task_a11y)
                     )
                 }
             }
