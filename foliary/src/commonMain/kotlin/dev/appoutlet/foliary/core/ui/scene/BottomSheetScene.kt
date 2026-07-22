@@ -81,5 +81,4 @@ class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
 
         object BottomSheetKey : NavMetadataKey<ModalBottomSheetProperties>
     }
-
 }

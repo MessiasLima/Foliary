@@ -41,7 +41,7 @@ class CreateTaskViewModel(
         reduce { state.copy(saveButtonEnabled = false) }
 
         val task = Task(
-            id = state.id ?: Uuid.random(),
+            id = state.id?.let { Uuid.parse(it) } ?: Uuid.random(),
             title = state.title.trim(),
             description = state.description?.trim(),
             creationDate = timeProvider.now(),
@@ -65,7 +65,7 @@ class CreateTaskViewModel(
 }
 
 data class CreateTaskViewData(
-    val id: Uuid? = null,
+    val id: String? = null,
     val title: String = "",
     val description: String? = null,
     val saveButtonEnabled: Boolean = false,
