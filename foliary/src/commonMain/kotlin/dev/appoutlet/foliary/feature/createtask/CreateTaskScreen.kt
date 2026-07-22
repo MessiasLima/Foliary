@@ -4,13 +4,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -44,33 +47,38 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun CreateTaskScreen(viewData: CreateTaskViewData, onEvent: (CreateTaskEvent) -> Unit) {
-    Box(
-        modifier = Modifier.fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
-            .safeDrawingPadding()
-    ) {
-        Column(
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+    Scaffold(
+        topBar = { CreateTaskTopBar(onEvent) }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier.fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(paddingValues)
         ) {
-            CreateTaskTopBar(onEvent)
-            TitleField(viewData.title, onEvent)
-            DescriptionField(viewData.description, onEvent)
-        }
+            Column(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(Modifier.size(16.dp))
+                TitleField(viewData.title, onEvent)
+                DescriptionField(viewData.description, onEvent)
+                Spacer(Modifier.size(64.dp))
+            }
 
-        FoliaryPrimaryButton(
-            modifier = Modifier.widthInCompact()
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(16.dp),
-            onClick = { onEvent(CreateTaskEvent.SaveClicked) },
-            enabled = viewData.saveButtonEnabled,
-            content = { Text(text = stringResource(Res.string.create_task_save)) }
-        )
+            FoliaryPrimaryButton(
+                modifier = Modifier.widthInCompact()
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp),
+                onClick = { onEvent(CreateTaskEvent.SaveClicked) },
+                enabled = viewData.saveButtonEnabled,
+                content = { Text(text = stringResource(Res.string.create_task_save)) }
+            )
+        }
     }
 }
 
@@ -87,7 +95,7 @@ private fun CreateTaskTopBar(onEvent: (CreateTaskEvent) -> Unit) {
                 color = MaterialTheme.colorScheme.primary
             )
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
     )
 }
 
