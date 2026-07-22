@@ -5,6 +5,7 @@ import eu.anifantakis.lib.ksafe.KSafe
 import eu.anifantakis.lib.ksafe.invoke
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.providers.builtin.OTP
+import io.github.jan.supabase.auth.user.UserInfo
 import io.github.jan.supabase.auth.user.UserSession
 import org.koin.core.annotation.Single
 
@@ -50,6 +51,8 @@ class DefaultAuthenticationRepository(
     override suspend fun saveSession(session: UserSession) {
         userSession = session
     }
+
+    override fun currentUser() = auth.currentUserOrNull()
 }
 
 expect fun getRedirectUrl(): String

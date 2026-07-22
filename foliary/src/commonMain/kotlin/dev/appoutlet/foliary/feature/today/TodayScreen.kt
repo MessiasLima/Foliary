@@ -5,6 +5,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
@@ -27,17 +29,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Plus
 import dev.appoutlet.foliary.core.navigation.Navigator
+import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import dev.appoutlet.foliary.core.ui.component.modifier.FoliaryShadowColorDefault
 import dev.appoutlet.foliary.core.ui.component.modifier.foliaryShadow
+import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
+import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCard
 import dev.appoutlet.foliary.feature.createtask.CreateTaskNavKey
 import dev.appoutlet.foliary.feature.main.getWindowDecorationPadding
+import dev.appoutlet.foliary.feature.signin.SignInNavKey
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.today_add_task_a11y
 import foliary.foliary.generated.resources.today_title
@@ -54,12 +61,16 @@ fun TodayScreen() {
         viewModelProvider = { viewModel },
         onAction = ::onAction
     ) { viewData ->
-        TodayScreenContent(viewData, viewModel::onEvent)
+        when (viewData) {
+            TodayViewData.Idle -> {}
+            is TodayViewData.Loaded -> TodayScreenContent(viewData, viewModel::onEvent)
+            TodayViewData.Loading -> LoadingIndicator()
+        }
     }
 }
 
 @Composable
-private fun TodayScreenContent(viewData: TodayViewData, onEvent: (TodayEvent) -> Unit) {
+private fun TodayScreenContent(viewData: TodayViewData.Loaded, onEvent: (TodayEvent) -> Unit) {
     val lazyListState = rememberLazyListState()
 
     val showActionShadow by remember {
@@ -75,6 +86,17 @@ private fun TodayScreenContent(viewData: TodayViewData, onEvent: (TodayEvent) ->
         stickyHeader { TodayAddButton(onEvent, showActionShadow) }
         item { } // Required for better UX
         item { TodayHeader(viewData) }
+        items(viewData.tasks, key = { it.id }) { task ->
+            Box(modifier = Modifier.fillMaxWidth()) {
+                FoliaryTaskCard(
+                    modifier = Modifier.widthInCompact()
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 4.dp)
+                        .align(Alignment.Center),
+                    task = task,
+                )
+            }
+        }
     }
 }
 
@@ -114,7 +136,7 @@ private fun TodayAddButton(
 }
 
 @Composable
-private fun TodayHeader(viewData: TodayViewData) {
+private fun TodayHeader(viewData: TodayViewData.Loaded) {
     Column(Modifier.padding(bottom = 16.dp, start = 16.dp, end = 16.dp).fillMaxWidth()) {
         Text(
             modifier = Modifier,
@@ -133,5 +155,6 @@ private fun TodayHeader(viewData: TodayViewData) {
 private fun onAction(action: TodayAction, navigator: Navigator) {
     when (action) {
         TodayAction.NavigateToCreateTask -> navigator.navigate(CreateTaskNavKey)
+        TodayAction.NavigateToSignIn -> navigator.setRoot(SignInNavKey)
     }
 }

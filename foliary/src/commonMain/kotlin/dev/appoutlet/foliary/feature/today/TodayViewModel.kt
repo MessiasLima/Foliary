@@ -2,11 +2,34 @@ package dev.appoutlet.foliary.feature.today
 
 import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.MviViewModel
+import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewData
+import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewDataMapper
+import dev.appoutlet.foliary.data.authentication.AuthenticationRepository
+import dev.appoutlet.foliary.data.authentication.util.name
+import dev.appoutlet.foliary.data.task.TaskRepository
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import org.koin.core.annotation.KoinViewModel
 
 @KoinViewModel
-class TodayViewModel : MviViewModel<TodayViewData, TodayAction>() {
-    override val container = container(TodayViewData())
+class TodayViewModel(
+    private val taskRepository: TaskRepository,
+    private val authenticationRepository: AuthenticationRepository,
+    private val foliaryTaskCardViewDataMapper: FoliaryTaskCardViewDataMapper
+) : MviViewModel<TodayViewData, TodayAction>() {
+    private val currentUser by lazy { authenticationRepository.currentUser() }
+
+    override val container = container(TodayViewData.Idle) {
+        val user = currentUser ?: error("User not authenticated")
+        taskRepository.findTodayTasks()
+            .onStart { reduce { TodayViewData.Loading } }
+            .map { tasks -> tasks.map { foliaryTaskCardViewDataMapper(it)} }
+            .collect { tasks ->
+                reduce {
+                    TodayViewData.Loaded(userName = user.name() ?: "", tasks = tasks)
+                }
+            }
+    }
 
     fun onEvent(event: TodayEvent) {
         when (event) {
@@ -19,12 +42,18 @@ class TodayViewModel : MviViewModel<TodayViewData, TodayAction>() {
     }
 }
 
-data class TodayViewData(
-    val userName: String = "Developer"
-)
+sealed interface TodayViewData {
+    data object Idle : TodayViewData
+    data object Loading : TodayViewData
+    data class Loaded(
+        val userName: String,
+        val tasks: List<FoliaryTaskCardViewData>,
+    ) : TodayViewData
+}
 
 sealed interface TodayAction : Action {
     data object NavigateToCreateTask : TodayAction
+    data object NavigateToSignIn : TodayAction
 }
 
 sealed interface TodayEvent {
