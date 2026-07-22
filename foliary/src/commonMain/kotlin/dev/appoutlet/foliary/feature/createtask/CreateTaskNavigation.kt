@@ -1,5 +1,6 @@
 package dev.appoutlet.foliary.feature.createtask
 
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import dev.appoutlet.foliary.core.navigation.Navigation
@@ -10,6 +11,7 @@ import kotlinx.serialization.modules.PolymorphicModuleBuilder
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.Single
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Single
 class CreateTaskNavigation : Navigation<CreateTaskNavKey> {
     override fun setupRoute(scope: EntryProviderScope<NavKey>) {
