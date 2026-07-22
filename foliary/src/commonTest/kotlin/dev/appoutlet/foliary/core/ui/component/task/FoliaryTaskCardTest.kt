@@ -17,7 +17,7 @@ import org.jetbrains.compose.resources.getString
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
-class TaskItemTest {
+class FoliaryTaskCardTest {
 
     @Test
     fun `should render title and description`() = runComposeUiTest {
@@ -25,71 +25,74 @@ class TaskItemTest {
         val description = "Task description"
 
         setContent {
-            TaskItem(
-                title = title,
-                description = description,
+            FoliaryTaskCard(
+                task = taskViewData(
+                    title = title,
+                    description = description,
+                ),
             )
         }
 
-        onNodeWithTag("TaskItem:Title").assertIsDisplayed().assertTextEquals(title)
-        onNodeWithTag("TaskItem:Description").assertIsDisplayed().assertTextEquals(description)
+        onNodeWithTag("FoliaryTaskCard:Title").assertIsDisplayed().assertTextEquals(title)
+        onNodeWithTag("FoliaryTaskCard:Description").assertIsDisplayed().assertTextEquals(description)
     }
 
     @Test
     fun `should not show description when null`() = runComposeUiTest {
         setContent {
-            TaskItem(title = "Task title")
+            FoliaryTaskCard(task = taskViewData())
         }
 
-        onNodeWithTag("TaskItem:Description").assertDoesNotExist()
+        onNodeWithTag("FoliaryTaskCard:Description").assertDoesNotExist()
     }
 
     @Test
     fun `should show unchecked checkbox by default`() = runComposeUiTest {
         setContent {
-            TaskItem(title = "Task title")
+            FoliaryTaskCard(task = taskViewData())
         }
 
-        onNodeWithTag("TaskItem:Checkbox").assertIsDisplayed()
+        onNodeWithTag("FoliaryTaskCard:Checkbox").assertIsDisplayed()
     }
 
     @Test
     fun `should show overdue pill when isOverdue is true and not completed`() = runComposeUiTest {
         setContent {
-            TaskItem(
-                title = "Task title",
-                isOverdue = true,
-                isCompleted = false,
+            FoliaryTaskCard(
+                task = taskViewData(
+                    isOverdue = true,
+                    isCompleted = false,
+                ),
             )
         }
 
-        onNodeWithTag("TaskItem:OverduePill").assertIsDisplayed()
+        onNodeWithTag("FoliaryTaskCard:OverduePill").assertIsDisplayed()
         onNodeWithText(getString(Res.string.task_item_overdue)).assertIsDisplayed()
     }
 
     @Test
     fun `should not show overdue pill when not overdue`() = runComposeUiTest {
         setContent {
-            TaskItem(
-                title = "Task title",
-                isOverdue = false,
+            FoliaryTaskCard(
+                task = taskViewData(isOverdue = false),
             )
         }
 
-        onNodeWithTag("TaskItem:OverduePill").assertDoesNotExist()
+        onNodeWithTag("FoliaryTaskCard:OverduePill").assertDoesNotExist()
     }
 
     @Test
     fun `should not show overdue pill when completed`() = runComposeUiTest {
         setContent {
-            TaskItem(
-                title = "Task title",
-                isOverdue = true,
-                isCompleted = true,
+            FoliaryTaskCard(
+                task = taskViewData(
+                    isOverdue = true,
+                    isCompleted = true,
+                ),
             )
         }
 
-        onNodeWithTag("TaskItem:OverduePill").assertDoesNotExist()
+        onNodeWithTag("FoliaryTaskCard:OverduePill").assertDoesNotExist()
     }
 
     @Test
@@ -97,20 +100,19 @@ class TaskItemTest {
         val completed = mutableStateOf(false)
 
         setContent {
-            TaskItem(
-                title = "Task title",
-                isCompleted = completed.value,
+            FoliaryTaskCard(
+                task = taskViewData(isCompleted = completed.value),
                 onCompletedChange = { completed.value = it },
             )
         }
 
-        onNodeWithTag("TaskItem:Checkbox").assertIsOff()
+        onNodeWithTag("FoliaryTaskCard:Checkbox").assertIsOff()
 
-        onNodeWithTag("TaskItem:Checkbox").performClick()
-        onNodeWithTag("TaskItem:Checkbox").assertIsOn()
+        onNodeWithTag("FoliaryTaskCard:Checkbox").performClick()
+        onNodeWithTag("FoliaryTaskCard:Checkbox").assertIsOn()
 
-        onNodeWithTag("TaskItem:Checkbox").performClick()
-        onNodeWithTag("TaskItem:Checkbox").assertIsOff()
+        onNodeWithTag("FoliaryTaskCard:Checkbox").performClick()
+        onNodeWithTag("FoliaryTaskCard:Checkbox").assertIsOff()
     }
 
     @Test
@@ -118,14 +120,28 @@ class TaskItemTest {
         var started = false
 
         setContent {
-            TaskItem(
-                title = "Task title",
+            FoliaryTaskCard(
+                task = taskViewData(),
                 onStartClick = { started = true },
             )
         }
 
-        onNodeWithTag("TaskItem:StartButton").performClick()
+        onNodeWithTag("FoliaryTaskCard:StartButton").performClick()
 
         started shouldBe true
     }
+
+    private fun taskViewData(
+        id: String = "task-id",
+        title: String = "Task title",
+        description: String? = null,
+        isCompleted: Boolean = false,
+        isOverdue: Boolean = false,
+    ) = FoliaryTaskCardViewData(
+        id = id,
+        title = title,
+        description = description,
+        isCompleted = isCompleted,
+        isOverdue = isOverdue,
+    )
 }
