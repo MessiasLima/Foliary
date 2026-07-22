@@ -1,9 +1,13 @@
 package dev.appoutlet.foliary.feature.today
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -16,15 +20,12 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -46,6 +47,7 @@ import dev.appoutlet.foliary.feature.main.getWindowDecorationPadding
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.today_add_task_content_description
 import foliary.foliary.generated.resources.today_title
+import foliary.foliary.generated.resources.today_welcome
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -68,18 +70,18 @@ fun TodayScreen() {
 private fun TodayScreenContent(viewData: TodayViewData, onEvent: (TodayEvent) -> Unit) {
     val lazyListState = rememberLazyListState()
 
-    val showIconButtonShadow by remember {
-        derivedStateOf {
-            lazyListState.firstVisibleItemIndex > 1
-        }
+    val showActionShadow by remember {
+        derivedStateOf { lazyListState.firstVisibleItemIndex > 1 }
     }
 
     val iconButtonShadowColor by animateColorAsState(
-        targetValue = if (showIconButtonShadow) FoliaryShadowColorDefault.copy(alpha = 0.2f) else Color.Transparent,
+        targetValue = if (showActionShadow) FoliaryShadowColorDefault else Color.Transparent,
+        animationSpec = spring(stiffness = Spring.StiffnessLow)
     )
 
     val iconButtonBorderColor by animateColorAsState(
-        targetValue = if (showIconButtonShadow)  MaterialTheme.colorScheme.outline else Color.Transparent,
+        targetValue = if (showActionShadow) MaterialTheme.colorScheme.outline else Color.Transparent,
+        animationSpec = spring(stiffness = Spring.StiffnessLow)
     )
 
     LazyColumn(
@@ -90,7 +92,7 @@ private fun TodayScreenContent(viewData: TodayViewData, onEvent: (TodayEvent) ->
     ) {
         stickyHeader {
             Row(
-                Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
                     .safeDrawingPadding()
                     .padding(end = 8.dp, top = getWindowDecorationPadding()),
                 horizontalArrangement = Arrangement.End
@@ -109,12 +111,23 @@ private fun TodayScreenContent(viewData: TodayViewData, onEvent: (TodayEvent) ->
             }
         }
 
+        // Required for better UX
+        item {  }
+
         item {
-            Text(
-                modifier = Modifier.padding(all = 16.dp).fillMaxWidth(),
-                text = stringResource(Res.string.today_title),
-                style = MaterialTheme.typography.displaySmall
-            )
+            Column(Modifier.padding(bottom = 16.dp, start = 16.dp, end = 16.dp).fillMaxWidth()) {
+                Text(
+                    modifier = Modifier,
+                    text = stringResource(Res.string.today_title),
+                    style = MaterialTheme.typography.displaySmall
+                )
+
+                Text(
+                    modifier = Modifier,
+                    text = stringResource(Res.string.today_welcome, viewData.userName),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
 
         repeat(20) {

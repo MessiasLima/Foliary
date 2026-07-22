@@ -6,7 +6,7 @@ import org.koin.core.annotation.KoinViewModel
 
 @KoinViewModel
 class TodayViewModel : MviViewModel<TodayViewData, TodayAction>() {
-    override val container = container(TodayViewData)
+    override val container = container(TodayViewData())
 
     fun onEvent(event: TodayEvent) {
         when (event) {
@@ -19,7 +19,9 @@ class TodayViewModel : MviViewModel<TodayViewData, TodayAction>() {
     }
 }
 
-object TodayViewData
+data class TodayViewData(
+    val userName: String = "Developer"
+)
 
 sealed interface TodayAction : Action {
     data object NavigateToCreateTask : TodayAction

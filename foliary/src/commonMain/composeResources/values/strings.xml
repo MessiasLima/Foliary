@@ -44,6 +44,7 @@
 
     <!-- region Today -->
     <string name="today_title">Today</string>
+    <string name="today_welcome">Welcome back, %1$s</string>
     <string name="today_add_task_content_description">Add task</string>
     <!-- endregion -->
 
