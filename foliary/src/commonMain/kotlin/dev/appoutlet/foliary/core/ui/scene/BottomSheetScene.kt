@@ -50,6 +50,7 @@ internal data class BottomSheetScene<T : Any>(
  */
 @OptIn(ExperimentalMaterial3Api::class)
 class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
+    @Suppress("ReturnCount")
     override fun SceneStrategyScope<T>.calculateScene(entries: List<NavEntry<T>>): Scene<T>? {
         val lastEntry = entries.lastOrNull() ?: return null
         val bottomSheetProperties = lastEntry.metadata[BottomSheetKey] ?: return null

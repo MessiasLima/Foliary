@@ -4,9 +4,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -29,19 +27,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Plus
-import dev.appoutlet.foliary.core.logging.getLogger
 import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import dev.appoutlet.foliary.core.ui.component.modifier.FoliaryShadowColorDefault
 import dev.appoutlet.foliary.core.ui.component.modifier.foliaryShadow
-import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
-import dev.appoutlet.foliary.core.ui.component.task.TaskItem
 import dev.appoutlet.foliary.feature.createtask.CreateTaskNavKey
 import dev.appoutlet.foliary.feature.main.getWindowDecorationPadding
 import foliary.foliary.generated.resources.Res
@@ -50,8 +44,6 @@ import foliary.foliary.generated.resources.today_title
 import foliary.foliary.generated.resources.today_welcome
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-
-private val log = getLogger("TodayScreen")
 
 @Composable
 fun TodayScreen() {
@@ -74,6 +66,23 @@ private fun TodayScreenContent(viewData: TodayViewData, onEvent: (TodayEvent) ->
         derivedStateOf { lazyListState.firstVisibleItemIndex > 1 }
     }
 
+    LazyColumn(
+        modifier = Modifier
+            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
+            .fillMaxSize(),
+        state = lazyListState
+    ) {
+        stickyHeader { TodayAddButton(onEvent, showActionShadow) }
+        item { } // Required for better UX
+        item { TodayHeader(viewData) }
+    }
+}
+
+@Composable
+private fun TodayAddButton(
+    onEvent: (TodayEvent) -> Unit,
+    showActionShadow: Boolean,
+) {
     val iconButtonShadowColor by animateColorAsState(
         targetValue = if (showActionShadow) FoliaryShadowColorDefault else Color.Transparent,
         animationSpec = spring(stiffness = Spring.StiffnessLow)
@@ -84,65 +93,40 @@ private fun TodayScreenContent(viewData: TodayViewData, onEvent: (TodayEvent) ->
         animationSpec = spring(stiffness = Spring.StiffnessLow)
     )
 
-    LazyColumn(
-        modifier = Modifier
-            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
-            .fillMaxSize(),
-        state = lazyListState
+    Row(
+        modifier = Modifier.fillMaxWidth()
+            .safeDrawingPadding()
+            .padding(end = 8.dp, top = getWindowDecorationPadding()),
+        horizontalArrangement = Arrangement.End
     ) {
-        stickyHeader {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-                    .safeDrawingPadding()
-                    .padding(end = 8.dp, top = getWindowDecorationPadding()),
-                horizontalArrangement = Arrangement.End
-            ) {
-                OutlinedIconButton(
-                    modifier = Modifier.foliaryShadow(color = iconButtonShadowColor),
-                    onClick = { onEvent(TodayEvent.OnAddTaskClick) },
-                    colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.background),
-                    border = BorderStroke(width = 1.dp, color = iconButtonBorderColor)
-                ) {
-                    Icon(
-                        imageVector = Lucide.Plus,
-                        contentDescription = stringResource(Res.string.today_add_task_a11y)
-                    )
-                }
-            }
+        OutlinedIconButton(
+            modifier = Modifier.foliaryShadow(color = iconButtonShadowColor),
+            onClick = { onEvent(TodayEvent.OnAddTaskClick) },
+            colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.background),
+            border = BorderStroke(width = 1.dp, color = iconButtonBorderColor)
+        ) {
+            Icon(
+                imageVector = Lucide.Plus,
+                contentDescription = stringResource(Res.string.today_add_task_a11y)
+            )
         }
+    }
+}
 
-        // Required for better UX
-        item { }
+@Composable
+private fun TodayHeader(viewData: TodayViewData) {
+    Column(Modifier.padding(bottom = 16.dp, start = 16.dp, end = 16.dp).fillMaxWidth()) {
+        Text(
+            modifier = Modifier,
+            text = stringResource(Res.string.today_title),
+            style = MaterialTheme.typography.displaySmall
+        )
 
-        item {
-            Column(Modifier.padding(bottom = 16.dp, start = 16.dp, end = 16.dp).fillMaxWidth()) {
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(Res.string.today_title),
-                    style = MaterialTheme.typography.displaySmall
-                )
-
-                Text(
-                    modifier = Modifier,
-                    text = stringResource(Res.string.today_welcome, viewData.userName),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-        }
-
-        repeat(20) {
-            item {
-                Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                    TaskItem(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 4.dp)
-                            .widthInCompact()
-                            .fillMaxWidth(),
-                        title = "Task $it",
-                    )
-                }
-            }
-        }
+        Text(
+            modifier = Modifier,
+            text = stringResource(Res.string.today_welcome, viewData.userName),
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 
