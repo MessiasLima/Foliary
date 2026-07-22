@@ -34,7 +34,7 @@ import dev.appoutlet.foliary.core.ui.component.button.FoliaryOutlinedButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
-import dev.appoutlet.foliary.core.ui.component.modifier.widthInNarrow
+import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
 import dev.appoutlet.foliary.feature.main.MainNavKey
 import dev.appoutlet.foliary.feature.signin.composable.Authenticated
 import dev.appoutlet.foliary.feature.signin.composable.EmailLoginForm
@@ -72,7 +72,7 @@ fun SignInScreen() {
         ) { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
                 Column(
-                    modifier = Modifier.widthInNarrow(480.dp)
+                    modifier = Modifier.widthInCompact(480.dp)
                         .align(Alignment.Center)
                         .padding(horizontal = 24.dp)
                         .verticalScroll(rememberScrollState()),

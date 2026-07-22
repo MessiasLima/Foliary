@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.CircleX
 import com.composables.icons.lucide.Lucide
-import dev.appoutlet.foliary.core.ui.component.modifier.widthInNarrow
+import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.error_default_message
 import foliary.foliary.generated.resources.error_default_title
@@ -47,7 +47,7 @@ fun ErrorIndicator(
 ) {
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         Column(
-            modifier = Modifier.widthInNarrow(),
+            modifier = Modifier.widthInCompact(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
@@ -115,7 +115,7 @@ private fun StackTraceCard(stackTrace: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .widthInNarrow()
+            .widthInCompact()
             .padding(16.dp)
             .testTag("ErrorIndicator:StackTrace"),
         colors = CardDefaults.cardColors(

@@ -24,7 +24,7 @@ import com.composables.icons.lucide.Lucide
 import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryPrimaryButton
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
-import dev.appoutlet.foliary.core.ui.component.modifier.widthInNarrow
+import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.create_task_back_content_description
 import foliary.foliary.generated.resources.create_task_description_label
@@ -71,7 +71,7 @@ fun CreateTaskScreen() {
             ) {
                 Column(
                     modifier = Modifier
-                        .widthInNarrow(480.dp)
+                        .widthInCompact(480.dp)
                         .align(Alignment.TopCenter)
                         .padding(horizontal = 24.dp, vertical = 24.dp)
                         .verticalScroll(rememberScrollState()),

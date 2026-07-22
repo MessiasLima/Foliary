@@ -8,6 +8,6 @@ import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 
 @Composable
-fun Modifier.widthInNarrow(maxWidth: Dp = WIDTH_DP_MEDIUM_LOWER_BOUND.dp): Modifier {
+fun Modifier.widthInCompact(maxWidth: Dp = WIDTH_DP_MEDIUM_LOWER_BOUND.dp): Modifier {
     return this.then(Modifier.widthIn(max = maxWidth))
 }
