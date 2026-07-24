@@ -19,11 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
+import dev.appoutlet.foliary.core.ui.component.semantics.Alpha
 
 @Composable
 fun FoliaryTextField(
@@ -96,6 +99,14 @@ private fun ProvidePlaceholderStyle(alpha: Float, content: @Composable () -> Uni
     CompositionLocalProvider(
         LocalContentColor provides MaterialTheme.colorScheme.onBackground.copy(alpha = alpha),
         LocalTextStyle provides MaterialTheme.typography.bodyMedium,
-        content = content
+        content = {
+            Box(
+                Modifier.semantics {
+                    testTag = "FoliaryTextField:Placeholder"
+                    set(Alpha, alpha)
+                },
+                content = { content() },
+            )
+        }
     )
 }
