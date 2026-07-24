@@ -4,6 +4,7 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -85,12 +86,14 @@ fun MainScreen() {
                 navigationRailContainerColor = MaterialTheme.colorScheme.surface,
             ),
         ) {
+            val todayLazyListState = rememberLazyListState()
+
             Crossfade(
                 modifier = Modifier.fillMaxSize(),
                 targetState = viewData.selectedTab,
             ) { selectedTab ->
                 when (selectedTab) {
-                    MainTab.Today -> TodayScreen()
+                    MainTab.Today -> TodayScreen(todayLazyListState)
                     MainTab.Profile -> ProfileScreen()
                 }
             }

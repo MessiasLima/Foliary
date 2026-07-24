@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
@@ -63,7 +64,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun TodayScreen() {
+fun TodayScreen(lazyListState: LazyListState) {
     val viewModel = koinViewModel<TodayViewModel>()
 
     Screen(
@@ -73,7 +74,7 @@ fun TodayScreen() {
     ) { viewData ->
         when (viewData) {
             TodayViewData.Idle -> {}
-            is TodayViewData.Loaded -> TodayScreenContent(viewData, viewModel::onEvent)
+            is TodayViewData.Loaded -> TodayScreenContent(lazyListState, viewData, viewModel::onEvent)
             TodayViewData.Loading -> LoadingIndicator()
             is TodayViewData.Empty -> TodayScreenEmpty(viewData, viewModel::onEvent)
         }
@@ -81,9 +82,11 @@ fun TodayScreen() {
 }
 
 @Composable
-private fun TodayScreenContent(viewData: TodayViewData.Loaded, onEvent: (TodayEvent) -> Unit) {
-    val lazyListState = rememberLazyListState()
-
+private fun TodayScreenContent(
+    lazyListState: LazyListState,
+    viewData: TodayViewData.Loaded,
+    onEvent: (TodayEvent) -> Unit
+) {
     val showActionShadow by remember {
         derivedStateOf { lazyListState.firstVisibleItemIndex > 1 }
     }
