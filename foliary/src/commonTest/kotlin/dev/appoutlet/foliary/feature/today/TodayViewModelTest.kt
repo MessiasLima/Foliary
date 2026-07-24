@@ -9,7 +9,7 @@ import kotlin.test.Test
 
 class TodayViewModelTest : ViewModelTest<TodayViewModel, TodayViewData, TodayAction>() {
     private val mockTaskRepository = mock<TaskRepository>()
-    private val mockAuthenticationRepository  = mock<AuthenticationRepository>()
+    private val mockAuthenticationRepository = mock<AuthenticationRepository>()
     private val mockFoliaryTaskCardViewDataMapper = mock<FoliaryTaskCardViewDataMapper>()
 
     override fun createViewModel() = TodayViewModel(

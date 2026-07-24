@@ -2,10 +2,10 @@ package dev.appoutlet.foliary.feature.createtask
 
 import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.MviViewModel
-import dev.appoutlet.foliary.data.task.TaskRepository
-import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.appoutlet.foliary.core.provider.uuid.UuidProvider
+import dev.appoutlet.foliary.data.task.TaskRepository
+import dev.appoutlet.foliary.data.task.database.entity.Task
 import org.koin.core.annotation.KoinViewModel
 import kotlin.uuid.Uuid
 
@@ -40,7 +40,6 @@ class CreateTaskViewModel(
     }
 
     private fun onSaveClick() = intent {
-
         reduce { state.copy(saveButtonEnabled = false) }
 
         val task = Task(

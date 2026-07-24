@@ -18,7 +18,7 @@ interface TimeProvider {
 }
 
 @Single
-class DefaultTimeProvider(private val clock: Clock = Clock.System): TimeProvider {
+class DefaultTimeProvider(private val clock: Clock = Clock.System) : TimeProvider {
     override fun now(): Instant = clock.now()
 
     override fun endOfToday(timeZone: TimeZone): Instant {
@@ -27,4 +27,3 @@ class DefaultTimeProvider(private val clock: Clock = Clock.System): TimeProvider
             .toInstant(timeZone)
     }
 }
-

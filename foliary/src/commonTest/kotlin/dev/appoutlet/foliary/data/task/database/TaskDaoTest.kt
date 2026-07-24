@@ -41,17 +41,23 @@ class TaskDaoTest : DaoTest() {
             completionDate = null,
         )
 
+        val noDueDateTask = Task.fixture(
+            title = "Future task",
+            dueDate = null,
+            completionDate = null,
+        )
+
         val completedTask = Task.fixture(
             title = "Completed task",
             dueDate = Instant.parse("2026-07-20T21:00:00Z"),
             completionDate = Instant.parse("2026-07-21T10:00:00Z"),
         )
 
-        dao.save(overdueTask, dueTodayTask, dueAtEndOfDayTask, futureTask, completedTask)
+        dao.save(overdueTask, dueTodayTask, dueAtEndOfDayTask, futureTask, completedTask, noDueDateTask)
 
         val result = dao.findTodayTasks(endOfToday).first()
         val resultIds = result.map { it.id }
 
-        resultIds shouldBe listOf(dueAtEndOfDayTask.id, dueTodayTask.id, overdueTask.id)
+        resultIds shouldBe listOf(overdueTask.id, dueTodayTask.id , dueAtEndOfDayTask.id, noDueDateTask.id)
     }
 }

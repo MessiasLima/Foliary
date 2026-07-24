@@ -1,9 +1,9 @@
 package dev.appoutlet.foliary.feature.createtask
 
-import dev.appoutlet.foliary.core.testing.ViewModelTest
-import dev.appoutlet.foliary.data.task.TaskRepository
 import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.appoutlet.foliary.core.provider.uuid.UuidProvider
+import dev.appoutlet.foliary.core.testing.ViewModelTest
+import dev.appoutlet.foliary.data.task.TaskRepository
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
@@ -13,7 +13,6 @@ import dev.mokkery.matcher.capture.Capture
 import dev.mokkery.matcher.capture.capture
 import dev.mokkery.matcher.capture.get
 import dev.mokkery.mock
-import dev.mokkery.verify
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 import kotlin.time.Instant
@@ -47,7 +46,6 @@ class CreateTaskViewModelTest :
             copy(title = title, saveButtonEnabled = true)
         }
     }
-
 
     @Test
     fun `DescriptionChanged - should update description`() = test {

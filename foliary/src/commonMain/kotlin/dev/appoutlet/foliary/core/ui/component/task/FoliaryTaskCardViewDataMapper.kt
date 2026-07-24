@@ -1,8 +1,8 @@
 package dev.appoutlet.foliary.core.ui.component.task
 
 import dev.appoutlet.foliary.core.allopen.Open
-import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.core.provider.time.TimeProvider
+import dev.appoutlet.foliary.data.task.database.entity.Task
 import org.koin.core.annotation.Single
 
 @Single
