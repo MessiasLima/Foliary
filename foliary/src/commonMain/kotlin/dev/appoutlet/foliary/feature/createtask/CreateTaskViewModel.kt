@@ -4,7 +4,8 @@ import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.MviViewModel
 import dev.appoutlet.foliary.data.task.TaskRepository
 import dev.appoutlet.foliary.data.task.database.entity.Task
-import dev.appoutlet.foliary.data.time.TimeProvider
+import dev.appoutlet.foliary.core.provider.time.TimeProvider
+import dev.appoutlet.foliary.core.provider.uuid.UuidProvider
 import org.koin.core.annotation.KoinViewModel
 import kotlin.uuid.Uuid
 
@@ -12,6 +13,7 @@ import kotlin.uuid.Uuid
 class CreateTaskViewModel(
     private val taskRepository: TaskRepository,
     private val timeProvider: TimeProvider,
+    private val uuidProvider: UuidProvider,
 ) : MviViewModel<CreateTaskViewData, CreateTaskAction>() {
     override val container = container(CreateTaskViewData())
 
@@ -38,10 +40,11 @@ class CreateTaskViewModel(
     }
 
     private fun onSaveClick() = intent {
+
         reduce { state.copy(saveButtonEnabled = false) }
 
         val task = Task(
-            id = state.id?.let { Uuid.parse(it) } ?: Uuid.random(),
+            id = state.id?.let { Uuid.parse(it) } ?: uuidProvider.random(),
             title = state.title.trim(),
             description = state.description?.trim(),
             creationDate = timeProvider.now(),
@@ -53,8 +56,6 @@ class CreateTaskViewModel(
         )
 
         taskRepository.save(task)
-
-        reduce { state.copy(saveButtonEnabled = true) }
 
         postSideEffect(CreateTaskAction.NavigateBack)
     }

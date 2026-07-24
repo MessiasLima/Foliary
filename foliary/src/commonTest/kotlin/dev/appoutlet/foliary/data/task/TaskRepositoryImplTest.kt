@@ -3,7 +3,7 @@ package dev.appoutlet.foliary.data.task
 import dev.appoutlet.foliary.data.task.database.TaskDao
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.data.task.database.entity.fixture
-import dev.appoutlet.foliary.data.time.TimeProvider
+import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every

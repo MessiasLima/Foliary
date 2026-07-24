@@ -2,7 +2,7 @@ package dev.appoutlet.foliary.data.task
 
 import dev.appoutlet.foliary.data.task.database.TaskDao
 import dev.appoutlet.foliary.data.task.database.entity.Task
-import dev.appoutlet.foliary.data.time.TimeProvider
+import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.annotation.Single
 
