@@ -5,11 +5,11 @@ rootProject.name = "Foliary"
 pluginManagement {
     repositories {
         google {
-            content { 
-              	includeGroupByRegex("com\\.android.*")
-              	includeGroupByRegex("com\\.google.*")
-              	includeGroupByRegex("androidx.*")
-              	includeGroupByRegex("android.*")
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+                includeGroupByRegex("android.*")
             }
         }
         gradlePluginPortal()
@@ -20,11 +20,11 @@ pluginManagement {
 dependencyResolutionManagement {
     repositories {
         google {
-            content { 
-              	includeGroupByRegex("com\\.android.*")
-              	includeGroupByRegex("com\\.google.*")
-              	includeGroupByRegex("androidx.*")
-              	includeGroupByRegex("android.*")
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+                includeGroupByRegex("android.*")
             }
         }
         mavenCentral()
@@ -61,11 +61,13 @@ kover {
             // Logging
             "*.InitSentry*",
             "*.SentryLogWriter*",
+
+            // Misc,
+            "dev.appoutlet.foliary.core.ui.scene.*",
         )
 
-        excludesAnnotatedBy = listOf(
-            "org.koin.core.annotation.Module",
-        )
+        excludesAnnotatedBy = listOf("org.koin.core.annotation.Module",)
+        excludesInheritedFrom = listOf("dev.appoutlet.foliary.core.navigation.Navigation")
 
         verify {
             rule {
