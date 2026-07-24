@@ -6,4 +6,6 @@ data class FoliaryTaskCardViewData(
     val description: String?,
     val isCompleted: Boolean,
     val isOverdue: Boolean,
-)
+) {
+    companion object
+}
