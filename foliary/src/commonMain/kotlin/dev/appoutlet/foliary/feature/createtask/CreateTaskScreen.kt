@@ -45,9 +45,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun CreateTaskScreen(viewData: CreateTaskViewData, onEvent: (CreateTaskEvent) -> Unit) {
-    Scaffold(
-        topBar = { CreateTaskTopBar(onEvent) }
-    ) { paddingValues ->
+    Scaffold(topBar = { CreateTaskTopBar(onEvent) }) { paddingValues ->
         Box(
             modifier = Modifier.fillMaxSize()
                 .background(color = MaterialTheme.colorScheme.background)
