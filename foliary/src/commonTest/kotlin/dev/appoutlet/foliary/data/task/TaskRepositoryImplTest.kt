@@ -22,7 +22,7 @@ class TaskRepositoryImplTest {
     private val subject = TaskRepositoryImpl(mockTaskDao, mockTimeProvider)
 
     @Test
-    fun `should return tasks due today and overdue tasks`() = runTest {
+    fun `should return today's tasks`() = runTest {
         val endOfToday = Instant.parse("2026-07-22T23:59:59.999999999Z")
         val fixtureTasks = listOf(Task.fixture())
 
@@ -35,7 +35,7 @@ class TaskRepositoryImplTest {
     }
 
     @Test
-    fun `should save task through dao`() = runTest {
+    fun `should save task`() = runTest {
         val task = Task.fixture()
 
         subject.save(task)
