@@ -4,10 +4,13 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
+import androidx.compose.ui.test.waitUntilDoesNotExist
+import androidx.compose.ui.test.waitUntilExactlyOneExists
 import dev.appoutlet.foliary.FoliaryKoinApplication
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.main_nav_profile
@@ -37,6 +40,8 @@ class MainScreenTest {
             MainScreen()
         }
 
+        waitForIdle()
+
         // Tabs are shown
         onNodeWithText(getString(Res.string.main_nav_today))
             .assertIsDisplayed()
@@ -47,6 +52,7 @@ class MainScreenTest {
             .assertIsNotSelected()
 
         // Today is displayed
+        waitUntilExactlyOneExists(hasTestTag("TodayScreen"))
         onNodeWithTag("TodayScreen")
             .assertIsDisplayed()
     }
