@@ -7,6 +7,7 @@ import dev.appoutlet.foliary.core.provider.uuid.UuidProvider
 import dev.appoutlet.foliary.data.task.TaskRepository
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import org.koin.core.annotation.KoinViewModel
+import kotlin.time.Instant
 import kotlin.uuid.Uuid
 
 @KoinViewModel
@@ -21,9 +22,14 @@ class CreateTaskViewModel(
         when (event) {
             is CreateTaskEvent.TitleChanged -> onTitleChange(event.title)
             is CreateTaskEvent.DescriptionChanged -> onDescriptionChange(event.description)
+            is CreateTaskEvent.DueDateChanged -> onDueDateChange(event.dueDate)
             CreateTaskEvent.SaveClicked -> onSaveClick()
             CreateTaskEvent.BackClicked -> onBackClick()
         }
+    }
+
+    private fun onDueDateChange(dueDate: Instant?) = intent {
+        reduce { state.copy(dueDate = dueDate) }
     }
 
     private fun onTitleChange(title: String) = intent {
@@ -47,7 +53,7 @@ class CreateTaskViewModel(
             title = state.title.trim(),
             description = state.description?.trim(),
             creationDate = timeProvider.now(),
-            dueDate = null,
+            dueDate = state.dueDate,
             completionDate = null,
             priority = null,
             url = null,
@@ -68,12 +74,14 @@ data class CreateTaskViewData(
     val id: String? = null,
     val title: String = "",
     val description: String? = null,
+    val dueDate: Instant? = null,
     val saveButtonEnabled: Boolean = false,
 )
 
 sealed interface CreateTaskEvent {
     data class TitleChanged(val title: String) : CreateTaskEvent
     data class DescriptionChanged(val description: String?) : CreateTaskEvent
+    data class DueDateChanged(val dueDate: Instant?) : CreateTaskEvent
     data object SaveClicked : CreateTaskEvent
     data object BackClicked : CreateTaskEvent
 }

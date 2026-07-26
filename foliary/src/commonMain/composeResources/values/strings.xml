@@ -59,6 +59,11 @@
     <string name="create_task_description_placeholder">Add description...</string>
     <string name="create_task_save">Save</string>
     <string name="create_task_title_required">Title is required</string>
+    <string name="create_task_due_date_label">Due date</string>
+    <string name="create_task_due_date_placeholder">Add due date</string>
+    <string name="create_task_due_date_clear_a11y">Clear due date</string>
+    <string name="date_picker_confirm">Confirm</string>
+    <string name="date_picker_cancel">Cancel</string>
     <!-- endregion -->
 
     <!-- region Task Item -->

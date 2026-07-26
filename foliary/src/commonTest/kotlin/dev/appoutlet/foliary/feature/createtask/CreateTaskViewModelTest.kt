@@ -66,6 +66,32 @@ class CreateTaskViewModelTest :
     }
 
     @Test
+    fun `default state should have dueDate unset`() = test {
+        currentState.dueDate shouldBe null
+    }
+
+    @Test
+    fun `DueDateChanged - should update dueDate`() = test {
+        val dueDate = Instant.parse("2026-07-21T12:00:00Z")
+
+        viewModel.onEvent(CreateTaskEvent.DueDateChanged(dueDate))
+
+        awaitState().dueDate shouldBe dueDate
+    }
+
+    @Test
+    fun `DueDateChanged - null should clear dueDate`() = test {
+        val dueDate = Instant.parse("2026-07-21T12:00:00Z")
+
+        viewModel.onEvent(CreateTaskEvent.DueDateChanged(dueDate))
+        expectState { copy(dueDate = dueDate) }
+
+        viewModel.onEvent(CreateTaskEvent.DueDateChanged(null))
+
+        awaitState().dueDate shouldBe null
+    }
+
+    @Test
     fun `SaveClicked - save task on task creation flow`() = test {
         val id = Uuid.random()
         val title = "Task title"
@@ -95,9 +121,36 @@ class CreateTaskViewModelTest :
             task.title shouldBe title
             task.description shouldBe description
             task.creationDate shouldBe creationDate
+            task.dueDate shouldBe null
         }
 
         // Navigate back after successful saving
+        awaitSideEffect() shouldBe CreateTaskAction.NavigateBack
+    }
+
+    @Test
+    fun `SaveClicked - should persist selected dueDate`() = test {
+        val id = Uuid.random()
+        val title = "Task title"
+        val dueDate = Instant.parse("2026-07-21T12:00:00Z")
+        val taskCapture = Capture.slot<Task>()
+        val creationDate = Instant.parse("2026-07-21T12:00:00Z")
+
+        every(mockUuidProvider::random) returns id
+        every(mockTimeProvider::now) returns creationDate
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
+        expectState { copy(title = title, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.DueDateChanged(dueDate))
+        expectState { copy(title = title, dueDate = dueDate, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        awaitState().saveButtonEnabled shouldBe false
+
+        taskCapture.get().dueDate shouldBe dueDate
+
         awaitSideEffect() shouldBe CreateTaskAction.NavigateBack
     }
 }

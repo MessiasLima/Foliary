@@ -15,13 +15,19 @@ import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.back_icon_button_a11y
 import foliary.foliary.generated.resources.create_task_description_label
 import foliary.foliary.generated.resources.create_task_description_placeholder
+import foliary.foliary.generated.resources.create_task_due_date_clear_a11y
+import foliary.foliary.generated.resources.create_task_due_date_label
+import foliary.foliary.generated.resources.create_task_due_date_placeholder
 import foliary.foliary.generated.resources.create_task_save
 import foliary.foliary.generated.resources.create_task_title
 import foliary.foliary.generated.resources.create_task_title_label
 import foliary.foliary.generated.resources.create_task_title_placeholder
 import io.kotest.matchers.shouldBe
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.getString
 import kotlin.test.Test
+import kotlin.time.Instant
 
 @OptIn(ExperimentalTestApi::class)
 class CreateTaskScreenTest {
@@ -80,5 +86,54 @@ class CreateTaskScreenTest {
             .assertTextEquals(title)
         onNodeWithTag("CreateTaskScreen:DescriptionField", useUnmergedTree = true)
             .assertTextEquals(description)
+    }
+
+    @Test
+    fun `should show due date placeholder when no date is selected`() = runComposeUiTest {
+        setContent {
+            CreateTaskScreen(viewData = CreateTaskViewData(), onEvent = {})
+        }
+
+        onNodeWithText(getString(Res.string.create_task_due_date_label)).assertIsDisplayed()
+        onNodeWithText(getString(Res.string.create_task_due_date_placeholder)).assertIsDisplayed()
+        onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun `should show selected due date and clear button`() = runComposeUiTest {
+        val dueDate = Instant.parse("2026-07-21T12:00:00Z")
+        val expectedDateText = dueDate.toLocalDateTime(TimeZone.currentSystemDefault()).date.toString()
+
+        setContent {
+            CreateTaskScreen(
+                viewData = CreateTaskViewData(dueDate = dueDate),
+                onEvent = {}
+            )
+        }
+
+        onNodeWithText(getString(Res.string.create_task_due_date_label)).assertIsDisplayed()
+        onNodeWithText(expectedDateText).assertIsDisplayed()
+        onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun `should emit DueDateChanged null when clear button is clicked`() = runComposeUiTest {
+        val dueDate = Instant.parse("2026-07-21T12:00:00Z")
+        val events = mutableListOf<CreateTaskEvent>()
+
+        setContent {
+            CreateTaskScreen(
+                viewData = CreateTaskViewData(dueDate = dueDate),
+                onEvent = events::add,
+            )
+        }
+
+        onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
+            .assertIsDisplayed()
+            .performClick()
+
+        events.contains(CreateTaskEvent.DueDateChanged(null)) shouldBe true
     }
 }
