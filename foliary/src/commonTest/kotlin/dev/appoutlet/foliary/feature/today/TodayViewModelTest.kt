@@ -85,4 +85,21 @@ class TodayViewModelTest : ViewModelTest<TodayViewModel, TodayViewData, TodayAct
             expectSideEffect(TodayAction.NavigateToCreateTask)
         }
     }
+
+    @Test
+    fun `should navigate to task detail when task is clicked`() {
+        val taskId = "task-id"
+
+        every { mockAuthenticationRepository.currentUser() } returns UserInfo.fixture()
+        every { mockTaskRepository.findTodayTasks() } returns flowOf(emptyList())
+
+        test {
+            expectState(TodayViewData.Loading)
+            expectState(TodayViewData.Empty(userName = "Messias"))
+
+            viewModel.onEvent(TodayEvent.OnTaskClick(taskId))
+
+            expectSideEffect(TodayAction.NavigateToTaskDetail(taskId))
+        }
+    }
 }

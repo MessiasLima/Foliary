@@ -3,6 +3,7 @@ package dev.appoutlet.foliary.data.task.database
 import dev.appoutlet.foliary.core.testing.DaoTest
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.data.task.database.entity.fixture
+import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldContainAllInAnyOrder
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
@@ -92,5 +93,31 @@ class TaskDaoTest : DaoTest() {
         val resultIds = result.map { it.id }
 
         resultIds shouldBe listOf(overdueTask.id, dueTodayTask.id, dueAtEndOfDayTask.id, noDueDateTask.id)
+    }
+
+    @Test
+    fun `should find task by id`() = runTest {
+        val task = Task.fixture(title = "Target task")
+        val otherTask = Task.fixture(title = "Other task")
+
+        dao.save(task, otherTask)
+
+        val result = dao.findById(task.id).first()
+
+        result?.id shouldBe task.id
+        result?.title shouldBe task.title
+    }
+
+    @Test
+    fun `should delete task by id`() = runTest {
+        val task = Task.fixture(title = "Task to delete")
+        val otherTask = Task.fixture(title = "Other task")
+
+        dao.save(task, otherTask)
+
+        dao.delete(task.id)
+
+        dao.findById(task.id).first() shouldBe null
+        dao.findAll().map { it.id } shouldContain otherTask.id
     }
 }

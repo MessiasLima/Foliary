@@ -5,6 +5,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Plus
@@ -50,6 +52,7 @@ import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCard
 import dev.appoutlet.foliary.feature.createtask.CreateTaskNavKey
 import dev.appoutlet.foliary.feature.main.getWindowDecorationPadding
 import dev.appoutlet.foliary.feature.signin.SignInNavKey
+import dev.appoutlet.foliary.feature.taskdetail.TaskDetailNavKey
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.today_add_task_a11y
 import foliary.foliary.generated.resources.today_empty
@@ -100,7 +103,11 @@ internal fun TodayScreenContent(
         item { } // Required for better UX
         item { TodayHeader(viewData.userName) }
         items(viewData.tasks, key = { it.id }) { task ->
-            Box(modifier = Modifier.fillMaxWidth()) {
+            Box(
+                modifier = Modifier.fillMaxWidth()
+                    .clickable { onEvent(TodayEvent.OnTaskClick(task.id)) }
+                    .testTag("TodayScreen:TaskItem")
+            ) {
                 FoliaryTaskCard(
                     modifier = Modifier.widthInCompact()
                         .fillMaxWidth()
@@ -169,6 +176,7 @@ private fun onAction(action: TodayAction, navigator: Navigator) {
     when (action) {
         TodayAction.NavigateToCreateTask -> navigator.navigate(CreateTaskNavKey)
         TodayAction.NavigateToSignIn -> navigator.setRoot(SignInNavKey)
+        is TodayAction.NavigateToTaskDetail -> navigator.navigate(TaskDetailNavKey(action.taskId))
     }
 }
 

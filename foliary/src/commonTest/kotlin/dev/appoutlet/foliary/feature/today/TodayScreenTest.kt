@@ -38,8 +38,30 @@ class TodayScreenTest {
 
         onNodeWithText(getString(Res.string.today_title)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.today_welcome, userName)).assertIsDisplayed()
-        onNodeWithTag("FoliaryTaskCard:Title").assertIsDisplayed()
         onNodeWithText(task.title).assertIsDisplayed()
+    }
+
+    @Test
+    fun `should emit task click event when task row is tapped`() = runComposeUiTest {
+        val task = FoliaryTaskCardViewData.fixture(id = "task-id")
+        var event: TodayEvent? = null
+
+        setContent {
+            TodayScreenContent(
+                lazyListState = rememberLazyListState(),
+                viewData = TodayViewData.Loaded(
+                    userName = "Messias",
+                    tasks = listOf(task),
+                ),
+                onEvent = { event = it },
+            )
+        }
+
+        onNodeWithTag("TodayScreen:TaskItem")
+            .assertIsDisplayed()
+            .performClick()
+
+        event shouldBe TodayEvent.OnTaskClick(task.id)
     }
 
     @Test

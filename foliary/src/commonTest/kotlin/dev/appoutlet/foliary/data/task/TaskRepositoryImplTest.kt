@@ -42,4 +42,22 @@ class TaskRepositoryImplTest {
 
         verifySuspend { mockTaskDao.save(task) }
     }
+
+    @Test
+    fun `should return task by id`() = runTest {
+        val task = Task.fixture()
+
+        every { mockTaskDao.findById(task.id) } returns flowOf(task)
+
+        subject.findById(task.id).first() shouldBe task
+    }
+
+    @Test
+    fun `should delete task by id`() = runTest {
+        val task = Task.fixture()
+
+        subject.delete(task.id)
+
+        verifySuspend { mockTaskDao.delete(task.id) }
+    }
 }

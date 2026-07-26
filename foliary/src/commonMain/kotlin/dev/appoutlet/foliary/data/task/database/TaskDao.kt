@@ -7,6 +7,7 @@ import androidx.room3.Query
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import kotlinx.coroutines.flow.Flow
 import kotlin.time.Instant
+import kotlin.uuid.Uuid
 
 @Dao
 interface TaskDao {
@@ -15,6 +16,12 @@ interface TaskDao {
 
     @Query("SELECT * FROM Task")
     suspend fun findAll(): List<Task>
+
+    @Query("SELECT * FROM Task WHERE id = :id")
+    fun findById(id: Uuid): Flow<Task?>
+
+    @Query("DELETE FROM Task WHERE id = :id")
+    suspend fun delete(id: Uuid)
 
     @Query(
         """

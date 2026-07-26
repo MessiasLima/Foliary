@@ -50,6 +50,33 @@
     <string name="task_item_overdue">Overdue</string>
     <!-- endregion -->
 
+    <!-- region Task Detail -->
+    <string name="task_detail_title">Task details</string>
+    <string name="task_detail_task_title_label">Title</string>
+    <string name="task_detail_description_label">Description</string>
+    <string name="task_detail_due_date_label">Due date</string>
+    <string name="task_detail_priority_label">Priority</string>
+    <string name="task_detail_url_label">URL</string>
+    <string name="task_detail_creation_date_label">Created</string>
+    <string name="task_detail_completion_date_label">Completed</string>
+    <string name="task_detail_mark_completed">Mark as completed</string>
+    <string name="task_detail_delete">Delete</string>
+    <string name="task_detail_share">Share</string>
+    <string name="task_detail_status_overdue">Overdue</string>
+    <string name="task_detail_status_completed">Completed</string>
+    <string name="task_detail_no_description">No description</string>
+    <string name="task_detail_no_due_date">No due date</string>
+    <string name="task_detail_no_priority">No priority</string>
+    <string name="task_detail_priority_lowest">Lowest</string>
+    <string name="task_detail_priority_low">Low</string>
+    <string name="task_detail_priority_medium">Medium</string>
+    <string name="task_detail_priority_high">High</string>
+    <string name="task_detail_priority_highest">Highest</string>
+    <string name="task_detail_priority_blocker">Blocker</string>
+    <string name="task_detail_not_found_title">Task not found</string>
+    <string name="task_detail_not_found_message">The requested task could not be found.</string>
+    <!-- endregion -->
+
     <!-- region System trat -->
     <string name="open_app">Open Foliary</string>
     <string name="quit">Quit</string>
