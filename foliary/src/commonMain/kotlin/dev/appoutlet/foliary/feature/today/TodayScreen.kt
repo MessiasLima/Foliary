@@ -81,7 +81,7 @@ fun TodayScreen(lazyListState: LazyListState) {
 }
 
 @Composable
-private fun TodayScreenContent(
+internal fun TodayScreenContent(
     lazyListState: LazyListState,
     viewData: TodayViewData.Loaded,
     onEvent: (TodayEvent) -> Unit
@@ -173,7 +173,7 @@ private fun onAction(action: TodayAction, navigator: Navigator) {
 }
 
 @Composable
-private fun TodayScreenEmpty(viewData: TodayViewData.Empty, onEvent: (TodayEvent) -> Unit) {
+internal fun TodayScreenEmpty(viewData: TodayViewData.Empty, onEvent: (TodayEvent) -> Unit) {
     Column(Modifier.fillMaxWidth()) {
         TodayAddButton(onEvent = onEvent, showActionShadow = false)
         TodayHeader(modifier = Modifier.padding(top = 16.dp), userName = viewData.userName)

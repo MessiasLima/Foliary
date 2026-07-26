@@ -7,7 +7,6 @@ import io.kotest.matchers.collections.shouldContainAllInAnyOrder
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.koin.core.component.getScopeName
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Instant
@@ -92,6 +91,6 @@ class TaskDaoTest : DaoTest() {
         val result = dao.findTodayTasks(endOfToday).first()
         val resultIds = result.map { it.id }
 
-        resultIds shouldBe listOf(overdueTask.id, dueTodayTask.id , dueAtEndOfDayTask.id, noDueDateTask.id)
+        resultIds shouldBe listOf(overdueTask.id, dueTodayTask.id, dueAtEndOfDayTask.id, noDueDateTask.id)
     }
 }

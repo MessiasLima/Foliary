@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryBackIconButton
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryPrimaryButton
@@ -107,7 +108,10 @@ private fun TitleField(title: String, onEvent: (CreateTaskEvent) -> Unit) {
     }
 
     FoliaryTextField(
-        modifier = Modifier.widthInCompact().fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = Modifier.widthInCompact()
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .testTag("CreateTaskScreen:TitleField"),
         value = value,
         onValueChange = { value = it },
         label = { Text(text = stringResource(Res.string.create_task_title_label)) },
@@ -131,7 +135,10 @@ private fun DescriptionField(description: String?, onEvent: (CreateTaskEvent) ->
     }
 
     FoliaryTextField(
-        modifier = Modifier.widthInCompact().fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = Modifier.widthInCompact()
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .testTag("CreateTaskScreen:DescriptionField"),
         value = value,
         onValueChange = { value = it },
         label = { Text(text = stringResource(Res.string.create_task_description_label)) },

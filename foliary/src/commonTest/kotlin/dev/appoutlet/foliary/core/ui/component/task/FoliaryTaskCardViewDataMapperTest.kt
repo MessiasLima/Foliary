@@ -1,17 +1,12 @@
 package dev.appoutlet.foliary.core.ui.component.task
 
 import dev.appoutlet.foliary.core.provider.time.DefaultTimeProvider
-import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.data.task.database.entity.fixture
-import dev.mokkery.answering.returns
-import dev.mokkery.every
-import dev.mokkery.mock
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
-import kotlin.time.Instant
 
 class FoliaryTaskCardViewDataMapperTest {
     private val subject = FoliaryTaskCardViewDataMapper(DefaultTimeProvider())

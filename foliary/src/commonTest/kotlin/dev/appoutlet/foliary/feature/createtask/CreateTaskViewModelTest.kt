@@ -59,6 +59,13 @@ class CreateTaskViewModelTest :
     }
 
     @Test
+    fun `BackClicked - should navigate back`() = test {
+        viewModel.onEvent(CreateTaskEvent.BackClicked)
+
+        expectSideEffect(CreateTaskAction.NavigateBack)
+    }
+
+    @Test
     fun `SaveClicked - save task on task creation flow`() = test {
         val id = Uuid.random()
         val title = "Task title"
