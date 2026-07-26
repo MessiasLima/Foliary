@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Выкарыстаць іншую пошту</string>
     <string name="sign_in_invalid_email">Калі ласка, увядзіце карэктны адрас электроннай пошты.</string>
     <string name="sign_in_helper_text">Пароль не патрабуецца. Мы дашлем вам бяспечную спасылку для імгненнага ўваходу.</string>
-    <string name="sign_in_app_logo_description">Лагатып дадатку</string>
+    <string name="sign_in_app_logo_a11y">Лагатып дадатку</string>
     <string name="sign_in_welcome_back">З вяртаннем,</string>
     <string name="sign_in_welcome">Сардэчна запрашаем,</string>
     <string name="sign_in_username">%1$s!</string>

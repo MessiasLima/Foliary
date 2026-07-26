@@ -18,7 +18,7 @@
     <string name="sign_in_magic_link_sent_new_email">Use another email</string>
     <string name="sign_in_invalid_email">Please provide a valid e-mail.</string>
     <string name="sign_in_helper_text">No password required. We'll send you a secure link to instantly sign in.</string>
-    <string name="sign_in_app_logo_description">App Logo</string>
+    <string name="sign_in_app_logo_a11y">App Logo</string>
     <string name="sign_in_welcome_back">Welcome back,</string>
     <string name="sign_in_welcome">Welcome,</string>
     <string name="sign_in_username">%1$s!</string>
@@ -43,7 +43,22 @@
     <!-- endregion -->
 
     <!-- region Today -->
-    <string name="today_title">Foliary</string>
+    <string name="today_title">Today</string>
+    <string name="today_welcome">Welcome back, %1$s</string>
+    <string name="today_add_task_a11y">Add task</string>
+    <string name="today_empty_title">No tasks</string>
+    <string name="today_empty_description">You don't have any tasks for today. Feel free to take a break or click on the button below to create a new task.</string>
+    <string name="today_empty_button">Create a new task</string>
+    <!-- endregion -->
+
+    <!-- region Create Task -->
+    <string name="create_task_title">Create task</string>
+    <string name="create_task_title_label">Title</string>
+    <string name="create_task_title_placeholder">What needs to be done?</string>
+    <string name="create_task_description_label">Description</string>
+    <string name="create_task_description_placeholder">Add description...</string>
+    <string name="create_task_save">Save</string>
+    <string name="create_task_title_required">Title is required</string>
     <!-- endregion -->
 
     <!-- region Task Item -->
@@ -53,5 +68,9 @@
     <!-- region System trat -->
     <string name="open_app">Open Foliary</string>
     <string name="quit">Quit</string>
+    <!-- endregion -->
+
+    <!-- region Back icon button -->
+    <string name="back_icon_button_a11y">Navigate back</string>
     <!-- endregion -->
 </resources>

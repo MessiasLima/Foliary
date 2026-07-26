@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Úsáid ríomhphost eile</string>
     <string name="sign_in_invalid_email">Cuir seoladh ríomhphoist bailí ar fáil, le do thoil.</string>
     <string name="sign_in_helper_text">Ní gá focal faire a úsáid. Seolfaimid nasc slán chugat chun logáil isteach láithreach.</string>
-    <string name="sign_in_app_logo_description">Lógó na hAipe</string>
+    <string name="sign_in_app_logo_a11y">Lógó na hAipe</string>
     <string name="sign_in_welcome_back">Fáilte ar ais,</string>
     <string name="sign_in_welcome">Fáilte,</string>
     <string name="sign_in_username">%1$s!</string>

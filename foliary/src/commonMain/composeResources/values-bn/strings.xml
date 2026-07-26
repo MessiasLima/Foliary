@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">অন্য ইমেল ব্যবহার করুন</string>
     <string name="sign_in_invalid_email">অনুগ্রহ করে একটি সঠিক ইমেল প্রদান করুন।</string>
     <string name="sign_in_helper_text">কোনো পাসওয়ার্ডের প্রয়োজন নেই। তাৎক্ষণিকভাবে সাইন ইন করার জন্য আমরা আপনাকে একটি সুরক্ষিত লিঙ্ক পাঠাব।</string>
-    <string name="sign_in_app_logo_description">অ্যাপ লোগো</string>
+    <string name="sign_in_app_logo_a11y">অ্যাপ লোগো</string>
     <string name="sign_in_welcome_back">আবারও স্বাগতম,</string>
     <string name="sign_in_welcome">স্বাগতম,</string>
     <string name="sign_in_username">%1$s!</string>

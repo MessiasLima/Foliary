@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">ប្រើប្រាស់អ៊ីមែលផ្សេងទៀត</string>
     <string name="sign_in_invalid_email">សូមផ្ដល់អាសយដ្ឋានអ៊ីមែលដែលមានសុពលភាព។</string>
     <string name="sign_in_helper_text">មិនត្រូវការលេខសម្ងាត់ឡើយ។ យើងនឹងផ្ញើតំណភ្ជាប់ដែលមានសុវត្ថិភាព ដើម្បីឱ្យអ្នកអាចចូលប្រើប្រាស់បានភ្លាមៗ។</string>
-    <string name="sign_in_app_logo_description">រូបសញ្ញាកម្មវិធី</string>
+    <string name="sign_in_app_logo_a11y">រូបសញ្ញាកម្មវិធី</string>
     <string name="sign_in_welcome_back">សូមស្វាគមន៍ការត្រឡប់មកវិញ</string>
     <string name="sign_in_welcome">សូមស្វាគមន៍</string>
     <string name="sign_in_username">%1$s!</string>

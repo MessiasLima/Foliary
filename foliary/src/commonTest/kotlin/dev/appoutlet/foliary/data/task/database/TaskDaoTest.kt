@@ -3,6 +3,7 @@ package dev.appoutlet.foliary.data.task.database
 import dev.appoutlet.foliary.core.testing.DaoTest
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.data.task.database.entity.fixture
+import io.kotest.matchers.collections.shouldContainAllInAnyOrder
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -12,6 +13,38 @@ import kotlin.time.Instant
 
 class TaskDaoTest : DaoTest() {
     private val dao by lazy { database.taskDao() }
+
+    @Test
+    fun `should find all`() = runTest {
+        val task1 = Task.fixture(
+            title = "Task 1",
+            dueDate = Instant.parse("2026-07-20T22:00:00Z"),
+            completionDate = null,
+        )
+
+        val task2 = Task.fixture(
+            title = "Task 2",
+            dueDate = Instant.parse("2026-07-21T11:00:00Z"),
+            completionDate = null,
+        )
+
+        val task3 = Task.fixture(
+            title = "Task 3",
+            dueDate = Instant.parse("2026-07-21T23:59:59.999Z"),
+            completionDate = null,
+        )
+
+        dao.save(task1, task2, task3)
+
+        val allTasks = dao.findAll()
+        val savedTasksTitles = allTasks.map { it.title }
+
+        savedTasksTitles shouldContainAllInAnyOrder listOf(
+            task1.title,
+            task2.title,
+            task3.title,
+        )
+    }
 
     @Test
     fun `should return overdue tasks and tasks due today`() = runTest {
@@ -41,17 +74,23 @@ class TaskDaoTest : DaoTest() {
             completionDate = null,
         )
 
+        val noDueDateTask = Task.fixture(
+            title = "Future task",
+            dueDate = null,
+            completionDate = null,
+        )
+
         val completedTask = Task.fixture(
             title = "Completed task",
             dueDate = Instant.parse("2026-07-20T21:00:00Z"),
             completionDate = Instant.parse("2026-07-21T10:00:00Z"),
         )
 
-        dao.save(overdueTask, dueTodayTask, dueAtEndOfDayTask, futureTask, completedTask)
+        dao.save(overdueTask, dueTodayTask, dueAtEndOfDayTask, futureTask, completedTask, noDueDateTask)
 
         val result = dao.findTodayTasks(endOfToday).first()
         val resultIds = result.map { it.id }
 
-        resultIds shouldBe listOf(dueAtEndOfDayTask.id, dueTodayTask.id, overdueTask.id)
+        resultIds shouldBe listOf(overdueTask.id, dueTodayTask.id, dueAtEndOfDayTask.id, noDueDateTask.id)
     }
 }

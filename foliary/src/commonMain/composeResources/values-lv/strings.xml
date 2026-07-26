@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Izmantot citu e-pastu</string>
     <string name="sign_in_invalid_email">Lūdzu, norādi derīgu e-pasta adresi.</string>
     <string name="sign_in_helper_text">Parole nav nepieciešama. Mēs nosūtīsim tev drošu saiti, lai uzreiz pierakstītos.</string>
-    <string name="sign_in_app_logo_description">Lietotnes logotips</string>
+    <string name="sign_in_app_logo_a11y">Lietotnes logotips</string>
     <string name="sign_in_welcome_back">Prieks tevi atkal redzēt,</string>
     <string name="sign_in_welcome">Sveiks,</string>
     <string name="sign_in_username">%1$s!</string>

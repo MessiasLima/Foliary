@@ -1,8 +1,10 @@
 package dev.appoutlet.foliary.data.authentication
 
+import dev.appoutlet.foliary.core.testing.externalfixtures.fixture
 import dev.appoutlet.foliary.data.authentication.model.userSessionFixture
 import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
+import dev.mokkery.every
 import dev.mokkery.everySuspend
 import dev.mokkery.matcher.any
 import dev.mokkery.mock
@@ -11,6 +13,7 @@ import eu.anifantakis.lib.ksafe.KSafe
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.providers.builtin.OTP
 import io.github.jan.supabase.auth.status.SessionStatus
+import io.github.jan.supabase.auth.user.UserInfo
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -102,5 +105,14 @@ class DefaultAuthenticationRepositoryTest {
         verifySuspend {
             mockAuth.importAuthToken(fixtureAccessToken, fixtureRefreshToken, retrieveUser = true, autoRefresh = true)
         }
+    }
+
+    @Test
+    fun `should return current user`() {
+        val fixture = UserInfo.fixture()
+
+        every { mockAuth.currentUserOrNull() } returns fixture
+
+        subject.currentUser() shouldBe fixture
     }
 }

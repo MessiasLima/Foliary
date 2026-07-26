@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Gebruik \'n ander e-pos</string>
     <string name="sign_in_invalid_email">Verskaf asseblief \'n geldige e-posadres.</string>
     <string name="sign_in_helper_text">Geen wagwoord nodig nie. Ons sal vir jou \'n veilige skakel stuur om dadelik aan te meld.</string>
-    <string name="sign_in_app_logo_description">App-logo</string>
+    <string name="sign_in_app_logo_a11y">App-logo</string>
     <string name="sign_in_welcome_back">Welkom terug,</string>
     <string name="sign_in_welcome">Welkom,</string>
     <string name="sign_in_username">%1$s!</string>

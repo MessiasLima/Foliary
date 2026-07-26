@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Başqa e-poçt daxil edin</string>
     <string name="sign_in_invalid_email">Zəhmət olmasa, düzgün e-poçt ünvanı daxil edin.</string>
     <string name="sign_in_helper_text">Şifrə tələb olunmur. Tez bir zamanda daxil olmanız üçün sizə təhlükəsiz link göndərəcəyik.</string>
-    <string name="sign_in_app_logo_description">Tətbiq loqosu</string>
+    <string name="sign_in_app_logo_a11y">Tətbiq loqosu</string>
     <string name="sign_in_welcome_back">Yenidən xoş gördük,</string>
     <string name="sign_in_welcome">Xoş gəlmisiniz,</string>
     <string name="sign_in_username">%1$s!</string>

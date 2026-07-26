@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Použít jiný e-mail</string>
     <string name="sign_in_invalid_email">Zadejte prosím platnou e-mailovou adresu.</string>
     <string name="sign_in_helper_text">Není potřeba žádné heslo. Pošleme vám bezpečný odkaz pro okamžité přihlášení.</string>
-    <string name="sign_in_app_logo_description">Logo aplikace</string>
+    <string name="sign_in_app_logo_a11y">Logo aplikace</string>
     <string name="sign_in_welcome_back">Vítejte zpět,</string>
     <string name="sign_in_welcome">Vítejte,</string>
     <string name="sign_in_username">%1$s!</string>

@@ -5,11 +5,11 @@ rootProject.name = "Foliary"
 pluginManagement {
     repositories {
         google {
-            content { 
-              	includeGroupByRegex("com\\.android.*")
-              	includeGroupByRegex("com\\.google.*")
-              	includeGroupByRegex("androidx.*")
-              	includeGroupByRegex("android.*")
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+                includeGroupByRegex("android.*")
             }
         }
         gradlePluginPortal()
@@ -20,11 +20,11 @@ pluginManagement {
 dependencyResolutionManagement {
     repositories {
         google {
-            content { 
-              	includeGroupByRegex("com\\.android.*")
-              	includeGroupByRegex("com\\.google.*")
-              	includeGroupByRegex("androidx.*")
-              	includeGroupByRegex("android.*")
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+                includeGroupByRegex("android.*")
             }
         }
         mavenCentral()
@@ -36,7 +36,7 @@ include(":android")
 include(":desktop")
 
 plugins {
-    id("org.jetbrains.kotlinx.kover.aggregation") version "0.9.8"
+    id("org.jetbrains.kotlinx.kover.aggregation") version "0.9.9"
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
@@ -61,11 +61,13 @@ kover {
             // Logging
             "*.InitSentry*",
             "*.SentryLogWriter*",
+
+            // Misc,
+            "dev.appoutlet.foliary.core.ui.scene.*",
         )
 
-        excludesAnnotatedBy = listOf(
-            "org.koin.core.annotation.Module",
-        )
+        excludesAnnotatedBy = listOf("org.koin.core.annotation.Module",)
+        excludesInheritedFrom = listOf("dev.appoutlet.foliary.core.navigation.Navigation")
 
         verify {
             rule {

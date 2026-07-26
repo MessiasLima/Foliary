@@ -6,6 +6,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
@@ -24,11 +25,13 @@ fun Navigation() {
         getSavedStateConfiguration(navigationAggregator.navigation)
     }
     val backStack = rememberNavBackStack(configuration = config, SignInNavKey)
+
     CompositionLocalProvider(LocalNavigator provides AppNavigator(backStack)) {
         NavDisplay(
             backStack = backStack,
             entryDecorators = listOf(
                 rememberSaveableStateHolderNavEntryDecorator(),
+                rememberViewModelStoreNavEntryDecorator()
             ),
             entryProvider = entryProvider {
                 for (navigation in navigationAggregator.navigation) {

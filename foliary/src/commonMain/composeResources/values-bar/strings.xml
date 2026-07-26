@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">A andere E-Mail-Adressn hernehma</string>
     <string name="sign_in_invalid_email">Bittschen gib a gültige E-Mail-Adressn o.</string>
     <string name="sign_in_helper_text">Koa Passwoat neadg. Mia schicka dir an sichern Link, mit demst di sofort omöidn kannst.</string>
-    <string name="sign_in_app_logo_description">App-Logo</string>
+    <string name="sign_in_app_logo_a11y">App-Logo</string>
     <string name="sign_in_welcome_back">Grias di wieda,</string>
     <string name="sign_in_welcome">Grias di,</string>
     <string name="sign_in_username">%1$s!</string>

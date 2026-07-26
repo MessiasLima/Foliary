@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Gunakan e-mel lain</string>
     <string name="sign_in_invalid_email">Sila masukkan e-mel yang sah.</string>
     <string name="sign_in_helper_text">Tiada kata laluan diperlukan. Kami akan menghantar pautan selamat untuk anda log masuk serta-merta.</string>
-    <string name="sign_in_app_logo_description">Logo Aplikasi</string>
+    <string name="sign_in_app_logo_a11y">Logo Aplikasi</string>
     <string name="sign_in_welcome_back">Selamat kembali,</string>
     <string name="sign_in_welcome">Selamat datang,</string>
     <string name="sign_in_username">%1$s!</string>

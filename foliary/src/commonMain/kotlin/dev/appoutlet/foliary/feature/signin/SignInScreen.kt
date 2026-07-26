@@ -34,7 +34,7 @@ import dev.appoutlet.foliary.core.ui.component.button.FoliaryOutlinedButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
-import dev.appoutlet.foliary.core.ui.component.modifier.widthInNarrow
+import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
 import dev.appoutlet.foliary.feature.main.MainNavKey
 import dev.appoutlet.foliary.feature.signin.composable.Authenticated
 import dev.appoutlet.foliary.feature.signin.composable.EmailLoginForm
@@ -42,7 +42,7 @@ import dev.appoutlet.foliary.feature.signin.composable.MagicLinkSent
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.ic_foliary
 import foliary.foliary.generated.resources.ic_google
-import foliary.foliary.generated.resources.sign_in_app_logo_description
+import foliary.foliary.generated.resources.sign_in_app_logo_a11y
 import foliary.foliary.generated.resources.sign_in_continue_with_google
 import foliary.foliary.generated.resources.sign_in_helper_text
 import foliary.foliary.generated.resources.sign_in_or_divider
@@ -72,7 +72,7 @@ fun SignInScreen() {
         ) { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
                 Column(
-                    modifier = Modifier.widthInNarrow(480.dp)
+                    modifier = Modifier.widthInCompact(480.dp)
                         .align(Alignment.Center)
                         .padding(horizontal = 24.dp)
                         .verticalScroll(rememberScrollState()),
@@ -103,7 +103,7 @@ private fun SignInHeader() {
             Icon(
                 modifier = Modifier.fillMaxSize().padding(8.dp),
                 painter = painterResource(Res.drawable.ic_foliary),
-                contentDescription = stringResource(Res.string.sign_in_app_logo_description),
+                contentDescription = stringResource(Res.string.sign_in_app_logo_a11y),
                 tint = MaterialTheme.colorScheme.primary,
             )
         }

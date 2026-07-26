@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Upotrijebite drugu e-adresu</string>
     <string name="sign_in_invalid_email">Molimo unesite valjanu adresu e-pošte.</string>
     <string name="sign_in_helper_text">Lozinka nije potrebna. Poslat ćemo vam sigurnu poveznicu za trenutačnu prijavu.</string>
-    <string name="sign_in_app_logo_description">Logotip aplikacije</string>
+    <string name="sign_in_app_logo_a11y">Logotip aplikacije</string>
     <string name="sign_in_welcome_back">Dobro došli natrag,</string>
     <string name="sign_in_welcome">Dobro došli,</string>
     <string name="sign_in_username">%1$s!</string>

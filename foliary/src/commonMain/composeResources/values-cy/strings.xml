@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Defnyddio e-bost arall</string>
     <string name="sign_in_invalid_email">Darparwch gyfeiriad e-bost dilys.</string>
     <string name="sign_in_helper_text">Nid oes angen cyfrinair. Byddwn yn anfon dolen ddiogel i chi fewngofnodi ar unwaith.</string>
-    <string name="sign_in_app_logo_description">Logo\'r Ap</string>
+    <string name="sign_in_app_logo_a11y">Logo\'r Ap</string>
     <string name="sign_in_welcome_back">Croeso yn ôl,</string>
     <string name="sign_in_welcome">Croeso,</string>
     <string name="sign_in_username">%1$s!</string>

@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Erabili beste helbide elektroniko bat</string>
     <string name="sign_in_invalid_email">Sartu baliozko helbide elektroniko bat.</string>
     <string name="sign_in_helper_text">Ez da pasahitzik behar. Esteka seguru bat bidaliko dizugu saioa berehala hasteko.</string>
-    <string name="sign_in_app_logo_description">Aplikazioaren logotipoa</string>
+    <string name="sign_in_app_logo_a11y">Aplikazioaren logotipoa</string>
     <string name="sign_in_welcome_back">Ongi etorri berriro,</string>
     <string name="sign_in_welcome">Ongi etorri,</string>
     <string name="sign_in_username">%1$s!</string>

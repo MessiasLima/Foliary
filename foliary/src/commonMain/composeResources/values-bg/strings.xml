@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Използвай друг имейл</string>
     <string name="sign_in_invalid_email">Моля, въведи валиден имейл.</string>
     <string name="sign_in_helper_text">Не е необходима парола. Ще ти изпратим сигурен линк за незабавно влизане.</string>
-    <string name="sign_in_app_logo_description">Лого на приложението</string>
+    <string name="sign_in_app_logo_a11y">Лого на приложението</string>
     <string name="sign_in_welcome_back">Радваме се да те видим отново,</string>
     <string name="sign_in_welcome">Привет,</string>
     <string name="sign_in_username">%1$s!</string>

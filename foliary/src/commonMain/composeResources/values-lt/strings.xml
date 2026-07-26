@@ -14,7 +14,7 @@
     <string name="sign_in_magic_link_sent_new_email">Naudoti kitą el. paštą</string>
     <string name="sign_in_invalid_email">Prašome įvesti galiojantį el. pašto adresą.</string>
     <string name="sign_in_helper_text">Slaptažodis nereikalingas. Atsiųsime jums saugią nuorodą, kad galėtumėte iškart prisijungti.</string>
-    <string name="sign_in_app_logo_description">Programėlės logotipas</string>
+    <string name="sign_in_app_logo_a11y">Programėlės logotipas</string>
     <string name="sign_in_welcome_back">Sveiki sugrįžę,</string>
     <string name="sign_in_welcome">Sveiki,</string>
     <string name="sign_in_username">%1$s!</string>

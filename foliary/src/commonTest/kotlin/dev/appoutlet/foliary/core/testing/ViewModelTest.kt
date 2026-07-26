@@ -50,10 +50,14 @@ class ViewModelClassScope<ViewModel : MviViewModel<ViewData, Action>, ViewData :
     private val testScope: TestScope,
     private val orbitTestContext: OrbitTestContext<ViewData, Action, ViewModel>
 ) {
+    val currentState = orbitTestContext.containerHost.container.stateFlow.value
+
     fun advanceTimeBy(delayTime: Duration) = testScope.advanceTimeBy(delayTime)
     fun advanceUntilIdle() = testScope.advanceUntilIdle()
+
     suspend fun awaitState() = orbitTestContext.awaitState()
     suspend fun awaitSideEffect() = orbitTestContext.awaitSideEffect()
     suspend fun expectState(viewData: ViewData) = orbitTestContext.expectState(viewData)
+    suspend fun expectState(expectedChange: ViewData.() -> ViewData) = orbitTestContext.expectState(expectedChange)
     suspend fun expectSideEffect(action: Action) = orbitTestContext.expectSideEffect(action)
 }
