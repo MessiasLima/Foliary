@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -42,10 +43,13 @@ class MainScreenTest {
         waitForIdle()
 
         // Tabs are shown
+
+        waitUntilExactlyOneExists(hasText(getString(Res.string.main_nav_today)))
         onNodeWithText(getString(Res.string.main_nav_today))
             .assertIsDisplayed()
             .assertIsSelected()
 
+        waitUntilExactlyOneExists(hasText(getString(Res.string.main_nav_profile)))
         onNodeWithText(getString(Res.string.main_nav_profile))
             .assertIsDisplayed()
             .assertIsNotSelected()
