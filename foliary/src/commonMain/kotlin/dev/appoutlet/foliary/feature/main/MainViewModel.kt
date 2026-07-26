@@ -18,7 +18,7 @@ data class MainViewData(
 )
 
 enum class MainTab {
-    Today, Profile
+    Today, Upcoming, Profile
 }
 
 object MainAction : Action

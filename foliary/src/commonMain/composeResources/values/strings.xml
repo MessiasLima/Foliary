@@ -34,12 +34,18 @@
 
     <!-- region Main -->
     <string name="main_nav_today">Today</string>
+    <string name="main_nav_upcoming">Upcoming</string>
     <string name="main_nav_profile">Profile</string>
     <!-- endregion -->
 
     <!-- region Profile -->
     <string name="profile_logout">Log out</string>
+    <string name="profile_statistics">Statistics</string>
     <string name="profile_title">Profile</string>
+    <!-- endregion -->
+
+    <!-- region Upcoming -->
+    <string name="upcoming_title">Upcoming</string>
     <!-- endregion -->
 
     <!-- region Today -->

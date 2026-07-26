@@ -16,7 +16,12 @@ class ProfileViewModel(
     fun onEvent(event: ProfileEvent) {
         when (event) {
             ProfileEvent.OnLogOutClick -> onLogOutClick()
+            ProfileEvent.OnStatisticsClick -> onStatisticsClick()
         }
+    }
+
+    private fun onStatisticsClick() = intent {
+        analytics.trackEvent("profile_statistics_clicked")
     }
 
     private fun onLogOutClick() = intent {
@@ -34,4 +39,5 @@ sealed interface ProfileAction : Action {
 
 sealed interface ProfileEvent {
     data object OnLogOutClick : ProfileEvent
+    data object OnStatisticsClick : ProfileEvent
 }
