@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,6 +24,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Lucide
@@ -41,6 +43,10 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Instant
 
+private const val EndOfDayHour = 23
+private const val EndOfDayMinute = 59
+private const val EndOfDaySecond = 59
+private const val EndOfDayNanosecond = 999_999_999
 private const val PlaceholderAlpha = 0.6f
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,84 +64,123 @@ fun FoliaryDatePicker(
     )
 
     Box(modifier = modifier) {
-        FoliaryCard(
-            modifier = Modifier
-                .fillMaxWidth()
-                .testTag("FoliaryDatePicker:Card")
-                .clickable { showBottomSheet = true }
+        DatePickerCard(
+            label = label,
+            placeholder = placeholder,
+            selectedDate = selectedDate,
+            onClick = { showBottomSheet = true },
+            onClear = { onDateSelected(null) }
+        )
+    }
+
+    if (showBottomSheet) {
+        DatePickerBottomSheet(
+            datePickerState = datePickerState,
+            onDismiss = { showBottomSheet = false },
+            onConfirm = { onDateSelected(it.toEndOfDayInstant()) }
+        )
+    }
+}
+
+@Composable
+private fun DatePickerCard(
+    label: String,
+    placeholder: String,
+    selectedDate: Instant?,
+    onClick: () -> Unit,
+    onClear: () -> Unit,
+) {
+    FoliaryCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag("FoliaryDatePicker:Card")
+            .clickable(onClick = onClick)
+    ) {
+        Column(
+            modifier = Modifier.padding(all = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Column(
-                modifier = Modifier.padding(all = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+
+            Box(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = label,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onBackground
+                    text = selectedDate?.let { formatDate(it) } ?: placeholder,
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .testTag("FoliaryDatePicker:Value"),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = datePickerValueColor(selectedDate)
                 )
 
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = selectedDate?.let { formatDate(it) } ?: placeholder,
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .testTag("FoliaryDatePicker:Value"),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = if (selectedDate != null) {
-                            MaterialTheme.colorScheme.onSurface
-                        } else {
-                            MaterialTheme.colorScheme.onBackground.copy(alpha = PlaceholderAlpha)
-                        }
+                if (selectedDate != null) {
+                    DateClearButton(
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        onClick = onClear
                     )
-
-                    if (selectedDate != null) {
-                        IconButton(
-                            onClick = { onDateSelected(null) },
-                            modifier = Modifier
-                                .align(Alignment.CenterEnd)
-                                .testTag("FoliaryDatePicker:ClearButton")
-                        ) {
-                            Icon(
-                                imageVector = Lucide.X,
-                                contentDescription = stringResource(Res.string.create_task_due_date_clear_a11y),
-                                tint = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                    }
                 }
             }
         }
     }
+}
 
-    if (showBottomSheet) {
-        ModalBottomSheet(
-            onDismissRequest = { showBottomSheet = false }
+@Composable
+private fun datePickerValueColor(selectedDate: Instant?): Color = if (selectedDate != null) {
+    MaterialTheme.colorScheme.onSurface
+} else {
+    MaterialTheme.colorScheme.onBackground.copy(alpha = PlaceholderAlpha)
+}
+
+@Composable
+private fun DateClearButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = modifier.testTag("FoliaryDatePicker:ClearButton")
+    ) {
+        Icon(
+            imageVector = Lucide.X,
+            contentDescription = stringResource(Res.string.create_task_due_date_clear_a11y),
+            tint = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DatePickerBottomSheet(
+    datePickerState: DatePickerState,
+    onDismiss: () -> Unit,
+    onConfirm: (Long) -> Unit,
+) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss
+    ) {
+        DatePicker(state = datePickerState)
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
         ) {
-            DatePicker(state = datePickerState)
+            TextButton(onClick = onDismiss) {
+                Text(text = stringResource(Res.string.date_picker_cancel))
+            }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
+            TextButton(
+                onClick = {
+                    datePickerState.selectedDateMillis?.let(onConfirm)
+                    onDismiss()
+                },
+                enabled = datePickerState.selectedDateMillis != null
             ) {
-                TextButton(
-                    onClick = { showBottomSheet = false }
-                ) {
-                    Text(text = stringResource(Res.string.date_picker_cancel))
-                }
-
-                TextButton(
-                    onClick = {
-                        datePickerState.selectedDateMillis?.let { millis ->
-                            onDateSelected(millis.toEndOfDayInstant())
-                        }
-                        showBottomSheet = false
-                    },
-                    enabled = datePickerState.selectedDateMillis != null
-                ) {
-                    Text(text = stringResource(Res.string.date_picker_confirm))
-                }
+                Text(text = stringResource(Res.string.date_picker_confirm))
             }
         }
     }
@@ -156,5 +201,5 @@ private fun Long.toEndOfDayInstant(): Instant {
 }
 
 private fun LocalDate.toEndOfDayInstant(): Instant =
-    atTime(LocalTime(23, 59, 59, 999_999_999))
+    atTime(LocalTime(EndOfDayHour, EndOfDayMinute, EndOfDaySecond, EndOfDayNanosecond))
         .toInstant(TimeZone.currentSystemDefault())
