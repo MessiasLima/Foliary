@@ -16,7 +16,7 @@ checksums:
     sign_in_magic_link_sent_new_email: 9d9da32285b0b15346f5381a249c6ff5
     sign_in_invalid_email: f879fb149802b00263dd747918801244
     sign_in_helper_text: 522fd4a6b651020c11ed13ac378c505f
-    sign_in_app_logo_description: 56cc37c32ec7b87185503e0848a1c0cb
+    sign_in_app_logo_a11y: 56cc37c32ec7b87185503e0848a1c0cb
     sign_in_welcome_back: 0cc55c3fc31f3c13c840b00638f13a46
     sign_in_welcome: f9cb0eae2d645acf86be5180c02ab0f2
     sign_in_username: a2a040f3291433cc2ca41868882dfb4a
@@ -29,7 +29,20 @@ checksums:
     main_nav_profile: d7878693f91303a438852d617f6d35df
     profile_logout: 9a236bb8f8bec867ec0d0950d38bcc71
     profile_title: d7878693f91303a438852d617f6d35df
-    today_title: f3258b28a1e37c2f4b5878b903761453
+    today_title: 142173f9752e18e92109623a3ee68cad
+    today_welcome: 4f8da774476a720a7494e78efabdf983
+    today_add_task_a11y: 4dcbb24d7e7cae7881a69551d857ea63
+    today_empty_title: e34a4ceabd6dde54352320a5e56c349f
+    today_empty_description: 6d0bb7ea8a052a0bd086ddafe823c526
+    today_empty_button: 01aa5fc7468b1550c1220280b89670d4
+    create_task_title: ef7a232aacf5c9138a5485415209bc21
+    create_task_title_label: 344e64395eaff6822a57d18623853e1a
+    create_task_title_placeholder: 7f4e591430caa1fa9de821346c8af1b3
+    create_task_description_label: e17686a22ffad04cc7bb70524ed4478b
+    create_task_description_placeholder: 62e86155cbb00560245754347cf9b0c0
+    create_task_save: f7a2929f33bc420195e59ac5a8bcd454
+    create_task_title_required: a8541a9d81ad1f2d007e52328d8b4074
     task_item_overdue: 24caaa2b5d7a2447ab7664e3771cf98c
     open_app: 98d48f4e2cbf39c43abbc6dd32eb4ff9
     quit: e4546c0aa9f1fa3e788cadec5e62f8ef
+    back_icon_button_a11y: b9c9db6a69a2e078c3be411b12c6097f
