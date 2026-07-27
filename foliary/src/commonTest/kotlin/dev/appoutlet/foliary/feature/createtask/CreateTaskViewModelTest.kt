@@ -12,26 +12,31 @@ import dev.mokkery.everySuspend
 import dev.mokkery.matcher.capture.Capture
 import dev.mokkery.matcher.capture.capture
 import dev.mokkery.matcher.capture.get
+import dev.mokkery.matcher.any
 import dev.mokkery.mock
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import kotlin.test.Test
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
 class CreateTaskViewModelTest :
     ViewModelTest<CreateTaskViewModel, CreateTaskViewData, CreateTaskAction>() {
     private val mockTaskRepository = mock<TaskRepository>(mode = MockMode.autoUnit)
     private val mockTimeProvider = mock<TimeProvider>()
     private val mockUuidProvider = mock<UuidProvider>()
+    private val startOfToday = Instant.parse("2026-07-22T00:00:00Z")
+    private val expectedDisplayText = "22 Jul 2026"
 
-    override fun createViewModel() = CreateTaskViewModel(
-        taskRepository = mockTaskRepository,
-        timeProvider = mockTimeProvider,
-        uuidProvider = mockUuidProvider
-    )
+    override fun createViewModel(): CreateTaskViewModel {
+        every(mockTimeProvider::startOfToday) returns startOfToday
+        every { mockTimeProvider.displayText(any()) } returns expectedDisplayText
+        return CreateTaskViewModel(
+            taskRepository = mockTaskRepository,
+            timeProvider = mockTimeProvider,
+            uuidProvider = mockUuidProvider
+        )
+    }
 
     @Test
     fun `TitleChanged - blank title button disabled`() = test {
@@ -69,8 +74,9 @@ class CreateTaskViewModelTest :
     }
 
     @Test
-    fun `default state should have dueDate unset`() = test {
-        currentState.dueDate shouldBe CreateTaskViewData.DueDateViewData()
+    fun `default state should have dueDate unset and minDueDate set to start of today`() = test {
+        currentState.dueDate shouldBe null
+        currentState.minDueDateMillis shouldBe startOfToday.toEpochMilliseconds()
     }
 
     @Test
@@ -80,17 +86,17 @@ class CreateTaskViewModelTest :
         viewModel.onEvent(CreateTaskEvent.DueDateChanged(dueDateMillis))
 
         awaitState().dueDate.also {
-            it.selectedDateMillis shouldBe dueDateMillis
-            it.selectedDateDisplayText shouldNotBe null
+            it?.selectedDateMillis shouldBe dueDateMillis
+            it?.selectedDateDisplayText shouldNotBe null
         }
     }
 
     @Test
     fun `DueDateChanged - null should clear dueDate`() = test {
         val dueDateMillis = 1_752_996_000_000
-        val expectedDueDate = CreateTaskViewData.DueDateViewData(
+        val expectedDueDate = CreateTaskViewData.DueDateViewData.fixture(
             selectedDateMillis = dueDateMillis,
-            selectedDateDisplayText = dueDateMillis.toDisplayText(),
+            selectedDateDisplayText = expectedDisplayText,
         )
 
         viewModel.onEvent(CreateTaskEvent.DueDateChanged(dueDateMillis))
@@ -98,7 +104,7 @@ class CreateTaskViewModelTest :
 
         viewModel.onEvent(CreateTaskEvent.DueDateChanged(null))
 
-        awaitState().dueDate shouldBe CreateTaskViewData.DueDateViewData()
+        awaitState().dueDate shouldBe null
     }
 
     @Test
@@ -113,7 +119,13 @@ class CreateTaskViewModelTest :
         every(mockTimeProvider::now) returns creationDate
         everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
 
-        currentState shouldBe CreateTaskViewData()
+        currentState shouldBe CreateTaskViewData.fixture(
+            title = "",
+            description = null,
+            dueDate = null,
+            minDueDateMillis = startOfToday.toEpochMilliseconds(),
+            saveButtonEnabled = false,
+        )
 
         viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
         expectState { copy(title = title, saveButtonEnabled = true) }
@@ -158,9 +170,9 @@ class CreateTaskViewModelTest :
         expectState {
             copy(
                 title = title,
-                dueDate = CreateTaskViewData.DueDateViewData(
+                dueDate = CreateTaskViewData.DueDateViewData.fixture(
                     selectedDateMillis = dueDateMillis,
-                    selectedDateDisplayText = dueDateMillis.toDisplayText(),
+                    selectedDateDisplayText = expectedDisplayText,
                 ),
                 saveButtonEnabled = true,
             )
@@ -174,9 +186,3 @@ class CreateTaskViewModelTest :
         awaitSideEffect() shouldBe CreateTaskAction.NavigateBack
     }
 }
-
-private fun Long.toDisplayText(): String =
-    Instant.fromEpochMilliseconds(this)
-        .toLocalDateTime(TimeZone.currentSystemDefault())
-        .date
-        .toString()

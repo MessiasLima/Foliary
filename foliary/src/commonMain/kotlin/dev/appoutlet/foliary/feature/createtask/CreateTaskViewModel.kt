@@ -96,7 +96,11 @@ data class CreateTaskViewData(
     data class DueDateViewData(
         val selectedDateMillis: Long,
         val selectedDateDisplayText: String,
-    )
+    ) {
+        companion object
+    }
+
+    companion object
 }
 
 sealed interface CreateTaskEvent {

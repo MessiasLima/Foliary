@@ -26,18 +26,23 @@ import foliary.foliary.generated.resources.create_task_title
 import foliary.foliary.generated.resources.create_task_title_label
 import foliary.foliary.generated.resources.create_task_title_placeholder
 import io.kotest.matchers.shouldBe
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.getString
 import kotlin.test.Test
-import kotlin.time.Instant
 
 @OptIn(ExperimentalTestApi::class)
 class CreateTaskScreenTest {
     @Test
     fun `should render create task form`() = runComposeUiTest {
         setContent {
-            CreateTaskScreen(viewData = CreateTaskViewData(), onEvent = {})
+            CreateTaskScreen(
+                viewData = CreateTaskViewData.fixture(
+                    title = "",
+                    description = null,
+                    dueDate = null,
+                    saveButtonEnabled = false,
+                ),
+                onEvent = {}
+            )
         }
 
         onNodeWithText(getString(Res.string.create_task_title)).assertIsDisplayed()
@@ -58,7 +63,7 @@ class CreateTaskScreenTest {
 
         setContent {
             CreateTaskScreen(
-                viewData = CreateTaskViewData(saveButtonEnabled = true),
+                viewData = CreateTaskViewData.fixture(),
                 onEvent = events::add,
             )
         }
@@ -81,7 +86,15 @@ class CreateTaskScreenTest {
         val description = "Use the garden store nearby"
 
         setContent {
-            CreateTaskScreen(viewData = CreateTaskViewData(), onEvent = {})
+            CreateTaskScreen(
+                viewData = CreateTaskViewData.fixture(
+                    title = "",
+                    description = null,
+                    dueDate = null,
+                    saveButtonEnabled = false,
+                ),
+                onEvent = {}
+            )
         }
 
         onNodeWithTag("CreateTaskScreen:TitleField", useUnmergedTree = true)
@@ -97,11 +110,9 @@ class CreateTaskScreenTest {
 
     @Test
     fun `should show selected due date and clear it`() = runComposeUiTest {
-        val dueDate = Instant.parse("2026-07-21T12:00:00Z")
-        val dueDateMillis = dueDate.toEpochMilliseconds()
-        val expectedDateText = dueDate.toLocalDateTime(TimeZone.currentSystemDefault()).date.toString()
+        val dueDate = CreateTaskViewData.DueDateViewData.fixture()
         val events = mutableListOf<CreateTaskEvent>()
-        var viewData by mutableStateOf(CreateTaskViewData())
+        var viewData by mutableStateOf(CreateTaskViewData.fixture(dueDate = null))
 
         setContent {
             CreateTaskScreen(viewData = viewData, onEvent = events::add)
@@ -112,22 +123,17 @@ class CreateTaskScreenTest {
         onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
             .assertDoesNotExist()
 
-        viewData = CreateTaskViewData(
-            dueDate = CreateTaskViewData.DueDateViewData(
-                selectedDateMillis = dueDateMillis,
-                selectedDateDisplayText = expectedDateText,
-            )
-        )
+        viewData = CreateTaskViewData.fixture(dueDate = dueDate)
         waitForIdle()
 
-        onNodeWithText(expectedDateText).assertIsDisplayed()
+        onNodeWithText(dueDate.selectedDateDisplayText).assertIsDisplayed()
         onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
             .assertIsDisplayed()
             .performClick()
 
         events.contains(CreateTaskEvent.DueDateChanged(null)) shouldBe true
 
-        viewData = CreateTaskViewData()
+        viewData = CreateTaskViewData.fixture(dueDate = null)
         waitForIdle()
 
         onNodeWithText(getString(Res.string.create_task_due_date_placeholder)).assertIsDisplayed()

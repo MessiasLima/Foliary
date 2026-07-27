@@ -17,6 +17,14 @@ class DefaultTimeProviderTest {
     }
 
     @Test
+    fun `should return the start of today for the configured time zone`() {
+        val timezone = TimeZone.UTC
+        val today = Instant.parse("2026-07-22T02:10:02.999Z")
+        val subject = DefaultTimeProvider(clock = FixedClock(today))
+        subject.startOfToday(timezone) shouldBe Instant.parse("2026-07-22T00:00:00Z")
+    }
+
+    @Test
     fun `should return the end of today for the configured time zone`() {
         val timezone = TimeZone.UTC
         val today = Instant.parse("2026-07-22T02:10:02.999Z")
