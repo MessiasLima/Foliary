@@ -40,7 +40,6 @@
 
     <!-- region Profile -->
     <string name="profile_logout">Log out</string>
-    <string name="profile_statistics">Statistics</string>
     <string name="profile_title">Profile</string>
     <!-- endregion -->
 

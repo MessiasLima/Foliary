@@ -15,7 +15,7 @@ import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.main_nav_profile
 import foliary.foliary.generated.resources.main_nav_today
 import foliary.foliary.generated.resources.main_nav_upcoming
-import foliary.foliary.generated.resources.profile_title
+import foliary.foliary.generated.resources.profile_logout
 import foliary.foliary.generated.resources.today_title
 import foliary.foliary.generated.resources.upcoming_title
 import org.jetbrains.compose.resources.getString
@@ -66,6 +66,6 @@ class MainScreenTest {
         waitUntilAtLeastOneExists(hasText(getString(Res.string.upcoming_title)))
 
         onNodeWithText(getString(Res.string.main_nav_profile)).performClick()
-        waitUntilAtLeastOneExists(hasText(getString(Res.string.profile_title)))
+        waitUntilAtLeastOneExists(hasText(getString(Res.string.profile_logout)))
     }
 }
