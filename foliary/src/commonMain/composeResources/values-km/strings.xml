@@ -28,6 +28,6 @@
     <string name="profile_logout">ចាកចេញ</string>
     <string name="profile_title">ប្រវត្តិរូប</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">បើក Foliary</string>
-    <string name="quit">ចាកចេញ</string>
+    <string name="system_tray_open_app">បើក Foliary</string>
+    <string name="system_tray_quit">ចាកចេញ</string>
     </resources>

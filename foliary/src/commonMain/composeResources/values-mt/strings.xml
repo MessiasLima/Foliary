@@ -28,6 +28,6 @@
     <string name="profile_logout">Oħroġ mill-kont</string>
     <string name="profile_title">Profil</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Iftaħ Foliary</string>
-    <string name="quit">Oħroġ</string>
+    <string name="system_tray_open_app">Iftaħ Foliary</string>
+    <string name="system_tray_quit">Oħroġ</string>
     </resources>

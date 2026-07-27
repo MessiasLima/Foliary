@@ -28,6 +28,6 @@
     <string name="profile_logout">লগ আউট করুন</string>
     <string name="profile_title">প্রোফাইল</string>
     <string name="today_title">ফোলিয়ারি</string>
-    <string name="open_app">ফোলিয়ারি খুলুন</string>
-    <string name="quit">প্রস্থান করুন</string>
+    <string name="system_tray_open_app">ফোলিয়ারি খুলুন</string>
+    <string name="system_tray_quit">প্রস্থান করুন</string>
     </resources>

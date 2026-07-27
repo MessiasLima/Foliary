@@ -28,6 +28,6 @@
     <string name="profile_logout">Kirjaudu ulos</string>
     <string name="profile_title">Profiili</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Avaa Foliary</string>
-    <string name="quit">Lopeta</string>
+    <string name="system_tray_open_app">Avaa Foliary</string>
+    <string name="system_tray_quit">Lopeta</string>
     </resources>

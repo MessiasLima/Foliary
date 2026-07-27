@@ -28,6 +28,6 @@
     <string name="profile_logout">Выйсці</string>
     <string name="profile_title">Профіль</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Адкрыць Foliary</string>
-    <string name="quit">Выхад</string>
+    <string name="system_tray_open_app">Адкрыць Foliary</string>
+    <string name="system_tray_quit">Выхад</string>
     </resources>
