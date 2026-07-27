@@ -9,10 +9,10 @@ import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
 import dev.mokkery.matcher.capture.Capture
 import dev.mokkery.matcher.capture.capture
 import dev.mokkery.matcher.capture.get
-import dev.mokkery.matcher.any
 import dev.mokkery.mock
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -151,16 +151,18 @@ class CreateTaskViewModelTest :
     }
 
     @Test
-    fun `SaveClicked - should persist selected dueDate`() = test {
+    fun `SaveClicked - should persist selected dueDate as end of day`() = test {
         val id = Uuid.random()
         val title = "Task title"
         val dueDate = Instant.parse("2026-07-21T12:00:00Z")
         val dueDateMillis = dueDate.toEpochMilliseconds()
+        val endOfDayDueDate = Instant.parse("2026-07-21T23:59:59.999999999Z")
         val taskCapture = Capture.slot<Task>()
         val creationDate = Instant.parse("2026-07-21T12:00:00Z")
 
         every(mockUuidProvider::random) returns id
         every(mockTimeProvider::now) returns creationDate
+        every { mockTimeProvider.endOfDay(dueDate) } returns endOfDayDueDate
         everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
 
         viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
@@ -181,7 +183,7 @@ class CreateTaskViewModelTest :
         viewModel.onEvent(CreateTaskEvent.SaveClicked)
         awaitState().saveButtonEnabled shouldBe false
 
-        taskCapture.get().dueDate shouldBe dueDate
+        taskCapture.get().dueDate shouldBe endOfDayDueDate
 
         awaitSideEffect() shouldBe CreateTaskAction.NavigateBack
     }

@@ -5,11 +5,7 @@ import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
 import kotlinx.datetime.format
-import kotlinx.datetime.format.DateTimeComponents
-import kotlinx.datetime.format.DateTimeFormat
 import kotlinx.datetime.format.MonthNames
-import kotlinx.datetime.format.char
-import kotlinx.datetime.offsetAt
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.koin.core.annotation.Single
@@ -24,7 +20,8 @@ interface TimeProvider {
     fun now(): Instant
     fun startOfToday(timeZone: TimeZone = TimeZone.currentSystemDefault()): Instant
     fun endOfToday(timeZone: TimeZone = TimeZone.currentSystemDefault()): Instant
-    fun displayText(instant: Instant, timeZone: TimeZone = TimeZone.currentSystemDefault()) : String
+    fun endOfDay(instant: Instant, timeZone: TimeZone = TimeZone.currentSystemDefault()): Instant
+    fun displayText(instant: Instant, timeZone: TimeZone = TimeZone.currentSystemDefault()): String
 }
 
 @Single
@@ -37,7 +34,6 @@ class DefaultTimeProvider(private val clock: Clock = Clock.System) : TimeProvide
         year()
     }
 
-
     override fun now(): Instant = clock.now()
 
     override fun startOfToday(timeZone: TimeZone): Instant {
@@ -46,11 +42,16 @@ class DefaultTimeProvider(private val clock: Clock = Clock.System) : TimeProvide
             .toInstant(timeZone)
     }
 
-    override fun endOfToday(timeZone: TimeZone): Instant {
-        return now().toLocalDateTime(timeZone).date
+    override fun endOfDay(
+        instant: Instant,
+        timeZone: TimeZone
+    ): Instant {
+        return instant.toLocalDateTime(timeZone).date
             .atTime(LastNanosecondOfTheDay)
             .toInstant(timeZone)
     }
+
+    override fun endOfToday(timeZone: TimeZone) = endOfDay(now(), timeZone)
 
     override fun displayText(
         instant: Instant,

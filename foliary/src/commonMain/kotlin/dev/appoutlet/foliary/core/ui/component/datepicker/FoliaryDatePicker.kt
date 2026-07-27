@@ -49,7 +49,7 @@ fun FoliaryDatePicker(
     onDateSelected: (Long?) -> Unit,
     modifier: Modifier = Modifier,
     minDateMillis: Long = Instant.DISTANT_PAST.toEpochMilliseconds(),
-    maxDateMillis: Long= Instant.DISTANT_FUTURE.toEpochMilliseconds(),
+    maxDateMillis: Long = Instant.DISTANT_FUTURE.toEpochMilliseconds(),
 ) {
     var showBottomSheet by rememberSaveable { mutableStateOf(false) }
 
@@ -116,7 +116,6 @@ private fun DatePickerCard(
                 )
             }
 
-
             if (selectedDateDisplayText != null) {
                 DateClearButton(
                     modifier = Modifier.padding(end = 16.dp),
@@ -125,7 +124,6 @@ private fun DatePickerCard(
             }
         }
     }
-
 }
 
 @Composable
@@ -195,4 +193,3 @@ private fun DatePickerBottomSheet(
         }
     }
 }
-

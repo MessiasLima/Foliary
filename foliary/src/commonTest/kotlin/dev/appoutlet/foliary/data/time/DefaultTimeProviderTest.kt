@@ -33,6 +33,22 @@ class DefaultTimeProviderTest {
     }
 
     @Test
+    fun `should return the end of day for the configured time zone`() {
+        val timezone = TimeZone.UTC
+        val instant = Instant.parse("2026-07-22T02:10:02.999Z")
+        val subject = DefaultTimeProvider()
+        subject.endOfDay(instant, timezone) shouldBe Instant.parse("2026-07-22T23:59:59.999999999Z")
+    }
+
+    @Test
+    fun `should return the end of day respecting the time zone`() {
+        val instant = Instant.parse("2026-07-22T02:10:02.999Z")
+        val subject = DefaultTimeProvider()
+        subject.endOfDay(instant, TimeZone.UTC) shouldBe Instant.parse("2026-07-22T23:59:59.999999999Z")
+        subject.endOfDay(instant, TimeZone.of("UTC-10")) shouldBe Instant.parse("2026-07-22T09:59:59.999999999Z")
+    }
+
+    @Test
     fun `should format instant to display text for the configured time zone`() {
         val timezone = TimeZone.UTC
         val instant = Instant.parse("2026-07-22T02:10:02.999Z")

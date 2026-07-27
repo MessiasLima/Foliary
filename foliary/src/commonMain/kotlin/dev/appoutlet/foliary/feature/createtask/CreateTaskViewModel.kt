@@ -66,7 +66,9 @@ class CreateTaskViewModel(
             title = state.title.trim(),
             description = state.description?.trim(),
             creationDate = timeProvider.now(),
-            dueDate = state.dueDate?.selectedDateMillis?.toInstant(),
+            dueDate = state.dueDate?.selectedDateMillis?.toInstant()?.let {
+                timeProvider.endOfDay(it)
+            },
             completionDate = null,
             priority = null,
             url = null,
@@ -82,7 +84,7 @@ class CreateTaskViewModel(
         postSideEffect(CreateTaskAction.NavigateBack)
     }
 
-    private fun Long.toInstant() =  Instant.fromEpochMilliseconds(this)
+    private fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
 }
 
 data class CreateTaskViewData(
