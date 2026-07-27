@@ -37,6 +37,7 @@ import foliary.foliary.generated.resources.create_task_due_date_clear_a11y
 import foliary.foliary.generated.resources.general_cancel
 import foliary.foliary.generated.resources.general_confirm
 import org.jetbrains.compose.resources.stringResource
+import kotlin.time.Instant
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,6 +48,8 @@ fun FoliaryDatePicker(
     selectedDateDisplayText: String?,
     onDateSelected: (Long?) -> Unit,
     modifier: Modifier = Modifier,
+    minDateMillis: Long = Instant.DISTANT_PAST.toEpochMilliseconds(),
+    maxDateMillis: Long= Instant.DISTANT_FUTURE.toEpochMilliseconds(),
 ) {
     var showBottomSheet by rememberSaveable { mutableStateOf(false) }
 
@@ -63,6 +66,8 @@ fun FoliaryDatePicker(
     if (showBottomSheet) {
         DatePickerBottomSheet(
             selectedDateMillis = selectedDate,
+            minDateMillis = minDateMillis,
+            maxDateMillis = maxDateMillis,
             onDismiss = { showBottomSheet = false },
             onConfirm = { onDateSelected(it) }
         )
@@ -144,11 +149,16 @@ private fun DateClearButton(
 @Composable
 private fun DatePickerBottomSheet(
     selectedDateMillis: Long?,
+    minDateMillis: Long,
+    maxDateMillis: Long,
     onDismiss: () -> Unit,
     onConfirm: (Long) -> Unit,
 ) {
-    // TODO add min date..
-    val datePickerState = rememberDatePickerState(initialSelectedDateMillis = selectedDateMillis)
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = selectedDateMillis,
+        selectableDates = MinMaxSelectableDates(minDateMillis, maxDateMillis)
+    )
+
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     ModalBottomSheet(

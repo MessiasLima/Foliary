@@ -12,11 +12,8 @@ import foliary.foliary.generated.resources.create_task_due_date_clear_a11y
 import foliary.foliary.generated.resources.create_task_due_date_placeholder
 import foliary.foliary.generated.resources.general_confirm
 import io.kotest.matchers.shouldBe
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.getString
 import kotlin.test.Test
-import kotlin.time.Instant
 
 @OptIn(ExperimentalTestApi::class)
 class FoliaryDatePickerTest {
@@ -30,6 +27,7 @@ class FoliaryDatePickerTest {
                 label = "Due date",
                 placeholder = placeholder,
                 selectedDate = null,
+                selectedDateDisplayText = null,
                 onDateSelected = {}
             )
         }
@@ -42,19 +40,19 @@ class FoliaryDatePickerTest {
     @Test
     fun `should show selected date when selectedDate is not null`() = runComposeUiTest {
         val placeholder = getString(Res.string.create_task_due_date_placeholder)
-        val selectedDate = Instant.parse("2026-07-21T12:00:00Z")
-        val expectedDateText = selectedDate.toLocalDateTime(TimeZone.currentSystemDefault()).date.toString()
+        val selectedDateDisplayText = "2026-07-21"
 
         setContent {
             FoliaryDatePicker(
                 label = "Due date",
                 placeholder = placeholder,
-                selectedDate = selectedDate,
+                selectedDate = 1_752_960_000_000,
+                selectedDateDisplayText = selectedDateDisplayText,
                 onDateSelected = {}
             )
         }
 
-        onNodeWithText(expectedDateText).assertIsDisplayed()
+        onNodeWithText(selectedDateDisplayText).assertIsDisplayed()
         onNodeWithTag("FoliaryDatePicker:Value", useUnmergedTree = true).assertIsDisplayed()
     }
 
@@ -68,6 +66,7 @@ class FoliaryDatePickerTest {
                 label = "Due date",
                 placeholder = placeholder,
                 selectedDate = null,
+                selectedDateDisplayText = null,
                 onDateSelected = {}
             )
         }
@@ -79,14 +78,14 @@ class FoliaryDatePickerTest {
     fun `clear button should call onDateSelected with null`() = runComposeUiTest {
         val placeholder = getString(Res.string.create_task_due_date_placeholder)
         val clearDescription = getString(Res.string.create_task_due_date_clear_a11y)
-        val selectedDate = Instant.parse("2026-07-21T12:00:00Z")
         var cleared = false
 
         setContent {
             FoliaryDatePicker(
                 label = "Due date",
                 placeholder = placeholder,
-                selectedDate = selectedDate,
+                selectedDate = 1_752_960_000_000,
+                selectedDateDisplayText = "2026-07-21",
                 onDateSelected = { cleared = it == null }
             )
         }
@@ -108,6 +107,7 @@ class FoliaryDatePickerTest {
                 label = "Due date",
                 placeholder = placeholder,
                 selectedDate = null,
+                selectedDateDisplayText = null,
                 onDateSelected = {}
             )
         }
@@ -117,5 +117,30 @@ class FoliaryDatePickerTest {
         waitForIdle()
 
         onNodeWithText(confirmText).assertExists()
+    }
+
+    @Test
+    fun `should not open date picker bottom sheet when clear button is clicked`() = runComposeUiTest {
+        val placeholder = getString(Res.string.create_task_due_date_placeholder)
+        val clearDescription = getString(Res.string.create_task_due_date_clear_a11y)
+        val confirmText = getString(Res.string.general_confirm)
+
+        setContent {
+            FoliaryDatePicker(
+                label = "Due date",
+                placeholder = placeholder,
+                selectedDate = 1_752_960_000_000,
+                selectedDateDisplayText = "2026-07-21",
+                onDateSelected = {}
+            )
+        }
+
+        onNodeWithContentDescription(clearDescription)
+            .assertIsDisplayed()
+            .performClick()
+
+        waitForIdle()
+
+        onNodeWithText(confirmText).assertDoesNotExist()
     }
 }
