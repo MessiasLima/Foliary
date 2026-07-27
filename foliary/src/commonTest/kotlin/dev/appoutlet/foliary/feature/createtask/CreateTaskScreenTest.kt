@@ -113,7 +113,7 @@ class CreateTaskScreenTest {
             .assertDoesNotExist()
 
         viewData = CreateTaskViewData(
-            dueDate = DueDateViewData(
+            dueDate = CreateTaskViewData.DueDateViewData(
                 selectedDateMillis = dueDateMillis,
                 selectedDateDisplayText = expectedDateText,
             )

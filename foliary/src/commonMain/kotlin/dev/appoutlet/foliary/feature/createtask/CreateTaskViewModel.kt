@@ -6,6 +6,8 @@ import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.appoutlet.foliary.core.provider.uuid.UuidProvider
 import dev.appoutlet.foliary.data.task.TaskRepository
 import dev.appoutlet.foliary.data.task.database.entity.Task
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.koin.core.annotation.KoinViewModel
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
@@ -22,14 +24,23 @@ class CreateTaskViewModel(
         when (event) {
             is CreateTaskEvent.TitleChanged -> onTitleChange(event.title)
             is CreateTaskEvent.DescriptionChanged -> onDescriptionChange(event.description)
-            is CreateTaskEvent.DueDateChanged -> onDueDateChange(event.dueDate)
+            is CreateTaskEvent.DueDateChanged -> onDueDateChange(event.dueDateMillis)
             CreateTaskEvent.SaveClicked -> onSaveClick()
             CreateTaskEvent.BackClicked -> onBackClick()
         }
     }
 
-    private fun onDueDateChange(dueDate: Instant?) = intent {
-        reduce { state.copy(dueDate = dueDate) }
+    private fun onDueDateChange(dueDateMillis: Long?) = intent {
+        reduce {
+            state.copy(
+                dueDate = CreateTaskViewData.DueDateViewData(
+                    selectedDateMillis = dueDateMillis,
+                    selectedDateDisplayText = dueDateMillis?.toInstant()?.let {
+                        timeProvider.displayText(it)
+                    },
+                )
+            )
+        }
     }
 
     private fun onTitleChange(title: String) = intent {
@@ -53,7 +64,7 @@ class CreateTaskViewModel(
             title = state.title.trim(),
             description = state.description?.trim(),
             creationDate = timeProvider.now(),
-            dueDate = state.dueDate,
+            dueDate = state.dueDate.selectedDateMillis?.toInstant(),
             completionDate = null,
             priority = null,
             url = null,
@@ -68,20 +79,27 @@ class CreateTaskViewModel(
     private fun onBackClick() = intent {
         postSideEffect(CreateTaskAction.NavigateBack)
     }
+
+    private fun Long.toInstant() =  Instant.fromEpochMilliseconds(this)
 }
 
 data class CreateTaskViewData(
     val id: String? = null,
     val title: String = "",
     val description: String? = null,
-    val dueDate: Instant? = null,
+    val dueDate: DueDateViewData = DueDateViewData(),
     val saveButtonEnabled: Boolean = false,
-)
+) {
+    data class DueDateViewData(
+        val selectedDateMillis: Long? = null,
+        val selectedDateDisplayText: String? = null,
+    )
+}
 
 sealed interface CreateTaskEvent {
     data class TitleChanged(val title: String) : CreateTaskEvent
     data class DescriptionChanged(val description: String?) : CreateTaskEvent
-    data class DueDateChanged(val dueDate: Instant?) : CreateTaskEvent
+    data class DueDateChanged(val dueDateMillis: Long?) : CreateTaskEvent
     data object SaveClicked : CreateTaskEvent
     data object BackClicked : CreateTaskEvent
 }

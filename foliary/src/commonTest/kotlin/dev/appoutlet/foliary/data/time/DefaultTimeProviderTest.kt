@@ -24,6 +24,22 @@ class DefaultTimeProviderTest {
         subject.endOfToday(timezone) shouldBe Instant.parse("2026-07-22T23:59:59.999999999Z")
     }
 
+    @Test
+    fun `should format instant to display text for the configured time zone`() {
+        val timezone = TimeZone.UTC
+        val instant = Instant.parse("2026-07-22T02:10:02.999Z")
+        val subject = DefaultTimeProvider()
+        subject.displayText(instant, timezone) shouldBe "22 Jul 2026"
+    }
+
+    @Test
+    fun `should format instant to display text respecting the time zone`() {
+        val instant = Instant.parse("2026-07-22T02:10:02.999Z")
+        val subject = DefaultTimeProvider()
+        subject.displayText(instant, TimeZone.UTC) shouldBe "22 Jul 2026"
+        subject.displayText(instant, TimeZone.of("UTC-10")) shouldBe "21 Jul 2026"
+    }
+
     private class FixedClock(private val instant: Instant) : Clock {
         override fun now(): Instant = instant
     }

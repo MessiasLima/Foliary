@@ -14,9 +14,12 @@ import dev.mokkery.matcher.capture.capture
 import dev.mokkery.matcher.capture.get
 import dev.mokkery.mock
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import kotlin.test.Test
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 class CreateTaskViewModelTest :
     ViewModelTest<CreateTaskViewModel, CreateTaskViewData, CreateTaskAction>() {
@@ -67,28 +70,35 @@ class CreateTaskViewModelTest :
 
     @Test
     fun `default state should have dueDate unset`() = test {
-        currentState.dueDate shouldBe null
+        currentState.dueDate shouldBe CreateTaskViewData.DueDateViewData()
     }
 
     @Test
     fun `DueDateChanged - should update dueDate`() = test {
-        val dueDate = Instant.parse("2026-07-21T12:00:00Z")
+        val dueDateMillis = 1_752_996_000_000
 
-        viewModel.onEvent(CreateTaskEvent.DueDateChanged(dueDate))
+        viewModel.onEvent(CreateTaskEvent.DueDateChanged(dueDateMillis))
 
-        awaitState().dueDate shouldBe dueDate
+        awaitState().dueDate.also {
+            it.selectedDateMillis shouldBe dueDateMillis
+            it.selectedDateDisplayText shouldNotBe null
+        }
     }
 
     @Test
     fun `DueDateChanged - null should clear dueDate`() = test {
-        val dueDate = Instant.parse("2026-07-21T12:00:00Z")
+        val dueDateMillis = 1_752_996_000_000
+        val expectedDueDate = CreateTaskViewData.DueDateViewData(
+            selectedDateMillis = dueDateMillis,
+            selectedDateDisplayText = dueDateMillis.toDisplayText(),
+        )
 
-        viewModel.onEvent(CreateTaskEvent.DueDateChanged(dueDate))
-        expectState { copy(dueDate = dueDate) }
+        viewModel.onEvent(CreateTaskEvent.DueDateChanged(dueDateMillis))
+        expectState { copy(dueDate = expectedDueDate) }
 
         viewModel.onEvent(CreateTaskEvent.DueDateChanged(null))
 
-        awaitState().dueDate shouldBe null
+        awaitState().dueDate shouldBe CreateTaskViewData.DueDateViewData()
     }
 
     @Test
@@ -133,6 +143,7 @@ class CreateTaskViewModelTest :
         val id = Uuid.random()
         val title = "Task title"
         val dueDate = Instant.parse("2026-07-21T12:00:00Z")
+        val dueDateMillis = dueDate.toEpochMilliseconds()
         val taskCapture = Capture.slot<Task>()
         val creationDate = Instant.parse("2026-07-21T12:00:00Z")
 
@@ -143,8 +154,17 @@ class CreateTaskViewModelTest :
         viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
         expectState { copy(title = title, saveButtonEnabled = true) }
 
-        viewModel.onEvent(CreateTaskEvent.DueDateChanged(dueDate))
-        expectState { copy(title = title, dueDate = dueDate, saveButtonEnabled = true) }
+        viewModel.onEvent(CreateTaskEvent.DueDateChanged(dueDateMillis))
+        expectState {
+            copy(
+                title = title,
+                dueDate = CreateTaskViewData.DueDateViewData(
+                    selectedDateMillis = dueDateMillis,
+                    selectedDateDisplayText = dueDateMillis.toDisplayText(),
+                ),
+                saveButtonEnabled = true,
+            )
+        }
 
         viewModel.onEvent(CreateTaskEvent.SaveClicked)
         awaitState().saveButtonEnabled shouldBe false
@@ -154,3 +174,9 @@ class CreateTaskViewModelTest :
         awaitSideEffect() shouldBe CreateTaskAction.NavigateBack
     }
 }
+
+private fun Long.toDisplayText(): String =
+    Instant.fromEpochMilliseconds(this)
+        .toLocalDateTime(TimeZone.currentSystemDefault())
+        .date
+        .toString()
