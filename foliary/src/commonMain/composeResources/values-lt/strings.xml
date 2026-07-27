@@ -28,6 +28,6 @@
     <string name="profile_logout">Atsijungti</string>
     <string name="profile_title">Profilis</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Atidaryti „Foliary“</string>
-    <string name="quit">Išeiti</string>
+    <string name="system_tray_open_app">Atidaryti „Foliary“</string>
+    <string name="system_tray_quit">Išeiti</string>
     </resources>

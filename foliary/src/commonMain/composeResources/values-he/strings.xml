@@ -28,6 +28,6 @@
     <string name="profile_logout">התנתקות</string>
     <string name="profile_title">פרופיל</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">פתיחת Foliary</string>
-    <string name="quit">יציאה</string>
+    <string name="system_tray_open_app">פתיחת Foliary</string>
+    <string name="system_tray_quit">יציאה</string>
     </resources>

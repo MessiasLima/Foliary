@@ -43,6 +43,5 @@ checksums:
     create_task_save: f7a2929f33bc420195e59ac5a8bcd454
     create_task_title_required: a8541a9d81ad1f2d007e52328d8b4074
     task_item_overdue: 24caaa2b5d7a2447ab7664e3771cf98c
-    open_app: 98d48f4e2cbf39c43abbc6dd32eb4ff9
-    quit: e4546c0aa9f1fa3e788cadec5e62f8ef
-    back_icon_button_a11y: b9c9db6a69a2e078c3be411b12c6097f
+    system_tray_open_app: 98d48f4e2cbf39c43abbc6dd32eb4ff9
+    system_tray_quit: e4546c0aa9f1fa3e788cadec5e62f8ef

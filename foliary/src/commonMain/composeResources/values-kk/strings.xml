@@ -28,6 +28,6 @@
     <string name="profile_logout">Жүйеден шығу</string>
     <string name="profile_title">Профиль</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Foliary-ді ашу</string>
-    <string name="quit">Шығу</string>
+    <string name="system_tray_open_app">Foliary-ді ашу</string>
+    <string name="system_tray_quit">Шығу</string>
     </resources>

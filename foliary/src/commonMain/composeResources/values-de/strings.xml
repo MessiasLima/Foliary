@@ -28,6 +28,6 @@
     <string name="profile_logout">Abmelden</string>
     <string name="profile_title">Profil</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Foliary öffnen</string>
-    <string name="quit">Beenden</string>
+    <string name="system_tray_open_app">Foliary öffnen</string>
+    <string name="system_tray_quit">Beenden</string>
     </resources>

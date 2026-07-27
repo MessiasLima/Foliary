@@ -1,5 +1,8 @@
 package dev.appoutlet.foliary.feature.createtask
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
@@ -15,6 +18,9 @@ import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.back_icon_button_a11y
 import foliary.foliary.generated.resources.create_task_description_label
 import foliary.foliary.generated.resources.create_task_description_placeholder
+import foliary.foliary.generated.resources.create_task_due_date_clear_a11y
+import foliary.foliary.generated.resources.create_task_due_date_label
+import foliary.foliary.generated.resources.create_task_due_date_placeholder
 import foliary.foliary.generated.resources.create_task_save
 import foliary.foliary.generated.resources.create_task_title
 import foliary.foliary.generated.resources.create_task_title_label
@@ -28,7 +34,15 @@ class CreateTaskScreenTest {
     @Test
     fun `should render create task form`() = runComposeUiTest {
         setContent {
-            CreateTaskScreen(viewData = CreateTaskViewData(), onEvent = {})
+            CreateTaskScreen(
+                viewData = CreateTaskViewData.fixture(
+                    title = "",
+                    description = null,
+                    dueDate = null,
+                    saveButtonEnabled = false,
+                ),
+                onEvent = {}
+            )
         }
 
         onNodeWithText(getString(Res.string.create_task_title)).assertIsDisplayed()
@@ -36,6 +50,10 @@ class CreateTaskScreenTest {
         onNodeWithText(getString(Res.string.create_task_title_placeholder)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.create_task_description_label)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.create_task_description_placeholder)).assertIsDisplayed()
+        onNodeWithText(getString(Res.string.create_task_due_date_label)).assertIsDisplayed()
+        onNodeWithText(getString(Res.string.create_task_due_date_placeholder)).assertIsDisplayed()
+        onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
+            .assertDoesNotExist()
         onNodeWithText(getString(Res.string.create_task_save)).assertIsDisplayed().assertIsNotEnabled()
     }
 
@@ -45,7 +63,7 @@ class CreateTaskScreenTest {
 
         setContent {
             CreateTaskScreen(
-                viewData = CreateTaskViewData(saveButtonEnabled = true),
+                viewData = CreateTaskViewData.fixture(),
                 onEvent = events::add,
             )
         }
@@ -68,7 +86,15 @@ class CreateTaskScreenTest {
         val description = "Use the garden store nearby"
 
         setContent {
-            CreateTaskScreen(viewData = CreateTaskViewData(), onEvent = {})
+            CreateTaskScreen(
+                viewData = CreateTaskViewData.fixture(
+                    title = "",
+                    description = null,
+                    dueDate = null,
+                    saveButtonEnabled = false,
+                ),
+                onEvent = {}
+            )
         }
 
         onNodeWithTag("CreateTaskScreen:TitleField", useUnmergedTree = true)
@@ -80,5 +106,38 @@ class CreateTaskScreenTest {
             .assertTextEquals(title)
         onNodeWithTag("CreateTaskScreen:DescriptionField", useUnmergedTree = true)
             .assertTextEquals(description)
+    }
+
+    @Test
+    fun `should show selected due date and clear it`() = runComposeUiTest {
+        val dueDate = CreateTaskViewData.DueDateViewData.fixture()
+        val events = mutableListOf<CreateTaskEvent>()
+        var viewData by mutableStateOf(CreateTaskViewData.fixture(dueDate = null))
+
+        setContent {
+            CreateTaskScreen(viewData = viewData, onEvent = events::add)
+        }
+
+        onNodeWithText(getString(Res.string.create_task_due_date_label)).assertIsDisplayed()
+        onNodeWithText(getString(Res.string.create_task_due_date_placeholder)).assertIsDisplayed()
+        onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
+            .assertDoesNotExist()
+
+        viewData = CreateTaskViewData.fixture(dueDate = dueDate)
+        waitForIdle()
+
+        onNodeWithText(dueDate.selectedDateDisplayText).assertIsDisplayed()
+        onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
+            .assertIsDisplayed()
+            .performClick()
+
+        events.contains(CreateTaskEvent.DueDateChanged(null)) shouldBe true
+
+        viewData = CreateTaskViewData.fixture(dueDate = null)
+        waitForIdle()
+
+        onNodeWithText(getString(Res.string.create_task_due_date_placeholder)).assertIsDisplayed()
+        onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
+            .assertDoesNotExist()
     }
 }

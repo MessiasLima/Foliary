@@ -28,6 +28,6 @@
     <string name="profile_logout">लॉग आउट करें</string>
     <string name="profile_title">प्रोफ़ाइल</string>
     <string name="today_title">फोलियरी</string>
-    <string name="open_app">फोलियरी खोलें</string>
-    <string name="quit">बाहर निकलें</string>
+    <string name="system_tray_open_app">फोलियरी खोलें</string>
+    <string name="system_tray_quit">बाहर निकलें</string>
     </resources>

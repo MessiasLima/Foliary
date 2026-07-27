@@ -28,6 +28,6 @@
     <string name="profile_logout">Kijelentkezés</string>
     <string name="profile_title">Profil</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Foliary megnyitása</string>
-    <string name="quit">Kilépés</string>
+    <string name="system_tray_open_app">Foliary megnyitása</string>
+    <string name="system_tray_quit">Kilépés</string>
     </resources>

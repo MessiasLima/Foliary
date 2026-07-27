@@ -28,6 +28,6 @@
     <string name="profile_logout">Wyloguj się</string>
     <string name="profile_title">Profil</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Otwórz Foliary</string>
-    <string name="quit">Zakończ</string>
+    <string name="system_tray_open_app">Otwórz Foliary</string>
+    <string name="system_tray_quit">Zakończ</string>
     </resources>

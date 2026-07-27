@@ -28,6 +28,6 @@
     <string name="profile_logout">Teken uit</string>
     <string name="profile_title">Profiel</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Maak Foliary oop</string>
-    <string name="quit">Verlaat</string>
+    <string name="system_tray_open_app">Maak Foliary oop</string>
+    <string name="system_tray_quit">Verlaat</string>
     </resources>
