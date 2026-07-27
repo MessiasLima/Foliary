@@ -1,6 +1,8 @@
 <resources>
     <!-- region general -->
     <string name="app_name">Foliary</string>
+    <string name="general_confirm">Confirm</string>
+    <string name="general_cancel">Cancel</string>
     <!-- endregion -->
 
     <!-- region Sign In -->
@@ -62,17 +64,15 @@
     <string name="create_task_due_date_label">Due date</string>
     <string name="create_task_due_date_placeholder">Add due date</string>
     <string name="create_task_due_date_clear_a11y">Clear due date</string>
-    <string name="date_picker_confirm">Confirm</string>
-    <string name="date_picker_cancel">Cancel</string>
     <!-- endregion -->
 
     <!-- region Task Item -->
     <string name="task_item_overdue">Overdue</string>
     <!-- endregion -->
 
-    <!-- region System trat -->
-    <string name="open_app">Open Foliary</string>
-    <string name="quit">Quit</string>
+    <!-- region System tray -->
+    <string name="system_tray_open_app">Open Foliary</string>
+    <string name="system_tray_quit">Quit</string>
     <!-- endregion -->
 
     <!-- region Back icon button -->

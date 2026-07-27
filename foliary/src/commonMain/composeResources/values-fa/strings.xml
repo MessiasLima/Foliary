@@ -28,6 +28,6 @@
     <string name="profile_logout">خروج از حساب</string>
     <string name="profile_title">پروفایل</string>
     <string name="today_title">فولیاری</string>
-    <string name="open_app">باز کردن فولیاری</string>
-    <string name="quit">خروج</string>
+    <string name="system_tray_open_app">باز کردن فولیاری</string>
+    <string name="system_tray_quit">خروج</string>
     </resources>

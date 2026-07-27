@@ -50,8 +50,8 @@
     <string name="task_item_overdue">Overdue</string>
     <!-- endregion -->
 
-    <!-- region System trat -->
-    <string name="open_app">Open Foliary</string>
-    <string name="quit">Quit</string>
+    <!-- region System tray -->
+    <string name="system_tray_open_app">Open Foliary</string>
+    <string name="system_tray_quit">Quit</string>
     <!-- endregion -->
 </resources>

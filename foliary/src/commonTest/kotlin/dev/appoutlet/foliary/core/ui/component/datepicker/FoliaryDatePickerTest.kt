@@ -10,7 +10,7 @@ import androidx.compose.ui.test.v2.runComposeUiTest
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.create_task_due_date_clear_a11y
 import foliary.foliary.generated.resources.create_task_due_date_placeholder
-import foliary.foliary.generated.resources.date_picker_confirm
+import foliary.foliary.generated.resources.general_confirm
 import io.kotest.matchers.shouldBe
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -101,7 +101,7 @@ class FoliaryDatePickerTest {
     @Test
     fun `should open date picker bottom sheet when card is clicked`() = runComposeUiTest {
         val placeholder = getString(Res.string.create_task_due_date_placeholder)
-        val confirmText = getString(Res.string.date_picker_confirm)
+        val confirmText = getString(Res.string.general_confirm)
 
         setContent {
             FoliaryDatePicker(

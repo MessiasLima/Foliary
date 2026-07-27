@@ -28,6 +28,6 @@
     <string name="profile_logout">Odhlásit se</string>
     <string name="profile_title">Profil</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Otevřít Foliary</string>
-    <string name="quit">Ukončit</string>
+    <string name="system_tray_open_app">Otevřít Foliary</string>
+    <string name="system_tray_quit">Ukončit</string>
     </resources>

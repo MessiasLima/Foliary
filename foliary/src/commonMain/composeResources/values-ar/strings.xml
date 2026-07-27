@@ -28,6 +28,6 @@
     <string name="profile_logout">تسجيل الخروج</string>
     <string name="profile_title">الملف الشخصي</string>
     <string name="today_title">فولياري</string>
-    <string name="open_app">افتح فولياري</string>
-    <string name="quit">إنهاء</string>
+    <string name="system_tray_open_app">افتح فولياري</string>
+    <string name="system_tray_quit">إنهاء</string>
     </resources>

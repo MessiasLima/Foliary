@@ -28,6 +28,6 @@
     <string name="profile_logout">Logáil amach</string>
     <string name="profile_title">Próifíl</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Oscail Foliary</string>
-    <string name="quit">Scoir</string>
+    <string name="system_tray_open_app">Oscail Foliary</string>
+    <string name="system_tray_quit">Scoir</string>
     </resources>

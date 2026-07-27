@@ -28,6 +28,6 @@
     <string name="profile_logout">ਲੌਗ ਆਊਟ</string>
     <string name="profile_title">ਪ੍ਰੋਫ਼ਾਈਲ</string>
     <string name="today_title">ਫੋਲੀਅਰੀ</string>
-    <string name="open_app">ਫੋਲੀਅਰੀ ਖੋਲ੍ਹੋ</string>
-    <string name="quit">ਬੰਦ ਕਰੋ</string>
+    <string name="system_tray_open_app">ਫੋਲੀਅਰੀ ਖੋਲ੍ਹੋ</string>
+    <string name="system_tray_quit">ਬੰਦ ਕਰੋ</string>
     </resources>

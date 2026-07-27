@@ -28,6 +28,6 @@
     <string name="profile_logout">Scollegat\'te</string>
     <string name="profile_title">Prufilo</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Apre Foliary</string>
-    <string name="quit">Jesce</string>
+    <string name="system_tray_open_app">Apre Foliary</string>
+    <string name="system_tray_quit">Jesce</string>
     </resources>

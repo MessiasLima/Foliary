@@ -28,6 +28,6 @@
     <string name="profile_logout">Saioa itxi</string>
     <string name="profile_title">Profila</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Ireki Foliary</string>
-    <string name="quit">Irten</string>
+    <string name="system_tray_open_app">Ireki Foliary</string>
+    <string name="system_tray_quit">Irten</string>
     </resources>

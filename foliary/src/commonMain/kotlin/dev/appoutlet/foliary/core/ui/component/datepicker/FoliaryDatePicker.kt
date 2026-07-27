@@ -32,8 +32,8 @@ import com.composables.icons.lucide.X
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.create_task_due_date_clear_a11y
-import foliary.foliary.generated.resources.date_picker_cancel
-import foliary.foliary.generated.resources.date_picker_confirm
+import foliary.foliary.generated.resources.general_cancel
+import foliary.foliary.generated.resources.general_confirm
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
@@ -170,7 +170,7 @@ private fun DatePickerBottomSheet(
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
         ) {
             TextButton(onClick = onDismiss) {
-                Text(text = stringResource(Res.string.date_picker_cancel))
+                Text(text = stringResource(Res.string.general_cancel))
             }
 
             TextButton(
@@ -180,7 +180,7 @@ private fun DatePickerBottomSheet(
                 },
                 enabled = datePickerState.selectedDateMillis != null
             ) {
-                Text(text = stringResource(Res.string.date_picker_confirm))
+                Text(text = stringResource(Res.string.general_confirm))
             }
         }
     }
