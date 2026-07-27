@@ -11,6 +11,9 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.v2.runComposeUiTest
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.back_icon_button_a11y
 import foliary.foliary.generated.resources.create_task_description_label
@@ -42,6 +45,10 @@ class CreateTaskScreenTest {
         onNodeWithText(getString(Res.string.create_task_title_placeholder)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.create_task_description_label)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.create_task_description_placeholder)).assertIsDisplayed()
+        onNodeWithText(getString(Res.string.create_task_due_date_label)).assertIsDisplayed()
+        onNodeWithText(getString(Res.string.create_task_due_date_placeholder)).assertIsDisplayed()
+        onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
+            .assertDoesNotExist()
         onNodeWithText(getString(Res.string.create_task_save)).assertIsDisplayed().assertIsNotEnabled()
     }
 
@@ -89,51 +96,42 @@ class CreateTaskScreenTest {
     }
 
     @Test
-    fun `should show due date placeholder when no date is selected`() = runComposeUiTest {
+    fun `should show selected due date and clear it`() = runComposeUiTest {
+        val dueDate = Instant.parse("2026-07-21T12:00:00Z")
+        val dueDateMillis = dueDate.toEpochMilliseconds()
+        val expectedDateText = dueDate.toLocalDateTime(TimeZone.currentSystemDefault()).date.toString()
+        val events = mutableListOf<CreateTaskEvent>()
+        var viewData by mutableStateOf(CreateTaskViewData())
+
         setContent {
-            CreateTaskScreen(viewData = CreateTaskViewData(), onEvent = {})
+            CreateTaskScreen(viewData = viewData, onEvent = events::add)
         }
 
         onNodeWithText(getString(Res.string.create_task_due_date_label)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.create_task_due_date_placeholder)).assertIsDisplayed()
         onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
             .assertDoesNotExist()
-    }
 
-    @Test
-    fun `should show selected due date and clear button`() = runComposeUiTest {
-        val dueDate = Instant.parse("2026-07-21T12:00:00Z")
-        val expectedDateText = dueDate.toLocalDateTime(TimeZone.currentSystemDefault()).date.toString()
-
-        setContent {
-            CreateTaskScreen(
-                viewData = CreateTaskViewData(dueDate = dueDate),
-                onEvent = {}
+        viewData = CreateTaskViewData(
+            dueDate = DueDateViewData(
+                selectedDateMillis = dueDateMillis,
+                selectedDateDisplayText = expectedDateText,
             )
-        }
+        )
+        waitForIdle()
 
-        onNodeWithText(getString(Res.string.create_task_due_date_label)).assertIsDisplayed()
         onNodeWithText(expectedDateText).assertIsDisplayed()
-        onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
-            .assertIsDisplayed()
-    }
-
-    @Test
-    fun `should emit DueDateChanged null when clear button is clicked`() = runComposeUiTest {
-        val dueDate = Instant.parse("2026-07-21T12:00:00Z")
-        val events = mutableListOf<CreateTaskEvent>()
-
-        setContent {
-            CreateTaskScreen(
-                viewData = CreateTaskViewData(dueDate = dueDate),
-                onEvent = events::add,
-            )
-        }
-
         onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
             .assertIsDisplayed()
             .performClick()
 
         events.contains(CreateTaskEvent.DueDateChanged(null)) shouldBe true
+
+        viewData = CreateTaskViewData()
+        waitForIdle()
+
+        onNodeWithText(getString(Res.string.create_task_due_date_placeholder)).assertIsDisplayed()
+        onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
+            .assertDoesNotExist()
     }
 }
