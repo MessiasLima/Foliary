@@ -45,7 +45,6 @@ import foliary.foliary.generated.resources.create_task_title_placeholder
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import org.jetbrains.compose.resources.stringResource
-import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
@@ -74,10 +73,10 @@ fun CreateTaskScreen(viewData: CreateTaskViewData, onEvent: (CreateTaskEvent) ->
                         .testTag("CreateTaskScreen:DueDatePicker"),
                     label = stringResource(Res.string.create_task_due_date_label),
                     placeholder = stringResource(Res.string.create_task_due_date_placeholder),
-                    selectedDate = viewData.dueDate.selectedDateMillis,
-                    selectedDateDisplayText = viewData.dueDate.selectedDateDisplayText,
+                    selectedDate = viewData.dueDate?.selectedDateMillis,
+                    selectedDateDisplayText = viewData.dueDate?.selectedDateDisplayText,
                     onDateSelected = { onEvent(CreateTaskEvent.DueDateChanged(it)) },
-                    maxDateMillis = Clock.System.now().toEpochMilliseconds(),
+                    minDateMillis = viewData.minDueDateMillis,
                 )
                 Spacer(Modifier.size(64.dp))
             }

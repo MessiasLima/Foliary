@@ -6,8 +6,6 @@ import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.appoutlet.foliary.core.provider.uuid.UuidProvider
 import dev.appoutlet.foliary.data.task.TaskRepository
 import dev.appoutlet.foliary.data.task.database.entity.Task
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.koin.core.annotation.KoinViewModel
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
@@ -18,7 +16,11 @@ class CreateTaskViewModel(
     private val timeProvider: TimeProvider,
     private val uuidProvider: UuidProvider,
 ) : MviViewModel<CreateTaskViewData, CreateTaskAction>() {
-    override val container = container(CreateTaskViewData())
+    override val container = container(
+        CreateTaskViewData(
+            minDueDateMillis = timeProvider.startOfToday().toEpochMilliseconds(),
+        )
+    )
 
     fun onEvent(event: CreateTaskEvent) {
         when (event) {
@@ -33,12 +35,12 @@ class CreateTaskViewModel(
     private fun onDueDateChange(dueDateMillis: Long?) = intent {
         reduce {
             state.copy(
-                dueDate = CreateTaskViewData.DueDateViewData(
-                    selectedDateMillis = dueDateMillis,
-                    selectedDateDisplayText = dueDateMillis?.toInstant()?.let {
-                        timeProvider.displayText(it)
-                    },
-                )
+                dueDate = dueDateMillis?.let {
+                    CreateTaskViewData.DueDateViewData(
+                        selectedDateMillis = it,
+                        selectedDateDisplayText = timeProvider.displayText(it.toInstant()),
+                    )
+                }
             )
         }
     }
@@ -64,7 +66,7 @@ class CreateTaskViewModel(
             title = state.title.trim(),
             description = state.description?.trim(),
             creationDate = timeProvider.now(),
-            dueDate = state.dueDate.selectedDateMillis?.toInstant(),
+            dueDate = state.dueDate?.selectedDateMillis?.toInstant(),
             completionDate = null,
             priority = null,
             url = null,
@@ -87,12 +89,13 @@ data class CreateTaskViewData(
     val id: String? = null,
     val title: String = "",
     val description: String? = null,
-    val dueDate: DueDateViewData = DueDateViewData(),
+    val dueDate: DueDateViewData? = null,
+    val minDueDateMillis: Long,
     val saveButtonEnabled: Boolean = false,
 ) {
     data class DueDateViewData(
-        val selectedDateMillis: Long? = null,
-        val selectedDateDisplayText: String? = null,
+        val selectedDateMillis: Long,
+        val selectedDateDisplayText: String,
     )
 }
 

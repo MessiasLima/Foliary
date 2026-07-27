@@ -17,10 +17,12 @@ import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Instant
 
+private val StartOfDay = LocalTime(0, 0)
 private val LastNanosecondOfTheDay = LocalTime.fromNanosecondOfDay((1.days.inWholeNanoseconds - 1))
 
 interface TimeProvider {
     fun now(): Instant
+    fun startOfToday(timeZone: TimeZone = TimeZone.currentSystemDefault()): Instant
     fun endOfToday(timeZone: TimeZone = TimeZone.currentSystemDefault()): Instant
     fun displayText(instant: Instant, timeZone: TimeZone = TimeZone.currentSystemDefault()) : String
 }
@@ -37,6 +39,12 @@ class DefaultTimeProvider(private val clock: Clock = Clock.System) : TimeProvide
 
 
     override fun now(): Instant = clock.now()
+
+    override fun startOfToday(timeZone: TimeZone): Instant {
+        return now().toLocalDateTime(timeZone).date
+            .atTime(StartOfDay)
+            .toInstant(timeZone)
+    }
 
     override fun endOfToday(timeZone: TimeZone): Instant {
         return now().toLocalDateTime(timeZone).date
