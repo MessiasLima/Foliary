@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,7 +28,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun ProfileScreen(lazyListState: LazyListState) {
+fun ProfileScreen(lazyListState: LazyListState = rememberLazyListState()) {
     val viewModel = koinViewModel<ProfileViewModel>()
     ProfileScreenContent(lazyListState, viewModel)
 }
