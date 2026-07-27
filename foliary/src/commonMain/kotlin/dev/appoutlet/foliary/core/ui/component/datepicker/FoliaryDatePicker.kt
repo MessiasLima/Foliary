@@ -1,5 +1,6 @@
 package dev.appoutlet.foliary.core.ui.component.datepicker
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,7 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -17,6 +18,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,50 +26,35 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.X
+import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.create_task_due_date_clear_a11y
 import foliary.foliary.generated.resources.general_cancel
 import foliary.foliary.generated.resources.general_confirm
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atTime
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
-import kotlin.time.Instant
-
-private const val EndOfDayHour = 23
-private const val EndOfDayMinute = 59
-private const val EndOfDaySecond = 59
-private const val EndOfDayNanosecond = 999_999_999
-private const val PlaceholderAlpha = 0.6f
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FoliaryDatePicker(
     label: String,
     placeholder: String,
-    selectedDate: Instant?,
-    onDateSelected: (Instant?) -> Unit,
+    selectedDate: Long?,
+    selectedDateDisplayText: String?,
+    onDateSelected: (Long?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var showBottomSheet by rememberSaveable { mutableStateOf(false) }
-    val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = selectedDate?.toPickerMillis()
-    )
 
     Box(modifier = modifier) {
         DatePickerCard(
             label = label,
             placeholder = placeholder,
-            selectedDate = selectedDate,
+            selectedDateDisplayText = selectedDateDisplayText,
             onClick = { showBottomSheet = true },
             onClear = { onDateSelected(null) }
         )
@@ -75,9 +62,9 @@ fun FoliaryDatePicker(
 
     if (showBottomSheet) {
         DatePickerBottomSheet(
-            datePickerState = datePickerState,
+            selectedDateMillis = selectedDate,
             onDismiss = { showBottomSheet = false },
-            onConfirm = { onDateSelected(it.toEndOfDayInstant()) }
+            onConfirm = { onDateSelected(it) }
         )
     }
 }
@@ -86,52 +73,54 @@ fun FoliaryDatePicker(
 private fun DatePickerCard(
     label: String,
     placeholder: String,
-    selectedDate: Instant?,
+    selectedDateDisplayText: String?,
     onClick: () -> Unit,
     onClear: () -> Unit,
 ) {
-    FoliaryCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .testTag("FoliaryDatePicker:Card")
-            .clickable(onClick = onClick)
-    ) {
-        Column(
-            modifier = Modifier.padding(all = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(
-                text = label,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+    val dateTextColor by animateColorAsState(
+        targetValue = if (selectedDateDisplayText != null) {
+            MaterialTheme.colorScheme.onSurface
+        } else {
+            MaterialTheme.colorScheme.onBackground
+        }
+    )
 
-            Box(modifier = Modifier.fillMaxWidth()) {
+    FoliaryCard(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag("FoliaryDatePicker:Card")
+                .clickable(onClick = onClick),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp).weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
                 Text(
-                    text = selectedDate?.let { formatDate(it) } ?: placeholder,
-                    modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .testTag("FoliaryDatePicker:Value"),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = datePickerValueColor(selectedDate)
+                    text = label,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
-                if (selectedDate != null) {
-                    DateClearButton(
-                        modifier = Modifier.align(Alignment.CenterEnd),
-                        onClick = onClear
-                    )
-                }
+                Text(
+                    modifier = Modifier.testTag("FoliaryDatePicker:Value"),
+                    text = selectedDateDisplayText ?: placeholder,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = dateTextColor
+                )
+            }
+
+
+            if (selectedDateDisplayText != null) {
+                DateClearButton(
+                    modifier = Modifier.padding(end = 16.dp),
+                    onClick = onClear,
+                )
             }
         }
     }
-}
 
-@Composable
-private fun datePickerValueColor(selectedDate: Instant?): Color = if (selectedDate != null) {
-    MaterialTheme.colorScheme.onSurface
-} else {
-    MaterialTheme.colorScheme.onBackground.copy(alpha = PlaceholderAlpha)
 }
 
 @Composable
@@ -140,8 +129,8 @@ private fun DateClearButton(
     modifier: Modifier = Modifier,
 ) {
     IconButton(
+        modifier = modifier.testTag("FoliaryDatePicker:ClearButton"),
         onClick = onClick,
-        modifier = modifier.testTag("FoliaryDatePicker:ClearButton")
     ) {
         Icon(
             imageVector = Lucide.X,
@@ -154,14 +143,25 @@ private fun DateClearButton(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DatePickerBottomSheet(
-    datePickerState: DatePickerState,
+    selectedDateMillis: Long?,
     onDismiss: () -> Unit,
     onConfirm: (Long) -> Unit,
 ) {
+    // TODO add min date..
+    val datePickerState = rememberDatePickerState(initialSelectedDateMillis = selectedDateMillis)
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
     ModalBottomSheet(
-        onDismissRequest = onDismiss
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        containerColor = MaterialTheme.colorScheme.background
     ) {
-        DatePicker(state = datePickerState)
+        DatePicker(
+            state = datePickerState,
+            colors = DatePickerDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.background,
+            )
+        )
 
         Row(
             modifier = Modifier
@@ -173,7 +173,7 @@ private fun DatePickerBottomSheet(
                 Text(text = stringResource(Res.string.general_cancel))
             }
 
-            TextButton(
+            FoliarySecondaryButton(
                 onClick = {
                     datePickerState.selectedDateMillis?.let(onConfirm)
                     onDismiss()
@@ -186,20 +186,3 @@ private fun DatePickerBottomSheet(
     }
 }
 
-private fun formatDate(instant: Instant): String = instant.toLocalDate().toString()
-
-private fun Instant.toLocalDate(): LocalDate = toLocalDateTime(TimeZone.currentSystemDefault()).date
-
-private fun Instant.toPickerMillis(): Long = toLocalDate()
-    .atTime(LocalTime(0, 0))
-    .toInstant(TimeZone.currentSystemDefault())
-    .toEpochMilliseconds()
-
-private fun Long.toEndOfDayInstant(): Instant {
-    val localDate = Instant.fromEpochMilliseconds(this).toLocalDateTime(TimeZone.currentSystemDefault()).date
-    return localDate.toEndOfDayInstant()
-}
-
-private fun LocalDate.toEndOfDayInstant(): Instant =
-    atTime(LocalTime(EndOfDayHour, EndOfDayMinute, EndOfDaySecond, EndOfDayNanosecond))
-        .toInstant(TimeZone.currentSystemDefault())
