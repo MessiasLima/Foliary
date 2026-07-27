@@ -44,74 +44,87 @@ fun MainScreen() {
         screenName = "MainScreen",
         viewModelProvider = { viewModel }
     ) { viewData: MainViewData ->
-        val itemColors = getItemColors()
+        val todayLazyListState = rememberLazyListState()
+        val upcomingLazyListState = rememberLazyListState()
 
-        val layoutType = NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(
-            adaptiveInfo = currentWindowAdaptiveInfoV2(),
+        MainScreenNavigation(
+            selectedTab = viewData.selectedTab,
+            onTabSelect = viewModel::onTabSelected
+        ) { selectedTab ->
+            when (selectedTab) {
+                MainTab.Today -> TodayScreen(todayLazyListState)
+                MainTab.Upcoming -> UpcomingScreen(upcomingLazyListState)
+                MainTab.Profile -> ProfileScreen()
+            }
+        }
+    }
+}
+
+@Composable
+private fun MainScreenNavigation(
+    selectedTab: MainTab,
+    onTabSelect: (MainTab) -> Unit,
+    content: @Composable (MainTab) -> Unit
+) {
+    val itemColors = getItemColors()
+
+    val layoutType = NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(
+        adaptiveInfo = currentWindowAdaptiveInfoV2(),
+    )
+
+    val (windowDecorationPadding, itemTopPadding) = remember(layoutType) {
+        when (layoutType) {
+            NavigationSuiteType.NavigationRail,
+            NavigationSuiteType.WideNavigationRailExpanded,
+            NavigationSuiteType.WideNavigationRailCollapsed -> getWindowDecorationPadding() to 16.dp
+
+            else -> 0.dp to 0.dp
+        }
+    }
+
+    NavigationSuiteScaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.surface),
+        layoutType = layoutType,
+        navigationSuiteItems = {
+            item(
+                modifier = Modifier.padding(top = windowDecorationPadding + itemTopPadding),
+                selected = selectedTab == MainTab.Today,
+                onClick = { onTabSelect(MainTab.Today) },
+                icon = { Icon(Lucide.CalendarCheck, contentDescription = null) },
+                label = { Text(stringResource(Res.string.main_nav_today)) },
+                colors = itemColors,
+            )
+
+            item(
+                modifier = Modifier.padding(top = itemTopPadding),
+                selected = selectedTab == MainTab.Upcoming,
+                onClick = { onTabSelect(MainTab.Upcoming) },
+                icon = { Icon(Lucide.CalendarDays, contentDescription = null) },
+                label = { Text(stringResource(Res.string.main_nav_upcoming)) },
+                colors = itemColors,
+            )
+
+            item(
+                modifier = Modifier.padding(top = itemTopPadding),
+                selected = selectedTab == MainTab.Profile,
+                onClick = { onTabSelect(MainTab.Profile) },
+                icon = { Icon(Lucide.User, contentDescription = null) },
+                label = { Text(stringResource(Res.string.main_nav_profile)) },
+                colors = itemColors,
+            )
+        },
+        navigationSuiteColors = NavigationSuiteDefaults.colors(
+            navigationBarContainerColor = MaterialTheme.colorScheme.surface,
+            navigationRailContainerColor = MaterialTheme.colorScheme.surface,
+        ),
+    ) {
+        Crossfade(
+            modifier = Modifier.fillMaxSize(),
+            targetState = selectedTab,
+            content = content
         )
-
-        val (windowDecorationPadding, itemTopPadding) = remember(layoutType) {
-            when (layoutType) {
-                NavigationSuiteType.NavigationRail,
-                NavigationSuiteType.WideNavigationRailExpanded,
-                NavigationSuiteType.WideNavigationRailCollapsed -> getWindowDecorationPadding() to 16.dp
-
-                else -> 0.dp to 0.dp
-            }
-        }
-
-        NavigationSuiteScaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.surface),
-            layoutType = layoutType,
-            navigationSuiteItems = {
-                item(
-                    modifier = Modifier.padding(top = windowDecorationPadding + itemTopPadding),
-                    selected = viewData.selectedTab == MainTab.Today,
-                    onClick = { viewModel.onTabSelected(MainTab.Today) },
-                    icon = { Icon(Lucide.CalendarCheck, contentDescription = null) },
-                    label = { Text(stringResource(Res.string.main_nav_today)) },
-                    colors = itemColors,
-                )
-
-                item(
-                    modifier = Modifier.padding(top = itemTopPadding),
-                    selected = viewData.selectedTab == MainTab.Upcoming,
-                    onClick = { viewModel.onTabSelected(MainTab.Upcoming) },
-                    icon = { Icon(Lucide.CalendarDays, contentDescription = null) },
-                    label = { Text(stringResource(Res.string.main_nav_upcoming)) },
-                    colors = itemColors,
-                )
-
-                item(
-                    modifier = Modifier.padding(top = itemTopPadding),
-                    selected = viewData.selectedTab == MainTab.Profile,
-                    onClick = { viewModel.onTabSelected(MainTab.Profile) },
-                    icon = { Icon(Lucide.User, contentDescription = null) },
-                    label = { Text(stringResource(Res.string.main_nav_profile)) },
-                    colors = itemColors,
-                )
-            },
-            navigationSuiteColors = NavigationSuiteDefaults.colors(
-                navigationBarContainerColor = MaterialTheme.colorScheme.surface,
-                navigationRailContainerColor = MaterialTheme.colorScheme.surface,
-            ),
-        ) {
-            val todayLazyListState = rememberLazyListState()
-            val upcomingLazyListState = rememberLazyListState()
-
-            Crossfade(
-                modifier = Modifier.fillMaxSize(),
-                targetState = viewData.selectedTab,
-            ) { selectedTab ->
-                when (selectedTab) {
-                    MainTab.Today -> TodayScreen(todayLazyListState)
-                    MainTab.Upcoming -> UpcomingScreen(upcomingLazyListState)
-                    MainTab.Profile -> ProfileScreen()
-                }
-            }
-        }
     }
 }
 
