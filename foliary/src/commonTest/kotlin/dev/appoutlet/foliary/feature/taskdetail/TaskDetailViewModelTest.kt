@@ -14,7 +14,6 @@ import dev.mokkery.matcher.capture.get
 import dev.mokkery.mock
 import dev.mokkery.verifySuspend
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.string.shouldContain
 import kotlinx.coroutines.flow.flowOf
 import kotlin.test.Test
 import kotlin.time.Instant
@@ -136,31 +135,5 @@ class TaskDetailViewModelTest :
         expectSideEffect(TaskDetailAction.NavigateBack)
 
         verifySuspend { mockTaskRepository.delete(taskId) }
-    }
-
-    @Test
-    fun `should share task`() = test {
-        val task = Task.fixture(
-            id = taskId,
-            title = "Task title",
-            description = "Task description",
-            url = "https://foliary.appoutlet.dev/",
-            completionDate = null,
-        )
-
-        every { mockTimeProvider.now() } returns Instant.parse("2026-07-21T12:00:00Z")
-        every { mockTaskRepository.findById(taskId) } returns flowOf(task)
-
-        viewModel.onEvent(TaskDetailEvent.LoadTask(taskIdString))
-        expectState(TaskDetailViewData.Loading)
-        expectState(TaskDetailViewData.Loaded(task = task, isOverdue = false))
-
-        viewModel.onEvent(TaskDetailEvent.ShareClicked)
-
-        val sideEffect = awaitSideEffect()
-        val shareTask = sideEffect as TaskDetailAction.ShareTask
-        shareTask.text shouldContain task.title
-        shareTask.text shouldContain task.description!!
-        shareTask.text shouldContain task.url!!
     }
 }

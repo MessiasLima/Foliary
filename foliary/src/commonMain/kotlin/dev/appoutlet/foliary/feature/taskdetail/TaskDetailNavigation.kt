@@ -5,7 +5,6 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import dev.appoutlet.foliary.core.navigation.Navigation
 import dev.appoutlet.foliary.core.navigation.Navigator
-import dev.appoutlet.foliary.core.share.TaskShareLauncher
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.modules.PolymorphicModuleBuilder
@@ -14,9 +13,7 @@ import org.koin.core.annotation.Single
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Single
-class TaskDetailNavigation(
-    private val taskShareLauncher: TaskShareLauncher,
-) : Navigation<TaskDetailNavKey> {
+class TaskDetailNavigation : Navigation<TaskDetailNavKey> {
     override fun setupRoute(scope: EntryProviderScope<NavKey>) {
         scope.entry<TaskDetailNavKey> { navKey ->
             val viewModel = koinViewModel<TaskDetailViewModel>()
@@ -42,7 +39,6 @@ class TaskDetailNavigation(
     private fun onAction(action: TaskDetailAction, navigator: Navigator) {
         when (action) {
             TaskDetailAction.NavigateBack -> navigator.goBack()
-            is TaskDetailAction.ShareTask -> taskShareLauncher.share(action.text)
             TaskDetailAction.TaskMarkedCompleted -> Unit
         }
     }

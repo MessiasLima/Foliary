@@ -24,9 +24,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -37,7 +37,6 @@ import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
 import dev.appoutlet.foliary.data.task.database.entity.Priority
-import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.feature.main.getWindowDecorationPadding
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.task_detail_completion_date_label
@@ -56,7 +55,6 @@ import foliary.foliary.generated.resources.task_detail_priority_label
 import foliary.foliary.generated.resources.task_detail_priority_low
 import foliary.foliary.generated.resources.task_detail_priority_lowest
 import foliary.foliary.generated.resources.task_detail_priority_medium
-import foliary.foliary.generated.resources.task_detail_share
 import foliary.foliary.generated.resources.task_detail_status_completed
 import foliary.foliary.generated.resources.task_detail_status_overdue
 import foliary.foliary.generated.resources.task_detail_task_title_label
@@ -317,23 +315,11 @@ private fun TaskDetailActions(
             Text(text = stringResource(Res.string.task_detail_mark_completed))
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        FoliaryOutlinedButton(
+            modifier = Modifier.fillMaxWidth().testTag("TaskDetailScreen:DeleteButton"),
+            onClick = { onEvent(TaskDetailEvent.DeleteClicked) },
         ) {
-            FoliaryOutlinedButton(
-                modifier = Modifier.weight(1f).testTag("TaskDetailScreen:DeleteButton"),
-                onClick = { onEvent(TaskDetailEvent.DeleteClicked) },
-            ) {
-                Text(text = stringResource(Res.string.task_detail_delete))
-            }
-
-            FoliaryOutlinedButton(
-                modifier = Modifier.weight(1f).testTag("TaskDetailScreen:ShareButton"),
-                onClick = { onEvent(TaskDetailEvent.ShareClicked) },
-            ) {
-                Text(text = stringResource(Res.string.task_detail_share))
-            }
+            Text(text = stringResource(Res.string.task_detail_delete))
         }
     }
 }

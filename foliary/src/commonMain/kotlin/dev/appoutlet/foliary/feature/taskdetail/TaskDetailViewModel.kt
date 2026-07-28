@@ -30,7 +30,6 @@ class TaskDetailViewModel(
             TaskDetailEvent.BackClicked -> onBackClick()
             TaskDetailEvent.MarkCompletedClicked -> onMarkCompletedClick()
             TaskDetailEvent.DeleteClicked -> onDeleteClick()
-            TaskDetailEvent.ShareClicked -> onShareClick()
         }
     }
 
@@ -99,41 +98,10 @@ class TaskDetailViewModel(
         postSideEffect(TaskDetailAction.NavigateBack)
     }
 
-    private fun onShareClick() = intent {
-        val loaded = state as? TaskDetailViewData.Loaded ?: return@intent
-
-        postSideEffect(TaskDetailAction.ShareTask(buildShareText(loaded.task)))
-    }
-
     private fun mapIsOverdue(task: Task): Boolean {
         if (task.completionDate != null) return false
         val dueDate = task.dueDate ?: return false
         return dueDate < timeProvider.now()
-    }
-
-    private fun buildShareText(task: Task): String {
-        val dueDate = task.dueDate?.let { formatInstant(it) } ?: TaskDetailStrings.SHARE_NO_DUE_DATE
-        val priority = task.priority?.name ?: TaskDetailStrings.SHARE_NO_PRIORITY
-        val description = task.description?.takeIf { it.isNotBlank() } ?: TaskDetailStrings.SHARE_NO_DESCRIPTION
-
-        val lines = mutableListOf(
-            task.title,
-            "",
-            "${TaskDetailStrings.SHARE_DESCRIPTION_PREFIX}$description",
-            "${TaskDetailStrings.SHARE_DUE_DATE_PREFIX}$dueDate",
-            "${TaskDetailStrings.SHARE_PRIORITY_PREFIX}$priority",
-            "${TaskDetailStrings.SHARE_CREATED_PREFIX}${formatInstant(task.creationDate)}",
-        )
-
-        task.url?.takeIf { it.isNotBlank() }?.let {
-            lines.add("${TaskDetailStrings.SHARE_URL_PREFIX}$it")
-        }
-
-        task.completionDate?.let {
-            lines.add("${TaskDetailStrings.SHARE_COMPLETED_PREFIX}${formatInstant(it)}")
-        }
-
-        return lines.joinToString("\n")
     }
 
     private fun formatInstant(instant: Instant): String {
@@ -155,23 +123,9 @@ sealed interface TaskDetailEvent {
     data object BackClicked : TaskDetailEvent
     data object MarkCompletedClicked : TaskDetailEvent
     data object DeleteClicked : TaskDetailEvent
-    data object ShareClicked : TaskDetailEvent
 }
 
 sealed interface TaskDetailAction : Action {
     data object NavigateBack : TaskDetailAction
-    data class ShareTask(val text: String) : TaskDetailAction
     data object TaskMarkedCompleted : TaskDetailAction
-}
-
-internal object TaskDetailStrings {
-    const val SHARE_DESCRIPTION_PREFIX = "Description: "
-    const val SHARE_DUE_DATE_PREFIX = "Due date: "
-    const val SHARE_PRIORITY_PREFIX = "Priority: "
-    const val SHARE_URL_PREFIX = "URL: "
-    const val SHARE_CREATED_PREFIX = "Created: "
-    const val SHARE_COMPLETED_PREFIX = "Completed: "
-    const val SHARE_NO_DESCRIPTION = "No description"
-    const val SHARE_NO_DUE_DATE = "No due date"
-    const val SHARE_NO_PRIORITY = "No priority"
 }

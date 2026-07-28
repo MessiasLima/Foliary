@@ -91,7 +91,6 @@
     <string name="task_detail_completion_date_label">Completed</string>
     <string name="task_detail_mark_completed">Mark as completed</string>
     <string name="task_detail_delete">Delete</string>
-    <string name="task_detail_share">Share</string>
     <string name="task_detail_status_overdue">Overdue</string>
     <string name="task_detail_status_completed">Completed</string>
     <string name="task_detail_no_description">No description</string>

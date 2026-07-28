@@ -11,6 +11,7 @@ import dev.appoutlet.foliary.data.task.database.entity.Priority
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.data.task.database.entity.fixture
 import foliary.foliary.generated.resources.Res
+import foliary.foliary.generated.resources.back_icon_button_a11y
 import foliary.foliary.generated.resources.task_detail_creation_date_label
 import foliary.foliary.generated.resources.task_detail_delete
 import foliary.foliary.generated.resources.task_detail_description_label
@@ -20,11 +21,9 @@ import foliary.foliary.generated.resources.task_detail_no_description
 import foliary.foliary.generated.resources.task_detail_no_due_date
 import foliary.foliary.generated.resources.task_detail_no_priority
 import foliary.foliary.generated.resources.task_detail_priority_label
-import foliary.foliary.generated.resources.task_detail_share
 import foliary.foliary.generated.resources.task_detail_task_title_label
 import foliary.foliary.generated.resources.task_detail_title
 import foliary.foliary.generated.resources.task_detail_url_label
-import foliary.foliary.generated.resources.back_icon_button_a11y
 import io.kotest.matchers.shouldBe
 import org.jetbrains.compose.resources.getString
 import kotlin.test.Test
@@ -67,7 +66,6 @@ class TaskDetailScreenTest {
         onNodeWithTag("TaskDetailScreen:CreationDate").assertIsDisplayed()
         onNodeWithText(getString(Res.string.task_detail_mark_completed)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.task_detail_delete)).assertIsDisplayed()
-        onNodeWithText(getString(Res.string.task_detail_share)).assertIsDisplayed()
     }
 
     @Test
@@ -236,23 +234,5 @@ class TaskDetailScreenTest {
         onNodeWithTag("TaskDetailScreen:DeleteButton").performClick()
 
         event shouldBe TaskDetailEvent.DeleteClicked
-    }
-
-    @Test
-    fun `should emit share event`() = runComposeUiTest {
-        val task = Task.fixture()
-        var event: TaskDetailEvent? = null
-
-        setContent {
-            TaskDetailScreen(
-                taskId = task.id.toString(),
-                viewData = TaskDetailViewData.Loaded(task = task, isOverdue = false),
-                onEvent = { event = it },
-            )
-        }
-
-        onNodeWithTag("TaskDetailScreen:ShareButton").performClick()
-
-        event shouldBe TaskDetailEvent.ShareClicked
     }
 }
