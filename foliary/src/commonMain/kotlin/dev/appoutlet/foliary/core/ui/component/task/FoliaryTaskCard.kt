@@ -2,6 +2,7 @@ package dev.appoutlet.foliary.core.ui.component.task
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,6 +40,7 @@ fun FoliaryTaskCard(
     modifier: Modifier = Modifier,
     onCompletedChange: (Boolean) -> Unit = { },
     onStartClick: () -> Unit = {},
+    onClick: (() -> Unit)? = null,
 ) {
     val cardContainerColor = animateColorAsState(
         targetValue = if (task.isCompleted) {
@@ -55,6 +57,7 @@ fun FoliaryTaskCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable(enabled = onClick != null) { onClick?.invoke() }
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp),

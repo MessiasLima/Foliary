@@ -23,11 +23,10 @@ class FoliaryTaskCardViewDataMapper(private val timeProvider: TimeProvider) {
     }
 
     private fun mapIsOverdue(dueDate: Instant?, completionDate: Instant?): Boolean {
-        val now = timeProvider.now()
         return when {
             completionDate != null -> false
             dueDate == null -> false
-            dueDate < now -> true
+            dueDate < timeProvider.startOfToday() -> true
             else -> false
         }
     }

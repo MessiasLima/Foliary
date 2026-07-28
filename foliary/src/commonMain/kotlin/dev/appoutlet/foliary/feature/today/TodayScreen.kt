@@ -76,7 +76,12 @@ fun TodayScreen(lazyListState: LazyListState) {
     ) { viewData ->
         when (viewData) {
             TodayViewData.Idle -> {}
-            is TodayViewData.Loaded -> TodayScreenContent(lazyListState, viewData, viewModel::onEvent)
+            is TodayViewData.Loaded -> TodayScreenContent(
+                lazyListState,
+                viewData,
+                viewModel::onEvent
+            )
+
             TodayViewData.Loading -> LoadingIndicator()
             is TodayViewData.Empty -> TodayScreenEmpty(viewData, viewModel::onEvent)
         }
@@ -103,17 +108,14 @@ internal fun TodayScreenContent(
         item { } // Required for better UX
         item { TodayHeader(viewData.userName) }
         items(viewData.tasks, key = { it.id }) { task ->
-            Box(
-                modifier = Modifier.fillMaxWidth()
-                    .clickable { onEvent(TodayEvent.OnTaskClick(task.id)) }
-                    .testTag("TodayScreen:TaskItem")
-            ) {
+            Box(modifier = Modifier.fillMaxWidth().testTag("TodayScreen:TaskItem")) {
                 FoliaryTaskCard(
                     modifier = Modifier.widthInCompact()
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 4.dp)
                         .align(Alignment.Center),
                     task = task,
+                    onClick = { onEvent(TodayEvent.OnTaskClick(task.id)) }
                 )
             }
         }
