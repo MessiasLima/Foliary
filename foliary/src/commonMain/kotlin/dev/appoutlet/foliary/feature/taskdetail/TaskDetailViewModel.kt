@@ -3,24 +3,18 @@ package dev.appoutlet.foliary.feature.taskdetail
 import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.ErrorState
 import dev.appoutlet.foliary.core.mvi.MviViewModel
-import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.appoutlet.foliary.data.task.TaskRepository
-import dev.appoutlet.foliary.data.task.database.entity.Task
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.task_detail_not_found_message
 import foliary.foliary.generated.resources.task_detail_not_found_title
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.getString
 import org.koin.core.annotation.KoinViewModel
-import kotlin.time.Instant
 import kotlin.uuid.Uuid
 
 @KoinViewModel
 class TaskDetailViewModel(
     private val taskRepository: TaskRepository,
-    private val timeProvider: TimeProvider,
 ) : MviViewModel<TaskDetailViewData, TaskDetailAction>() {
     override val container = container(TaskDetailViewData.Idle)
 
@@ -68,8 +62,7 @@ class TaskDetailViewModel(
 
                 reduce {
                     TaskDetailViewData.Loaded(
-                        task = task,
-                        isOverdue = mapIsOverdue(task),
+                        task = TaskDetailViewData.Loaded.TaskViewData(task.title),
                     )
                 }
             }
@@ -80,42 +73,24 @@ class TaskDetailViewModel(
     }
 
     private fun onMarkCompletedClick() = intent {
-        val loaded = state as? TaskDetailViewData.Loaded ?: return@intent
-        if (loaded.task.completionDate != null) return@intent
-
-        val updatedTask = loaded.task.copy(
-            completionDate = loaded.task.completionDate ?: timeProvider.now()
-        )
-
-        taskRepository.save(updatedTask)
-        postSideEffect(TaskDetailAction.TaskMarkedCompleted)
-    }
-
-    private fun onDeleteClick() = intent {
-        val loaded = state as? TaskDetailViewData.Loaded ?: return@intent
-
-        taskRepository.delete(loaded.task.id)
         postSideEffect(TaskDetailAction.NavigateBack)
     }
 
-    private fun mapIsOverdue(task: Task): Boolean {
-        if (task.completionDate != null) return false
-        val dueDate = task.dueDate ?: return false
-        return dueDate < timeProvider.now()
-    }
-
-    private fun formatInstant(instant: Instant): String {
-        return instant.toLocalDateTime(TimeZone.currentSystemDefault()).toString()
+    private fun onDeleteClick() = intent {
+        postSideEffect(TaskDetailAction.NavigateBack)
     }
 }
 
 sealed interface TaskDetailViewData {
     data object Idle : TaskDetailViewData
+
     data object Loading : TaskDetailViewData
-    data class Loaded(
-        val task: Task,
-        val isOverdue: Boolean,
-    ) : TaskDetailViewData
+
+    data class Loaded(val task: TaskViewData) : TaskDetailViewData {
+        data class TaskViewData(
+            val title: String,
+        )
+    }
 }
 
 sealed interface TaskDetailEvent {
