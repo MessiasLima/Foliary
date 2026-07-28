@@ -36,7 +36,7 @@ jobs:
         run: ./gradlew detekt
 
       - name: Check code test coverage
-        run: ./gradlew jvmTest -Pkover koverVerify --info --stacktrace
+        run: ./gradlew jvmTest -Pkover koverVerify
 
       - name: Upload JVM test report
         if: always()
