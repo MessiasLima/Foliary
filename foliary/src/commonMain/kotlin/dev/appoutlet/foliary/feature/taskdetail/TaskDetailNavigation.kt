@@ -39,7 +39,6 @@ class TaskDetailNavigation : Navigation<TaskDetailNavKey> {
     private fun onAction(action: TaskDetailAction, navigator: Navigator) {
         when (action) {
             TaskDetailAction.NavigateBack -> navigator.goBack()
-            TaskDetailAction.TaskMarkedCompleted -> Unit
         }
     }
 }

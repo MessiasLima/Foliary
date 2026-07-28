@@ -102,5 +102,4 @@ sealed interface TaskDetailEvent {
 
 sealed interface TaskDetailAction : Action {
     data object NavigateBack : TaskDetailAction
-    data object TaskMarkedCompleted : TaskDetailAction
 }
