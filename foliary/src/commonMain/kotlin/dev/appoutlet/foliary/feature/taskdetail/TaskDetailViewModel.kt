@@ -4,6 +4,7 @@ import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.MviViewModel
 import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.appoutlet.foliary.data.task.TaskRepository
+import dev.appoutlet.foliary.data.task.database.entity.Priority
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.filterNotNull
@@ -77,6 +78,7 @@ sealed interface TaskDetailViewData {
             val overduePeriodInDays: Long?,
             val creationDate: String,
             val completionDate: String?,
+            val priority: Priority,
         )
     }
 }

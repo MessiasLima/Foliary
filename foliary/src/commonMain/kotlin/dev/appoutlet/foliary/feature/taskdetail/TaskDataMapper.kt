@@ -17,7 +17,8 @@ class TaskDataMapper(private val timeProvider: TimeProvider) {
             isOverdue = task.dueDate?.isOverdue ?: false,
             overduePeriodInDays = task.dueDate?.overduePeriodInDays,
             creationDate = task.creationDate.displayText,
-            completionDate = task.completionDate?.displayText
+            completionDate = task.completionDate?.displayText,
+            priority = task.priority
         )
     }
 

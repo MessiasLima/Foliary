@@ -116,4 +116,13 @@
     <!-- region Back icon button -->
     <string name="back_icon_button_a11y">Navigate back</string>
     <!-- endregion -->
+
+    <!-- region Priority pill -->
+    <string name="priority_pill_lowest">Lowest priority</string>
+    <string name="priority_pill_low">Low priority</string>
+    <string name="priority_pill_medium">Medium priority</string>
+    <string name="priority_pill_high">High priority</string>
+    <string name="priority_pill_highest">Highest priority</string>
+    <string name="priority_pill_blocker">Blocker</string>
+    <!-- endregion -->
 </resources>

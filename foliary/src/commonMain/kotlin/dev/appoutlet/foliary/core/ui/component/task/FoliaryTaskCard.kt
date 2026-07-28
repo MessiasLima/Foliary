@@ -28,6 +28,7 @@ import com.composables.icons.lucide.Play
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCardDefaults
 import dev.appoutlet.foliary.core.ui.component.checkbox.FoliaryCheckbox
+import dev.appoutlet.foliary.core.ui.component.pill.OverduePill
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.task_item_overdue
 import org.jetbrains.compose.resources.stringResource
@@ -113,40 +114,11 @@ private fun FoliaryTaskCardContent(
         }
 
         Row {
-            if (task.isOverdue && !task.isCompleted) {
-                OverduePill()
-            }
+            if (task.isOverdue && !task.isCompleted) { OverduePill() }
         }
     }
 }
 
-@Composable
-private fun OverduePill() {
-    Row(
-        modifier = Modifier
-            .padding(top = 4.dp)
-            .clip(CircleShape)
-            .background(color = MaterialTheme.colorScheme.surfaceDim, shape = CircleShape)
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-            .testTag("FoliaryTaskCard:OverduePill"),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        Icon(
-            modifier = Modifier.size(12.dp),
-            imageVector = Lucide.Info,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.error
-        )
-
-        Text(
-            text = stringResource(Res.string.task_item_overdue),
-            modifier = Modifier,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.error
-        )
-    }
-}
 
 @Composable
 private fun StartButton(onClick: () -> Unit) {

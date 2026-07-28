@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -50,6 +51,8 @@ import com.composables.icons.lucide.Pencil
 import com.composables.icons.lucide.Trash
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryMenuIconButton
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
+import dev.appoutlet.foliary.core.ui.component.pill.OverduePill
+import dev.appoutlet.foliary.core.ui.component.pill.PriorityPill
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.general_cancel
 import foliary.foliary.generated.resources.task_detail_completion_date_label
@@ -227,9 +230,23 @@ private fun TaskDetailContent(
         TaskDetailTopBar(isComplete = task.isComplete, taskTitle = task.title, onEvent = onEvent)
         Spacer(Modifier.height(8.dp))
         Text(text = task.title, style = MaterialTheme.typography.titleLarge)
+        PillsRow(task)
         TaskDetailDescription(task.description)
         HorizontalDivider()
         TaskDetailList(task)
+    }
+}
+
+@Composable
+fun PillsRow(task: TaskDetailViewData.Loaded.TaskViewData) {
+    FlowRow(
+        modifier = Modifier.padding(top = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        if (task.isOverdue) {
+            OverduePill()
+        }
+        PriorityPill(task.priority)
     }
 }
 
