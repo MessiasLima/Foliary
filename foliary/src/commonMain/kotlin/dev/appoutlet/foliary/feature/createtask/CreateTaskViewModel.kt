@@ -5,6 +5,7 @@ import dev.appoutlet.foliary.core.mvi.MviViewModel
 import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.appoutlet.foliary.core.provider.uuid.UuidProvider
 import dev.appoutlet.foliary.data.task.TaskRepository
+import dev.appoutlet.foliary.data.task.database.entity.Priority
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import org.koin.core.annotation.KoinViewModel
 import kotlin.time.Instant
@@ -70,7 +71,7 @@ class CreateTaskViewModel(
                 timeProvider.endOfDay(it)
             },
             completionDate = null,
-            priority = null,
+            priority = Priority.MEDIUM,
             url = null,
             location = null,
         )

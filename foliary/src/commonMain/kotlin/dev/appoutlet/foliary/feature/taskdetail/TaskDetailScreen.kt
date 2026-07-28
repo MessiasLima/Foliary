@@ -228,10 +228,8 @@ private fun TaskDetailContent(
         Spacer(Modifier.height(8.dp))
         Text(text = task.title, style = MaterialTheme.typography.titleLarge)
         TaskDetailDescription(task.description)
-        if (task.hasDetails) {
-            HorizontalDivider()
-            TaskDetailList(task)
-        }
+        HorizontalDivider()
+        TaskDetailList(task)
     }
 }
 

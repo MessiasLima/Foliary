@@ -9,14 +9,12 @@ import kotlin.time.Instant
 @Factory
 class TaskDataMapper(private val timeProvider: TimeProvider) {
     operator fun invoke(task: Task): TaskViewData {
-        val isOverdue = task.dueDate?.isOverdue ?: false
-
         return TaskViewData(
             title = task.title,
             description = task.description,
             isComplete = task.completionDate != null,
             dueDate = task.dueDate?.displayText,
-            isOverdue = isOverdue,
+            isOverdue = task.dueDate?.isOverdue ?: false,
             overduePeriodInDays = task.dueDate?.overduePeriodInDays,
             creationDate = task.creationDate.displayText,
             completionDate = task.completionDate?.displayText
