@@ -1,18 +1,10 @@
 package dev.appoutlet.foliary.feature.taskdetail
 
 import dev.appoutlet.foliary.core.mvi.Action
-import dev.appoutlet.foliary.core.mvi.ErrorState
 import dev.appoutlet.foliary.core.mvi.MviViewModel
 import dev.appoutlet.foliary.data.task.TaskRepository
-import foliary.foliary.generated.resources.Res
-import foliary.foliary.generated.resources.task_detail_not_found_message
-import foliary.foliary.generated.resources.task_detail_not_found_title
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filterNot
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import org.jetbrains.compose.resources.getString
+import kotlinx.coroutines.flow.onStart
 import org.koin.core.annotation.InjectedParam
 import org.koin.core.annotation.KoinViewModel
 import kotlin.uuid.Uuid
@@ -23,63 +15,21 @@ class TaskDetailViewModel(
     private val taskRepository: TaskRepository,
     private val taskViewDataMapper: TaskDataMapper,
 ) : MviViewModel<TaskDetailViewData, TaskDetailAction>() {
+    private val id = Uuid.parse(taskId)
 
     override val container = container(TaskDetailViewData.Idle) {
-        taskRepository.findById(Uuid.parse(taskId))
+        taskRepository.findById(id)
+            .onStart { reduce { TaskDetailViewData.Loading } }
             .map { taskViewDataMapper(it) }
-            .collect {
-                reduce { TaskDetailViewData.Loaded(it) }
-            }
+            .collect { reduce { TaskDetailViewData.Loaded(it) } }
     }
 
     fun onEvent(event: TaskDetailEvent) {
         when (event) {
-            is TaskDetailEvent.LoadTask -> onLoadTask(event.taskId)
             TaskDetailEvent.BackClicked -> onBackClick()
             TaskDetailEvent.MarkCompletedClicked -> onMarkCompletedClick()
             TaskDetailEvent.DeleteClicked -> onDeleteClick()
         }
-    }
-
-    private fun onLoadTask(taskId: String) = intent {
-        val id = runCatching { Uuid.parse(taskId) }.getOrNull()
-
-        if (id == null) {
-            onError(
-                ErrorState(
-                    error = IllegalArgumentException("Invalid task id: $taskId"),
-                    title = getString(Res.string.task_detail_not_found_title),
-                    message = getString(Res.string.task_detail_not_found_message),
-                )
-            )
-            return@intent
-        }
-
-        reduce { TaskDetailViewData.Loading }
-
-        taskRepository.findById(id)
-            .collectLatest { task ->
-                if (task == null) {
-                    if (state is TaskDetailViewData.Loaded) {
-                        postSideEffect(TaskDetailAction.NavigateBack)
-                    } else {
-                        onError(
-                            ErrorState(
-                                error = IllegalStateException("Task not found: $taskId"),
-                                title = getString(Res.string.task_detail_not_found_title),
-                                message = getString(Res.string.task_detail_not_found_message),
-                            )
-                        )
-                    }
-                    return@collectLatest
-                }
-
-                reduce {
-                    TaskDetailViewData.Loaded(
-                        task = TaskDetailViewData.Loaded.TaskViewData(task.title),
-                    )
-                }
-            }
     }
 
     private fun onBackClick() = intent {
@@ -108,7 +58,6 @@ sealed interface TaskDetailViewData {
 }
 
 sealed interface TaskDetailEvent {
-    data class LoadTask(val taskId: String) : TaskDetailEvent
     data object BackClicked : TaskDetailEvent
     data object MarkCompletedClicked : TaskDetailEvent
     data object DeleteClicked : TaskDetailEvent

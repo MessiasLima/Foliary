@@ -17,9 +17,12 @@ class TaskDetailViewModelTest :
     private val taskId = Uuid.random()
     private val taskIdString = taskId.toString()
     private val mockTaskRepository = mock<TaskRepository>()
+    private val taskDataMapper = TaskDataMapper()
 
     override fun createViewModel() = TaskDetailViewModel(
+        taskId = taskIdString,
         taskRepository = mockTaskRepository,
+        taskViewDataMapper = taskDataMapper,
     )
 
     @Test
@@ -28,9 +31,6 @@ class TaskDetailViewModelTest :
 
         every { mockTaskRepository.findById(taskId) } returns flowOf(task)
 
-        viewModel.onEvent(TaskDetailEvent.LoadTask(taskIdString))
-
-        expectState(TaskDetailViewData.Loading)
         expectState(TaskDetailViewData.Loaded(task = TaskDetailViewData.Loaded.TaskViewData(task.title)))
     }
 
@@ -40,8 +40,6 @@ class TaskDetailViewModelTest :
 
         every { mockTaskRepository.findById(taskId) } returns flowOf(task)
 
-        viewModel.onEvent(TaskDetailEvent.LoadTask(taskIdString))
-        expectState(TaskDetailViewData.Loading)
         expectState(TaskDetailViewData.Loaded(task = TaskDetailViewData.Loaded.TaskViewData(task.title)))
 
         viewModel.onEvent(TaskDetailEvent.BackClicked)
@@ -55,8 +53,6 @@ class TaskDetailViewModelTest :
 
         every { mockTaskRepository.findById(taskId) } returns flowOf(task)
 
-        viewModel.onEvent(TaskDetailEvent.LoadTask(taskIdString))
-        expectState(TaskDetailViewData.Loading)
         expectState(TaskDetailViewData.Loaded(task = TaskDetailViewData.Loaded.TaskViewData(task.title)))
 
         viewModel.onEvent(TaskDetailEvent.MarkCompletedClicked)
@@ -70,8 +66,6 @@ class TaskDetailViewModelTest :
 
         every { mockTaskRepository.findById(taskId) } returns flowOf(task)
 
-        viewModel.onEvent(TaskDetailEvent.LoadTask(taskIdString))
-        expectState(TaskDetailViewData.Loading)
         expectState(TaskDetailViewData.Loaded(task = TaskDetailViewData.Loaded.TaskViewData(task.title)))
 
         viewModel.onEvent(TaskDetailEvent.DeleteClicked)
