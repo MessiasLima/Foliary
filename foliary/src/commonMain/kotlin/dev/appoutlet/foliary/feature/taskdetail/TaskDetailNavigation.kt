@@ -6,6 +6,7 @@ import androidx.navigation3.runtime.NavKey
 import dev.appoutlet.foliary.core.navigation.Navigation
 import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
+import dev.appoutlet.foliary.core.ui.scene.BottomSheetSceneStrategy
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.modules.PolymorphicModuleBuilder
 import org.koin.compose.viewmodel.koinViewModel
@@ -15,13 +16,15 @@ import org.koin.core.annotation.Single
 @Single
 class TaskDetailNavigation : Navigation<TaskDetailNavKey> {
     override fun setupRoute(scope: EntryProviderScope<NavKey>) {
-        scope.entry<TaskDetailNavKey> { navKey ->
+        scope.entry<TaskDetailNavKey>(
+            metadata = BottomSheetSceneStrategy.bottomSheet()
+        ) { navKey ->
             val viewModel = koinViewModel<TaskDetailViewModel>()
 
             Screen(
                 screenName = "TaskDetailScreen",
                 viewModelProvider = { viewModel },
-                onAction = { action, navigator -> onAction(action, navigator) }
+                onAction = this::onAction
             ) { viewData: TaskDetailViewData ->
                 TaskDetailScreen(
                     taskId = navKey.taskId,

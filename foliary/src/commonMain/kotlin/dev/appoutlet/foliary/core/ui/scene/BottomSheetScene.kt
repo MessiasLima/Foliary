@@ -5,9 +5,11 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.rememberLifecycleOwner
 import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.NavMetadataKey
 import androidx.navigation3.runtime.get
 import androidx.navigation3.runtime.metadata
@@ -83,3 +85,6 @@ class BottomSheetSceneStrategy<T : Any> : SceneStrategy<T> {
         object BottomSheetKey : NavMetadataKey<ModalBottomSheetProperties>
     }
 }
+
+@Composable
+fun rememberBottomSheetSceneStrategy() = remember { BottomSheetSceneStrategy<NavKey>() }
