@@ -14,9 +14,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import dev.appoutlet.foliary.core.ui.component.appbar.FoliaryTopAppBar
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -96,7 +95,7 @@ fun CreateTaskScreen(viewData: CreateTaskViewData, onEvent: (CreateTaskEvent) ->
 
 @Composable
 private fun CreateTaskTopBar(onEvent: (CreateTaskEvent) -> Unit) {
-    TopAppBar(
+    FoliaryTopAppBar(
         modifier = Modifier.padding(top = getWindowDecorationPadding()),
         navigationIcon = {
             FoliaryBackIconButton(onClick = { onEvent(CreateTaskEvent.BackClicked) })
@@ -107,7 +106,6 @@ private fun CreateTaskTopBar(onEvent: (CreateTaskEvent) -> Unit) {
                 color = MaterialTheme.colorScheme.primary
             )
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
     )
 }
 
