@@ -28,6 +28,6 @@
     <string name="profile_logout">Allgofnodi</string>
     <string name="profile_title">Proffil</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Agor Foliary</string>
-    <string name="quit">Gadael</string>
+    <string name="system_tray_open_app">Agor Foliary</string>
+    <string name="system_tray_quit">Gadael</string>
     </resources>

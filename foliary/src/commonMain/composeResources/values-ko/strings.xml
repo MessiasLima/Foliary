@@ -28,6 +28,6 @@
     <string name="profile_logout">로그아웃</string>
     <string name="profile_title">프로필</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Foliary 열기</string>
-    <string name="quit">종료</string>
+    <string name="system_tray_open_app">Foliary 열기</string>
+    <string name="system_tray_quit">종료</string>
     </resources>

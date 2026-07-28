@@ -28,6 +28,6 @@
     <string name="profile_logout">Hesabdan çıx</string>
     <string name="profile_title">Profil</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Foliary-ni aç</string>
-    <string name="quit">Çıx</string>
+    <string name="system_tray_open_app">Foliary-ni aç</string>
+    <string name="system_tray_quit">Çıx</string>
     </resources>

@@ -4,8 +4,8 @@ import com.kdroid.composetray.tray.api.Tray
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.app_name
 import foliary.foliary.generated.resources.ic_foliary_tray
-import foliary.foliary.generated.resources.open_app
-import foliary.foliary.generated.resources.quit
+import foliary.foliary.generated.resources.system_tray_open_app
+import foliary.foliary.generated.resources.system_tray_quit
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import java.awt.Window
@@ -13,8 +13,8 @@ import java.awt.Window
 @Composable
 fun ApplicationScope.FoliaryTray(window: () -> Window) {
     val appName = stringResource(Res.string.app_name)
-    val openApp = stringResource(Res.string.open_app)
-    val quit = stringResource(Res.string.quit)
+    val openApp = stringResource(Res.string.system_tray_open_app)
+    val quit = stringResource(Res.string.system_tray_quit)
 
     Tray(
         icon = painterResource(Res.drawable.ic_foliary_tray),

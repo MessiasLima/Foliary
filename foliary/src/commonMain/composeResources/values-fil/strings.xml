@@ -28,6 +28,6 @@
     <string name="profile_logout">Mag-log out</string>
     <string name="profile_title">Profile</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Buksan ang Foliary</string>
-    <string name="quit">Lumabas</string>
+    <string name="system_tray_open_app">Buksan ang Foliary</string>
+    <string name="system_tray_quit">Lumabas</string>
     </resources>

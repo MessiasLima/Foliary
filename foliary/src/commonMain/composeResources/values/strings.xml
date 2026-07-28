@@ -1,6 +1,8 @@
 <resources>
     <!-- region general -->
     <string name="app_name">Foliary</string>
+    <string name="general_confirm">Confirm</string>
+    <string name="general_cancel">Cancel</string>
     <!-- endregion -->
 
     <!-- region Sign In -->
@@ -34,12 +36,17 @@
 
     <!-- region Main -->
     <string name="main_nav_today">Today</string>
+    <string name="main_nav_upcoming">Upcoming</string>
     <string name="main_nav_profile">Profile</string>
     <!-- endregion -->
 
     <!-- region Profile -->
     <string name="profile_logout">Log out</string>
     <string name="profile_title">Profile</string>
+    <!-- endregion -->
+
+    <!-- region Upcoming -->
+    <string name="upcoming_title">Upcoming</string>
     <!-- endregion -->
 
     <!-- region Today -->
@@ -59,10 +66,18 @@
     <string name="create_task_description_placeholder">Add description...</string>
     <string name="create_task_save">Save</string>
     <string name="create_task_title_required">Title is required</string>
+    <string name="create_task_due_date_label">Due date</string>
+    <string name="create_task_due_date_placeholder">Add due date</string>
+    <string name="create_task_due_date_clear_a11y">Clear due date</string>
     <!-- endregion -->
 
     <!-- region Task Item -->
     <string name="task_item_overdue">Overdue</string>
+    <!-- endregion -->
+
+    <!-- region System tray -->
+    <string name="system_tray_open_app">Open Foliary</string>
+    <string name="system_tray_quit">Quit</string>
     <!-- endregion -->
 
     <!-- region Task Detail -->

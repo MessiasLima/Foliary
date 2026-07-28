@@ -28,6 +28,6 @@
     <string name="profile_logout">Logi välja</string>
     <string name="profile_title">Profiil</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Ava Foliary</string>
-    <string name="quit">Välju</string>
+    <string name="system_tray_open_app">Ava Foliary</string>
+    <string name="system_tray_quit">Välju</string>
     </resources>

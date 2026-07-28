@@ -28,6 +28,6 @@
     <string name="profile_logout">Logg ut</string>
     <string name="profile_title">Profil</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Åpne Foliary</string>
-    <string name="quit">Avslutt</string>
+    <string name="system_tray_open_app">Åpne Foliary</string>
+    <string name="system_tray_quit">Avslutt</string>
     </resources>

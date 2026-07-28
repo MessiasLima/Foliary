@@ -28,6 +28,6 @@
     <string name="profile_logout">Disconnetti</string>
     <string name="profile_title">Profilo</string>
     <string name="today_title">Foliary</string>
-    <string name="open_app">Apri Foliary</string>
-    <string name="quit">Esci</string>
+    <string name="system_tray_open_app">Apri Foliary</string>
+    <string name="system_tray_quit">Esci</string>
     </resources>
