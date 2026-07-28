@@ -39,6 +39,7 @@ jobs:
         run: ./gradlew jvmTest -Pkover koverVerify --info --stacktrace
 
       - name: Upload JVM test report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jvm-test-report
