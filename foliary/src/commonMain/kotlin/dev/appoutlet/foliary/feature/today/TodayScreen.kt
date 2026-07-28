@@ -176,7 +176,7 @@ private fun TodayHeader(userName: String, modifier: Modifier = Modifier) {
 
 private fun onAction(action: TodayAction, navigator: Navigator) {
     when (action) {
-        TodayAction.NavigateToCreateTask -> navigator.navigate(CreateTaskNavKey)
+        TodayAction.NavigateToCreateTask -> navigator.navigate(CreateTaskNavKey())
         TodayAction.NavigateToSignIn -> navigator.setRoot(SignInNavKey)
         is TodayAction.NavigateToTaskDetail -> navigator.navigate(TaskDetailNavKey(action.taskId))
     }

@@ -112,21 +112,13 @@ private fun CreateTaskTopBar(onEvent: (CreateTaskEvent) -> Unit) {
 @OptIn(FlowPreview::class)
 @Composable
 private fun TitleField(title: String, onEvent: (CreateTaskEvent) -> Unit) {
-    var value by rememberSaveable { mutableStateOf(title) }
-
-    LaunchedEffect(Unit) {
-        snapshotFlow { value }
-            .debounce(500.milliseconds)
-            .collect { onEvent(CreateTaskEvent.TitleChanged(it)) }
-    }
-
     FoliaryTextField(
         modifier = Modifier.widthInCompact()
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .testTag("CreateTaskScreen:TitleField"),
-        value = value,
-        onValueChange = { value = it },
+        value = title,
+        onValueChange = { onEvent(CreateTaskEvent.TitleChanged(it)) },
         label = { Text(text = stringResource(Res.string.create_task_title_label)) },
         placeholder = { Text(text = stringResource(Res.string.create_task_title_placeholder)) },
     )
@@ -135,24 +127,13 @@ private fun TitleField(title: String, onEvent: (CreateTaskEvent) -> Unit) {
 @OptIn(FlowPreview::class)
 @Composable
 private fun DescriptionField(description: String?, onEvent: (CreateTaskEvent) -> Unit) {
-    var value by rememberSaveable { mutableStateOf(description ?: "") }
-
-    LaunchedEffect(Unit) {
-        snapshotFlow { value }
-            .debounce(500.milliseconds)
-            .collect {
-                val valueToEmit = it.ifBlank { null }
-                onEvent(CreateTaskEvent.DescriptionChanged(valueToEmit))
-            }
-    }
-
     FoliaryTextField(
         modifier = Modifier.widthInCompact()
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .testTag("CreateTaskScreen:DescriptionField"),
-        value = value,
-        onValueChange = { value = it },
+        value = description ?: "",
+        onValueChange = { onEvent(CreateTaskEvent.DescriptionChanged(it)) },
         label = { Text(text = stringResource(Res.string.create_task_description_label)) },
         placeholder = { Text(text = stringResource(Res.string.create_task_description_placeholder)) },
         minLines = 3

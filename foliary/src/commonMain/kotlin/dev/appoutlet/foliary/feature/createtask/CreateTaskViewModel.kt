@@ -7,21 +7,44 @@ import dev.appoutlet.foliary.core.provider.uuid.UuidProvider
 import dev.appoutlet.foliary.data.task.TaskRepository
 import dev.appoutlet.foliary.data.task.database.entity.Priority
 import dev.appoutlet.foliary.data.task.database.entity.Task
+import org.koin.core.annotation.InjectedParam
 import org.koin.core.annotation.KoinViewModel
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
 
 @KoinViewModel
 class CreateTaskViewModel(
+    @InjectedParam private val taskId: String?,
     private val taskRepository: TaskRepository,
     private val timeProvider: TimeProvider,
     private val uuidProvider: UuidProvider,
 ) : MviViewModel<CreateTaskViewData, CreateTaskAction>() {
-    override val container = container(
-        CreateTaskViewData(
-            minDueDateMillis = timeProvider.startOfToday().toEpochMilliseconds(),
-        )
-    )
+    private val startOfToday = timeProvider.startOfToday().toEpochMilliseconds()
+
+    override val container = container(CreateTaskViewData(minDueDateMillis = startOfToday)) {
+        taskId?.also { id -> loadSavedTask(id) }
+    }
+
+    private fun loadSavedTask(id: String) = intent {
+        val uuid = Uuid.parse(id)
+        val savedTask = taskRepository.findById(uuid) ?: return@intent
+
+        reduce {
+            CreateTaskViewData(
+                id = savedTask.id.toString(),
+                title = savedTask.title,
+                description = savedTask.description,
+                dueDate = savedTask.dueDate?.let { dueDate ->
+                    CreateTaskViewData.DueDateViewData(
+                        selectedDateMillis = dueDate.toEpochMilliseconds(),
+                        selectedDateDisplayText = timeProvider.displayText(dueDate)
+                    )
+                },
+                minDueDateMillis = startOfToday,
+                saveButtonEnabled = true
+            )
+        }
+    }
 
     fun onEvent(event: CreateTaskEvent) {
         when (event) {
@@ -65,7 +88,9 @@ class CreateTaskViewModel(
         val task = Task(
             id = state.id?.let { Uuid.parse(it) } ?: uuidProvider.random(),
             title = state.title.trim(),
-            description = state.description?.trim(),
+            description = state.description?.trim()?.let { description ->
+                description.takeIf { it.isNotBlank() }
+            },
             creationDate = timeProvider.now(),
             dueDate = state.dueDate?.selectedDateMillis?.toInstant()?.let {
                 timeProvider.endOfDay(it)

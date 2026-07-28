@@ -7,6 +7,7 @@ import dev.appoutlet.foliary.core.navigation.Navigation
 import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import dev.appoutlet.foliary.core.ui.scene.BottomSheetSceneStrategy
+import dev.appoutlet.foliary.feature.createtask.CreateTaskNavKey
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.modules.PolymorphicModuleBuilder
 import org.koin.compose.viewmodel.koinViewModel
@@ -44,6 +45,9 @@ class TaskDetailNavigation : Navigation<TaskDetailNavKey> {
     private fun onAction(action: TaskDetailAction, navigator: Navigator) {
         when (action) {
             TaskDetailAction.NavigateBack -> navigator.goBack()
+            is TaskDetailAction.NavigateToTaskEdit -> {
+                navigator.navigate(CreateTaskNavKey(action.taskId))
+            }
         }
     }
 }

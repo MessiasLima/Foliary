@@ -102,7 +102,7 @@ class TaskDaoTest : DaoTest() {
 
         dao.save(task, otherTask)
 
-        val result = dao.findById(task.id).first()
+        val result = dao.observeById(task.id).first()
 
         result?.id shouldBe task.id
         result?.title shouldBe task.title
@@ -117,7 +117,7 @@ class TaskDaoTest : DaoTest() {
 
         dao.delete(task.id)
 
-        dao.findById(task.id).first() shouldBe null
+        dao.observeById(task.id).first() shouldBe null
         dao.findAll().map { it.id } shouldContain otherTask.id
     }
 }

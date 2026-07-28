@@ -2,11 +2,8 @@ package dev.appoutlet.foliary.feature.taskdetail
 
 import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.MviViewModel
-import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.appoutlet.foliary.data.task.TaskRepository
 import dev.appoutlet.foliary.data.task.database.entity.Priority
-import dev.appoutlet.foliary.data.task.database.entity.Task
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -17,14 +14,14 @@ import kotlin.uuid.Uuid
 
 @KoinViewModel
 class TaskDetailViewModel(
-    @InjectedParam taskId: String,
+    @InjectedParam private val taskId: String,
     private val taskRepository: TaskRepository,
     private val taskViewDataMapper: TaskDataMapper,
 ) : MviViewModel<TaskDetailViewData, TaskDetailAction>() {
     private val id = Uuid.parse(taskId)
 
     override val container = container(TaskDetailViewData.Idle) {
-        taskRepository.findById(id)
+        taskRepository.observeById(id)
             .onStart { reduce { TaskDetailViewData.Loading } }
             .onEach { if (it == null) postSideEffect(TaskDetailAction.NavigateBack) }
             .filterNotNull()
@@ -43,7 +40,7 @@ class TaskDetailViewModel(
     }
 
     private fun onEditClick() = intent {
-        // TODO edit
+        postSideEffect(TaskDetailAction.NavigateToTaskEdit(taskId))
     }
 
     private fun onMarkNotCompletedClick() = intent {
@@ -93,4 +90,5 @@ sealed interface TaskDetailEvent {
 
 sealed interface TaskDetailAction : Action {
     data object NavigateBack : TaskDetailAction
+    data class NavigateToTaskEdit(val taskId: String) : TaskDetailAction
 }

@@ -7,7 +7,6 @@ import dev.appoutlet.foliary.data.task.database.entity.fixture
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.mock
-import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.flowOf
 import kotlin.test.Test
 import kotlin.uuid.Uuid
@@ -29,7 +28,7 @@ class TaskDetailViewModelTest :
     fun `should load task and reduce to loaded state`() = test {
         val task = Task.fixture(id = taskId)
 
-        every { mockTaskRepository.findById(taskId) } returns flowOf(task)
+        every { mockTaskRepository.observeById(taskId) } returns flowOf(task)
 
         expectState(TaskDetailViewData.Loaded(task = TaskDetailViewData.Loaded.TaskViewData(task.title)))
     }
@@ -38,7 +37,7 @@ class TaskDetailViewModelTest :
     fun `should navigate back when back is clicked`() = test {
         val task = Task.fixture(id = taskId)
 
-        every { mockTaskRepository.findById(taskId) } returns flowOf(task)
+        every { mockTaskRepository.observeById(taskId) } returns flowOf(task)
 
         expectState(TaskDetailViewData.Loaded(task = TaskDetailViewData.Loaded.TaskViewData(task.title)))
 
@@ -51,7 +50,7 @@ class TaskDetailViewModelTest :
     fun `should navigate back when mark completed is clicked`() = test {
         val task = Task.fixture(id = taskId)
 
-        every { mockTaskRepository.findById(taskId) } returns flowOf(task)
+        every { mockTaskRepository.observeById(taskId) } returns flowOf(task)
 
         expectState(TaskDetailViewData.Loaded(task = TaskDetailViewData.Loaded.TaskViewData(task.title)))
 
@@ -64,7 +63,7 @@ class TaskDetailViewModelTest :
     fun `should navigate back when delete is clicked`() = test {
         val task = Task.fixture(id = taskId)
 
-        every { mockTaskRepository.findById(taskId) } returns flowOf(task)
+        every { mockTaskRepository.observeById(taskId) } returns flowOf(task)
 
         expectState(TaskDetailViewData.Loaded(task = TaskDetailViewData.Loaded.TaskViewData(task.title)))
 

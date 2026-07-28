@@ -47,9 +47,9 @@ class TaskRepositoryImplTest {
     fun `should return task by id`() = runTest {
         val task = Task.fixture()
 
-        every { mockTaskDao.findById(task.id) } returns flowOf(task)
+        every { mockTaskDao.observeById(task.id) } returns flowOf(task)
 
-        subject.findById(task.id).first() shouldBe task
+        subject.observeById(task.id).first() shouldBe task
     }
 
     @Test
