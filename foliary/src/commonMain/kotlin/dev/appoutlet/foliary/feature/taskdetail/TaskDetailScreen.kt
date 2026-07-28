@@ -41,6 +41,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Calendar
+import com.composables.icons.lucide.CalendarCheck
+import com.composables.icons.lucide.CalendarClock
 import com.composables.icons.lucide.CircleCheck
 import com.composables.icons.lucide.CircleCheckBig
 import com.composables.icons.lucide.Lucide
@@ -50,6 +52,8 @@ import dev.appoutlet.foliary.core.ui.component.button.FoliaryMenuIconButton
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.general_cancel
+import foliary.foliary.generated.resources.task_detail_completion_date_label
+import foliary.foliary.generated.resources.task_detail_creation_date_label
 import foliary.foliary.generated.resources.task_detail_delete
 import foliary.foliary.generated.resources.task_detail_delete_dialog_confirm
 import foliary.foliary.generated.resources.task_detail_delete_dialog_message_1
@@ -243,16 +247,51 @@ private fun TaskDetailDescription(description: String?) {
 
 @Composable
 fun TaskDetailList(task: TaskDetailViewData.Loaded.TaskViewData) {
-    Column(Modifier.fillMaxWidth().padding(vertical = 16.dp)) {
-        task.dueDate?.let { dueDate -> DueDateDetailRow(dueDate, task.isOverdue, task.overduePeriodInDays) }
+    Column(Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+        CreationDateDetailRow(task.creationDate)
+        task.dueDate?.let { dueDate ->
+            DueDateDetailRow(
+                dueDate,
+                task.isOverdue,
+                task.overduePeriodInDays
+            )
+        }
+        task.completionDate?.let { completionDate -> CompletionDateDetailRow(completionDate) }
     }
 }
 
+@Composable
+private fun CreationDateDetailRow(creationDate: String) {
+    DetailRow(
+        icon = Lucide.Calendar,
+        label = stringResource(Res.string.task_detail_creation_date_label)
+    ) {
+        Text(
+            text = creationDate,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
+    }
+}
+
+@Composable
+private fun CompletionDateDetailRow(completionDate: String) {
+    DetailRow(
+        icon = Lucide.CalendarCheck,
+        label = stringResource(Res.string.task_detail_completion_date_label)
+    ) {
+        Text(
+            text = completionDate,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
+    }
+}
 
 @Composable
 private fun DueDateDetailRow(dueDate: String, overdue: Boolean, overduePeriodInDays: Long?) {
     DetailRow(
-        icon = Lucide.Calendar,
+        icon = Lucide.CalendarClock,
         label = stringResource(Res.string.task_detail_due_date_label)
     ) {
         Text(
@@ -276,7 +315,7 @@ private fun DueDateDetailRow(dueDate: String, overdue: Boolean, overduePeriodInD
 @Composable
 private fun DetailRow(icon: ImageVector, label: String, content: @Composable RowScope.() -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {

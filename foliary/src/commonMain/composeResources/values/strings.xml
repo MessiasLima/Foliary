@@ -88,8 +88,8 @@
     <string name="task_detail_due_date_period">%1$d days</string>
     <string name="task_detail_priority_label">Priority</string>
     <string name="task_detail_url_label">URL</string>
-    <string name="task_detail_creation_date_label">Created</string>
-    <string name="task_detail_completion_date_label">Completed</string>
+    <string name="task_detail_creation_date_label">Created at</string>
+    <string name="task_detail_completion_date_label">Completed at</string>
     <string name="task_detail_mark_completed">Mark as done</string>
     <string name="task_detail_delete">Delete</string>
     <string name="task_detail_delete_dialog_title">Delete task?</string>

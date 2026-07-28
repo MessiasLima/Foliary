@@ -75,6 +75,8 @@ sealed interface TaskDetailViewData {
             val dueDate: String?,
             val isOverdue: Boolean,
             val overduePeriodInDays: Long?,
+            val creationDate: String,
+            val completionDate: String?,
         ) {
             val hasDetails: Boolean
                 get() = dueDate != null
