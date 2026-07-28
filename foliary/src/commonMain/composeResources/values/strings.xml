@@ -107,11 +107,6 @@
     <string name="task_detail_not_found_message">The requested task could not be found.</string>
     <!-- endregion -->
 
-    <!-- region System trat -->
-    <string name="open_app">Open Foliary</string>
-    <string name="quit">Quit</string>
-    <!-- endregion -->
-
     <!-- region Back icon button -->
     <string name="back_icon_button_a11y">Navigate back</string>
     <!-- endregion -->
