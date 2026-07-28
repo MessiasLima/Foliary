@@ -30,7 +30,6 @@ class TaskDetailNavigation : Navigation<TaskDetailNavKey> {
                 onAction = this::onAction
             ) { viewData: TaskDetailViewData ->
                 TaskDetailScreen(
-                    taskId = navKey.taskId,
                     viewData = viewData,
                     onEvent = viewModel::onEvent,
                 )

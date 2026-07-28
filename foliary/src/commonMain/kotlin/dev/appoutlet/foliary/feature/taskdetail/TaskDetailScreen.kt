@@ -6,9 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.AlertDialog
@@ -20,6 +23,7 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -28,17 +32,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.Calendar
+import com.composables.icons.lucide.CircleCheck
+import com.composables.icons.lucide.CircleCheckBig
 import com.composables.icons.lucide.Lucide
-import com.composables.icons.lucide.Square
-import com.composables.icons.lucide.SquareCheckBig
+import com.composables.icons.lucide.Pencil
 import com.composables.icons.lucide.Trash
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryMenuIconButton
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
@@ -49,6 +55,8 @@ import foliary.foliary.generated.resources.task_detail_delete_dialog_confirm
 import foliary.foliary.generated.resources.task_detail_delete_dialog_message_1
 import foliary.foliary.generated.resources.task_detail_delete_dialog_message_2
 import foliary.foliary.generated.resources.task_detail_delete_dialog_title
+import foliary.foliary.generated.resources.task_detail_due_date_label
+import foliary.foliary.generated.resources.task_detail_due_date_period
 import foliary.foliary.generated.resources.task_detail_edit
 import foliary.foliary.generated.resources.task_detail_mark_completed
 import foliary.foliary.generated.resources.task_detail_no_description
@@ -57,7 +65,6 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun TaskDetailScreen(
-    taskId: String,
     viewData: TaskDetailViewData,
     onEvent: (TaskDetailEvent) -> Unit,
 ) {
@@ -91,18 +98,16 @@ private fun CompleteButton(isComplete: Boolean, onEvent: (TaskDetailEvent) -> Un
         if (complete) {
             TextButton(onClick = { onEvent(TaskDetailEvent.MarkNotCompletedClicked) }) {
                 Icon(
-                    imageVector = Lucide.SquareCheckBig,
+                    imageVector = Lucide.CircleCheckBig,
                     contentDescription = stringResource(Res.string.task_detail_mark_completed)
                 )
                 Spacer(Modifier.width(8.dp))
                 Text(text = stringResource(Res.string.task_detail_status_completed))
             }
         } else {
-            FilledTonalButton(
-                onClick = { onEvent(TaskDetailEvent.MarkCompletedClicked) },
-            ) {
+            FilledTonalButton(onClick = { onEvent(TaskDetailEvent.MarkCompletedClicked) }) {
                 Icon(
-                    imageVector = Lucide.Square,
+                    imageVector = Lucide.CircleCheck,
                     contentDescription = stringResource(Res.string.task_detail_mark_completed)
                 )
                 Spacer(Modifier.width(8.dp))
@@ -119,9 +124,14 @@ private fun MenuButton(taskTitle: String, onEvent: (TaskDetailEvent) -> Unit) {
     Box {
         FoliaryMenuIconButton(onClick = { showMenu = showMenu.not() })
 
-        DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
+        DropdownMenu(
+            expanded = showMenu,
+            onDismissRequest = { showMenu = false },
+            containerColor = MaterialTheme.colorScheme.surface,
+        ) {
             DropdownMenuItem(
                 text = { Text(text = stringResource(Res.string.task_detail_edit)) },
+                leadingIcon = { Icon(Lucide.Pencil, null) },
                 onClick = {
                     showMenu = false
                     onEvent(TaskDetailEvent.EditClicked)
@@ -143,7 +153,12 @@ private fun MenuButtonDelete(taskTitle: String, onDeleteClick: () -> Unit) {
 
     DropdownMenuItem(
         text = { Text(text = stringResource(Res.string.task_detail_delete)) },
-        onClick = { showDeleteDialog = true }
+        leadingIcon = { Icon(Lucide.Trash, null) },
+        onClick = { showDeleteDialog = true },
+        colors = MenuDefaults.itemColors(
+            textColor = MaterialTheme.colorScheme.error,
+            leadingIconColor = MaterialTheme.colorScheme.error
+        )
     )
 
     if (showDeleteDialog) {
@@ -206,13 +221,13 @@ private fun TaskDetailContent(
 ) {
     Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
         TaskDetailTopBar(isComplete = task.isComplete, taskTitle = task.title, onEvent = onEvent)
-        Text(
-            modifier = Modifier.padding(top = 8.dp),
-            text = task.title,
-            style = MaterialTheme.typography.titleLarge
-        )
+        Spacer(Modifier.height(8.dp))
+        Text(text = task.title, style = MaterialTheme.typography.titleLarge)
         TaskDetailDescription(task.description)
-        HorizontalDivider(Modifier.padding(vertical = 16.dp))
+        if (task.hasDetails) {
+            HorizontalDivider()
+            TaskDetailList(task)
+        }
     }
 }
 
@@ -220,8 +235,69 @@ private fun TaskDetailContent(
 private fun TaskDetailDescription(description: String?) {
     val text = description ?: stringResource(Res.string.task_detail_no_description)
     Text(
-        modifier = Modifier.padding(top = 16.dp),
+        modifier = Modifier.padding(vertical = 16.dp),
         text = text,
         style = MaterialTheme.typography.bodyMedium
     )
+}
+
+@Composable
+fun TaskDetailList(task: TaskDetailViewData.Loaded.TaskViewData) {
+    Column(Modifier.fillMaxWidth().padding(vertical = 16.dp)) {
+        task.dueDate?.let { dueDate -> DueDateDetailRow(dueDate, task.isOverdue, task.overduePeriodInDays) }
+    }
+}
+
+
+@Composable
+private fun DueDateDetailRow(dueDate: String, overdue: Boolean, overduePeriodInDays: Long?) {
+    DetailRow(
+        icon = Lucide.Calendar,
+        label = stringResource(Res.string.task_detail_due_date_label)
+    ) {
+        Text(
+            text = buildString {
+                append(dueDate)
+                overduePeriodInDays?.let { period ->
+                    append(" · ")
+                    append(stringResource(Res.string.task_detail_due_date_period, period))
+                }
+            },
+            style = MaterialTheme.typography.bodyMedium,
+            color = if (overdue) {
+                MaterialTheme.colorScheme.error
+            } else {
+                MaterialTheme.colorScheme.primary
+            }
+        )
+    }
+}
+
+@Composable
+private fun DetailRow(icon: ImageVector, label: String, content: @Composable RowScope.() -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Icon(
+                modifier = Modifier.size(20.dp),
+                imageVector = icon,
+                contentDescription = null
+            )
+
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+
+
+        content()
+    }
 }
