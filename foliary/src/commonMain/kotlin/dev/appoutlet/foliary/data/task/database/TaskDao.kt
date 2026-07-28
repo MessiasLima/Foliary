@@ -18,7 +18,7 @@ interface TaskDao {
     suspend fun findAll(): List<Task>
 
     @Query("SELECT * FROM Task WHERE id = :id")
-    fun findById(id: Uuid): Flow<Task?>
+    fun findById(id: Uuid): Flow<Task>
 
     @Query("DELETE FROM Task WHERE id = :id")
     suspend fun delete(id: Uuid)

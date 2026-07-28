@@ -8,15 +8,29 @@ import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.task_detail_not_found_message
 import foliary.foliary.generated.resources.task_detail_not_found_title
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filterNot
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import org.jetbrains.compose.resources.getString
+import org.koin.core.annotation.InjectedParam
 import org.koin.core.annotation.KoinViewModel
 import kotlin.uuid.Uuid
 
 @KoinViewModel
 class TaskDetailViewModel(
+    @InjectedParam taskId: String,
     private val taskRepository: TaskRepository,
+    private val taskViewDataMapper: TaskDataMapper,
 ) : MviViewModel<TaskDetailViewData, TaskDetailAction>() {
-    override val container = container(TaskDetailViewData.Idle)
+
+    override val container = container(TaskDetailViewData.Idle) {
+        taskRepository.findById(Uuid.parse(taskId))
+            .map { taskViewDataMapper(it) }
+            .collect {
+                reduce { TaskDetailViewData.Loaded(it) }
+            }
+    }
 
     fun onEvent(event: TaskDetailEvent) {
         when (event) {

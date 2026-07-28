@@ -16,7 +16,7 @@ class TaskRepositoryImpl(
         return taskDao.findTodayTasks(endOfToday)
     }
 
-    override fun findById(id: Uuid): Flow<Task?> = taskDao.findById(id)
+    override fun findById(id: Uuid): Flow<Task> = taskDao.findById(id)
 
     override suspend fun save(task: Task) {
         taskDao.save(task)

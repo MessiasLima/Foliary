@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.modules.PolymorphicModuleBuilder
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.Single
+import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Single
@@ -19,7 +20,9 @@ class TaskDetailNavigation : Navigation<TaskDetailNavKey> {
         scope.entry<TaskDetailNavKey>(
             metadata = BottomSheetSceneStrategy.bottomSheet()
         ) { navKey ->
-            val viewModel = koinViewModel<TaskDetailViewModel>()
+            val viewModel = koinViewModel<TaskDetailViewModel> {
+                parametersOf(navKey.taskId)
+            }
 
             Screen(
                 screenName = "TaskDetailScreen",

@@ -25,10 +25,6 @@ fun TaskDetailScreen(
     viewData: TaskDetailViewData,
     onEvent: (TaskDetailEvent) -> Unit,
 ) {
-    LaunchedEffect(taskId) {
-        onEvent(TaskDetailEvent.LoadTask(taskId))
-    }
-
     Scaffold(topBar = { TaskDetailTopBar(onEvent) }) { paddingValues ->
         Box(
             modifier = Modifier.fillMaxSize()
