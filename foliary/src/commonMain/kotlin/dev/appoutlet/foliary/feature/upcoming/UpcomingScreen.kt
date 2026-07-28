@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.upcoming_title
@@ -22,6 +23,7 @@ import org.jetbrains.compose.resources.stringResource
 fun UpcomingScreen(lazyListState: LazyListState) {
     LazyColumn(
         modifier = Modifier
+            .testTag("UpcomingScreen")
             .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
             .fillMaxSize(),
         state = lazyListState,

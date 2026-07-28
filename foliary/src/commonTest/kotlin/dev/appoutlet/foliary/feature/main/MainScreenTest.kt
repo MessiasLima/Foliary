@@ -3,22 +3,14 @@ package dev.appoutlet.foliary.feature.main
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.test.waitUntilAtLeastOneExists
 import dev.appoutlet.foliary.FoliaryKoinApplication
 import dev.appoutlet.foliary.core.analytics.LocalAnalytics
 import dev.appoutlet.foliary.core.analytics.MockAnalytics
-import foliary.foliary.generated.resources.Res
-import foliary.foliary.generated.resources.main_nav_profile
-import foliary.foliary.generated.resources.main_nav_today
-import foliary.foliary.generated.resources.main_nav_upcoming
-import foliary.foliary.generated.resources.profile_logout
-import foliary.foliary.generated.resources.today_title
-import foliary.foliary.generated.resources.upcoming_title
-import org.jetbrains.compose.resources.getString
 import org.koin.core.context.stopKoin
 import org.koin.plugin.module.dsl.startKoin
 import kotlin.test.AfterTest
@@ -47,25 +39,14 @@ class MainScreenTest {
             }
         }
 
-        onNodeWithText(getString(Res.string.main_nav_today)).assertIsDisplayed()
-        onNodeWithText(getString(Res.string.main_nav_upcoming)).assertIsDisplayed()
-        onNodeWithText(getString(Res.string.main_nav_profile)).assertIsDisplayed()
-    }
+        waitUntilAtLeastOneExists(hasTestTag("TodayScreen"))
 
-    @Test
-    fun `should switch tabs and display corresponding screen`() = runComposeUiTest {
-        setContent {
-            CompositionLocalProvider(LocalAnalytics provides mockAnalytics) {
-                MainScreen()
-            }
-        }
+        onNodeWithTag("MainScreen:TodayTab").assertIsDisplayed()
 
-        waitUntilAtLeastOneExists(hasText(getString(Res.string.today_title)))
+        onNodeWithTag("MainScreen:UpcomingTab").assertIsDisplayed().performClick()
+        waitUntilAtLeastOneExists(hasTestTag("UpcomingScreen"))
 
-        onNodeWithText(getString(Res.string.main_nav_upcoming)).performClick()
-        waitUntilAtLeastOneExists(hasText(getString(Res.string.upcoming_title)))
-
-        onNodeWithText(getString(Res.string.main_nav_profile)).performClick()
-        waitUntilAtLeastOneExists(hasText(getString(Res.string.profile_logout)))
+        onNodeWithTag("MainScreen:ProfileTab").assertIsDisplayed().performClick()
+        waitUntilAtLeastOneExists(hasTestTag("ProfileScreen"))
     }
 }

@@ -20,6 +20,7 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.CalendarCheck
@@ -89,7 +90,8 @@ private fun MainScreenNavigation(
         layoutType = layoutType,
         navigationSuiteItems = {
             item(
-                modifier = Modifier.padding(top = windowDecorationPadding + itemTopPadding),
+                modifier = Modifier.testTag("MainScreen:TodayTab")
+                    .padding(top = windowDecorationPadding + itemTopPadding),
                 selected = selectedTab == MainTab.Today,
                 onClick = { onTabSelect(MainTab.Today) },
                 icon = { Icon(Lucide.CalendarCheck, contentDescription = null) },
@@ -98,7 +100,7 @@ private fun MainScreenNavigation(
             )
 
             item(
-                modifier = Modifier.padding(top = itemTopPadding),
+                modifier = Modifier.testTag("MainScreen:UpcomingTab").padding(top = itemTopPadding),
                 selected = selectedTab == MainTab.Upcoming,
                 onClick = { onTabSelect(MainTab.Upcoming) },
                 icon = { Icon(Lucide.CalendarDays, contentDescription = null) },
@@ -107,7 +109,7 @@ private fun MainScreenNavigation(
             )
 
             item(
-                modifier = Modifier.padding(top = itemTopPadding),
+                modifier = Modifier.testTag("MainScreen:ProfileTab").padding(top = itemTopPadding),
                 selected = selectedTab == MainTab.Profile,
                 onClick = { onTabSelect(MainTab.Profile) },
                 icon = { Icon(Lucide.User, contentDescription = null) },
