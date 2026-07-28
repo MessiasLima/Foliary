@@ -64,7 +64,7 @@ private fun TaskDetailTopBar(onEvent: (TaskDetailEvent) -> Unit) {
     )
 }
 
-@Suppress("UNUSED")
+@Suppress("UNUSED", "EmptyFunctionBlock", "UnusedParameter")
 @Composable
 private fun TaskDetailContent(
     viewData: TaskDetailViewData.Loaded,
