@@ -1,6 +1,7 @@
 package dev.appoutlet.foliary.feature.taskdetail
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -243,9 +244,7 @@ fun PillsRow(task: TaskDetailViewData.Loaded.TaskViewData) {
         modifier = Modifier.padding(top = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        if (task.isOverdue) {
-            OverduePill()
-        }
+        AnimatedVisibility(visible = task.isOverdue){ OverduePill() }
         PriorityPill(task.priority)
     }
 }
