@@ -175,10 +175,7 @@ private fun MenuButtonDelete(taskTitle: String, onDeleteClick: () -> Unit) {
             icon = {
                 Box(
                     modifier = Modifier
-                        .background(
-                            color = MaterialTheme.colorScheme.surface,
-                            shape = CircleShape
-                        )
+                        .background(color = MaterialTheme.colorScheme.surface, shape = CircleShape)
                         .padding(16.dp)
                 ) {
                     Icon(
@@ -187,7 +184,6 @@ private fun MenuButtonDelete(taskTitle: String, onDeleteClick: () -> Unit) {
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
-
             },
             title = { Text(text = stringResource(Res.string.task_detail_delete_dialog_title)) },
             text = {
@@ -244,7 +240,7 @@ fun PillsRow(task: TaskDetailViewData.Loaded.TaskViewData) {
         modifier = Modifier.padding(top = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        AnimatedVisibility(visible = task.isOverdue){ OverduePill() }
+        AnimatedVisibility(visible = task.isOverdue) { OverduePill() }
         PriorityPill(task.priority)
     }
 }
@@ -333,7 +329,6 @@ private fun DetailRow(icon: ImageVector, label: String, content: @Composable Row
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -349,7 +344,6 @@ private fun DetailRow(icon: ImageVector, label: String, content: @Composable Row
                 style = MaterialTheme.typography.bodyMedium
             )
         }
-
 
         content()
     }

@@ -2,8 +2,8 @@ package dev.appoutlet.foliary.feature.taskdetail
 
 import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.appoutlet.foliary.data.task.database.entity.Task
-import org.koin.core.annotation.Factory
 import dev.appoutlet.foliary.feature.taskdetail.TaskDetailViewData.Loaded.TaskViewData
+import org.koin.core.annotation.Factory
 import kotlin.time.Instant
 
 @Factory
@@ -29,7 +29,6 @@ class TaskDataMapper(private val timeProvider: TimeProvider) {
     private val Instant.isOverdue: Boolean
         get() = toEpochMilliseconds() < timeProvider.startOfToday().toEpochMilliseconds()
 
-
     private val Instant.overduePeriodInDays: Long?
         get() {
             if (isOverdue.not()) return null
@@ -37,7 +36,6 @@ class TaskDataMapper(private val timeProvider: TimeProvider) {
             val durationInDays = duration.inWholeDays
             return durationInDays.takeIf { it > 1 }
         }
-
 
     private val Instant.displayText: String
         get() = timeProvider.displayText(this)

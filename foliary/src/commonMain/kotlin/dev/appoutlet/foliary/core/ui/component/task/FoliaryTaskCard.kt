@@ -7,9 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,8 +16,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.composables.icons.lucide.Lucide
-import com.composables.icons.lucide.Play
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCardDefaults
 import dev.appoutlet.foliary.core.ui.component.checkbox.FoliaryCheckbox
@@ -31,7 +26,6 @@ fun FoliaryTaskCard(
     task: FoliaryTaskCardViewData,
     modifier: Modifier = Modifier,
     onCompletedChange: (Boolean) -> Unit = { },
-    onStartClick: () -> Unit = {},
     onClick: (() -> Unit)? = null,
 ) {
     val cardContainerColor = animateColorAsState(
@@ -64,8 +58,6 @@ fun FoliaryTaskCard(
                 task = task,
                 modifier = Modifier.weight(1f),
             )
-
-            StartButton(onClick = onStartClick)
         }
     }
 }
@@ -111,24 +103,6 @@ private fun FoliaryTaskCardContent(
         Row {
             if (task.isOverdue && !task.isCompleted) { OverduePill() }
         }
-    }
-}
-
-
-@Composable
-private fun StartButton(onClick: () -> Unit) {
-    IconButton(
-        onClick = onClick,
-        modifier = Modifier.testTag("FoliaryTaskCard:StartButton"),
-        colors = IconButtonDefaults.iconButtonColors(
-            containerColor = MaterialTheme.colorScheme.secondary
-        )
-    ) {
-        Icon(
-            imageVector = Lucide.Play,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary
-        )
     }
 }
 

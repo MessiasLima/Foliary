@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
@@ -18,7 +17,7 @@ import androidx.compose.ui.unit.Dp
 @Composable
 fun FoliaryTopAppBar(
     modifier: Modifier = Modifier,
-    title: @Composable () -> Unit= {},
+    title: @Composable () -> Unit = {},
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
     expandedHeight: Dp = TopAppBarDefaults.TopAppBarExpandedHeight,

@@ -12,9 +12,6 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.Single
 import org.koin.core.parameter.parametersOf
 
-// TODO adjust Task Card Hover Color
-// TODO remove start buttom from Task Card
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Single
 class CreateTaskNavigation : Navigation<CreateTaskNavKey> {

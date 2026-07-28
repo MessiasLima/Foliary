@@ -21,7 +21,7 @@ import foliary.foliary.generated.resources.priority_pill_medium
 import org.jetbrains.compose.resources.stringResource
 
 private val HighContentColor = Color(0xFFC4A319)
-private val HighestContentColor =  Color(0xFFAD5203)
+private val HighestContentColor = Color(0xFFAD5203)
 
 @Composable
 fun PriorityPill(priority: Priority) {
@@ -43,7 +43,6 @@ fun PriorityPill(priority: Priority) {
         contentColor = contentColor
     )
 }
-
 
 @Composable
 @Preview
