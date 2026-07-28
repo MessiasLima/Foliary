@@ -36,4 +36,11 @@ jobs:
         run: ./gradlew detekt
 
       - name: Check code test coverage
-        run: ./gradlew jvmTest -Pkover koverVerify --quiet -Djava.awt.headless=true -Djava.awt.headless.screen=0
+        run: ./gradlew jvmTest -Pkover koverVerify --info --stacktrace
+
+      - name: Upload JVM test report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jvm-test-report
+          path: foliary/build/reports/tests/jvmTest/
+          if-no-files-found: ignore
