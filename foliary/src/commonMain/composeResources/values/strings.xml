@@ -91,9 +91,14 @@
     <string name="task_detail_completion_date_label">Completed</string>
     <string name="task_detail_mark_completed">Mark as completed</string>
     <string name="task_detail_delete">Delete</string>
+    <string name="task_detail_delete_dialog_title">Delete task?</string>
+    <string name="task_detail_delete_dialog_message">You are about to delete the <b>"%1$s"</b> task. This action can't be undone. Are you sure you want to delete it?</string>
+    <string name="task_detail_delete_dialog_message_1">You are about to delete the</string>
+    <string name="task_detail_delete_dialog_message_2">task. This action can't be undone. Are you sure you want to delete it?</string>
+    <string name="task_detail_delete_dialog_confirm">Delete task</string>
     <string name="task_detail_status_overdue">Overdue</string>
     <string name="task_detail_status_completed">Completed</string>
-    <string name="task_detail_no_description">No description</string>
+    <string name="task_detail_no_description">No description available</string>
     <string name="task_detail_no_due_date">No due date</string>
     <string name="task_detail_no_priority">No priority</string>
     <string name="task_detail_priority_lowest">Lowest</string>
@@ -104,6 +109,7 @@
     <string name="task_detail_priority_blocker">Blocker</string>
     <string name="task_detail_not_found_title">Task not found</string>
     <string name="task_detail_not_found_message">The requested task could not be found.</string>
+    <string name="task_detail_edit">Edit</string>
     <!-- endregion -->
 
     <!-- region Back icon button -->

@@ -129,7 +129,6 @@ private fun TitleField(title: String, onEvent: (CreateTaskEvent) -> Unit) {
         onValueChange = { value = it },
         label = { Text(text = stringResource(Res.string.create_task_title_label)) },
         placeholder = { Text(text = stringResource(Res.string.create_task_title_placeholder)) },
-        singleLine = true
     )
 }
 

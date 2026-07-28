@@ -8,7 +8,9 @@ import dev.appoutlet.foliary.feature.taskdetail.TaskDetailViewData.Loaded.TaskVi
 class TaskDataMapper {
     operator fun invoke(task: Task) : TaskViewData {
         return TaskViewData(
-            title = task.title
+            title = task.title,
+            description = task.description,
+            isComplete = task.completionDate != null
         )
     }
 }
