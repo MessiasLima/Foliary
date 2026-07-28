@@ -17,6 +17,7 @@ import androidx.navigation3.scene.OverlayScene
 import androidx.navigation3.scene.Scene
 import androidx.navigation3.scene.SceneStrategy
 import androidx.navigation3.scene.SceneStrategyScope
+import dev.appoutlet.foliary.core.ui.component.layout.FoliaryModalBottomSheet
 
 /** An [OverlayScene] that renders an [entry] within a [ModalBottomSheet]. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,7 +34,7 @@ internal data class BottomSheetScene<T : Any>(
 
     override val content: @Composable (() -> Unit) = {
         val lifecycleOwner = rememberLifecycleOwner()
-        ModalBottomSheet(
+        FoliaryModalBottomSheet(
             onDismissRequest = onBack,
             properties = modalBottomSheetProperties,
         ) {
