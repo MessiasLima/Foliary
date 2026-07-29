@@ -15,7 +15,7 @@ fun FoliaryMenuIconButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
     IconButton(modifier = modifier, onClick = onClick) {
         Icon(
             imageVector = menuIcon,
-            contentDescription = stringResource(Res.string.back_icon_button_a11y),
+            contentDescription = null,
             tint = MaterialTheme.colorScheme.primary,
         )
     }
