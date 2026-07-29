@@ -19,11 +19,9 @@ import kotlin.test.Test
 class TaskDetailScreenTest {
     @Test
     fun `should render task detail title`() = runComposeUiTest {
-        val task = Task.fixture()
 
         setContent {
             TaskDetailScreen(
-                taskId = task.id.toString(),
                 viewData = TaskDetailViewData.Loaded(
                     task = TaskDetailViewData.Loaded.TaskViewData(task.title),
                 ),
@@ -41,7 +39,6 @@ class TaskDetailScreenTest {
 
         setContent {
             TaskDetailScreen(
-                taskId = task.id.toString(),
                 viewData = TaskDetailViewData.Loaded(
                     task = TaskDetailViewData.Loaded.TaskViewData(task.title),
                 ),

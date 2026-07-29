@@ -58,6 +58,6 @@ class TaskRepositoryImplTest {
 
         subject.delete(task.id)
 
-        verifySuspend { mockTaskDao.delete(task.id) }
+        verifySuspend { mockTaskDao.delete(task) }
     }
 }

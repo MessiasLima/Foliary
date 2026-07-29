@@ -1,5 +1,6 @@
 package dev.appoutlet.foliary.feature.taskdetail
 
+import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.appoutlet.foliary.core.testing.ViewModelTest
 import dev.appoutlet.foliary.data.task.TaskRepository
 import dev.appoutlet.foliary.data.task.database.entity.Task
@@ -16,7 +17,8 @@ class TaskDetailViewModelTest :
     private val taskId = Uuid.random()
     private val taskIdString = taskId.toString()
     private val mockTaskRepository = mock<TaskRepository>()
-    private val taskDataMapper = TaskDataMapper()
+    private val mockTimeProvider = mock<TimeProvider>()
+    private val taskDataMapper = TaskDataMapper(mockTimeProvider)
 
     override fun createViewModel() = TaskDetailViewModel(
         taskId = taskIdString,

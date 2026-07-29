@@ -32,6 +32,7 @@ class CreateTaskViewModelTest :
         every(mockTimeProvider::startOfToday) returns startOfToday
         every { mockTimeProvider.displayText(any()) } returns expectedDisplayText
         return CreateTaskViewModel(
+            taskId = null,
             taskRepository = mockTaskRepository,
             timeProvider = mockTimeProvider,
             uuidProvider = mockUuidProvider

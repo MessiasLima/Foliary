@@ -93,20 +93,4 @@ class FoliaryTaskCardTest {
         onNodeWithTag("FoliaryTaskCard:Checkbox").performClick()
         onNodeWithTag("FoliaryTaskCard:Checkbox").assertIsOff()
     }
-
-    @Test
-    fun `should call onStartClick when start button is clicked`() = runComposeUiTest {
-        var started = false
-
-        setContent {
-            FoliaryTaskCard(
-                task = FoliaryTaskCardViewData.fixture(),
-                onStartClick = { started = true },
-            )
-        }
-
-        onNodeWithTag("FoliaryTaskCard:StartButton").performClick()
-
-        started shouldBe true
-    }
 }

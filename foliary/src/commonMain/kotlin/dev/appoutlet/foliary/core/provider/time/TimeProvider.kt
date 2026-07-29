@@ -22,7 +22,6 @@ interface TimeProvider {
     fun endOfToday(timeZone: TimeZone = TimeZone.currentSystemDefault()): Instant
     fun endOfDay(instant: Instant, timeZone: TimeZone = TimeZone.currentSystemDefault()): Instant
     fun displayText(instant: Instant, timeZone: TimeZone = TimeZone.currentSystemDefault()): String
-    fun isInThePast(instant: Instant): Boolean
 }
 
 @Single
@@ -60,6 +59,4 @@ class DefaultTimeProvider(private val clock: Clock = Clock.System) : TimeProvide
     ): String {
         return instant.toLocalDateTime(timeZone).date.format(dateFormat)
     }
-
-    override fun isInThePast(instant: Instant) = instant.toEpochMilliseconds() < now().toEpochMilliseconds()
 }

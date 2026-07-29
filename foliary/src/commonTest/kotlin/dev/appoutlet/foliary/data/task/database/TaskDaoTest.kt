@@ -115,9 +115,9 @@ class TaskDaoTest : DaoTest() {
 
         dao.save(task, otherTask)
 
-        dao.delete(task.id)
+        dao.delete(task)
 
-        dao.observeById(task.id).first() shouldBe null
+        dao.findById(task.id) shouldBe null
         dao.findAll().map { it.id } shouldContain otherTask.id
     }
 }
