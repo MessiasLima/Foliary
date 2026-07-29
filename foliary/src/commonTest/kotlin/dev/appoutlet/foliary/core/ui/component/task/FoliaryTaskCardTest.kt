@@ -9,8 +9,6 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
-import dev.appoutlet.foliary.core.testing.printTree
-import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -35,8 +33,6 @@ class FoliaryTaskCardTest {
         onNodeWithTag("FoliaryTaskCard:Description", useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals(fixture.description!!)
-
-        printTree(useUnmergedTree = true)
 
         onNodeWithTag("FoliaryTaskCard:OverduePill", useUnmergedTree = true)
             .assertIsDisplayed()

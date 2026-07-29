@@ -28,7 +28,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.ui.platform.testTag
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,8 +36,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -184,58 +183,68 @@ private fun MenuButtonDelete(taskTitle: String, onDeleteClick: () -> Unit) {
     )
 
     if (showDeleteDialog) {
-        AlertDialog(
-            modifier = Modifier.testTag("TaskDetailScreen:DeleteDialog"),
-            onDismissRequest = { showDeleteDialog = false },
-            icon = {
-                Box(
-                    modifier = Modifier
-                        .background(color = MaterialTheme.colorScheme.surface, shape = CircleShape)
-                        .padding(16.dp)
-                ) {
-                    Icon(
-                        modifier = Modifier.testTag("TaskDetailScreen:DeleteDialogIcon"),
-                        imageVector = Lucide.Trash,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
-            },
-            title = { Text(text = stringResource(Res.string.task_detail_delete_dialog_title)) },
-            text = {
-                Text(
-                    modifier = Modifier.testTag("TaskDetailScreen:DeleteDialogMessage"),
-                    text = buildAnnotatedString {
-                        append(stringResource(Res.string.task_detail_delete_dialog_message_1))
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append(" \"$taskTitle\" ")
-                        }
-                        append(stringResource(Res.string.task_detail_delete_dialog_message_2))
-                    }
-                )
-            },
-            confirmButton = {
-                FilledTonalButton(
-                    onClick = onDeleteClick,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.errorContainer,
-                        contentColor = MaterialTheme.colorScheme.onErrorContainer
-                    )
-                ) {
-                    Text(text = stringResource(Res.string.task_detail_delete_dialog_confirm))
-                }
-            },
-            dismissButton = {
-                TextButton(
-                    modifier = Modifier.testTag("TaskDetailScreen:DeleteDialogCancelButton"),
-                    onClick = { showDeleteDialog = false }
-                ) {
-                    Text(text = stringResource(Res.string.general_cancel))
-                }
-            },
-            containerColor = MaterialTheme.colorScheme.background,
+        DeleteTaskAlertDialog(
+            taskTitle = taskTitle,
+            onDismiss = { showDeleteDialog = false },
+            onConfirm = onDeleteClick,
         )
     }
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+private fun DeleteTaskAlertDialog(
+    taskTitle: String,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+) {
+    AlertDialog(
+        modifier = Modifier.testTag("TaskDetailScreen:DeleteDialog"),
+        onDismissRequest = onDismiss,
+        icon = {
+            Box(
+                modifier = Modifier
+                    .background(color = MaterialTheme.colorScheme.surface, shape = CircleShape)
+                    .padding(16.dp)
+            ) {
+                Icon(
+                    modifier = Modifier.testTag("TaskDetailScreen:DeleteDialogIcon"),
+                    imageVector = Lucide.Trash,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+        },
+        title = { Text(text = stringResource(Res.string.task_detail_delete_dialog_title)) },
+        text = {
+            Text(
+                modifier = Modifier.testTag("TaskDetailScreen:DeleteDialogMessage"),
+                text = buildAnnotatedString {
+                    append(stringResource(Res.string.task_detail_delete_dialog_message_1))
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(" \"$taskTitle\" ")
+                    }
+                    append(stringResource(Res.string.task_detail_delete_dialog_message_2))
+                }
+            )
+        },
+        confirmButton = {
+            FilledTonalButton(
+                onClick = onConfirm,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.onErrorContainer
+                )
+            ) { Text(text = stringResource(Res.string.task_detail_delete_dialog_confirm)) }
+        },
+        dismissButton = {
+            TextButton(
+                modifier = Modifier.testTag("TaskDetailScreen:DeleteDialogCancelButton"),
+                onClick = onDismiss
+            ) { Text(text = stringResource(Res.string.general_cancel)) }
+        },
+        containerColor = MaterialTheme.colorScheme.background,
+    )
 }
 
 @Composable
