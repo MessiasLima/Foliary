@@ -101,7 +101,9 @@ private fun FoliaryTaskCardContent(
         }
 
         Row {
-            if (task.isOverdue && !task.isCompleted) { OverduePill() }
+            if (task.isOverdue) {
+                OverduePill(modifier = Modifier.testTag("FoliaryTaskCard:OverduePill"))
+            }
         }
     }
 }

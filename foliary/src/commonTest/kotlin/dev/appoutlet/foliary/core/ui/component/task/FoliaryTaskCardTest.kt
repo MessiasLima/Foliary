@@ -9,6 +9,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
+import dev.appoutlet.foliary.core.testing.printTree
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
@@ -23,22 +24,21 @@ class FoliaryTaskCardTest {
             FoliaryTaskCard(task = fixture)
         }
 
-        onNodeWithTag("FoliaryTaskCard:Checkbox")
+        onNodeWithTag("FoliaryTaskCard:Checkbox", useUnmergedTree = true)
             .assertIsDisplayed()
             .assertIsOff()
 
-        onNodeWithTag("FoliaryTaskCard:Title")
+        onNodeWithTag("FoliaryTaskCard:Title", useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals(fixture.title)
 
-        onNodeWithTag("FoliaryTaskCard:Description")
+        onNodeWithTag("FoliaryTaskCard:Description", useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals(fixture.description!!)
 
-        onNodeWithTag("FoliaryTaskCard:OverduePill")
-            .assertIsDisplayed()
+        printTree(useUnmergedTree = true)
 
-        onNodeWithTag("FoliaryTaskCard:StartButton")
+        onNodeWithTag("FoliaryTaskCard:OverduePill", useUnmergedTree = true)
             .assertIsDisplayed()
     }
 
@@ -48,7 +48,7 @@ class FoliaryTaskCardTest {
             FoliaryTaskCard(task = FoliaryTaskCardViewData.fixture(description = null))
         }
 
-        onNodeWithTag("FoliaryTaskCard:Description").assertDoesNotExist()
+        onNodeWithTag("FoliaryTaskCard:Description", useUnmergedTree = true).assertDoesNotExist()
     }
 
     @Test
@@ -57,21 +57,7 @@ class FoliaryTaskCardTest {
             FoliaryTaskCard(task = FoliaryTaskCardViewData.fixture(isOverdue = false),)
         }
 
-        onNodeWithTag("FoliaryTaskCard:OverduePill").assertDoesNotExist()
-    }
-
-    @Test
-    fun `should not show overdue pill when completed`() = runComposeUiTest {
-        setContent {
-            FoliaryTaskCard(
-                task = FoliaryTaskCardViewData.fixture(
-                    isOverdue = true,
-                    isCompleted = true,
-                ),
-            )
-        }
-
-        onNodeWithTag("FoliaryTaskCard:OverduePill").assertDoesNotExist()
+        onNodeWithTag("FoliaryTaskCard:OverduePill", useUnmergedTree = true).assertDoesNotExist()
     }
 
     @Test

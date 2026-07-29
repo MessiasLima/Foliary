@@ -13,12 +13,12 @@ import androidx.compose.ui.test.printToString
  * code, since it only logs to stdout.
  *
  * @param useUnmergedTree When true, prints the unmerged semantics tree, showing children that would
- * otherwise be merged into their parents. Defaults to true.
+ * otherwise be merged into their parents. Defaults to false.
  * @param maxDepth Maximum depth of the tree to print. Defaults to [Int.MAX_VALUE] to print the
  * entire tree.
  */
 @OptIn(ExperimentalTestApi::class)
-fun ComposeUiTest.printTree(useUnmergedTree: Boolean = true, maxDepth: Int = Int.MAX_VALUE) {
+fun ComposeUiTest.printTree(useUnmergedTree: Boolean = false, maxDepth: Int = Int.MAX_VALUE) {
     onRoot(useUnmergedTree).printTree(maxDepth)
 }
 
