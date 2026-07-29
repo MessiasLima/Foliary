@@ -3,17 +3,37 @@ package dev.appoutlet.foliary.data.task.database
 import dev.appoutlet.foliary.core.testing.DaoTest
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.data.task.database.entity.fixture
+import io.kotest.assertions.throwables.shouldThrowAny
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldContainAllInAnyOrder
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Instant
+import kotlin.uuid.Uuid
 
 class TaskDaoTest : DaoTest() {
     private val dao by lazy { database.taskDao() }
+
+    @Test
+    fun `should delete task by id`() = runTest {
+        val task = Task.fixture(title = "Task to delete")
+        val otherTask = Task.fixture(title = "Other task")
+
+        dao.save(task, otherTask)
+
+        dao.delete(task)
+
+        dao.findById(task.id) shouldBe null
+        dao.findAll().map { it.id } shouldContain otherTask.id
+    }
 
     @Test
     fun `should find all`() = runTest {
@@ -48,7 +68,7 @@ class TaskDaoTest : DaoTest() {
     }
 
     @Test
-    fun `should return overdue tasks and tasks due today`() = runTest {
+    fun `should return today's tasks`() = runTest {
         val endOfToday = Instant.parse("2026-07-21T23:59:59.999999999Z")
 
         val overdueTask = Task.fixture(
@@ -96,28 +116,47 @@ class TaskDaoTest : DaoTest() {
     }
 
     @Test
-    fun `should find task by id`() = runTest {
+    fun `should return task by id`() = runTest {
         val task = Task.fixture(title = "Target task")
         val otherTask = Task.fixture(title = "Other task")
 
         dao.save(task, otherTask)
 
-        val result = dao.observeById(task.id).first()
+        val result = dao.getById(task.id)
 
-        result?.id shouldBe task.id
-        result?.title shouldBe task.title
+        result.id shouldBe task.id
+        result.title shouldBe task.title
     }
 
     @Test
-    fun `should delete task by id`() = runTest {
-        val task = Task.fixture(title = "Task to delete")
+    fun `should throw when task by id does not exist`() = runTest {
+        shouldThrowAny { dao.getById(Uuid.random()) }
+    }
+
+    @Test
+    fun `should return null when finding task by id that does not exist`() = runTest {
+        val result = dao.findById(Uuid.random())
+
+        result shouldBe null
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `should observe task by id`() = runTest {
+        val task = Task.fixture(title = "Target task")
         val otherTask = Task.fixture(title = "Other task")
 
         dao.save(task, otherTask)
 
-        dao.delete(task)
+        val emissions = Channel<Task?>(Channel.UNLIMITED)
+        val job = launch { dao.observeById(task.id).collect { emissions.send(it) } }
 
-        dao.findById(task.id) shouldBe null
-        dao.findAll().map { it.id } shouldContain otherTask.id
+        emissions.receive().shouldNotBeNull().title shouldBe "Target task"
+
+        dao.save(task.copy(title = "Updated task"))
+        advanceUntilIdle()
+
+        emissions.receive().shouldNotBeNull().title shouldBe "Updated task"
+        job.cancel()
     }
 }
