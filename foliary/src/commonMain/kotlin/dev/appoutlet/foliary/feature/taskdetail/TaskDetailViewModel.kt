@@ -76,7 +76,9 @@ sealed interface TaskDetailViewData {
             val creationDate: String,
             val completionDate: String?,
             val priority: Priority,
-        )
+        ) {
+            companion object
+        }
     }
 }
 

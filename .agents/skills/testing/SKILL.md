@@ -60,6 +60,12 @@ MUST follow the existing Compose Multiplatform UI tests in `commonTest`. UI test
 11. MUST use `waitForIdle()` after changing Compose state from the test and `mainClock.advanceTimeBy(...)` plus `waitForIdle()` for UI timers.
 12. When a test REQUIRES custom semantics assertions, MUST add or reuse a shared helper in `core/testing` instead of repeating raw `SemanticsMatcher` details in the test.
 
+### Debugging UI Tests
+
+1. CAN use `ComposeUiTest.printTree(...)` or `SemanticsNodeInteraction.printTree(...)` from `core/testing` to inspect the semantics tree while investigating a failing or unclear UI test.
+2. MUST remove all `printTree` calls before finishing the change. They MUST NOT be committed.
+3. MUST rely on stable test tags and focused assertions for the final test; `printTree` is only a temporary investigation aid.
+
 ## Implementation Checklist
 
 1. MUST check whether a shared base class already exists for this test type.
