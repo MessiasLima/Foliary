@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun FoliaryPill(
+    icon: ImageVector,
     text: String,
     modifier: Modifier = Modifier,
-    icon: ImageVector? = null,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
 ) {
     Row(
@@ -36,14 +36,12 @@ fun FoliaryPill(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        icon?.let {
-            Icon(
-                modifier = Modifier.size(12.dp),
-                imageVector = it,
-                contentDescription = null,
-                tint = contentColor
-            )
-        }
+        Icon(
+            modifier = Modifier.size(12.dp),
+            imageVector = icon,
+            contentDescription = null,
+            tint = contentColor
+        )
 
         Text(
             text = text,

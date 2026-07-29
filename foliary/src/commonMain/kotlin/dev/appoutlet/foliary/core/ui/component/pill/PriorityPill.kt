@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Flag
@@ -39,7 +40,7 @@ fun PriorityPill(priority: Priority, modifier: Modifier = Modifier) {
     }
 
     FoliaryPill(
-        modifier = modifier,
+        modifier = modifier.testTag("PriorityPill"),
         icon = Lucide.Flag,
         text = stringResource(text),
         contentColor = contentColor
