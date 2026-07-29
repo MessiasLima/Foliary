@@ -14,6 +14,7 @@ import androidx.navigation3.ui.NavDisplay
 import dev.appoutlet.foliary.core.navigation.AppNavigator
 import dev.appoutlet.foliary.core.navigation.LocalNavigator
 import dev.appoutlet.foliary.core.navigation.getSavedStateConfiguration
+import dev.appoutlet.foliary.core.ui.scene.rememberBottomSheetSceneStrategy
 import dev.appoutlet.foliary.feature.common.NavigationAggregator
 import dev.appoutlet.foliary.feature.signin.SignInNavKey
 import org.koin.compose.koinInject
@@ -31,7 +32,10 @@ fun Navigation() {
             backStack = backStack,
             entryDecorators = listOf(
                 rememberSaveableStateHolderNavEntryDecorator(),
-                rememberViewModelStoreNavEntryDecorator()
+                rememberViewModelStoreNavEntryDecorator(),
+            ),
+            sceneStrategies = listOf(
+                rememberBottomSheetSceneStrategy()
             ),
             entryProvider = entryProvider {
                 for (navigation in navigationAggregator.navigation) {

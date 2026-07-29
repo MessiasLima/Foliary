@@ -36,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Plus
@@ -50,6 +51,7 @@ import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCard
 import dev.appoutlet.foliary.feature.createtask.CreateTaskNavKey
 import dev.appoutlet.foliary.feature.main.getWindowDecorationPadding
 import dev.appoutlet.foliary.feature.signin.SignInNavKey
+import dev.appoutlet.foliary.feature.taskdetail.TaskDetailNavKey
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.today_add_task_a11y
 import foliary.foliary.generated.resources.today_empty
@@ -73,7 +75,12 @@ fun TodayScreen(lazyListState: LazyListState) {
     ) { viewData ->
         when (viewData) {
             TodayViewData.Idle -> {}
-            is TodayViewData.Loaded -> TodayScreenContent(lazyListState, viewData, viewModel::onEvent)
+            is TodayViewData.Loaded -> TodayScreenContent(
+                lazyListState,
+                viewData,
+                viewModel::onEvent
+            )
+
             TodayViewData.Loading -> LoadingIndicator()
             is TodayViewData.Empty -> TodayScreenEmpty(viewData, viewModel::onEvent)
         }
@@ -100,13 +107,14 @@ internal fun TodayScreenContent(
         item { } // Required for better UX
         item { TodayHeader(viewData.userName) }
         items(viewData.tasks, key = { it.id }) { task ->
-            Box(modifier = Modifier.fillMaxWidth()) {
+            Box(modifier = Modifier.fillMaxWidth().testTag("TodayScreen:TaskItem")) {
                 FoliaryTaskCard(
                     modifier = Modifier.widthInCompact()
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 4.dp)
                         .align(Alignment.Center),
                     task = task,
+                    onClick = { onEvent(TodayEvent.OnTaskClick(task.id)) }
                 )
             }
         }
@@ -167,8 +175,9 @@ private fun TodayHeader(userName: String, modifier: Modifier = Modifier) {
 
 private fun onAction(action: TodayAction, navigator: Navigator) {
     when (action) {
-        TodayAction.NavigateToCreateTask -> navigator.navigate(CreateTaskNavKey)
+        TodayAction.NavigateToCreateTask -> navigator.navigate(CreateTaskNavKey())
         TodayAction.NavigateToSignIn -> navigator.setRoot(SignInNavKey)
+        is TodayAction.NavigateToTaskDetail -> navigator.navigate(TaskDetailNavKey(action.taskId))
     }
 }
 

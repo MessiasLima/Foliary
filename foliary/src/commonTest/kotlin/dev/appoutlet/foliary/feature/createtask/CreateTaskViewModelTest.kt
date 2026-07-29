@@ -5,6 +5,7 @@ import dev.appoutlet.foliary.core.provider.uuid.UuidProvider
 import dev.appoutlet.foliary.core.testing.ViewModelTest
 import dev.appoutlet.foliary.data.task.TaskRepository
 import dev.appoutlet.foliary.data.task.database.entity.Task
+import dev.appoutlet.foliary.data.task.database.entity.fixture
 import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every
@@ -32,6 +33,7 @@ class CreateTaskViewModelTest :
         every(mockTimeProvider::startOfToday) returns startOfToday
         every { mockTimeProvider.displayText(any()) } returns expectedDisplayText
         return CreateTaskViewModel(
+            taskId = null,
             taskRepository = mockTaskRepository,
             timeProvider = mockTimeProvider,
             uuidProvider = mockUuidProvider
@@ -77,6 +79,39 @@ class CreateTaskViewModelTest :
     fun `default state should have dueDate unset and minDueDate set to start of today`() = test {
         currentState.dueDate shouldBe null
         currentState.minDueDateMillis shouldBe startOfToday.toEpochMilliseconds()
+    }
+
+    @Test
+    fun `should load saved task on init`() {
+        val taskId = Uuid.random()
+        val savedTask = Task.fixture(id = taskId)
+
+        everySuspend { mockTaskRepository.findById(taskId) } returns savedTask
+
+        viewModel = CreateTaskViewModel(
+            taskId = taskId.toString(),
+            taskRepository = mockTaskRepository,
+            timeProvider = mockTimeProvider,
+            uuidProvider = mockUuidProvider,
+        )
+
+        test {
+            expectState {
+                copy(
+                    id = taskId.toString(),
+                    title = savedTask.title,
+                    description = savedTask.description,
+                    dueDate = savedTask.dueDate?.let { dueDate ->
+                        CreateTaskViewData.DueDateViewData.fixture(
+                            selectedDateMillis = dueDate.toEpochMilliseconds(),
+                            selectedDateDisplayText = expectedDisplayText,
+                        )
+                    },
+                    minDueDateMillis = startOfToday.toEpochMilliseconds(),
+                    saveButtonEnabled = true,
+                )
+            }
+        }
     }
 
     @Test

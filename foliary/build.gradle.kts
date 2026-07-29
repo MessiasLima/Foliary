@@ -93,6 +93,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.sqlite.bundled)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.compose.ui.tooling.preview)
         }
 
         iosMain.dependencies {
@@ -129,11 +130,13 @@ compose {
 room3 {
     schemaDirectory("$projectDir/schemas")
 }
+
 dependencies {
     add("kspAndroid", libs.room.compiler)
     add("kspJvm", libs.room.compiler)
     add("kspIosArm64", libs.room.compiler)
     add("kspIosSimulatorArm64", libs.room.compiler)
+    androidRuntimeClasspath(libs.compose.ui.tooling)
 }
 
 apply(from = "$rootDir/config/detekt/detekt.gradle")

@@ -5,6 +5,7 @@ import dev.appoutlet.foliary.data.task.database.TaskDao
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.annotation.Single
+import kotlin.uuid.Uuid
 
 @Single
 class TaskRepositoryImpl(
@@ -16,7 +17,27 @@ class TaskRepositoryImpl(
         return taskDao.findTodayTasks(endOfToday)
     }
 
+    override fun observeById(id: Uuid) = taskDao.observeById(id)
+
     override suspend fun save(task: Task) {
         taskDao.save(task)
+    }
+
+    override suspend fun delete(id: Uuid) {
+        taskDao.delete(getById(id))
+    }
+
+    override suspend fun getById(id: Uuid) = taskDao.getById(id)
+
+    override suspend fun findById(id: Uuid) = taskDao.findById(id)
+
+    override suspend fun markNotCompleted(id: Uuid) {
+        val task = getById(id).copy(completionDate = null)
+        save(task)
+    }
+
+    override suspend fun markCompleted(id: Uuid) {
+        val task = getById(id).copy(completionDate = timeProvider.now())
+        save(task)
     }
 }

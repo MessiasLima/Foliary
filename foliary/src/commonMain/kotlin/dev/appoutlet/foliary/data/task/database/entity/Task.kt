@@ -14,7 +14,7 @@ data class Task(
     val creationDate: Instant,
     val dueDate: Instant?,
     val completionDate: Instant?,
-    val priority: Priority?,
+    val priority: Priority,
     val url: String?,
     @Embedded val location: Location?,
 ) {

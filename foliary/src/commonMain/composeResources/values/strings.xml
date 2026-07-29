@@ -80,7 +80,49 @@
     <string name="system_tray_quit">Quit</string>
     <!-- endregion -->
 
+    <!-- region Task Detail -->
+    <string name="task_detail_title">Task details</string>
+    <string name="task_detail_task_title_label">Title</string>
+    <string name="task_detail_description_label">Description</string>
+    <string name="task_detail_due_date_label">Due date</string>
+    <string name="task_detail_due_date_period">%1$d days</string>
+    <string name="task_detail_priority_label">Priority</string>
+    <string name="task_detail_url_label">URL</string>
+    <string name="task_detail_creation_date_label">Created at</string>
+    <string name="task_detail_completion_date_label">Completed at</string>
+    <string name="task_detail_mark_completed">Mark as done</string>
+    <string name="task_detail_delete">Delete</string>
+    <string name="task_detail_delete_dialog_title">Delete task?</string>
+    <string name="task_detail_delete_dialog_message">You are about to delete the <b>"%1$s"</b> task. This action can't be undone. Are you sure you want to delete it?</string>
+    <string name="task_detail_delete_dialog_message_1">You are about to delete the</string>
+    <string name="task_detail_delete_dialog_message_2">task. This action can't be undone. Are you sure you want to delete it?</string>
+    <string name="task_detail_delete_dialog_confirm">Delete task</string>
+    <string name="task_detail_status_overdue">Overdue</string>
+    <string name="task_detail_status_completed">Done</string>
+    <string name="task_detail_no_description">No description available</string>
+    <string name="task_detail_no_due_date">No due date</string>
+    <string name="task_detail_no_priority">No priority</string>
+    <string name="task_detail_priority_lowest">Lowest</string>
+    <string name="task_detail_priority_low">Low</string>
+    <string name="task_detail_priority_medium">Medium</string>
+    <string name="task_detail_priority_high">High</string>
+    <string name="task_detail_priority_highest">Highest</string>
+    <string name="task_detail_priority_blocker">Blocker</string>
+    <string name="task_detail_not_found_title">Task not found</string>
+    <string name="task_detail_not_found_message">The requested task could not be found.</string>
+    <string name="task_detail_edit">Edit</string>
+    <!-- endregion -->
+
     <!-- region Back icon button -->
     <string name="back_icon_button_a11y">Navigate back</string>
+    <!-- endregion -->
+
+    <!-- region Priority pill -->
+    <string name="priority_pill_lowest">Lowest priority</string>
+    <string name="priority_pill_low">Low priority</string>
+    <string name="priority_pill_medium">Medium priority</string>
+    <string name="priority_pill_high">High priority</string>
+    <string name="priority_pill_highest">Highest priority</string>
+    <string name="priority_pill_blocker">Blocker</string>
     <!-- endregion -->
 </resources>

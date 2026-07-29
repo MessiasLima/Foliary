@@ -12,7 +12,7 @@ fun Task.Companion.fixture(
     creationDate: Instant = Clock.System.now(),
     dueDate: Instant? = creationDate.plus(30.days),
     completionDate: Instant? = creationDate.plus(15.days),
-    priority: Priority? = Priority.MEDIUM,
+    priority: Priority = Priority.MEDIUM,
     url: String? = "https://foliary.appoutlet.dev/",
     location: Location? = Location.fixture()
 ) = Task(

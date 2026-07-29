@@ -32,3 +32,29 @@ Read this file before creating or updating any fixture function.
 4. For nullable timestamps, enums, nested objects, and strings, still provide a non-null default.
 5. For nested entities, call that nested entity's `fixture()`.
 6. For collections, create at least one realistic child element using fixtures where appropriate.
+
+## Overriding Fixture Defaults
+
+Only pass custom values to a fixture when they are REQUIRED for the test case.
+
+Fixture defaults already represent a realistic object, so overriding them just to restate the same value adds noise and makes tests longer without improving coverage.
+
+### DO
+
+```kotlin
+val fixture = MyClass.fixture()
+val result = myClassMapper(fixture)
+
+result.title shouldBe fixture.title
+```
+
+### DON'T
+
+```kotlin
+val fixture = MyClass.fixture(title = "Custom title")
+val result = myClassMapper(fixture)
+
+result.title shouldBe "Custom title"
+```
+
+In the second example, the custom value does not add any benefit; it only makes the test longer. Prefer using the fixture defaults and asserting against them unless the test specifically needs a non-default value.

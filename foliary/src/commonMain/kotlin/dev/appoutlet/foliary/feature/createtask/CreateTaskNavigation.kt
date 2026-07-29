@@ -10,13 +10,17 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.modules.PolymorphicModuleBuilder
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.Single
+import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Single
 class CreateTaskNavigation : Navigation<CreateTaskNavKey> {
     override fun setupRoute(scope: EntryProviderScope<NavKey>) {
-        scope.entry<CreateTaskNavKey> {
-            val viewModel = koinViewModel<CreateTaskViewModel>()
+        scope.entry<CreateTaskNavKey> { navKey ->
+            val viewModel = koinViewModel<CreateTaskViewModel> {
+                parametersOf(navKey.taskId)
+            }
+
             Screen(
                 screenName = "CreateTaskScreen",
                 viewModelProvider = { viewModel },
@@ -39,4 +43,4 @@ class CreateTaskNavigation : Navigation<CreateTaskNavKey> {
 }
 
 @Serializable
-data object CreateTaskNavKey : NavKey
+data class CreateTaskNavKey(val taskId: String? = null) : NavKey

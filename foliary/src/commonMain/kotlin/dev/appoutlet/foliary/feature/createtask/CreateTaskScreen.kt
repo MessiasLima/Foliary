@@ -14,19 +14,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import dev.appoutlet.foliary.core.ui.component.appbar.FoliaryTopAppBar
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryBackIconButton
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryPrimaryButton
 import dev.appoutlet.foliary.core.ui.component.datepicker.FoliaryDatePicker
@@ -43,9 +36,7 @@ import foliary.foliary.generated.resources.create_task_title
 import foliary.foliary.generated.resources.create_task_title_label
 import foliary.foliary.generated.resources.create_task_title_placeholder
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.debounce
 import org.jetbrains.compose.resources.stringResource
-import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun CreateTaskScreen(viewData: CreateTaskViewData, onEvent: (CreateTaskEvent) -> Unit) {
@@ -96,7 +87,7 @@ fun CreateTaskScreen(viewData: CreateTaskViewData, onEvent: (CreateTaskEvent) ->
 
 @Composable
 private fun CreateTaskTopBar(onEvent: (CreateTaskEvent) -> Unit) {
-    TopAppBar(
+    FoliaryTopAppBar(
         modifier = Modifier.padding(top = getWindowDecorationPadding()),
         navigationIcon = {
             FoliaryBackIconButton(onClick = { onEvent(CreateTaskEvent.BackClicked) })
@@ -107,55 +98,34 @@ private fun CreateTaskTopBar(onEvent: (CreateTaskEvent) -> Unit) {
                 color = MaterialTheme.colorScheme.primary
             )
         },
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
     )
 }
 
 @OptIn(FlowPreview::class)
 @Composable
 private fun TitleField(title: String, onEvent: (CreateTaskEvent) -> Unit) {
-    var value by rememberSaveable { mutableStateOf(title) }
-
-    LaunchedEffect(Unit) {
-        snapshotFlow { value }
-            .debounce(500.milliseconds)
-            .collect { onEvent(CreateTaskEvent.TitleChanged(it)) }
-    }
-
     FoliaryTextField(
         modifier = Modifier.widthInCompact()
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .testTag("CreateTaskScreen:TitleField"),
-        value = value,
-        onValueChange = { value = it },
+        value = title,
+        onValueChange = { onEvent(CreateTaskEvent.TitleChanged(it)) },
         label = { Text(text = stringResource(Res.string.create_task_title_label)) },
         placeholder = { Text(text = stringResource(Res.string.create_task_title_placeholder)) },
-        singleLine = true
     )
 }
 
 @OptIn(FlowPreview::class)
 @Composable
 private fun DescriptionField(description: String?, onEvent: (CreateTaskEvent) -> Unit) {
-    var value by rememberSaveable { mutableStateOf(description ?: "") }
-
-    LaunchedEffect(Unit) {
-        snapshotFlow { value }
-            .debounce(500.milliseconds)
-            .collect {
-                val valueToEmit = it.ifBlank { null }
-                onEvent(CreateTaskEvent.DescriptionChanged(valueToEmit))
-            }
-    }
-
     FoliaryTextField(
         modifier = Modifier.widthInCompact()
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .testTag("CreateTaskScreen:DescriptionField"),
-        value = value,
-        onValueChange = { value = it },
+        value = description ?: "",
+        onValueChange = { onEvent(CreateTaskEvent.DescriptionChanged(it)) },
         label = { Text(text = stringResource(Res.string.create_task_description_label)) },
         placeholder = { Text(text = stringResource(Res.string.create_task_description_placeholder)) },
         minLines = 3

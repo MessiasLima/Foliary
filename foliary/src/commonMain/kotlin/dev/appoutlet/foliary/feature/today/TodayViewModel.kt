@@ -47,11 +47,16 @@ class TodayViewModel(
     fun onEvent(event: TodayEvent) {
         when (event) {
             TodayEvent.OnAddTaskClick -> onAddTaskClick()
+            is TodayEvent.OnTaskClick -> onTaskClick(event.taskId)
         }
     }
 
     private fun onAddTaskClick() = intent {
         postSideEffect(TodayAction.NavigateToCreateTask)
+    }
+
+    private fun onTaskClick(taskId: String) = intent {
+        postSideEffect(TodayAction.NavigateToTaskDetail(taskId))
     }
 }
 
@@ -71,8 +76,10 @@ sealed interface TodayViewData {
 sealed interface TodayAction : Action {
     data object NavigateToCreateTask : TodayAction
     data object NavigateToSignIn : TodayAction
+    data class NavigateToTaskDetail(val taskId: String) : TodayAction
 }
 
 sealed interface TodayEvent {
     data object OnAddTaskClick : TodayEvent
+    data class OnTaskClick(val taskId: String) : TodayEvent
 }
