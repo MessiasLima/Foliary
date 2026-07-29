@@ -84,16 +84,25 @@ class CreateTaskScreenTest {
     fun `should update text fields`() = runComposeUiTest {
         val title = "Buy soil"
         val description = "Use the garden store nearby"
+        var viewData by mutableStateOf(
+            CreateTaskViewData.fixture(
+                title = "",
+                description = null,
+                dueDate = null,
+                saveButtonEnabled = false,
+            )
+        )
 
         setContent {
             CreateTaskScreen(
-                viewData = CreateTaskViewData.fixture(
-                    title = "",
-                    description = null,
-                    dueDate = null,
-                    saveButtonEnabled = false,
-                ),
-                onEvent = {}
+                viewData = viewData,
+                onEvent = { event ->
+                    viewData = when (event) {
+                        is CreateTaskEvent.TitleChanged -> viewData.copy(title = event.title)
+                        is CreateTaskEvent.DescriptionChanged -> viewData.copy(description = event.description)
+                        else -> viewData
+                    }
+                }
             )
         }
 
