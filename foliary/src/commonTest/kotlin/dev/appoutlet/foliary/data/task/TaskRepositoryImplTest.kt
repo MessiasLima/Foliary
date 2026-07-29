@@ -7,6 +7,7 @@ import dev.appoutlet.foliary.data.task.database.entity.fixture
 import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every
+import dev.mokkery.everySuspend
 import dev.mokkery.mock
 import dev.mokkery.verifySuspend
 import io.kotest.matchers.shouldBe
@@ -35,6 +36,15 @@ class TaskRepositoryImplTest {
     }
 
     @Test
+    fun `should observe task by id`() = runTest {
+        val task = Task.fixture()
+
+        every { mockTaskDao.observeById(task.id) } returns flowOf(task)
+
+        subject.observeById(task.id).first() shouldBe task
+    }
+
+    @Test
     fun `should save task`() = runTest {
         val task = Task.fixture()
 
@@ -44,20 +54,57 @@ class TaskRepositoryImplTest {
     }
 
     @Test
-    fun `should return task by id`() = runTest {
-        val task = Task.fixture()
-
-        every { mockTaskDao.observeById(task.id) } returns flowOf(task)
-
-        subject.observeById(task.id).first() shouldBe task
-    }
-
-    @Test
     fun `should delete task by id`() = runTest {
         val task = Task.fixture()
+
+        everySuspend { mockTaskDao.getById(task.id) } returns task
 
         subject.delete(task.id)
 
         verifySuspend { mockTaskDao.delete(task) }
+    }
+
+    @Test
+    fun `should get task by id`() = runTest {
+        val task = Task.fixture()
+
+        everySuspend { mockTaskDao.getById(task.id) } returns task
+
+        subject.getById(task.id) shouldBe task
+    }
+
+    @Test
+    fun `should find task by id`() = runTest {
+        val task = Task.fixture()
+
+        everySuspend { mockTaskDao.findById(task.id) } returns task
+
+        subject.findById(task.id) shouldBe task
+    }
+
+    @Test
+    fun `should mark task as not completed`() = runTest {
+        val task = Task.fixture(completionDate = Instant.parse("2026-07-22T10:00:00Z"))
+        val expectedTask = task.copy(completionDate = null)
+
+        everySuspend { mockTaskDao.getById(task.id) } returns task
+
+        subject.markNotCompleted(task.id)
+
+        verifySuspend { mockTaskDao.save(expectedTask) }
+    }
+
+    @Test
+    fun `should mark task as completed`() = runTest {
+        val now = Instant.parse("2026-07-22T12:00:00Z")
+        val task = Task.fixture(completionDate = null)
+        val expectedTask = task.copy(completionDate = now)
+
+        every { mockTimeProvider.now() } returns now
+        everySuspend { mockTaskDao.getById(task.id) } returns task
+
+        subject.markCompleted(task.id)
+
+        verifySuspend { mockTaskDao.save(expectedTask) }
     }
 }
