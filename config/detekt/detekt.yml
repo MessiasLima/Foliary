@@ -28,6 +28,7 @@ style:
     active: true
     imports:
       - 'co.touchlab.kermit.Logger'
+      - 'dev.appoutlet.foliary.core.testing.printTree'
   MaxLineLength:
     ignoreAnnotated:
       - Test

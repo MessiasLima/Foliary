@@ -28,6 +28,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.ui.platform.testTag
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,11 +37,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Calendar
 import com.composables.icons.lucide.CalendarCheck
@@ -54,6 +57,8 @@ import dev.appoutlet.foliary.core.ui.component.button.FoliaryMenuIconButton
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.pill.OverduePill
 import dev.appoutlet.foliary.core.ui.component.pill.PriorityPill
+import dev.appoutlet.foliary.core.ui.theme.FoliaryTheme
+import dev.appoutlet.foliary.data.task.database.entity.Priority
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.general_cancel
 import foliary.foliary.generated.resources.task_detail_completion_date_label
@@ -104,7 +109,10 @@ private fun TaskDetailTopBar(
 private fun CompleteButton(isComplete: Boolean, onEvent: (TaskDetailEvent) -> Unit) {
     AnimatedContent(targetState = isComplete) { complete ->
         if (complete) {
-            TextButton(onClick = { onEvent(TaskDetailEvent.MarkNotCompletedClicked) }) {
+            TextButton(
+                modifier = Modifier.testTag("TaskDetailScreen:UnmarkAsComplete"),
+                onClick = { onEvent(TaskDetailEvent.MarkNotCompletedClicked) }
+            ) {
                 Icon(
                     imageVector = Lucide.CircleCheckBig,
                     contentDescription = stringResource(Res.string.task_detail_mark_completed)
@@ -113,7 +121,10 @@ private fun CompleteButton(isComplete: Boolean, onEvent: (TaskDetailEvent) -> Un
                 Text(text = stringResource(Res.string.task_detail_status_completed))
             }
         } else {
-            FilledTonalButton(onClick = { onEvent(TaskDetailEvent.MarkCompletedClicked) }) {
+            FilledTonalButton(
+                modifier = Modifier.testTag("TaskDetailScreen:MarkAsComplete"),
+                onClick = { onEvent(TaskDetailEvent.MarkCompletedClicked) }
+            ) {
                 Icon(
                     imageVector = Lucide.CircleCheck,
                     contentDescription = stringResource(Res.string.task_detail_mark_completed)
@@ -130,7 +141,10 @@ private fun MenuButton(taskTitle: String, onEvent: (TaskDetailEvent) -> Unit) {
     var showMenu by remember { mutableStateOf(false) }
 
     Box {
-        FoliaryMenuIconButton(onClick = { showMenu = showMenu.not() })
+        FoliaryMenuIconButton(
+            modifier = Modifier.testTag("TaskDetailScreen:MenuButton"),
+            onClick = { showMenu = showMenu.not() }
+        )
 
         DropdownMenu(
             expanded = showMenu,
@@ -171,6 +185,7 @@ private fun MenuButtonDelete(taskTitle: String, onDeleteClick: () -> Unit) {
 
     if (showDeleteDialog) {
         AlertDialog(
+            modifier = Modifier.testTag("TaskDetailScreen:DeleteDialog"),
             onDismissRequest = { showDeleteDialog = false },
             icon = {
                 Box(
@@ -179,6 +194,7 @@ private fun MenuButtonDelete(taskTitle: String, onDeleteClick: () -> Unit) {
                         .padding(16.dp)
                 ) {
                     Icon(
+                        modifier = Modifier.testTag("TaskDetailScreen:DeleteDialogIcon"),
                         imageVector = Lucide.Trash,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary
@@ -188,6 +204,7 @@ private fun MenuButtonDelete(taskTitle: String, onDeleteClick: () -> Unit) {
             title = { Text(text = stringResource(Res.string.task_detail_delete_dialog_title)) },
             text = {
                 Text(
+                    modifier = Modifier.testTag("TaskDetailScreen:DeleteDialogMessage"),
                     text = buildAnnotatedString {
                         append(stringResource(Res.string.task_detail_delete_dialog_message_1))
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -209,7 +226,10 @@ private fun MenuButtonDelete(taskTitle: String, onDeleteClick: () -> Unit) {
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showDeleteDialog = false }) {
+                TextButton(
+                    modifier = Modifier.testTag("TaskDetailScreen:DeleteDialogCancelButton"),
+                    onClick = { showDeleteDialog = false }
+                ) {
                     Text(text = stringResource(Res.string.general_cancel))
                 }
             },
@@ -226,7 +246,11 @@ private fun TaskDetailContent(
     Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
         TaskDetailTopBar(isComplete = task.isComplete, taskTitle = task.title, onEvent = onEvent)
         Spacer(Modifier.height(8.dp))
-        Text(text = task.title, style = MaterialTheme.typography.titleLarge)
+        Text(
+            modifier = Modifier.testTag("TaskDetailScreen:Title"),
+            text = task.title,
+            style = MaterialTheme.typography.titleLarge
+        )
         PillsRow(task)
         TaskDetailDescription(task.description)
         HorizontalDivider()
@@ -241,7 +265,10 @@ fun PillsRow(task: TaskDetailViewData.Loaded.TaskViewData) {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         AnimatedVisibility(visible = task.isOverdue) { OverduePill() }
-        PriorityPill(task.priority)
+        PriorityPill(
+            priority = task.priority,
+            modifier = Modifier.testTag("TaskDetailScreen:PriorityPill")
+        )
     }
 }
 
@@ -249,7 +276,7 @@ fun PillsRow(task: TaskDetailViewData.Loaded.TaskViewData) {
 private fun TaskDetailDescription(description: String?) {
     val text = description ?: stringResource(Res.string.task_detail_no_description)
     Text(
-        modifier = Modifier.padding(vertical = 16.dp),
+        modifier = Modifier.padding(vertical = 16.dp).testTag("TaskDetailScreen:Description"),
         text = text,
         style = MaterialTheme.typography.bodyMedium
     )
@@ -277,6 +304,7 @@ private fun CreationDateDetailRow(creationDate: String) {
         label = stringResource(Res.string.task_detail_creation_date_label)
     ) {
         Text(
+            modifier = Modifier.testTag("TaskDetailScreen:CreationDate"),
             text = creationDate,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.primary
@@ -291,6 +319,7 @@ private fun CompletionDateDetailRow(completionDate: String) {
         label = stringResource(Res.string.task_detail_completion_date_label)
     ) {
         Text(
+            modifier = Modifier.testTag("TaskDetailScreen:CompletionDate"),
             text = completionDate,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.primary
@@ -305,6 +334,7 @@ private fun DueDateDetailRow(dueDate: String, overdue: Boolean, overduePeriodInD
         label = stringResource(Res.string.task_detail_due_date_label)
     ) {
         Text(
+            modifier = Modifier.testTag("TaskDetailScreen:DueDate"),
             text = buildString {
                 append(dueDate)
                 overduePeriodInDays?.let { period ->
@@ -346,5 +376,26 @@ private fun DetailRow(icon: ImageVector, label: String, content: @Composable Row
         }
 
         content()
+    }
+}
+
+@Composable
+@Preview(backgroundColor = 0xFFFAF9F6, showBackground = true)
+private fun TaskDetailContentPreview() {
+    FoliaryTheme {
+        TaskDetailContent(
+            task = TaskDetailViewData.Loaded.TaskViewData(
+                title = "Review Kotlin Multiplatform architecture",
+                description = "Validate the task detail screen behavior and visual hierarchy before release.",
+                isComplete = true,
+                dueDate = "Jul 30, 2026",
+                isOverdue = true,
+                overduePeriodInDays = 2,
+                creationDate = "Jul 24, 2026",
+                completionDate = null,
+                priority = Priority.HIGH,
+            ),
+            onEvent = {},
+        )
     }
 }

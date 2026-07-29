@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,7 +25,7 @@ private val HighContentColor = Color(0xFFC4A319)
 private val HighestContentColor = Color(0xFFAD5203)
 
 @Composable
-fun PriorityPill(priority: Priority) {
+fun PriorityPill(priority: Priority, modifier: Modifier = Modifier) {
     val defaultContentColor = MaterialTheme.colorScheme.onSurface
     val blockerContentColor = MaterialTheme.colorScheme.error
 
@@ -38,6 +39,7 @@ fun PriorityPill(priority: Priority) {
     }
 
     FoliaryPill(
+        modifier = modifier,
         icon = Lucide.Flag,
         text = stringResource(text),
         contentColor = contentColor
