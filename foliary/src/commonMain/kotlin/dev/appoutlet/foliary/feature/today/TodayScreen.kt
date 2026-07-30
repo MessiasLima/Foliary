@@ -60,6 +60,7 @@ import dev.appoutlet.foliary.feature.signin.SignInNavKey
 import dev.appoutlet.foliary.feature.taskdetail.TaskDetailNavKey
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.today_add_task_a11y
+import foliary.foliary.generated.resources.today_celebration
 import foliary.foliary.generated.resources.today_celebration_button
 import foliary.foliary.generated.resources.today_celebration_description
 import foliary.foliary.generated.resources.today_celebration_title
@@ -333,7 +334,7 @@ private fun TodayScreenCelebrationContent(onEvent: (TodayEvent) -> Unit) {
     ) {
         Image(
             modifier = Modifier.height(192.dp).align(Alignment.CenterHorizontally),
-            painter = painterResource(Res.drawable.today_empty), // TODO replace illustration
+            painter = painterResource(Res.drawable.today_celebration),
             contentDescription = null
         )
 
