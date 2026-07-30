@@ -24,11 +24,13 @@ class TaskRepositoryImplTest {
 
     @Test
     fun `should return today's tasks`() = runTest {
+        val startOfToday = Instant.parse("2026-07-22T00:00:00Z")
         val endOfToday = Instant.parse("2026-07-22T23:59:59.999999999Z")
         val fixtureTasks = listOf(Task.fixture())
 
+        every { mockTimeProvider.startOfToday() } returns startOfToday
         every { mockTimeProvider.endOfToday() } returns endOfToday
-        every { mockTaskDao.findTodayTasks(endOfToday) } returns flowOf(fixtureTasks)
+        every { mockTaskDao.findTodayTasks(startOfToday, endOfToday) } returns flowOf(fixtureTasks)
 
         val result = subject.findTodayTasks().first()
 

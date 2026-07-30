@@ -34,10 +34,10 @@ interface TaskDao {
         """
         SELECT *
         FROM Task
-        WHERE (dueDate <= :endOfToday OR dueDate IS NULL)
-            AND completionDate IS NULL
+        WHERE (completionDate IS NULL AND (dueDate <= :endOfToday OR dueDate IS NULL))
+            OR (completionDate IS NOT NULL AND completionDate >= :startOfToday AND completionDate <= :endOfToday)
         ORDER BY dueDate IS NULL, dueDate ASC
         """
     )
-    fun findTodayTasks(endOfToday: Instant): Flow<List<Task>>
+    fun findTodayTasks(startOfToday: Instant, endOfToday: Instant): Flow<List<Task>>
 }

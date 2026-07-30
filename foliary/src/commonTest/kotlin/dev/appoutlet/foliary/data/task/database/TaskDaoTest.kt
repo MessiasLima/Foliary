@@ -69,6 +69,7 @@ class TaskDaoTest : DaoTest() {
 
     @Test
     fun `should return today's tasks`() = runTest {
+        val startOfToday = Instant.parse("2026-07-21T00:00:00Z")
         val endOfToday = Instant.parse("2026-07-21T23:59:59.999999999Z")
 
         val overdueTask = Task.fixture(
@@ -96,23 +97,50 @@ class TaskDaoTest : DaoTest() {
         )
 
         val noDueDateTask = Task.fixture(
-            title = "Future task",
+            title = "No due date task",
             dueDate = null,
             completionDate = null,
         )
 
-        val completedTask = Task.fixture(
-            title = "Completed task",
+        val completedTodayTask = Task.fixture(
+            title = "Completed today task",
             dueDate = Instant.parse("2026-07-20T21:00:00Z"),
             completionDate = Instant.parse("2026-07-21T10:00:00Z"),
         )
 
-        dao.save(overdueTask, dueTodayTask, dueAtEndOfDayTask, futureTask, completedTask, noDueDateTask)
+        val completedYesterdayTask = Task.fixture(
+            title = "Completed yesterday task",
+            dueDate = Instant.parse("2026-07-20T21:00:00Z"),
+            completionDate = Instant.parse("2026-07-20T10:00:00Z"),
+        )
 
-        val result = dao.findTodayTasks(endOfToday).first()
+        val completedTomorrowTask = Task.fixture(
+            title = "Completed tomorrow task",
+            dueDate = Instant.parse("2026-07-20T21:00:00Z"),
+            completionDate = Instant.parse("2026-07-22T10:00:00Z"),
+        )
+
+        dao.save(
+            overdueTask,
+            dueTodayTask,
+            dueAtEndOfDayTask,
+            futureTask,
+            noDueDateTask,
+            completedTodayTask,
+            completedYesterdayTask,
+            completedTomorrowTask,
+        )
+
+        val result = dao.findTodayTasks(startOfToday, endOfToday).first()
         val resultIds = result.map { it.id }
 
-        resultIds shouldBe listOf(overdueTask.id, dueTodayTask.id, dueAtEndOfDayTask.id, noDueDateTask.id)
+        resultIds shouldBe listOf(
+            completedTodayTask.id,
+            overdueTask.id,
+            dueTodayTask.id,
+            dueAtEndOfDayTask.id,
+            noDueDateTask.id,
+        )
     }
 
     @Test

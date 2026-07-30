@@ -2,9 +2,11 @@ package dev.appoutlet.foliary.feature.today
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,8 +24,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -32,12 +33,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.ChevronDown
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Plus
 import dev.appoutlet.foliary.core.navigation.Navigator
@@ -48,12 +53,19 @@ import dev.appoutlet.foliary.core.ui.component.modifier.FoliaryShadowColorDefaul
 import dev.appoutlet.foliary.core.ui.component.modifier.foliaryShadow
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCard
+import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewData
 import dev.appoutlet.foliary.feature.createtask.CreateTaskNavKey
 import dev.appoutlet.foliary.feature.main.getWindowDecorationPadding
 import dev.appoutlet.foliary.feature.signin.SignInNavKey
 import dev.appoutlet.foliary.feature.taskdetail.TaskDetailNavKey
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.today_add_task_a11y
+import foliary.foliary.generated.resources.today_celebration
+import foliary.foliary.generated.resources.today_celebration_button
+import foliary.foliary.generated.resources.today_celebration_description
+import foliary.foliary.generated.resources.today_celebration_title
+import foliary.foliary.generated.resources.today_completed_header
+import foliary.foliary.generated.resources.today_completed_header_a11y
 import foliary.foliary.generated.resources.today_empty
 import foliary.foliary.generated.resources.today_empty_button
 import foliary.foliary.generated.resources.today_empty_description
@@ -75,14 +87,14 @@ fun TodayScreen(lazyListState: LazyListState) {
     ) { viewData ->
         when (viewData) {
             TodayViewData.Idle -> {}
-            is TodayViewData.Loaded -> TodayScreenContent(
-                lazyListState,
-                viewData,
-                viewModel::onEvent
-            )
-
             TodayViewData.Loading -> LoadingIndicator()
-            is TodayViewData.Empty -> TodayScreenEmpty(viewData, viewModel::onEvent)
+            is TodayViewData.Loaded,
+            is TodayViewData.Empty,
+            is TodayViewData.Celebration -> TodayScreenContent(
+                lazyListState = lazyListState,
+                viewData = viewData,
+                onEvent = viewModel::onEvent
+            )
         }
     }
 }
@@ -90,9 +102,13 @@ fun TodayScreen(lazyListState: LazyListState) {
 @Composable
 internal fun TodayScreenContent(
     lazyListState: LazyListState,
-    viewData: TodayViewData.Loaded,
+    viewData: TodayViewData,
     onEvent: (TodayEvent) -> Unit
 ) {
+    val userName = viewData.userName
+    val completedTasks = viewData.completedTasks
+
+    var completedCollapsed by remember { mutableStateOf(true) }
     val showActionShadow by remember {
         derivedStateOf { lazyListState.firstVisibleItemIndex > 1 }
     }
@@ -105,18 +121,116 @@ internal fun TodayScreenContent(
     ) {
         stickyHeader { TodayAddButton(onEvent, showActionShadow) }
         item { } // Required for better UX
-        item { TodayHeader(viewData.userName) }
-        items(viewData.tasks, key = { it.id }) { task ->
-            Box(modifier = Modifier.fillMaxWidth().testTag("TodayScreen:TaskItem")) {
-                FoliaryTaskCard(
-                    modifier = Modifier.widthInCompact()
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                        .align(Alignment.Center),
-                    task = task,
-                    onClick = { onEvent(TodayEvent.OnTaskClick(task.id)) }
+        item { TodayHeader(userName) }
+
+        when (viewData) {
+            is TodayViewData.Empty -> item {
+                TodayScreenEmptyContent(modifier = Modifier.animateItem(), onEvent = onEvent)
+            }
+
+            is TodayViewData.Celebration -> item {
+                TodayScreenCelebrationContent(modifier = Modifier.animateItem(), onEvent = onEvent)
+            }
+
+            is TodayViewData.Loaded -> {
+                items(viewData.pendingTasks, key = { it.id }) { task ->
+                    TodayTaskItem(modifier = Modifier.animateItem(), task = task, onEvent = onEvent)
+                }
+            }
+
+            else -> {}
+        }
+
+        if (completedTasks.isNotEmpty()) {
+            item(key = "CompletedHeader") {
+                CompletedTodayHeader(
+                    modifier = Modifier.animateItem(),
+                    count = completedTasks.size,
+                    collapsed = completedCollapsed,
+                    onToggle = { completedCollapsed = !completedCollapsed }
                 )
             }
+
+            if (!completedCollapsed) {
+                items(completedTasks, key = { it.id }) { task ->
+                    TodayTaskItem(
+                        task = task,
+                        onEvent = onEvent,
+                        modifier = Modifier.animateItem()
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TodayTaskItem(
+    task: FoliaryTaskCardViewData,
+    onEvent: (TodayEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .testTag("TodayScreen:TaskItem")
+    ) {
+        FoliaryTaskCard(
+            modifier = Modifier.widthInCompact()
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 4.dp)
+                .align(Alignment.Center),
+            task = task,
+            onCompletedChange = { isCompleted ->
+                if (isCompleted) {
+                    onEvent(TodayEvent.MarkTaskAsCompleted(task.id))
+                } else {
+                    onEvent(TodayEvent.MarkTaskAsNotCompleted(task.id))
+                }
+            },
+            onClick = { onEvent(TodayEvent.OnTaskClick(task.id)) }
+        )
+    }
+}
+
+@Composable
+private fun CompletedTodayHeader(
+    count: Int,
+    collapsed: Boolean,
+    onToggle: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val chevronRotation by animateFloatAsState(
+        targetValue = if (collapsed) RotationCollapsed else RotationExpanded
+    )
+
+    Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Row(
+            modifier = Modifier
+                .widthInCompact()
+                .fillMaxWidth()
+                .clickable(
+                    onClick = onToggle,
+                    onClickLabel = stringResource(Res.string.today_completed_header_a11y)
+                )
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+                .testTag("TodayScreen:CompletedHeader"),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            HorizontalDivider(modifier = Modifier.weight(1f))
+
+            Text(
+                text = stringResource(Res.string.today_completed_header, count),
+                style = MaterialTheme.typography.labelMedium
+            )
+
+            Icon(
+                modifier = Modifier.rotate(chevronRotation),
+                imageVector = Lucide.ChevronDown,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground
+            )
         }
     }
 }
@@ -173,6 +287,82 @@ private fun TodayHeader(userName: String, modifier: Modifier = Modifier) {
     }
 }
 
+@Composable
+private fun TodayScreenEmptyContent(
+    onEvent: (TodayEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .widthInCompact()
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 56.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            modifier = Modifier.height(192.dp).align(Alignment.CenterHorizontally),
+            painter = painterResource(Res.drawable.today_empty),
+            contentDescription = null
+        )
+
+        Text(
+            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
+            text = stringResource(Res.string.today_empty_title),
+            style = MaterialTheme.typography.titleLarge
+        )
+
+        Text(
+            text = stringResource(Res.string.today_empty_description),
+            style = MaterialTheme.typography.bodyMedium
+        )
+
+        FoliarySecondaryButton(
+            modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 16.dp),
+            onClick = { onEvent(TodayEvent.OnAddTaskClick) },
+        ) {
+            Text(text = stringResource(Res.string.today_empty_button))
+        }
+    }
+}
+
+@Composable
+private fun TodayScreenCelebrationContent(
+    onEvent: (TodayEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .widthInCompact()
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 56.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            modifier = Modifier.height(192.dp).align(Alignment.CenterHorizontally),
+            painter = painterResource(Res.drawable.today_celebration),
+            contentDescription = null
+        )
+
+        Text(
+            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
+            text = stringResource(Res.string.today_celebration_title),
+            style = MaterialTheme.typography.titleLarge
+        )
+
+        Text(
+            text = stringResource(Res.string.today_celebration_description),
+            style = MaterialTheme.typography.bodyMedium
+        )
+
+        FoliarySecondaryButton(
+            modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 16.dp),
+            onClick = { onEvent(TodayEvent.OnAddTaskClick) },
+        ) {
+            Text(text = stringResource(Res.string.today_celebration_button))
+        }
+    }
+}
+
 private fun onAction(action: TodayAction, navigator: Navigator) {
     when (action) {
         TodayAction.NavigateToCreateTask -> navigator.navigate(CreateTaskNavKey())
@@ -181,42 +371,5 @@ private fun onAction(action: TodayAction, navigator: Navigator) {
     }
 }
 
-@Composable
-internal fun TodayScreenEmpty(viewData: TodayViewData.Empty, onEvent: (TodayEvent) -> Unit) {
-    Column(Modifier.fillMaxWidth()) {
-        TodayAddButton(onEvent = onEvent, showActionShadow = false)
-        TodayHeader(modifier = Modifier.padding(top = 16.dp), userName = viewData.userName)
-        Column(
-            modifier = Modifier.widthInCompact()
-                .fillMaxSize()
-                .align(Alignment.CenterHorizontally)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Image(
-                modifier = Modifier.height(192.dp).align(Alignment.CenterHorizontally),
-                painter = painterResource(Res.drawable.today_empty),
-                contentDescription = null
-            )
-
-            Text(
-                modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
-                text = stringResource(Res.string.today_empty_title),
-                style = MaterialTheme.typography.titleLarge
-            )
-
-            Text(
-                text = stringResource(Res.string.today_empty_description),
-                style = MaterialTheme.typography.bodyMedium
-            )
-
-            FoliarySecondaryButton(
-                modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 16.dp),
-                onClick = { onEvent(TodayEvent.OnAddTaskClick) },
-            ) {
-                Text(text = stringResource(Res.string.today_empty_button))
-            }
-        }
-    }
-}
+private const val RotationCollapsed = -90f
+private const val RotationExpanded = 0f

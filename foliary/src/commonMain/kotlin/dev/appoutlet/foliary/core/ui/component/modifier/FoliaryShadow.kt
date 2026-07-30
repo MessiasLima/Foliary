@@ -1,5 +1,6 @@
 package dev.appoutlet.foliary.core.ui.component.modifier
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,7 +13,11 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 
 val FoliaryShadowColorDefault: Color
-    @Composable get() = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
+    @Composable get() = if (isSystemInDarkTheme()) {
+        MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)
+    } else {
+        MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
+    }
 
 @Composable
 fun Modifier.foliaryShadow(
