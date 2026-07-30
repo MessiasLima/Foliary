@@ -215,34 +215,36 @@ private fun CompletedTodayHeader(
     modifier: Modifier = Modifier
 ) {
     val chevronRotation by animateFloatAsState(
-        targetValue = if (collapsed) RotationCollapsed else RotationExpanded,
-        animationSpec = spring(stiffness = Spring.StiffnessLow)
+        targetValue = if (collapsed) RotationCollapsed else RotationExpanded
     )
 
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable(onClick = onToggle, onClickLabel = stringResource(Res.string.today_completed_header_a11y))
-            .padding(horizontal = 16.dp, vertical = 12.dp)
-            .testTag("TodayScreen:CompletedHeader"),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        HorizontalDivider(modifier = Modifier.weight(1f))
+    Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Row(
+            modifier = Modifier
+                .widthInCompact()
+                .fillMaxWidth()
+                .clickable(onClick = onToggle, onClickLabel = stringResource(Res.string.today_completed_header_a11y))
+                .padding(horizontal = 16.dp, vertical = 12.dp)
+                .testTag("TodayScreen:CompletedHeader"),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            HorizontalDivider(modifier = Modifier.weight(1f))
 
-        Text(
-            text = stringResource(Res.string.today_completed_header, count),
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+            Text(
+                text = stringResource(Res.string.today_completed_header, count),
+                style = MaterialTheme.typography.labelMedium
+            )
 
-        Icon(
-            modifier = Modifier.rotate(chevronRotation),
-            imageVector = Lucide.ChevronDown,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+            Icon(
+                modifier = Modifier.rotate(chevronRotation),
+                imageVector = Lucide.ChevronDown,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground
+            )
+        }
     }
+
 }
 
 @Composable
