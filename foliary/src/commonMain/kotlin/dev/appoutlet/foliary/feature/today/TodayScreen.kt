@@ -125,11 +125,21 @@ internal fun TodayScreenContent(
 
         when (viewData) {
             is TodayViewData.Empty -> item {
-                TodayScreenEmptyContent(onEvent = onEvent)
+                TodayScreenEmptyContent(
+                    onEvent = onEvent,
+                    modifier = if (completedTasks.isEmpty()) {
+                        Modifier.animateItem().fillParentMaxSize()
+                    } else {
+                        Modifier.animateItem()
+                    }
+                )
             }
 
             is TodayViewData.Celebration -> item {
-                TodayScreenCelebrationContent(onEvent = onEvent)
+                TodayScreenCelebrationContent(
+                    onEvent = onEvent,
+                    modifier = Modifier.animateItem()
+                )
             }
 
             is TodayViewData.Loaded -> {
@@ -148,6 +158,7 @@ internal fun TodayScreenContent(
         if (completedTasks.isNotEmpty()) {
             item(key = "CompletedHeader") {
                 CompletedTodayHeader(
+                    modifier = Modifier.animateItem(),
                     count = completedTasks.size,
                     collapsed = completedCollapsed,
                     onToggle = { completedCollapsed = !completedCollapsed }
@@ -200,7 +211,8 @@ private fun TodayTaskItem(
 private fun CompletedTodayHeader(
     count: Int,
     collapsed: Boolean,
-    onToggle: () -> Unit
+    onToggle: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val chevronRotation by animateFloatAsState(
         targetValue = if (collapsed) RotationCollapsed else RotationExpanded,
@@ -208,7 +220,7 @@ private fun CompletedTodayHeader(
     )
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onToggle, onClickLabel = stringResource(Res.string.today_completed_header_a11y))
             .padding(horizontal = 16.dp, vertical = 12.dp)
@@ -324,9 +336,12 @@ private fun TodayScreenEmptyContent(
 }
 
 @Composable
-private fun TodayScreenCelebrationContent(onEvent: (TodayEvent) -> Unit) {
+private fun TodayScreenCelebrationContent(
+    onEvent: (TodayEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .widthInCompact()
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 56.dp),
