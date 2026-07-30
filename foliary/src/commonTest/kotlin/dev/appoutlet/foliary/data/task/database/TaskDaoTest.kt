@@ -141,7 +141,6 @@ class TaskDaoTest : DaoTest() {
             dueAtEndOfDayTask.id,
             noDueDateTask.id,
         )
-        // TODO Adjust text and placeholder color on text fields for dark mode
         // TODO adjust shadow color for dark mode
     }
 

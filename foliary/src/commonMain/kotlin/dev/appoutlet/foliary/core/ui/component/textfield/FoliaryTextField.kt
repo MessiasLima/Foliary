@@ -46,7 +46,7 @@ fun FoliaryTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     onTextLayout: (TextLayoutResult) -> Unit = {},
     interactionSource: MutableInteractionSource? = null,
-    cursorBrush: Brush = SolidColor(Color.Black),
+    cursorBrush: Brush = SolidColor(MaterialTheme.colorScheme.onSurface),
 ) {
     val placeholderAlpha by animateFloatAsState(targetValue = if (value.isBlank()) 1f else 0f)
 
@@ -56,7 +56,7 @@ fun FoliaryTextField(
         modifier = modifier,
         enabled = enabled,
         readOnly = readOnly,
-        textStyle = textStyle,
+        textStyle = textStyle.copy(color = MaterialTheme.colorScheme.onSurface),
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         singleLine = singleLine,
