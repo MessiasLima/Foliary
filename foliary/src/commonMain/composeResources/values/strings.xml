@@ -56,6 +56,11 @@
     <string name="today_empty_title">No tasks</string>
     <string name="today_empty_description">You don't have any tasks for today. Feel free to take a break or click on the button below to create a new task.</string>
     <string name="today_empty_button">Create a new task</string>
+    <string name="today_celebration_title">You did it!</string>
+    <string name="today_celebration_description">You have completed every task planned for today and thats outstanding! It's time to celebrate!</string>
+    <string name="today_celebration_button">Create a new task</string>
+    <string name="today_completed_header">Completed today (%1$d)</string>
+    <string name="today_completed_header_a11y">Toggle completed tasks</string>
     <!-- endregion -->
 
     <!-- region Create Task -->

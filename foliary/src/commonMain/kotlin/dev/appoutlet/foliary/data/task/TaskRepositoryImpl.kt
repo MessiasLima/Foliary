@@ -13,8 +13,9 @@ class TaskRepositoryImpl(
     private val timeProvider: TimeProvider,
 ) : TaskRepository {
     override fun findTodayTasks(): Flow<List<Task>> {
+        val startOfToday = timeProvider.startOfToday()
         val endOfToday = timeProvider.endOfToday()
-        return taskDao.findTodayTasks(endOfToday)
+        return taskDao.findTodayTasks(startOfToday, endOfToday)
     }
 
     override fun observeById(id: Uuid) = taskDao.observeById(id)

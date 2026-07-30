@@ -10,6 +10,7 @@ import dev.appoutlet.foliary.data.task.TaskRepository
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import org.koin.core.annotation.KoinViewModel
+import kotlin.uuid.Uuid
 
 @KoinViewModel
 class TodayViewModel(
@@ -29,16 +30,42 @@ class TodayViewModel(
         currentUser?.name() ?: ""
     }
 
+    private var celebrationPending = false
+
     override val container = container(TodayViewData.Idle) {
         taskRepository.findTodayTasks()
             .onStart { reduce { TodayViewData.Loading } }
             .map { tasks -> tasks.map { foliaryTaskCardViewDataMapper(it) } }
-            .collect { tasks ->
+            .map { tasks ->
+                val pendingTasks = tasks.filter { !it.isCompleted }
+                val completedTasks = tasks.filter { it.isCompleted }
+                pendingTasks to completedTasks
+            }
+            .collect { (pendingTasks, completedTasks) ->
                 reduce {
-                    if (tasks.isEmpty()) {
-                        TodayViewData.Empty(userName = userName)
-                    } else {
-                        TodayViewData.Loaded(userName = userName, tasks = tasks)
+                    when {
+                        celebrationPending && pendingTasks.isEmpty() -> {
+                            celebrationPending = false
+                            TodayViewData.Celebration(
+                                userName = userName,
+                                completedTasks = completedTasks
+                            )
+                        }
+                        pendingTasks.isEmpty() -> {
+                            celebrationPending = false
+                            TodayViewData.Empty(
+                                userName = userName,
+                                completedTasks = completedTasks
+                            )
+                        }
+                        else -> {
+                            celebrationPending = false
+                            TodayViewData.Loaded(
+                                userName = userName,
+                                pendingTasks = pendingTasks,
+                                completedTasks = completedTasks
+                            )
+                        }
                     }
                 }
             }
@@ -48,6 +75,8 @@ class TodayViewModel(
         when (event) {
             TodayEvent.OnAddTaskClick -> onAddTaskClick()
             is TodayEvent.OnTaskClick -> onTaskClick(event.taskId)
+            is TodayEvent.MarkTaskAsCompleted -> onMarkTaskAsCompleted(event.taskId)
+            is TodayEvent.MarkTaskAsNotCompleted -> onMarkTaskAsNotCompleted(event.taskId)
         }
     }
 
@@ -58,19 +87,47 @@ class TodayViewModel(
     private fun onTaskClick(taskId: String) = intent {
         postSideEffect(TodayAction.NavigateToTaskDetail(taskId))
     }
+
+    private fun onMarkTaskAsCompleted(taskId: String) = intent {
+        celebrationPending = true
+        taskRepository.markCompleted(Uuid.parse(taskId))
+    }
+
+    private fun onMarkTaskAsNotCompleted(taskId: String) = intent {
+        celebrationPending = false
+        taskRepository.markNotCompleted(Uuid.parse(taskId))
+    }
 }
 
 sealed interface TodayViewData {
-    data object Idle : TodayViewData
+    val userName: String
+    val completedTasks: List<FoliaryTaskCardViewData>
 
-    data object Loading : TodayViewData
+    data object Idle : TodayViewData {
+        override val userName: String = ""
+        override val completedTasks: List<FoliaryTaskCardViewData> = emptyList()
+    }
+
+    data object Loading : TodayViewData {
+        override val userName: String = ""
+        override val completedTasks: List<FoliaryTaskCardViewData> = emptyList()
+    }
 
     data class Loaded(
-        val userName: String,
-        val tasks: List<FoliaryTaskCardViewData>,
+        override val userName: String,
+        val pendingTasks: List<FoliaryTaskCardViewData>,
+        override val completedTasks: List<FoliaryTaskCardViewData>,
     ) : TodayViewData
 
-    data class Empty(val userName: String) : TodayViewData
+    data class Empty(
+        override val userName: String,
+        override val completedTasks: List<FoliaryTaskCardViewData>,
+    ) : TodayViewData
+
+    data class Celebration(
+        override val userName: String,
+        override val completedTasks: List<FoliaryTaskCardViewData>,
+    ) : TodayViewData
 }
 
 sealed interface TodayAction : Action {
@@ -82,4 +139,6 @@ sealed interface TodayAction : Action {
 sealed interface TodayEvent {
     data object OnAddTaskClick : TodayEvent
     data class OnTaskClick(val taskId: String) : TodayEvent
+    data class MarkTaskAsCompleted(val taskId: String) : TodayEvent
+    data class MarkTaskAsNotCompleted(val taskId: String) : TodayEvent
 }
