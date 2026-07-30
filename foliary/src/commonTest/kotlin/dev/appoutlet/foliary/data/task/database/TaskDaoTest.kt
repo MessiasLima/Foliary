@@ -141,7 +141,6 @@ class TaskDaoTest : DaoTest() {
             dueAtEndOfDayTask.id,
             noDueDateTask.id,
         )
-        // TODO adjust shadow color for dark mode
     }
 
     @Test

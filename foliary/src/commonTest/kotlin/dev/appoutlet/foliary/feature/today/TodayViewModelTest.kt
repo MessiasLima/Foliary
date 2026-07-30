@@ -211,7 +211,10 @@ class TodayViewModelTest : ViewModelTest<TodayViewModel, TodayViewData, TodayAct
     @Test
     fun `should transition back to loaded when a new uncompleted task becomes due today`() {
         val completedTask = Task.fixture()
-        val newPendingTask = Task.fixture(id = Uuid.parse("550e8400-e29b-41d4-a716-446655440001"), completionDate = null)
+        val newPendingTask = Task.fixture(
+            id = Uuid.parse("550e8400-e29b-41d4-a716-446655440001"),
+            completionDate = null
+        )
         val completedTaskViewData = FoliaryTaskCardViewData.fixture(
             id = completedTask.id.toString(),
             isCompleted = true

@@ -125,30 +125,16 @@ internal fun TodayScreenContent(
 
         when (viewData) {
             is TodayViewData.Empty -> item {
-                TodayScreenEmptyContent(
-                    onEvent = onEvent,
-                    modifier = if (completedTasks.isEmpty()) {
-                        Modifier.animateItem().fillParentMaxSize()
-                    } else {
-                        Modifier.animateItem()
-                    }
-                )
+                TodayScreenEmptyContent(modifier = Modifier.animateItem(), onEvent = onEvent)
             }
 
             is TodayViewData.Celebration -> item {
-                TodayScreenCelebrationContent(
-                    onEvent = onEvent,
-                    modifier = Modifier.animateItem()
-                )
+                TodayScreenCelebrationContent(modifier = Modifier.animateItem(), onEvent = onEvent)
             }
 
             is TodayViewData.Loaded -> {
                 items(viewData.pendingTasks, key = { it.id }) { task ->
-                    TodayTaskItem(
-                        task = task,
-                        onEvent = onEvent,
-                        modifier = Modifier.animateItem()
-                    )
+                    TodayTaskItem(modifier = Modifier.animateItem(), task = task, onEvent = onEvent)
                 }
             }
 
@@ -223,7 +209,10 @@ private fun CompletedTodayHeader(
             modifier = Modifier
                 .widthInCompact()
                 .fillMaxWidth()
-                .clickable(onClick = onToggle, onClickLabel = stringResource(Res.string.today_completed_header_a11y))
+                .clickable(
+                    onClick = onToggle,
+                    onClickLabel = stringResource(Res.string.today_completed_header_a11y)
+                )
                 .padding(horizontal = 16.dp, vertical = 12.dp)
                 .testTag("TodayScreen:CompletedHeader"),
             verticalAlignment = Alignment.CenterVertically,
@@ -244,7 +233,6 @@ private fun CompletedTodayHeader(
             )
         }
     }
-
 }
 
 @Composable
@@ -307,7 +295,7 @@ private fun TodayScreenEmptyContent(
     Column(
         modifier = modifier
             .widthInCompact()
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 56.dp),
         verticalArrangement = Arrangement.Center
     ) {
