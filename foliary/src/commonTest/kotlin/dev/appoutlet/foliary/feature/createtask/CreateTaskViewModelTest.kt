@@ -186,6 +186,55 @@ class CreateTaskViewModelTest :
     }
 
     @Test
+    fun `SaveClicked - should keep creationDate when editing an existing task`() {
+        val taskId = Uuid.random()
+        val creationDate = Instant.parse("2026-07-10T08:00:00Z")
+        val editedTitle = "Edited title"
+        val now = Instant.parse("2026-07-22T12:00:00Z")
+        val savedTask = Task.fixture(id = taskId, title = "Task title", creationDate = creationDate, dueDate = null)
+        val taskCapture = Capture.slot<Task>()
+
+        everySuspend { mockTaskRepository.findById(taskId) } returns savedTask
+        every(mockTimeProvider::now) returns now
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel = CreateTaskViewModel(
+            taskId = taskId.toString(),
+            taskRepository = mockTaskRepository,
+            timeProvider = mockTimeProvider,
+            uuidProvider = mockUuidProvider,
+        )
+
+        test {
+            expectState {
+                copy(
+                    id = taskId.toString(),
+                    title = savedTask.title,
+                    description = savedTask.description,
+                    dueDate = null,
+                    saveButtonEnabled = true,
+                )
+            }
+
+            viewModel.onEvent(CreateTaskEvent.TitleChanged(editedTitle))
+            expectState { copy(title = editedTitle, saveButtonEnabled = true) }
+
+            viewModel.onEvent(CreateTaskEvent.SaveClicked)
+
+            // the save button gets disabled
+            awaitState().saveButtonEnabled shouldBe false
+
+            taskCapture.get().also { task ->
+                task.id shouldBe taskId
+                task.title shouldBe editedTitle
+                task.creationDate shouldBe creationDate
+            }
+
+            awaitSideEffect() shouldBe CreateTaskAction.NavigateBack
+        }
+    }
+
+    @Test
     fun `SaveClicked - should persist selected dueDate as end of day`() = test {
         val id = Uuid.random()
         val title = "Task title"

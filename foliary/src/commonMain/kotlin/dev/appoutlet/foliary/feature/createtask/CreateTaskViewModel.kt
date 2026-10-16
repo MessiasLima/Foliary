@@ -20,6 +20,7 @@ class CreateTaskViewModel(
     private val uuidProvider: UuidProvider,
 ) : MviViewModel<CreateTaskViewData, CreateTaskAction>() {
     private val startOfToday = timeProvider.startOfToday().toEpochMilliseconds()
+    private var originalCreationDate: Instant? = null
 
     override val container = container(CreateTaskViewData(minDueDateMillis = startOfToday)) {
         taskId?.also { id -> loadSavedTask(id) }
@@ -28,6 +29,7 @@ class CreateTaskViewModel(
     private fun loadSavedTask(id: String) = intent {
         val uuid = Uuid.parse(id)
         val savedTask = taskRepository.findById(uuid) ?: return@intent
+        originalCreationDate = savedTask.creationDate
 
         reduce {
             CreateTaskViewData(
@@ -91,7 +93,7 @@ class CreateTaskViewModel(
             description = state.description?.trim()?.let { description ->
                 description.takeIf { it.isNotBlank() }
             },
-            creationDate = timeProvider.now(),
+            creationDate = originalCreationDate ?: timeProvider.now(),
             dueDate = state.dueDate?.selectedDateMillis?.toInstant()?.let {
                 timeProvider.endOfDay(it)
             },
