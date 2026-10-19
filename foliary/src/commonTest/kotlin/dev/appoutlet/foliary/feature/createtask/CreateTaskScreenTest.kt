@@ -14,6 +14,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.v2.runComposeUiTest
+import dev.appoutlet.foliary.data.task.database.entity.Priority
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.back_icon_button_a11y
 import foliary.foliary.generated.resources.create_task_description_label
@@ -21,10 +22,13 @@ import foliary.foliary.generated.resources.create_task_description_placeholder
 import foliary.foliary.generated.resources.create_task_due_date_clear_a11y
 import foliary.foliary.generated.resources.create_task_due_date_label
 import foliary.foliary.generated.resources.create_task_due_date_placeholder
+import foliary.foliary.generated.resources.create_task_priority_label
 import foliary.foliary.generated.resources.create_task_save
 import foliary.foliary.generated.resources.create_task_title
 import foliary.foliary.generated.resources.create_task_title_label
 import foliary.foliary.generated.resources.create_task_title_placeholder
+import foliary.foliary.generated.resources.priority_pill_high
+import foliary.foliary.generated.resources.priority_pill_medium
 import io.kotest.matchers.shouldBe
 import org.jetbrains.compose.resources.getString
 import kotlin.test.Test
@@ -50,6 +54,8 @@ class CreateTaskScreenTest {
         onNodeWithText(getString(Res.string.create_task_title_placeholder)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.create_task_description_label)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.create_task_description_placeholder)).assertIsDisplayed()
+        onNodeWithTag("CreateTaskScreen:PriorityPicker").assertIsDisplayed()
+        onNodeWithText(getString(Res.string.priority_pill_medium)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.create_task_due_date_label)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.create_task_due_date_placeholder)).assertIsDisplayed()
         onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
@@ -148,5 +154,27 @@ class CreateTaskScreenTest {
         onNodeWithText(getString(Res.string.create_task_due_date_placeholder)).assertIsDisplayed()
         onNodeWithContentDescription(getString(Res.string.create_task_due_date_clear_a11y))
             .assertDoesNotExist()
+    }
+
+    @Test
+    fun `should change priority and emit event`() = runComposeUiTest {
+        val events = mutableListOf<CreateTaskEvent>()
+        var viewData by mutableStateOf(CreateTaskViewData.fixture(priority = Priority.MEDIUM))
+
+        setContent {
+            CreateTaskScreen(viewData = viewData, onEvent = events::add)
+        }
+
+        onNodeWithTag("CreateTaskScreen:PriorityPicker").performClick()
+        waitForIdle()
+
+        onNodeWithText(getString(Res.string.priority_pill_high)).performClick()
+
+        events.contains(CreateTaskEvent.PriorityChanged(Priority.HIGH)) shouldBe true
+
+        viewData = viewData.copy(priority = Priority.HIGH)
+        waitForIdle()
+
+        onNodeWithText(getString(Res.string.priority_pill_high)).assertIsDisplayed()
     }
 }

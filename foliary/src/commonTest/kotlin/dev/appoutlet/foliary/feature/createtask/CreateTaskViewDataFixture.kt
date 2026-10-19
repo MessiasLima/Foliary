@@ -1,9 +1,12 @@
 package dev.appoutlet.foliary.feature.createtask
 
+import dev.appoutlet.foliary.data.task.database.entity.Priority
+
 fun CreateTaskViewData.Companion.fixture(
     id: String? = null,
     title: String = "Task fixture",
     description: String? = "Task description",
+    priority: Priority = Priority.MEDIUM,
     dueDate: CreateTaskViewData.DueDateViewData? = CreateTaskViewData.DueDateViewData.fixture(),
     minDueDateMillis: Long = 1_752_960_000_000,
     saveButtonEnabled: Boolean = true,
@@ -11,6 +14,7 @@ fun CreateTaskViewData.Companion.fixture(
     id = id,
     title = title,
     description = description,
+    priority = priority,
     dueDate = dueDate,
     minDueDateMillis = minDueDateMillis,
     saveButtonEnabled = saveButtonEnabled,

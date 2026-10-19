@@ -4,6 +4,7 @@ import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.appoutlet.foliary.core.provider.uuid.UuidProvider
 import dev.appoutlet.foliary.core.testing.ViewModelTest
 import dev.appoutlet.foliary.data.task.TaskRepository
+import dev.appoutlet.foliary.data.task.database.entity.Priority
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.data.task.database.entity.fixture
 import dev.mokkery.MockMode
@@ -73,6 +74,17 @@ class CreateTaskViewModelTest :
         viewModel.onEvent(CreateTaskEvent.BackClicked)
 
         expectSideEffect(CreateTaskAction.NavigateBack)
+    }
+
+    @Test
+    fun `default state should have medium priority`() = test {
+        currentState.priority shouldBe Priority.MEDIUM
+    }
+
+    @Test
+    fun `PriorityChanged - should update priority`() = test {
+        viewModel.onEvent(CreateTaskEvent.PriorityChanged(Priority.HIGH))
+        expectState { copy(priority = Priority.HIGH) }
     }
 
     @Test
@@ -183,6 +195,85 @@ class CreateTaskViewModelTest :
 
         // Navigate back after successful saving
         awaitSideEffect() shouldBe CreateTaskAction.NavigateBack
+    }
+
+    @Test
+    fun `SaveClicked - should persist default medium priority`() = test {
+        val id = Uuid.random()
+        val title = "Task title"
+        val taskCapture = Capture.slot<Task>()
+
+        every(mockUuidProvider::random) returns id
+        every(mockTimeProvider::now) returns Instant.parse("2026-07-21T12:00:00Z")
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
+        expectState { copy(title = title, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        awaitState().saveButtonEnabled shouldBe false
+
+        taskCapture.get().priority shouldBe Priority.MEDIUM
+    }
+
+    @Test
+    fun `SaveClicked - should persist selected priority`() = test {
+        val id = Uuid.random()
+        val title = "Task title"
+        val taskCapture = Capture.slot<Task>()
+
+        every(mockUuidProvider::random) returns id
+        every(mockTimeProvider::now) returns Instant.parse("2026-07-21T12:00:00Z")
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
+        expectState { copy(title = title, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.PriorityChanged(Priority.BLOCKER))
+        expectState { copy(title = title, priority = Priority.BLOCKER, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        awaitState().saveButtonEnabled shouldBe false
+
+        taskCapture.get().priority shouldBe Priority.BLOCKER
+    }
+
+    @Test
+    fun `should preserve saved task priority on init`() {
+        val taskId = Uuid.random()
+        val savedTask = Task.fixture(id = taskId, priority = Priority.HIGHEST, dueDate = null)
+        val taskCapture = Capture.slot<Task>()
+
+        everySuspend { mockTaskRepository.findById(taskId) } returns savedTask
+        every(mockTimeProvider::now) returns Instant.parse("2026-07-22T12:00:00Z")
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel = CreateTaskViewModel(
+            taskId = taskId.toString(),
+            taskRepository = mockTaskRepository,
+            timeProvider = mockTimeProvider,
+            uuidProvider = mockUuidProvider,
+        )
+
+        test {
+            expectState {
+                copy(
+                    id = taskId.toString(),
+                    title = savedTask.title,
+                    description = savedTask.description,
+                    priority = Priority.HIGHEST,
+                    dueDate = null,
+                    saveButtonEnabled = true,
+                )
+            }
+
+            viewModel.onEvent(CreateTaskEvent.SaveClicked)
+            awaitState().saveButtonEnabled shouldBe false
+
+            taskCapture.get().priority shouldBe Priority.HIGHEST
+
+            awaitSideEffect() shouldBe CreateTaskAction.NavigateBack
+        }
     }
 
     @Test

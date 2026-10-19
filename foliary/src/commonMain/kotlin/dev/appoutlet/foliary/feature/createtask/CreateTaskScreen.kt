@@ -24,6 +24,7 @@ import dev.appoutlet.foliary.core.ui.component.button.FoliaryBackIconButton
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryPrimaryButton
 import dev.appoutlet.foliary.core.ui.component.datepicker.FoliaryDatePicker
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
+import dev.appoutlet.foliary.core.ui.component.prioritypicker.FoliaryPriorityPicker
 import dev.appoutlet.foliary.core.ui.component.textfield.FoliaryTextField
 import dev.appoutlet.foliary.feature.main.getWindowDecorationPadding
 import foliary.foliary.generated.resources.Res
@@ -31,6 +32,7 @@ import foliary.foliary.generated.resources.create_task_description_label
 import foliary.foliary.generated.resources.create_task_description_placeholder
 import foliary.foliary.generated.resources.create_task_due_date_label
 import foliary.foliary.generated.resources.create_task_due_date_placeholder
+import foliary.foliary.generated.resources.create_task_priority_label
 import foliary.foliary.generated.resources.create_task_save
 import foliary.foliary.generated.resources.create_task_title
 import foliary.foliary.generated.resources.create_task_title_label
@@ -57,6 +59,15 @@ fun CreateTaskScreen(viewData: CreateTaskViewData, onEvent: (CreateTaskEvent) ->
                 Spacer(Modifier.size(16.dp))
                 TitleField(viewData.title, onEvent)
                 DescriptionField(viewData.description, onEvent)
+                FoliaryPriorityPicker(
+                    modifier = Modifier.widthInCompact()
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .testTag("CreateTaskScreen:PriorityPicker"),
+                    label = stringResource(Res.string.create_task_priority_label),
+                    selectedPriority = viewData.priority,
+                    onPrioritySelected = { onEvent(CreateTaskEvent.PriorityChanged(it)) },
+                )
                 FoliaryDatePicker(
                     modifier = Modifier.widthInCompact()
                         .fillMaxWidth()
