@@ -49,9 +49,7 @@ fun EmailLoginForm(
 ) {
     val coroutineScope = rememberCoroutineScope()
     var email by rememberSaveable { mutableStateOf("") }
-    val emailValid by derivedStateOf {
-        EmailRegex.matches(email)
-    }
+    val emailValid by derivedStateOf { EmailRegex.matches(email) }
     var emailErrorMessage by rememberSaveable { mutableStateOf<String?>(null) }
 
     LaunchedEffect(emailValid) {
