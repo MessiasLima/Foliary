@@ -18,6 +18,10 @@ class TaskRepositoryImpl(
         return taskDao.findTodayTasks(startOfToday, endOfToday)
     }
 
+    override fun findAllPendingTasks(): Flow<List<Task>> {
+        return taskDao.findPendingTasks()
+    }
+
     override fun observeById(id: Uuid) = taskDao.observeById(id)
 
     override suspend fun save(task: Task) {
