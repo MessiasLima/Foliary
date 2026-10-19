@@ -80,10 +80,7 @@ fun SignInScreen() {
                     verticalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     SignInHeader()
-                    SignInForm(
-                        viewData = viewData,
-                        onEvent = viewModel::onEvent
-                    )
+                    SignInForm(viewData = viewData, onEvent = viewModel::onEvent)
                 }
             }
         }
@@ -146,10 +143,7 @@ private fun SignInForm(
                 SignInViewData.Idle -> {}
                 SignInViewData.Loading -> LoadingIndicator()
                 is SignInViewData.MagicLinkSent -> MagicLinkSent(state, onEvent)
-                is SignInViewData.NotAuthenticated -> UnAuthenticatedContent(
-                    state = state,
-                    onEvent = onEvent
-                )
+                is SignInViewData.NotAuthenticated -> UnAuthenticatedContent(state, onEvent)
             }
         }
     }
@@ -172,10 +166,7 @@ private fun UnAuthenticatedContent(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        EmailLoginForm(
-            viewData = state,
-            onEvent = onEvent
-        )
+        EmailLoginForm(state, onEvent)
 
         Spacer(modifier = Modifier.height(16.dp))
 
