@@ -22,7 +22,6 @@ import foliary.foliary.generated.resources.create_task_description_placeholder
 import foliary.foliary.generated.resources.create_task_due_date_clear_a11y
 import foliary.foliary.generated.resources.create_task_due_date_label
 import foliary.foliary.generated.resources.create_task_due_date_placeholder
-import foliary.foliary.generated.resources.create_task_priority_label
 import foliary.foliary.generated.resources.create_task_save
 import foliary.foliary.generated.resources.create_task_title
 import foliary.foliary.generated.resources.create_task_title_label
