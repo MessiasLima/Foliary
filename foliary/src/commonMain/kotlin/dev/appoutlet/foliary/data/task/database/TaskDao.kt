@@ -40,4 +40,7 @@ interface TaskDao {
         """
     )
     fun findTodayTasks(startOfToday: Instant, endOfToday: Instant): Flow<List<Task>>
+
+    @Query("SELECT * FROM Task WHERE completionDate IS NULL ORDER BY dueDate IS NULL, dueDate DESC")
+    fun findPendingTasks(): Flow<List<Task>>
 }

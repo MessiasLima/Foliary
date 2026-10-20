@@ -47,6 +47,15 @@
 
     <!-- region Upcoming -->
     <string name="upcoming_title">Upcoming</string>
+    <string name="upcoming_description">Plan ahead for your focus sessions</string>
+    <string name="upcoming_add_task_a11y">Add task</string>
+    <string name="upcoming_group_overdue">Overdue</string>
+    <string name="upcoming_group_today">Today</string>
+    <string name="upcoming_group_tomorrow">Tomorrow</string>
+    <string name="upcoming_group_no_date">No due date</string>
+    <string name="upcoming_empty_title">No upcoming tasks</string>
+    <string name="upcoming_empty_button">Create a new task</string>
+    <string name="upcoming_empty_description">You don't have any upcoming tasks scheduled. Enjoy your day!</string>
     <!-- endregion -->
 
     <!-- region Today -->

@@ -6,6 +6,7 @@ import kotlin.uuid.Uuid
 
 interface TaskRepository {
     fun findTodayTasks(): Flow<List<Task>>
+    fun findAllPendingTasks(): Flow<List<Task>>
     fun observeById(id: Uuid): Flow<Task?>
     suspend fun getById(id: Uuid): Task
     suspend fun findById(id: Uuid): Task?
