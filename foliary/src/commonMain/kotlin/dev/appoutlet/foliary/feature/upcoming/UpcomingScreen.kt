@@ -16,18 +16,26 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import dev.appoutlet.foliary.core.navigation.Navigator
+import dev.appoutlet.foliary.core.ui.component.button.FoliaryAddButton
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCard
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewData
+import dev.appoutlet.foliary.feature.createtask.CreateTaskNavKey
+import dev.appoutlet.foliary.feature.main.getWindowDecorationPadding
 import dev.appoutlet.foliary.feature.taskdetail.TaskDetailNavKey
 import foliary.foliary.generated.resources.Res
+import foliary.foliary.generated.resources.upcoming_add_task_a11y
+import foliary.foliary.generated.resources.upcoming_description
 import foliary.foliary.generated.resources.upcoming_empty_description
 import foliary.foliary.generated.resources.upcoming_empty_title
 import foliary.foliary.generated.resources.upcoming_group_header
@@ -67,19 +75,26 @@ internal fun UpcomingScreenContent(
     viewData: UpcomingViewData,
     onEvent: (UpcomingEvent) -> Unit
 ) {
+    val showActionShadow by remember {
+        derivedStateOf { lazyListState.firstVisibleItemIndex > 1 }
+    }
+
     LazyColumn(
         modifier = Modifier
             .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
             .fillMaxSize(),
         state = lazyListState
     ) {
-        item {
-            Text(
-                modifier = Modifier.padding(16.dp),
-                text = stringResource(Res.string.upcoming_title),
-                style = MaterialTheme.typography.displaySmall
+        stickyHeader {
+            FoliaryAddButton(
+                onClick = { onEvent(UpcomingEvent.OnAddTaskClick) },
+                contentDescription = stringResource(Res.string.upcoming_add_task_a11y),
+                modifier = Modifier.padding(top = getWindowDecorationPadding()),
+                showShadow = showActionShadow
             )
         }
+        item { } // Required for better UX
+        item { UpcomingHeader() }
 
         when (viewData) {
             UpcomingViewData.Empty -> item {
@@ -108,6 +123,23 @@ internal fun UpcomingScreenContent(
 
             else -> {}
         }
+    }
+}
+
+@Composable
+private fun UpcomingHeader(modifier: Modifier = Modifier) {
+    Column(modifier.padding(bottom = 16.dp, start = 16.dp, end = 16.dp).fillMaxWidth()) {
+        Text(
+            modifier = Modifier,
+            text = stringResource(Res.string.upcoming_title),
+            style = MaterialTheme.typography.displaySmall
+        )
+
+        Text(
+            modifier = Modifier,
+            text = stringResource(Res.string.upcoming_description),
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 
@@ -192,6 +224,7 @@ private fun UpcomingScreenEmptyContent(
 
 private fun onAction(action: UpcomingAction, navigator: Navigator) {
     when (action) {
+        UpcomingAction.NavigateToCreateTask -> navigator.navigate(CreateTaskNavKey())
         is UpcomingAction.NavigateToTaskDetail -> navigator.navigate(TaskDetailNavKey(action.taskId))
     }
 }

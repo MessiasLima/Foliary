@@ -1,10 +1,6 @@
 package dev.appoutlet.foliary.feature.today
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,16 +15,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -39,18 +32,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.ChevronDown
 import com.composables.icons.lucide.Lucide
-import com.composables.icons.lucide.Plus
 import dev.appoutlet.foliary.core.navigation.Navigator
+import dev.appoutlet.foliary.core.ui.component.button.FoliaryAddButton
 import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
-import dev.appoutlet.foliary.core.ui.component.modifier.FoliaryShadowColorDefault
-import dev.appoutlet.foliary.core.ui.component.modifier.foliaryShadow
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCard
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewData
@@ -119,7 +109,14 @@ internal fun TodayScreenContent(
             .fillMaxSize(),
         state = lazyListState
     ) {
-        stickyHeader { TodayAddButton(onEvent, showActionShadow) }
+        stickyHeader {
+            FoliaryAddButton(
+                onClick = { onEvent(TodayEvent.OnAddTaskClick) },
+                contentDescription = stringResource(Res.string.today_add_task_a11y),
+                modifier = Modifier.padding(top = getWindowDecorationPadding()),
+                showShadow = showActionShadow
+            )
+        }
         item { } // Required for better UX
         item { TodayHeader(userName) }
 
@@ -230,41 +227,6 @@ private fun CompletedTodayHeader(
                 imageVector = Lucide.ChevronDown,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground
-            )
-        }
-    }
-}
-
-@Composable
-private fun TodayAddButton(
-    onEvent: (TodayEvent) -> Unit,
-    showActionShadow: Boolean,
-) {
-    val iconButtonShadowColor by animateColorAsState(
-        targetValue = if (showActionShadow) FoliaryShadowColorDefault else Color.Transparent,
-        animationSpec = spring(stiffness = Spring.StiffnessLow)
-    )
-
-    val iconButtonBorderColor by animateColorAsState(
-        targetValue = if (showActionShadow) MaterialTheme.colorScheme.outline else Color.Transparent,
-        animationSpec = spring(stiffness = Spring.StiffnessLow)
-    )
-
-    Row(
-        modifier = Modifier.fillMaxWidth()
-            .safeDrawingPadding()
-            .padding(end = 8.dp, top = getWindowDecorationPadding()),
-        horizontalArrangement = Arrangement.End
-    ) {
-        OutlinedIconButton(
-            modifier = Modifier.foliaryShadow(color = iconButtonShadowColor),
-            onClick = { onEvent(TodayEvent.OnAddTaskClick) },
-            colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.background),
-            border = BorderStroke(width = 1.dp, color = iconButtonBorderColor)
-        ) {
-            Icon(
-                imageVector = Lucide.Plus,
-                contentDescription = stringResource(Res.string.today_add_task_a11y)
             )
         }
     }

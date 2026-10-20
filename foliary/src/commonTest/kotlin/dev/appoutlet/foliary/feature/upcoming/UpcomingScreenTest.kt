@@ -3,6 +3,7 @@ package dev.appoutlet.foliary.feature.upcoming
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -10,6 +11,8 @@ import androidx.compose.ui.test.v2.runComposeUiTest
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewData
 import dev.appoutlet.foliary.core.ui.component.task.fixture
 import foliary.foliary.generated.resources.Res
+import foliary.foliary.generated.resources.upcoming_add_task_a11y
+import foliary.foliary.generated.resources.upcoming_description
 import foliary.foliary.generated.resources.upcoming_empty_description
 import foliary.foliary.generated.resources.upcoming_empty_title
 import foliary.foliary.generated.resources.upcoming_group_header
@@ -33,9 +36,29 @@ class UpcomingScreenTest {
         }
 
         onNodeWithText(getString(Res.string.upcoming_title)).assertIsDisplayed()
+        onNodeWithText(getString(Res.string.upcoming_description)).assertIsDisplayed()
         onNodeWithTag("UpcomingScreen:Empty").assertIsDisplayed()
         onNodeWithText(getString(Res.string.upcoming_empty_title)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.upcoming_empty_description)).assertIsDisplayed()
+    }
+
+    @Test
+    fun `should emit add task event when add button is clicked`() = runComposeUiTest {
+        var emittedEvent: UpcomingEvent? = null
+
+        setContent {
+            UpcomingScreenContent(
+                lazyListState = rememberLazyListState(),
+                viewData = UpcomingViewData.Empty,
+                onEvent = { emittedEvent = it }
+            )
+        }
+
+        onNodeWithContentDescription(getString(Res.string.upcoming_add_task_a11y))
+            .assertIsDisplayed()
+            .performClick()
+
+        emittedEvent shouldBe UpcomingEvent.OnAddTaskClick
     }
 
     @Test

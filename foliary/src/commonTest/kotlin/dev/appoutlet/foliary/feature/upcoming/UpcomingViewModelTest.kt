@@ -45,6 +45,21 @@ class UpcomingViewModelTest : ViewModelTest<UpcomingViewModel, UpcomingViewData,
     }
 
     @Test
+    fun `should emit NavigateToCreateTask side effect when add button is clicked`() {
+        every { mockTaskRepository.findAllPendingTasks() } returns flowOf(emptyList())
+        every { mockUpcomingGroupMapper(emptyList()) } returns emptyList()
+
+        test {
+            expectState(UpcomingViewData.Loading)
+            expectState(UpcomingViewData.Empty)
+
+            viewModel.onEvent(UpcomingEvent.OnAddTaskClick)
+
+            expectSideEffect(UpcomingAction.NavigateToCreateTask)
+        }
+    }
+
+    @Test
     fun `should emit NavigateToTaskDetail side effect when task is clicked`() {
         val taskId = "task-123"
 

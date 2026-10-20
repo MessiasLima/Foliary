@@ -30,8 +30,13 @@ class UpcomingViewModel(
 
     fun onEvent(event: UpcomingEvent) {
         when (event) {
+            UpcomingEvent.OnAddTaskClick -> onAddTaskClick()
             is UpcomingEvent.OnTaskClick -> onTaskClick(event.taskId)
         }
+    }
+
+    private fun onAddTaskClick() = intent {
+        postSideEffect(UpcomingAction.NavigateToCreateTask)
     }
 
     private fun onTaskClick(taskId: String) = intent {
@@ -47,9 +52,11 @@ sealed interface UpcomingViewData {
 }
 
 sealed interface UpcomingEvent {
+    data object OnAddTaskClick : UpcomingEvent
     data class OnTaskClick(val taskId: String) : UpcomingEvent
 }
 
 sealed interface UpcomingAction : Action {
+    data object NavigateToCreateTask : UpcomingAction
     data class NavigateToTaskDetail(val taskId: String) : UpcomingAction
 }
