@@ -27,7 +27,9 @@ data class UpcomingGroup(
 @Open
 class UpcomingGroupMapper(
     private val timeProvider: TimeProvider,
-    private val foliaryTaskCardViewDataMapper: FoliaryTaskCardViewDataMapper = FoliaryTaskCardViewDataMapper(timeProvider)
+    private val foliaryTaskCardViewDataMapper: FoliaryTaskCardViewDataMapper = FoliaryTaskCardViewDataMapper(
+        timeProvider = timeProvider,
+    ),
 ) {
     operator fun invoke(
         tasks: List<Task>,

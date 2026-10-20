@@ -3,7 +3,6 @@ package dev.appoutlet.foliary.feature.upcoming
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
