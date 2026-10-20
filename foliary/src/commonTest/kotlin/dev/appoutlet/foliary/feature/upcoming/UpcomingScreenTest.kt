@@ -15,7 +15,6 @@ import foliary.foliary.generated.resources.upcoming_add_task_a11y
 import foliary.foliary.generated.resources.upcoming_description
 import foliary.foliary.generated.resources.upcoming_empty_description
 import foliary.foliary.generated.resources.upcoming_empty_title
-import foliary.foliary.generated.resources.upcoming_group_header
 import foliary.foliary.generated.resources.upcoming_group_overdue
 import foliary.foliary.generated.resources.upcoming_title
 import io.kotest.matchers.shouldBe
@@ -30,7 +29,7 @@ class UpcomingScreenTest {
         setContent {
             UpcomingScreenContent(
                 lazyListState = rememberLazyListState(),
-                viewData = UpcomingViewState.Empty,
+                viewData = UpcomingViewData.Empty,
                 onEvent = {}
             )
         }
@@ -49,7 +48,7 @@ class UpcomingScreenTest {
         setContent {
             UpcomingScreenContent(
                 lazyListState = rememberLazyListState(),
-                viewData = UpcomingViewState.Empty,
+                viewData = UpcomingViewData.Empty,
                 onEvent = { emittedEvent = it }
             )
         }
@@ -62,29 +61,46 @@ class UpcomingScreenTest {
     }
 
     @Test
-    fun `should render group headers and task items when viewData is Loaded`() = runComposeUiTest {
+    fun `should render group header and task items when viewData is Loaded`() = runComposeUiTest {
         val task = FoliaryTaskCardViewData.fixture(
             id = "task-1",
-            title = "Test Task Title"
+            title = "Test Task Title",
+            isOverdue = false,
         )
-        val group = UpcomingGroup.fixture(
-            label = UpcomingGroupLabel.Overdue,
+        val group = UpcomingViewData.TaskGroup.fixture(
+            label = UpcomingViewData.GroupLabel.Overdue,
             tasks = listOf(task)
         )
 
         setContent {
             UpcomingScreenContent(
                 lazyListState = rememberLazyListState(),
-                viewData = UpcomingViewState.Loaded(listOf(group)),
+                viewData = UpcomingViewData.Loaded(listOf(group)),
                 onEvent = {}
             )
         }
 
-        val overdueText = getString(Res.string.upcoming_group_overdue)
-        val headerText = getString(Res.string.upcoming_group_header, overdueText, 1)
-
-        onNodeWithText(headerText).assertIsDisplayed()
+        onNodeWithTag("UpcomingScreen:GroupHeader").assertIsDisplayed()
+        onNodeWithText(getString(Res.string.upcoming_group_overdue)).assertIsDisplayed()
+        onNodeWithTag("UpcomingScreen:TaskItem").assertIsDisplayed()
         onNodeWithText("Test Task Title").assertIsDisplayed()
+    }
+
+    @Test
+    fun `should render date group label when viewData is Loaded`() = runComposeUiTest {
+        val group = UpcomingViewData.TaskGroup.fixture(
+            label = UpcomingViewData.GroupLabel.Date("07 Jun 2026"),
+        )
+
+        setContent {
+            UpcomingScreenContent(
+                lazyListState = rememberLazyListState(),
+                viewData = UpcomingViewData.Loaded(listOf(group)),
+                onEvent = {}
+            )
+        }
+
+        onNodeWithText("07 Jun 2026").assertIsDisplayed()
     }
 
     @Test
@@ -94,15 +110,15 @@ class UpcomingScreenTest {
             id = "task-123",
             title = "Clickable Task"
         )
-        val group = UpcomingGroup.fixture(
-            label = UpcomingGroupLabel.Today,
+        val group = UpcomingViewData.TaskGroup.fixture(
+            label = UpcomingViewData.GroupLabel.Today,
             tasks = listOf(task)
         )
 
         setContent {
             UpcomingScreenContent(
                 lazyListState = rememberLazyListState(),
-                viewData = UpcomingViewState.Loaded(listOf(group)),
+                viewData = UpcomingViewData.Loaded(listOf(group)),
                 onEvent = { emittedEvent = it }
             )
         }
