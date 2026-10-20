@@ -38,6 +38,7 @@ class CreateTaskViewModel(
                 id = task.id.toString(),
                 title = task.title,
                 description = task.description,
+                priority = task.priority,
                 dueDate = task.dueDate?.let { dueDate ->
                     CreateTaskViewData.DueDateViewData(
                         selectedDateMillis = dueDate.toEpochMilliseconds(),
@@ -54,10 +55,15 @@ class CreateTaskViewModel(
         when (event) {
             is CreateTaskEvent.TitleChanged -> onTitleChange(event.title)
             is CreateTaskEvent.DescriptionChanged -> onDescriptionChange(event.description)
+            is CreateTaskEvent.PriorityChanged -> onPriorityChange(event.priority)
             is CreateTaskEvent.DueDateChanged -> onDueDateChange(event.dueDateMillis)
             CreateTaskEvent.SaveClicked -> onSaveClick()
             CreateTaskEvent.BackClicked -> onBackClick()
         }
+    }
+
+    private fun onPriorityChange(priority: Priority) = intent {
+        reduce { state.copy(priority = priority) }
     }
 
     private fun onDueDateChange(dueDateMillis: Long?) = intent {
@@ -100,7 +106,7 @@ class CreateTaskViewModel(
                 timeProvider.endOfDay(it)
             },
             completionDate = null,
-            priority = Priority.MEDIUM,
+            priority = state.priority,
             url = null,
             location = null,
         )
@@ -121,6 +127,7 @@ data class CreateTaskViewData(
     val id: String? = null,
     val title: String = "",
     val description: String? = null,
+    val priority: Priority = Priority.MEDIUM,
     val dueDate: DueDateViewData? = null,
     val minDueDateMillis: Long,
     val saveButtonEnabled: Boolean = false,
@@ -138,6 +145,7 @@ data class CreateTaskViewData(
 sealed interface CreateTaskEvent {
     data class TitleChanged(val title: String) : CreateTaskEvent
     data class DescriptionChanged(val description: String?) : CreateTaskEvent
+    data class PriorityChanged(val priority: Priority) : CreateTaskEvent
     data class DueDateChanged(val dueDateMillis: Long?) : CreateTaskEvent
     data object SaveClicked : CreateTaskEvent
     data object BackClicked : CreateTaskEvent
