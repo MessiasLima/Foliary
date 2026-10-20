@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -91,12 +92,14 @@ fun FoliaryTheme(
 
     val colorScheme = if (isDarkTheme) darkScheme else lightScheme
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = getTypography(colorScheme),
-        content = content,
-        shapes = shapes
-    )
+    CompositionLocalProvider(LocalIsDarkTheme provides isDarkTheme) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = getTypography(colorScheme),
+            content = content,
+            shapes = shapes
+        )
+    }
 }
 
 @Composable

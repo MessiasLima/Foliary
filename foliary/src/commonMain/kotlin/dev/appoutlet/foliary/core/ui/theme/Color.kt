@@ -1,4 +1,5 @@
 package dev.appoutlet.foliary.core.ui.theme
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 val primaryLight = Color(0xFF1A4D3E)
@@ -72,3 +73,5 @@ val surfaceContainerLowDark = Color(0xFF22261E)
 val surfaceContainerDark = Color(0xFF272B22)
 val surfaceContainerHighDark = Color(0xFF32372B)
 val surfaceContainerHighestDark = Color(0xFF3D4235)
+
+val LocalIsDarkTheme = compositionLocalOf { false }

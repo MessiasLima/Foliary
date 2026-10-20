@@ -4,6 +4,7 @@ import dev.appoutlet.foliary.core.provider.time.TimeProvider
 import dev.appoutlet.foliary.core.provider.uuid.UuidProvider
 import dev.appoutlet.foliary.core.testing.ViewModelTest
 import dev.appoutlet.foliary.data.task.TaskRepository
+import dev.appoutlet.foliary.data.task.database.entity.Priority
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.data.task.database.entity.fixture
 import dev.mokkery.MockMode
@@ -16,7 +17,6 @@ import dev.mokkery.matcher.capture.capture
 import dev.mokkery.matcher.capture.get
 import dev.mokkery.mock
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import kotlin.test.Test
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
@@ -41,14 +41,11 @@ class CreateTaskViewModelTest :
     }
 
     @Test
-    fun `TitleChanged - blank title button disabled`() = test {
+    fun `TitleChanged - should update title and save button enabled state`() = test {
+        val title = "Task"
+
         viewModel.onEvent(CreateTaskEvent.TitleChanged(""))
         currentState.saveButtonEnabled shouldBe false
-    }
-
-    @Test
-    fun `TitleChanged - entering a valid title enables the save button`() = test {
-        val title = "Task"
 
         viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
 
@@ -76,17 +73,34 @@ class CreateTaskViewModelTest :
     }
 
     @Test
-    fun `default state should have dueDate unset and minDueDate set to start of today`() = test {
-        currentState.dueDate shouldBe null
-        currentState.minDueDateMillis shouldBe startOfToday.toEpochMilliseconds()
+    fun `default state should have expected values`() = test {
+        currentState shouldBe CreateTaskViewData(
+            id = null,
+            title = "",
+            description = null,
+            priority = Priority.MEDIUM,
+            dueDate = null,
+            minDueDateMillis = startOfToday.toEpochMilliseconds(),
+            saveButtonEnabled = false,
+        )
+    }
+
+    @Test
+    fun `PriorityChanged - should update priority`() = test {
+        viewModel.onEvent(CreateTaskEvent.PriorityChanged(Priority.HIGH))
+        expectState { copy(priority = Priority.HIGH) }
     }
 
     @Test
     fun `should load saved task on init`() {
         val taskId = Uuid.random()
-        val savedTask = Task.fixture(id = taskId)
+        val savedTask = Task.fixture(id = taskId, priority = Priority.HIGHEST)
+        val taskCapture = Capture.slot<Task>()
+        val endOfDayDueDate = Instant.parse("2026-08-21T23:59:59.999999999Z")
 
         everySuspend { mockTaskRepository.findById(taskId) } returns savedTask
+        every { mockTimeProvider.endOfDay(any()) } returns endOfDayDueDate
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
 
         viewModel = CreateTaskViewModel(
             taskId = taskId.toString(),
@@ -101,6 +115,7 @@ class CreateTaskViewModelTest :
                     id = taskId.toString(),
                     title = savedTask.title,
                     description = savedTask.description,
+                    priority = savedTask.priority,
                     dueDate = savedTask.dueDate?.let { dueDate ->
                         CreateTaskViewData.DueDateViewData.fixture(
                             selectedDateMillis = dueDate.toEpochMilliseconds(),
@@ -111,23 +126,21 @@ class CreateTaskViewModelTest :
                     saveButtonEnabled = true,
                 )
             }
+
+            viewModel.onEvent(CreateTaskEvent.SaveClicked)
+            awaitState().saveButtonEnabled shouldBe false
+
+            taskCapture.get().also { task ->
+                task.priority shouldBe Priority.HIGHEST
+                task.dueDate shouldBe endOfDayDueDate
+            }
+
+            awaitSideEffect() shouldBe CreateTaskAction.NavigateBack
         }
     }
 
     @Test
-    fun `DueDateChanged - should update dueDate`() = test {
-        val dueDateMillis = 1_752_996_000_000
-
-        viewModel.onEvent(CreateTaskEvent.DueDateChanged(dueDateMillis))
-
-        awaitState().dueDate.also {
-            it?.selectedDateMillis shouldBe dueDateMillis
-            it?.selectedDateDisplayText shouldNotBe null
-        }
-    }
-
-    @Test
-    fun `DueDateChanged - null should clear dueDate`() = test {
+    fun `DueDateChanged - should update and clear dueDate`() = test {
         val dueDateMillis = 1_752_996_000_000
         val expectedDueDate = CreateTaskViewData.DueDateViewData.fixture(
             selectedDateMillis = dueDateMillis,
@@ -154,14 +167,6 @@ class CreateTaskViewModelTest :
         every(mockTimeProvider::now) returns creationDate
         everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
 
-        currentState shouldBe CreateTaskViewData.fixture(
-            title = "",
-            description = null,
-            dueDate = null,
-            minDueDateMillis = startOfToday.toEpochMilliseconds(),
-            saveButtonEnabled = false,
-        )
-
         viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
         expectState { copy(title = title, saveButtonEnabled = true) }
 
@@ -183,6 +188,58 @@ class CreateTaskViewModelTest :
 
         // Navigate back after successful saving
         awaitSideEffect() shouldBe CreateTaskAction.NavigateBack
+    }
+
+    @Test
+    fun `SaveClicked - should persist task with default values`() = test {
+        val id = Uuid.random()
+        val title = "Task title"
+        val creationDate = Instant.parse("2026-07-21T12:00:00Z")
+        val taskCapture = Capture.slot<Task>()
+
+        every(mockUuidProvider::random) returns id
+        every(mockTimeProvider::now) returns creationDate
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
+        expectState { copy(title = title, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        awaitState().saveButtonEnabled shouldBe false
+
+        taskCapture.get() shouldBe Task(
+            id = id,
+            title = title,
+            description = null,
+            creationDate = creationDate,
+            dueDate = null,
+            completionDate = null,
+            priority = Priority.MEDIUM,
+            url = null,
+            location = null,
+        )
+    }
+
+    @Test
+    fun `SaveClicked - should persist selected priority`() = test {
+        val id = Uuid.random()
+        val title = "Task title"
+        val taskCapture = Capture.slot<Task>()
+
+        every(mockUuidProvider::random) returns id
+        every(mockTimeProvider::now) returns Instant.parse("2026-07-21T12:00:00Z")
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
+        expectState { copy(title = title, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.PriorityChanged(Priority.BLOCKER))
+        expectState { copy(title = title, priority = Priority.BLOCKER, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        awaitState().saveButtonEnabled shouldBe false
+
+        taskCapture.get().priority shouldBe Priority.BLOCKER
     }
 
     @Test
