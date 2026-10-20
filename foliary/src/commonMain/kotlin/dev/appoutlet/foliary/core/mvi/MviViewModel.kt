@@ -8,11 +8,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.OrbitContainerHost
 import org.orbitmvi.orbit.SettingsBuilder
 import org.orbitmvi.orbit.container
+import org.orbitmvi.orbit.orbitContainer
 import org.orbitmvi.orbit.syntax.Syntax
 
-abstract class MviViewModel<State : Any, SideEffect : Action> : ViewModel(), ContainerHost<State, SideEffect> {
+abstract class MviViewModel<State : Any, SideEffect : Action> : ViewModel(), OrbitContainerHost<State, State, SideEffect> {
 
     protected val log by logger()
 
@@ -23,7 +25,7 @@ abstract class MviViewModel<State : Any, SideEffect : Action> : ViewModel(), Con
         initialState: State,
         buildSettings: SettingsBuilder.() -> Unit = {},
         onCreate: (suspend Syntax<State, SideEffect>.() -> Unit)? = null
-    ) = viewModelScope.container(
+    ) = viewModelScope.orbitContainer(
         initialState = initialState,
         buildSettings = {
             exceptionHandler = CoroutineExceptionHandler { _, throwable ->
