@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryAddButton
+import dev.appoutlet.foliary.core.ui.component.layout.FoliaryEmptyContent
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
@@ -34,8 +35,10 @@ import dev.appoutlet.foliary.feature.createtask.CreateTaskNavKey
 import dev.appoutlet.foliary.feature.main.getWindowDecorationPadding
 import dev.appoutlet.foliary.feature.taskdetail.TaskDetailNavKey
 import foliary.foliary.generated.resources.Res
+import foliary.foliary.generated.resources.today_empty
 import foliary.foliary.generated.resources.upcoming_add_task_a11y
 import foliary.foliary.generated.resources.upcoming_description
+import foliary.foliary.generated.resources.upcoming_empty_button
 import foliary.foliary.generated.resources.upcoming_empty_description
 import foliary.foliary.generated.resources.upcoming_empty_title
 import foliary.foliary.generated.resources.upcoming_group_header
@@ -44,6 +47,7 @@ import foliary.foliary.generated.resources.upcoming_group_overdue
 import foliary.foliary.generated.resources.upcoming_group_today
 import foliary.foliary.generated.resources.upcoming_group_tomorrow
 import foliary.foliary.generated.resources.upcoming_title
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -98,7 +102,14 @@ internal fun UpcomingScreenContent(
 
         when (viewData) {
             UpcomingViewData.Empty -> item {
-                UpcomingScreenEmptyContent(modifier = Modifier.animateItem())
+                FoliaryEmptyContent(
+                    modifier = Modifier.animateItem().testTag("UpcomingScreen:Empty"),
+                    image = painterResource(Res.drawable.today_empty),
+                    title = stringResource(Res.string.upcoming_empty_title),
+                    description = stringResource(Res.string.upcoming_empty_description),
+                    actionLabel = stringResource(Res.string.upcoming_empty_button),
+                    onActionClick = { onEvent(UpcomingEvent.OnAddTaskClick) },
+                )
             }
 
             is UpcomingViewData.Loaded -> {
@@ -194,30 +205,6 @@ private fun UpcomingTaskItem(
             task = task,
             onCompletedChange = {},
             onClick = { onEvent(UpcomingEvent.OnTaskClick(task.id)) }
-        )
-    }
-}
-
-@Composable
-private fun UpcomingScreenEmptyContent(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .widthInCompact()
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 56.dp)
-            .testTag("UpcomingScreen:Empty"),
-    ) {
-        Text(
-            modifier = Modifier.padding(bottom = 8.dp),
-            text = stringResource(Res.string.upcoming_empty_title),
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        Text(
-            text = stringResource(Res.string.upcoming_empty_description),
-            style = MaterialTheme.typography.bodyMedium
         )
     }
 }

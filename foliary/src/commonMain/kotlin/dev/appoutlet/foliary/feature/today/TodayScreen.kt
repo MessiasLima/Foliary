@@ -39,6 +39,7 @@ import com.composables.icons.lucide.Lucide
 import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryAddButton
 import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
+import dev.appoutlet.foliary.core.ui.component.layout.FoliaryEmptyContent
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
@@ -122,7 +123,14 @@ internal fun TodayScreenContent(
 
         when (viewData) {
             is TodayViewData.Empty -> item {
-                TodayScreenEmptyContent(modifier = Modifier.animateItem(), onEvent = onEvent)
+                FoliaryEmptyContent(
+                    modifier = Modifier.animateItem(),
+                    image = painterResource(Res.drawable.today_empty),
+                    title = stringResource(Res.string.today_empty_title),
+                    description = stringResource(Res.string.today_empty_description),
+                    actionLabel = stringResource(Res.string.today_empty_button),
+                    onActionClick = { onEvent(TodayEvent.OnAddTaskClick) }
+                )
             }
 
             is TodayViewData.Celebration -> item {
@@ -246,44 +254,6 @@ private fun TodayHeader(userName: String, modifier: Modifier = Modifier) {
             text = stringResource(Res.string.today_welcome, userName),
             style = MaterialTheme.typography.bodyMedium
         )
-    }
-}
-
-@Composable
-private fun TodayScreenEmptyContent(
-    onEvent: (TodayEvent) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .widthInCompact()
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 56.dp),
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            modifier = Modifier.height(192.dp).align(Alignment.CenterHorizontally),
-            painter = painterResource(Res.drawable.today_empty),
-            contentDescription = null
-        )
-
-        Text(
-            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
-            text = stringResource(Res.string.today_empty_title),
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        Text(
-            text = stringResource(Res.string.today_empty_description),
-            style = MaterialTheme.typography.bodyMedium
-        )
-
-        FoliarySecondaryButton(
-            modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 16.dp),
-            onClick = { onEvent(TodayEvent.OnAddTaskClick) },
-        ) {
-            Text(text = stringResource(Res.string.today_empty_button))
-        }
     }
 }
 
