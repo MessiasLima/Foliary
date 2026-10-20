@@ -26,7 +26,9 @@ class UpcomingViewDataMapper(
     private fun mapLoadedState(tasks: List<Task>): UpcomingViewData.Loaded {
         val taskGroups = tasks
             .groupBy { task -> mapGroupLabel(task) }
-            .mapValues { (groupLabel, tasks) -> tasks.map(foliaryTaskCardViewDataMapper::invoke) }
+            .mapValues { (groupLabel, tasks) ->
+                tasks.sortedBy { it.priority }.map(foliaryTaskCardViewDataMapper::invoke)
+            }
             .map { (groupLabel, tasks) -> UpcomingViewData.TaskGroup(groupLabel, tasks) }
             .toList()
 
