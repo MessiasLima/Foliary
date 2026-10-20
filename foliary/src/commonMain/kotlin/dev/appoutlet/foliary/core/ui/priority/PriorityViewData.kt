@@ -4,7 +4,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.composables.icons.lucide.ChevronDown
 import com.composables.icons.lucide.ChevronUp
@@ -13,6 +12,7 @@ import com.composables.icons.lucide.ChevronsUp
 import com.composables.icons.lucide.ChevronsUpDown
 import com.composables.icons.lucide.CircleMinus
 import com.composables.icons.lucide.Lucide
+import dev.appoutlet.foliary.core.ui.theme.LocalIsDarkTheme
 import dev.appoutlet.foliary.data.task.database.entity.Priority
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.priority_pill_blocker
@@ -45,10 +45,9 @@ private data class PriorityColors(
 
 @Composable
 fun Priority.viewData(): PriorityViewData {
-    val backgroundColor = MaterialTheme.colorScheme.background
+    val isDarkTheme = LocalIsDarkTheme.current
 
-    val colors = remember(this) {
-        val isDarkTheme = backgroundColor.luminance() < .5f
+    val colors = remember(isDarkTheme) {
         if (isDarkTheme) {
             PriorityColors(PriorityHighDark, PriorityHighestDark, PriorityBlockerDark)
         } else {
