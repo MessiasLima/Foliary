@@ -17,7 +17,7 @@ import kotlin.test.Test
 class FoliarySecondaryButtonTest {
 
     @Test
-    fun `should show content, be enabled by default and invoke onClick when clicked`() = runComposeUiTest {
+    fun `should show content be enabled by default and invoke onClick when clicked`() = runComposeUiTest {
         var clicked = false
         val testTag = "SecondaryButton"
         val buttonText = "Click Me"

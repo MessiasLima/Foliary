@@ -18,12 +18,11 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
-import kotlin.io.path.createTempDirectory
 import kotlin.test.Test
 
 class DefaultAuthenticationRepositoryTest {
     private val mockAuth = mock<Auth>(mode = MockMode.autoUnit)
-    private val ksafe = KSafe(baseDir = createTempDirectory("ksafe-test").toFile())
+    private val ksafe = platformKsafe()
 
     val subject = DefaultAuthenticationRepository(
         lazyAuth = lazy { mockAuth },
@@ -116,3 +115,5 @@ class DefaultAuthenticationRepositoryTest {
         subject.currentUser() shouldBe fixture
     }
 }
+
+expect fun platformKSafe(): KSafe
