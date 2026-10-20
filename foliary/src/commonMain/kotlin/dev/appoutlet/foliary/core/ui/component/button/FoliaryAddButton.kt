@@ -43,8 +43,7 @@ fun FoliaryAddButton(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .safeDrawingPadding()
-            .padding(end = 8.dp),
+            .padding(end = 16.dp),
         horizontalArrangement = Arrangement.End
     ) {
         OutlinedIconButton(
