@@ -11,6 +11,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,20 +24,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.Check
 import com.composables.icons.lucide.ChevronDown
-import com.composables.icons.lucide.Flag
 import com.composables.icons.lucide.Lucide
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
-import dev.appoutlet.foliary.core.ui.component.pill.PriorityPill
+import dev.appoutlet.foliary.core.ui.priority.viewData
 import dev.appoutlet.foliary.data.task.database.entity.Priority
-import foliary.foliary.generated.resources.Res
-import foliary.foliary.generated.resources.priority_pill_blocker
-import foliary.foliary.generated.resources.priority_pill_high
-import foliary.foliary.generated.resources.priority_pill_highest
-import foliary.foliary.generated.resources.priority_pill_low
-import foliary.foliary.generated.resources.priority_pill_lowest
-import foliary.foliary.generated.resources.priority_pill_medium
-import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FoliaryPriorityPicker(
@@ -60,18 +51,23 @@ fun FoliaryPriorityPicker(
             containerColor = MaterialTheme.colorScheme.surface,
         ) {
             Priority.entries.forEach { priority ->
+                val viewData = priority.viewData()
                 DropdownMenuItem(
-                    text = { Text(text = stringResource(priority.stringResource)) },
-                    leadingIcon = { Icon(imageVector = Lucide.Flag, contentDescription = null) },
-                    trailingIcon = if (priority == selectedPriority) {
-                        { Icon(imageVector = Lucide.Check, contentDescription = null) }
-                    } else {
-                        null
+                    text = { Text(text = viewData.text) },
+                    leadingIcon = { Icon(imageVector = viewData.icon, contentDescription = null) },
+                    trailingIcon = {
+                        if (priority == selectedPriority) {
+                            Icon(imageVector = Lucide.Check, contentDescription = null)
+                        }
                     },
                     onClick = {
                         showMenu = false
                         onPrioritySelected(priority)
-                    }
+                    },
+                    colors = MenuDefaults.itemColors(
+                        textColor = viewData.color,
+                        leadingIconColor = viewData.color
+                    )
                 )
             }
         }
@@ -84,6 +80,7 @@ private fun PriorityPickerCard(
     selectedPriority: Priority,
     onClick: () -> Unit,
 ) {
+    val viewData = selectedPriority.viewData()
     FoliaryCard(modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
@@ -104,10 +101,24 @@ private fun PriorityPickerCard(
                     color = MaterialTheme.colorScheme.onBackground
                 )
 
-                PriorityPill(
-                    priority = selectedPriority,
-                    modifier = Modifier.testTag("FoliaryPriorityPicker:Value")
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+
+                    Icon(
+                        imageVector = viewData.icon,
+                        contentDescription = null,
+                        tint = viewData.color
+                    )
+
+                    Text(
+                        modifier = Modifier.testTag("FoliaryPriorityPicker:Value"),
+                        text = viewData.text,
+                        color = viewData.color,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
 
             Icon(
@@ -119,13 +130,3 @@ private fun PriorityPickerCard(
         }
     }
 }
-
-private val Priority.stringResource: StringResource
-    get() = when (this) {
-        Priority.LOWEST -> Res.string.priority_pill_lowest
-        Priority.LOW -> Res.string.priority_pill_low
-        Priority.MEDIUM -> Res.string.priority_pill_medium
-        Priority.HIGH -> Res.string.priority_pill_high
-        Priority.HIGHEST -> Res.string.priority_pill_highest
-        Priority.BLOCKER -> Res.string.priority_pill_blocker
-    }
