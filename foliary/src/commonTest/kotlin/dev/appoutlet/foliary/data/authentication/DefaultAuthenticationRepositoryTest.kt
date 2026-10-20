@@ -22,7 +22,7 @@ import kotlin.test.Test
 
 class DefaultAuthenticationRepositoryTest {
     private val mockAuth = mock<Auth>(mode = MockMode.autoUnit)
-    private val ksafe = platformKsafe()
+    private val ksafe = platformKSafe()
 
     val subject = DefaultAuthenticationRepository(
         lazyAuth = lazy { mockAuth },
