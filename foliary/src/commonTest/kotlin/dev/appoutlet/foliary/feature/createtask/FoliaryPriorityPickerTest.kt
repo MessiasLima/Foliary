@@ -10,6 +10,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
 import dev.appoutlet.foliary.data.task.database.entity.Priority
 import foliary.foliary.generated.resources.Res
+import foliary.foliary.generated.resources.create_task_priority_label
 import foliary.foliary.generated.resources.priority_pill_blocker
 import foliary.foliary.generated.resources.priority_pill_high
 import foliary.foliary.generated.resources.priority_pill_highest
@@ -18,6 +19,7 @@ import foliary.foliary.generated.resources.priority_pill_lowest
 import foliary.foliary.generated.resources.priority_pill_medium
 import io.kotest.matchers.shouldBe
 import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -25,8 +27,7 @@ class FoliaryPriorityPickerTest {
 
     @Test
     fun `should render selected priority as pill`() = runComposeUiTest {
-        val label = "Priority"
-        val mediumText = getString(Res.string.priority_pill_medium)
+        val label = getString(Res.string.create_task_priority_label)
 
         setContent {
             FoliaryPriorityPicker(
@@ -37,7 +38,7 @@ class FoliaryPriorityPickerTest {
         }
 
         onNodeWithText(label).assertIsDisplayed()
-        onNodeWithText(mediumText).assertIsDisplayed()
+        onNodeWithText(getString(Res.string.priority_pill_medium)).assertIsDisplayed()
         onNodeWithTag("FoliaryPriorityPicker:Value", useUnmergedTree = true).assertIsDisplayed()
     }
 
@@ -47,7 +48,7 @@ class FoliaryPriorityPickerTest {
             FoliaryPriorityPicker(
                 selectedPriority = Priority.MEDIUM,
                 onPrioritySelected = {},
-                label = "Priority"
+                label = stringResource(Res.string.create_task_priority_label)
             )
         }
 
@@ -62,7 +63,7 @@ class FoliaryPriorityPickerTest {
             FoliaryPriorityPicker(
                 selectedPriority = Priority.MEDIUM,
                 onPrioritySelected = {},
-                label = "Priority"
+                label = stringResource(Res.string.create_task_priority_label)
             )
         }
 
@@ -85,7 +86,7 @@ class FoliaryPriorityPickerTest {
             FoliaryPriorityPicker(
                 selectedPriority = Priority.MEDIUM,
                 onPrioritySelected = { selectedPriority = it },
-                label = "Priority"
+                label = stringResource(Res.string.create_task_priority_label)
             )
         }
 
