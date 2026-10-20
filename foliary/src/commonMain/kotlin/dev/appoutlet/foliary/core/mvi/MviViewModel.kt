@@ -12,7 +12,8 @@ import org.orbitmvi.orbit.SettingsBuilder
 import org.orbitmvi.orbit.orbitContainer
 import org.orbitmvi.orbit.syntax.Syntax
 
-abstract class MviViewModel<State : Any, SideEffect : Action> : ViewModel(), OrbitContainerHost<State, State, SideEffect> {
+abstract class MviViewModel<State : Any, SideEffect : Action> :
+    ViewModel(), OrbitContainerHost<State, State, SideEffect> {
 
     protected val log by logger()
 

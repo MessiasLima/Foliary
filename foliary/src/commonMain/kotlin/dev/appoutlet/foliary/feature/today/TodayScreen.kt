@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
@@ -123,14 +124,7 @@ internal fun TodayScreenContent(
 
         when (viewData) {
             is TodayViewData.Empty -> item {
-                FoliaryEmptyContent(
-                    modifier = Modifier.animateItem(),
-                    image = painterResource(Res.drawable.today_empty),
-                    title = stringResource(Res.string.today_empty_title),
-                    description = stringResource(Res.string.today_empty_description),
-                    actionLabel = stringResource(Res.string.today_empty_button),
-                    onActionClick = { onEvent(TodayEvent.OnAddTaskClick) }
-                )
+                TodayScreenEmpty(onEvent)
             }
 
             is TodayViewData.Celebration -> item {
@@ -167,6 +161,18 @@ internal fun TodayScreenContent(
             }
         }
     }
+}
+
+@Composable
+private fun LazyItemScope.TodayScreenEmpty(onEvent: (TodayEvent) -> Unit) {
+    FoliaryEmptyContent(
+        modifier = Modifier.animateItem(),
+        image = painterResource(Res.drawable.today_empty),
+        title = stringResource(Res.string.today_empty_title),
+        description = stringResource(Res.string.today_empty_description),
+        actionLabel = stringResource(Res.string.today_empty_button),
+        onActionClick = { onEvent(TodayEvent.OnAddTaskClick) }
+    )
 }
 
 @Composable
