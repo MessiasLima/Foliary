@@ -23,7 +23,7 @@ import foliary.foliary.generated.resources.priority_pill_lowest
 import foliary.foliary.generated.resources.priority_pill_medium
 import org.jetbrains.compose.resources.stringResource
 
-data class FoliaryPriorityViewData(
+data class PriorityViewData(
     val text: String,
     val color: Color,
     val icon: ImageVector,
@@ -44,7 +44,7 @@ private data class PriorityColors(
 )
 
 @Composable
-fun Priority.viewData(): FoliaryPriorityViewData {
+fun Priority.viewData(): PriorityViewData {
     val backgroundColor = MaterialTheme.colorScheme.background
 
     val colors = remember(this) {
@@ -57,37 +57,37 @@ fun Priority.viewData(): FoliaryPriorityViewData {
     }
 
     return when (this) {
-        Priority.LOWEST -> FoliaryPriorityViewData(
+        Priority.LOWEST -> PriorityViewData(
             text = stringResource(Res.string.priority_pill_lowest),
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = .4f),
             icon = Lucide.ChevronsDown,
         )
 
-        Priority.LOW -> FoliaryPriorityViewData(
+        Priority.LOW -> PriorityViewData(
             text = stringResource(Res.string.priority_pill_low),
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = .7f),
             icon = Lucide.ChevronDown,
         )
 
-        Priority.MEDIUM -> FoliaryPriorityViewData(
+        Priority.MEDIUM -> PriorityViewData(
             text = stringResource(Res.string.priority_pill_medium),
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 1f),
             icon = Lucide.ChevronsUpDown,
         )
 
-        Priority.HIGH -> FoliaryPriorityViewData(
+        Priority.HIGH -> PriorityViewData(
             text = stringResource(Res.string.priority_pill_high),
             color = colors.high,
             icon = Lucide.ChevronUp,
         )
 
-        Priority.HIGHEST -> FoliaryPriorityViewData(
+        Priority.HIGHEST -> PriorityViewData(
             text = stringResource(Res.string.priority_pill_highest),
             color = colors.highest,
             icon = Lucide.ChevronsUp,
         )
 
-        Priority.BLOCKER -> FoliaryPriorityViewData(
+        Priority.BLOCKER -> PriorityViewData(
             text = stringResource(Res.string.priority_pill_blocker),
             color = colors.blocker,
             icon = Lucide.CircleMinus,

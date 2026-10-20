@@ -10,7 +10,6 @@ import androidx.compose.ui.unit.dp
 import dev.appoutlet.foliary.core.ui.priority.viewData
 import dev.appoutlet.foliary.core.ui.theme.FoliaryTheme
 import dev.appoutlet.foliary.data.task.database.entity.Priority
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun PriorityPill(priority: Priority, modifier: Modifier = Modifier) {

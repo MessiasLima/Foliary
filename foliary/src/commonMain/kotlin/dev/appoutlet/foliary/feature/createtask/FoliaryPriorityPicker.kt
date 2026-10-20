@@ -105,7 +105,6 @@ private fun PriorityPickerCard(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-
                     Icon(
                         imageVector = viewData.icon,
                         contentDescription = null,
