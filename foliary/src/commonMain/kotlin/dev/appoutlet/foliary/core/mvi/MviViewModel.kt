@@ -7,10 +7,8 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.OrbitContainerHost
 import org.orbitmvi.orbit.SettingsBuilder
-import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.orbitContainer
 import org.orbitmvi.orbit.syntax.Syntax
 

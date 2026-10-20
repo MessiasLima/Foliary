@@ -2,12 +2,9 @@ package dev.appoutlet.foliary.feature.upcoming
 
 import dev.appoutlet.foliary.core.allopen.Open
 import dev.appoutlet.foliary.core.provider.time.TimeProvider
-import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewData
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewDataMapper
 import dev.appoutlet.foliary.data.task.database.entity.Task
-import kotlinx.datetime.TimeZone
 import org.koin.core.annotation.Factory
-import org.koin.core.annotation.Single
 import kotlin.time.Instant
 
 @Factory
@@ -35,7 +32,7 @@ class UpcomingViewDataMapper(
         return UpcomingViewData.Loaded(taskGroups)
     }
 
-    private fun mapGroupLabel(task: Task) : UpcomingViewData.GroupLabel {
+    private fun mapGroupLabel(task: Task): UpcomingViewData.GroupLabel {
         return when {
             task.dueDate == null -> UpcomingViewData.GroupLabel.NoDate
             task.dueDate.isOverdue() -> UpcomingViewData.GroupLabel.Overdue

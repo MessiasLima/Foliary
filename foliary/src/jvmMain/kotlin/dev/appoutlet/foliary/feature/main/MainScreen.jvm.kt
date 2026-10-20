@@ -10,7 +10,7 @@ actual fun getWindowDecorationPadding(): Dp {
     return when (Platform.Current) {
         Platform.Linux -> 0.dp
         Platform.Windows -> 0.dp
-        Platform.MacOS -> 20.dp
+        Platform.MacOS -> 24.dp
         Platform.Unknown -> 0.dp
     }
 }
