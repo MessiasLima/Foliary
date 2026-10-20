@@ -1,4 +1,4 @@
-package dev.appoutlet.foliary.core.ui.component.prioritypicker
+package dev.appoutlet.foliary.feature.createtask
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

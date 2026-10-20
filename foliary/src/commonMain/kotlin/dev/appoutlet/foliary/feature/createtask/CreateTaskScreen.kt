@@ -24,7 +24,6 @@ import dev.appoutlet.foliary.core.ui.component.button.FoliaryBackIconButton
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryPrimaryButton
 import dev.appoutlet.foliary.core.ui.component.datepicker.FoliaryDatePicker
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
-import dev.appoutlet.foliary.core.ui.component.prioritypicker.FoliaryPriorityPicker
 import dev.appoutlet.foliary.core.ui.component.textfield.FoliaryTextField
 import dev.appoutlet.foliary.feature.main.getWindowDecorationPadding
 import foliary.foliary.generated.resources.Res

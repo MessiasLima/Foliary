@@ -1,4 +1,4 @@
-package dev.appoutlet.foliary.core.ui.component.prioritypicker
+package dev.appoutlet.foliary.feature.createtask
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertCountEquals
