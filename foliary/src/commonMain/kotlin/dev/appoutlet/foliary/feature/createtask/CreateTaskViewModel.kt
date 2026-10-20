@@ -38,6 +38,7 @@ class CreateTaskViewModel(
                 id = task.id.toString(),
                 title = task.title,
                 description = task.description,
+                url = task.url.orEmpty(),
                 priority = task.priority,
                 dueDate = task.dueDate?.let { dueDate ->
                     CreateTaskViewData.DueDateViewData(
@@ -55,11 +56,16 @@ class CreateTaskViewModel(
         when (event) {
             is CreateTaskEvent.TitleChanged -> onTitleChange(event.title)
             is CreateTaskEvent.DescriptionChanged -> onDescriptionChange(event.description)
+            is CreateTaskEvent.UrlChanged -> onUrlChange(event.url)
             is CreateTaskEvent.PriorityChanged -> onPriorityChange(event.priority)
             is CreateTaskEvent.DueDateChanged -> onDueDateChange(event.dueDateMillis)
             CreateTaskEvent.SaveClicked -> onSaveClick()
             CreateTaskEvent.BackClicked -> onBackClick()
         }
+    }
+
+    private fun onUrlChange(url: String) = intent {
+        reduce { state.copy(url = url, isUrlInvalid = false) }
     }
 
     private fun onPriorityChange(priority: Priority) = intent {
@@ -93,6 +99,12 @@ class CreateTaskViewModel(
     }
 
     private fun onSaveClick() = intent {
+        val url = state.url.toNormalizedUrl()
+        if (url != null && !UrlRegex.matches(url)) {
+            reduce { state.copy(isUrlInvalid = true) }
+            return@intent
+        }
+
         reduce { state.copy(saveButtonEnabled = false) }
 
         val task = Task(
@@ -107,7 +119,7 @@ class CreateTaskViewModel(
             },
             completionDate = null,
             priority = state.priority,
-            url = null,
+            url = url,
             location = null,
         )
 
@@ -123,10 +135,27 @@ class CreateTaskViewModel(
     private fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
 }
 
+private val UrlRegex = Regex(
+    "^https?://([a-z0-9-]+\\.)+[a-z]{2,}(:\\d{1,5})?(/\\S*)?$",
+    RegexOption.IGNORE_CASE,
+)
+
+private fun String.toNormalizedUrl(): String? {
+    val trimmed = trim()
+    if (trimmed.isBlank()) return null
+    return if (trimmed.contains("://")) {
+        trimmed
+    } else {
+        "https://$trimmed"
+    }
+}
+
 data class CreateTaskViewData(
     val id: String? = null,
     val title: String = "",
     val description: String? = null,
+    val url: String = "",
+    val isUrlInvalid: Boolean = false,
     val priority: Priority = Priority.MEDIUM,
     val dueDate: DueDateViewData? = null,
     val minDueDateMillis: Long,
@@ -145,6 +174,7 @@ data class CreateTaskViewData(
 sealed interface CreateTaskEvent {
     data class TitleChanged(val title: String) : CreateTaskEvent
     data class DescriptionChanged(val description: String?) : CreateTaskEvent
+    data class UrlChanged(val url: String) : CreateTaskEvent
     data class PriorityChanged(val priority: Priority) : CreateTaskEvent
     data class DueDateChanged(val dueDateMillis: Long?) : CreateTaskEvent
     data object SaveClicked : CreateTaskEvent

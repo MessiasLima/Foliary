@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -36,6 +38,9 @@ import foliary.foliary.generated.resources.create_task_save
 import foliary.foliary.generated.resources.create_task_title
 import foliary.foliary.generated.resources.create_task_title_label
 import foliary.foliary.generated.resources.create_task_title_placeholder
+import foliary.foliary.generated.resources.create_task_url_invalid
+import foliary.foliary.generated.resources.create_task_url_label
+import foliary.foliary.generated.resources.create_task_url_placeholder
 import kotlinx.coroutines.FlowPreview
 import org.jetbrains.compose.resources.stringResource
 
@@ -58,6 +63,11 @@ fun CreateTaskScreen(viewData: CreateTaskViewData, onEvent: (CreateTaskEvent) ->
                 Spacer(Modifier.size(16.dp))
                 TitleField(viewData.title, onEvent)
                 DescriptionField(viewData.description, onEvent)
+                UrlField(
+                    url = viewData.url,
+                    isUrlInvalid = viewData.isUrlInvalid,
+                    onEvent = onEvent,
+                )
                 FoliaryPriorityPicker(
                     modifier = Modifier.widthInCompact()
                         .fillMaxWidth()
@@ -139,5 +149,27 @@ private fun DescriptionField(description: String?, onEvent: (CreateTaskEvent) ->
         label = { Text(text = stringResource(Res.string.create_task_description_label)) },
         placeholder = { Text(text = stringResource(Res.string.create_task_description_placeholder)) },
         minLines = 3
+    )
+}
+
+@OptIn(FlowPreview::class)
+@Composable
+private fun UrlField(
+    url: String,
+    isUrlInvalid: Boolean,
+    onEvent: (CreateTaskEvent) -> Unit,
+) {
+    FoliaryTextField(
+        modifier = Modifier.widthInCompact()
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .testTag("CreateTaskScreen:UrlField"),
+        value = url,
+        onValueChange = { onEvent(CreateTaskEvent.UrlChanged(it)) },
+        label = { Text(text = stringResource(Res.string.create_task_url_label)) },
+        placeholder = { Text(text = stringResource(Res.string.create_task_url_placeholder)) },
+        errorText = if (isUrlInvalid) stringResource(Res.string.create_task_url_invalid) else null,
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
     )
 }

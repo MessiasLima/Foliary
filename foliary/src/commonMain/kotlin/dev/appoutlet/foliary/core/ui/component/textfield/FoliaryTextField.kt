@@ -1,5 +1,6 @@
 package dev.appoutlet.foliary.core.ui.component.textfield
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -34,6 +36,7 @@ fun FoliaryTextField(
     modifier: Modifier = Modifier,
     label: @Composable () -> Unit = {},
     placeholder: @Composable () -> Unit = {},
+    errorText: String? = null,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
@@ -78,6 +81,14 @@ fun FoliaryTextField(
                     ProvidePlaceholderStyle(placeholderAlpha) {
                         placeholder()
                     }
+                }
+
+                AnimatedVisibility(visible = !errorText.isNullOrBlank()) {
+                    Text(
+                        text = errorText.orEmpty(),
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall,
+                    )
                 }
             }
         }

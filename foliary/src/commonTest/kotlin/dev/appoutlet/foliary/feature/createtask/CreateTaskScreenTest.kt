@@ -26,6 +26,9 @@ import foliary.foliary.generated.resources.create_task_save
 import foliary.foliary.generated.resources.create_task_title
 import foliary.foliary.generated.resources.create_task_title_label
 import foliary.foliary.generated.resources.create_task_title_placeholder
+import foliary.foliary.generated.resources.create_task_url_invalid
+import foliary.foliary.generated.resources.create_task_url_label
+import foliary.foliary.generated.resources.create_task_url_placeholder
 import foliary.foliary.generated.resources.priority_pill_high
 import foliary.foliary.generated.resources.priority_pill_medium
 import io.kotest.matchers.shouldBe
@@ -53,6 +56,9 @@ class CreateTaskScreenTest {
         onNodeWithText(getString(Res.string.create_task_title_placeholder)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.create_task_description_label)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.create_task_description_placeholder)).assertIsDisplayed()
+        onNodeWithText(getString(Res.string.create_task_url_label)).assertIsDisplayed()
+        onNodeWithText(getString(Res.string.create_task_url_placeholder)).assertIsDisplayed()
+        onNodeWithText(getString(Res.string.create_task_url_invalid)).assertDoesNotExist()
         onNodeWithTag("CreateTaskScreen:PriorityPicker").assertIsDisplayed()
         onNodeWithText(getString(Res.string.priority_pill_medium)).assertIsDisplayed()
         onNodeWithText(getString(Res.string.create_task_due_date_label)).assertIsDisplayed()
@@ -89,10 +95,12 @@ class CreateTaskScreenTest {
     fun `should update text fields`() = runComposeUiTest {
         val title = "Buy soil"
         val description = "Use the garden store nearby"
+        val url = "example.com"
         var viewData by mutableStateOf(
             CreateTaskViewData.fixture(
                 title = "",
                 description = null,
+                url = "",
                 dueDate = null,
                 saveButtonEnabled = false,
             )
@@ -105,6 +113,7 @@ class CreateTaskScreenTest {
                     viewData = when (event) {
                         is CreateTaskEvent.TitleChanged -> viewData.copy(title = event.title)
                         is CreateTaskEvent.DescriptionChanged -> viewData.copy(description = event.description)
+                        is CreateTaskEvent.UrlChanged -> viewData.copy(url = event.url)
                         else -> viewData
                     }
                 }
@@ -115,11 +124,31 @@ class CreateTaskScreenTest {
             .performTextInput(title)
         onNodeWithTag("CreateTaskScreen:DescriptionField", useUnmergedTree = true)
             .performTextInput(description)
+        onNodeWithTag("CreateTaskScreen:UrlField", useUnmergedTree = true)
+            .performTextInput(url)
 
         onNodeWithTag("CreateTaskScreen:TitleField", useUnmergedTree = true)
             .assertTextEquals(title)
         onNodeWithTag("CreateTaskScreen:DescriptionField", useUnmergedTree = true)
             .assertTextEquals(description)
+        onNodeWithTag("CreateTaskScreen:UrlField", useUnmergedTree = true)
+            .assertTextEquals(url)
+    }
+
+    @Test
+    fun `should show url validation error`() = runComposeUiTest {
+        var viewData by mutableStateOf(CreateTaskViewData.fixture(isUrlInvalid = true))
+
+        setContent {
+            CreateTaskScreen(viewData = viewData, onEvent = {})
+        }
+
+        onNodeWithText(getString(Res.string.create_task_url_invalid)).assertIsDisplayed()
+
+        viewData = viewData.copy(isUrlInvalid = false)
+        waitForIdle()
+
+        onNodeWithText(getString(Res.string.create_task_url_invalid)).assertDoesNotExist()
     }
 
     @Test

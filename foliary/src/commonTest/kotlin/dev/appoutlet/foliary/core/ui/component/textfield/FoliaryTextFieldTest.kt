@@ -8,6 +8,7 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.v2.runComposeUiTest
@@ -58,5 +59,26 @@ class FoliaryTextFieldTest {
         onNodeWithTag(tagPlaceholder, useUnmergedTree = true)
             .assertIsDisplayed()
             .assertIsNotTransparent()
+    }
+
+    @Test
+    fun `should render error text when provided`() = runComposeUiTest {
+        val errorText = "Enter a valid URL"
+        val errorState = mutableStateOf<String?>(null)
+
+        setContent {
+            FoliaryTextField(
+                value = "",
+                onValueChange = {},
+                errorText = errorState.value,
+            )
+        }
+
+        onNodeWithText(errorText).assertDoesNotExist()
+
+        errorState.value = errorText
+        waitForIdle()
+
+        onNodeWithText(errorText).assertIsDisplayed()
     }
 }
