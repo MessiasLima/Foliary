@@ -12,11 +12,11 @@ import kotlin.test.Test
 import kotlin.time.Clock
 import kotlin.time.Instant
 
-class UpcomingGroupMapperTest {
+class TaskGroupMapperTest {
     private val clockTime = Instant.parse("2026-06-05T10:00:00Z")
     private val timeProvider = DefaultTimeProvider(clock = FixedClock(clockTime))
     private val cardMapper = FoliaryTaskCardViewDataMapper(timeProvider)
-    private val mapper = UpcomingGroupMapper(timeProvider, cardMapper)
+    private val mapper = UpcomingViewDataMapper(timeProvider, cardMapper)
 
     @Test
     fun `should bucket tasks into correct groups in chronological order and skip empty groups`() {

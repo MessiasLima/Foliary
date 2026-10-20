@@ -2,6 +2,7 @@ package dev.appoutlet.foliary.feature.upcoming
 
 import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.MviViewModel
+import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewData
 import dev.appoutlet.foliary.data.task.TaskRepository
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -10,22 +11,14 @@ import org.koin.core.annotation.KoinViewModel
 @KoinViewModel
 class UpcomingViewModel(
     private val taskRepository: TaskRepository,
-    private val upcomingGroupMapper: UpcomingGroupMapper
+    private val upcomingViewDataMapper: UpcomingViewDataMapper
 ) : MviViewModel<UpcomingViewData, UpcomingAction>() {
 
     override val container = container(UpcomingViewData.Idle) {
         taskRepository.findAllPendingTasks()
             .onStart { reduce { UpcomingViewData.Loading } }
-            .map { tasks -> upcomingGroupMapper(tasks) }
-            .collect { groups ->
-                reduce {
-                    if (groups.isEmpty()) {
-                        UpcomingViewData.Empty
-                    } else {
-                        UpcomingViewData.Loaded(groups)
-                    }
-                }
-            }
+            .map { tasks -> upcomingViewDataMapper(tasks) }
+            .collect { viewData -> reduce { viewData } }
     }
 
     fun onEvent(event: UpcomingEvent) {
@@ -47,8 +40,23 @@ class UpcomingViewModel(
 sealed interface UpcomingViewData {
     data object Idle : UpcomingViewData
     data object Loading : UpcomingViewData
-    data class Loaded(val groups: List<UpcomingGroup>) : UpcomingViewData
+    data class Loaded(val taskGroup: List<TaskGroup>) : UpcomingViewData
     data object Empty : UpcomingViewData
+
+    sealed interface GroupLabel {
+        data object Overdue : GroupLabel
+        data object Today : GroupLabel
+        data object Tomorrow : GroupLabel
+        data class Date(val displayText: String) : GroupLabel
+        data object NoDate : GroupLabel
+    }
+
+    data class TaskGroup(
+        val label: GroupLabel,
+        val tasks: List<FoliaryTaskCardViewData>
+    ) {
+        companion object
+    }
 }
 
 sealed interface UpcomingEvent {

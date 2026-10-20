@@ -53,7 +53,6 @@
     <string name="upcoming_group_today">Today</string>
     <string name="upcoming_group_tomorrow">Tomorrow</string>
     <string name="upcoming_group_no_date">No Date</string>
-    <string name="upcoming_group_header">%1$s (%2$d)</string>
     <string name="upcoming_empty_title">No upcoming tasks</string>
     <string name="upcoming_empty_button">Create a new task</string>
     <string name="upcoming_empty_description">You don't have any upcoming tasks scheduled. Enjoy your day!</string>

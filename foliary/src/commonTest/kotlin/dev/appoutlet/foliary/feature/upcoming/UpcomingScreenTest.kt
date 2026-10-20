@@ -30,7 +30,7 @@ class UpcomingScreenTest {
         setContent {
             UpcomingScreenContent(
                 lazyListState = rememberLazyListState(),
-                viewData = UpcomingViewData.Empty,
+                viewData = UpcomingViewState.Empty,
                 onEvent = {}
             )
         }
@@ -49,7 +49,7 @@ class UpcomingScreenTest {
         setContent {
             UpcomingScreenContent(
                 lazyListState = rememberLazyListState(),
-                viewData = UpcomingViewData.Empty,
+                viewData = UpcomingViewState.Empty,
                 onEvent = { emittedEvent = it }
             )
         }
@@ -75,7 +75,7 @@ class UpcomingScreenTest {
         setContent {
             UpcomingScreenContent(
                 lazyListState = rememberLazyListState(),
-                viewData = UpcomingViewData.Loaded(listOf(group)),
+                viewData = UpcomingViewState.Loaded(listOf(group)),
                 onEvent = {}
             )
         }
@@ -102,7 +102,7 @@ class UpcomingScreenTest {
         setContent {
             UpcomingScreenContent(
                 lazyListState = rememberLazyListState(),
-                viewData = UpcomingViewData.Loaded(listOf(group)),
+                viewData = UpcomingViewState.Loaded(listOf(group)),
                 onEvent = { emittedEvent = it }
             )
         }

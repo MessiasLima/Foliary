@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -41,7 +42,6 @@ import foliary.foliary.generated.resources.upcoming_description
 import foliary.foliary.generated.resources.upcoming_empty_button
 import foliary.foliary.generated.resources.upcoming_empty_description
 import foliary.foliary.generated.resources.upcoming_empty_title
-import foliary.foliary.generated.resources.upcoming_group_header
 import foliary.foliary.generated.resources.upcoming_group_no_date
 import foliary.foliary.generated.resources.upcoming_group_overdue
 import foliary.foliary.generated.resources.upcoming_group_today
@@ -101,41 +101,47 @@ internal fun UpcomingScreenContent(
         item { UpcomingHeader() }
 
         when (viewData) {
-            UpcomingViewData.Empty -> item {
-                FoliaryEmptyContent(
-                    modifier = Modifier.animateItem().testTag("UpcomingScreen:Empty"),
-                    image = painterResource(Res.drawable.today_empty),
-                    title = stringResource(Res.string.upcoming_empty_title),
-                    description = stringResource(Res.string.upcoming_empty_description),
-                    actionLabel = stringResource(Res.string.upcoming_empty_button),
-                    onActionClick = { onEvent(UpcomingEvent.OnAddTaskClick) },
-                )
-            }
-
-            is UpcomingViewData.Loaded -> {
-                for (group in viewData.groups) {
-                    item(key = "Header_${group.label}") {
-                        UpcomingGroupHeader(
-                            label = group.label,
-                            taskCount = group.tasks.size,
-                            modifier = Modifier.animateItem()
-                        )
-                    }
-
-                    items(group.tasks, key = { it.id }) { task ->
-                        UpcomingTaskItem(
-                            task = task,
-                            onEvent = onEvent,
-                            modifier = Modifier.animateItem()
-                        )
-                    }
-                }
-            }
-
+            UpcomingViewData.Empty -> UpcomingEmpty(onEvent)
+            is UpcomingViewData.Loaded -> UpcomingLoaded(viewData, onEvent)
             else -> {}
         }
     }
 }
+
+
+private fun LazyListScope.UpcomingEmpty(onEvent: (UpcomingEvent) -> Unit) = item {
+    FoliaryEmptyContent(
+        modifier = Modifier.animateItem().testTag("UpcomingScreen:Empty"),
+        image = painterResource(Res.drawable.today_empty),
+        title = stringResource(Res.string.upcoming_empty_title),
+        description = stringResource(Res.string.upcoming_empty_description),
+        actionLabel = stringResource(Res.string.upcoming_empty_button),
+        onActionClick = { onEvent(UpcomingEvent.OnAddTaskClick) },
+    )
+}
+
+private fun LazyListScope.UpcomingLoaded(
+    viewData: UpcomingViewData.Loaded,
+    onEvent: (UpcomingEvent) -> Unit
+) {
+    viewData.taskGroup.forEach { group ->
+        stickyHeader {
+            UpcomingGroupHeader(
+                label = group.label,
+                modifier = Modifier.animateItem()
+            )
+        }
+
+        items(group.tasks, key = { it.id }) { task ->
+            UpcomingTaskItem(
+                task = task,
+                onEvent = onEvent,
+                modifier = Modifier.animateItem()
+            )
+        }
+    }
+}
+
 
 @Composable
 private fun UpcomingHeader(modifier: Modifier = Modifier) {
@@ -156,16 +162,15 @@ private fun UpcomingHeader(modifier: Modifier = Modifier) {
 
 @Composable
 private fun UpcomingGroupHeader(
-    label: UpcomingGroupLabel,
-    taskCount: Int,
+    label: UpcomingViewData.GroupLabel,
     modifier: Modifier = Modifier
 ) {
     val labelText = when (label) {
-        UpcomingGroupLabel.Overdue -> stringResource(Res.string.upcoming_group_overdue)
-        UpcomingGroupLabel.Today -> stringResource(Res.string.upcoming_group_today)
-        UpcomingGroupLabel.Tomorrow -> stringResource(Res.string.upcoming_group_tomorrow)
-        is UpcomingGroupLabel.Date -> label.displayText
-        UpcomingGroupLabel.NoDate -> stringResource(Res.string.upcoming_group_no_date)
+        is UpcomingViewData.GroupLabel.Date -> label.displayText
+        UpcomingViewData.GroupLabel.NoDate -> stringResource(Res.string.upcoming_group_no_date)
+        UpcomingViewData.GroupLabel.Overdue -> stringResource(Res.string.upcoming_group_overdue)
+        UpcomingViewData.GroupLabel.Today -> stringResource(Res.string.upcoming_group_today)
+        UpcomingViewData.GroupLabel.Tomorrow -> stringResource(Res.string.upcoming_group_tomorrow)
     }
 
     Box(
@@ -175,7 +180,7 @@ private fun UpcomingGroupHeader(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = stringResource(Res.string.upcoming_group_header, labelText, taskCount),
+            text = labelText,
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier
                 .widthInCompact()

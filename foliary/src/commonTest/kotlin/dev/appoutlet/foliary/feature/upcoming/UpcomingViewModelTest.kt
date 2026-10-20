@@ -10,23 +10,23 @@ import dev.mokkery.mock
 import kotlinx.coroutines.flow.flowOf
 import kotlin.test.Test
 
-class UpcomingViewModelTest : ViewModelTest<UpcomingViewModel, UpcomingViewData, UpcomingAction>() {
+class UpcomingViewModelTest : ViewModelTest<UpcomingViewModel, UpcomingViewState, UpcomingAction>() {
     private val mockTaskRepository = mock<TaskRepository>()
-    private val mockUpcomingGroupMapper = mock<UpcomingGroupMapper>()
+    private val mockUpcomingViewDataMapper = mock<UpcomingViewDataMapper>()
 
     override fun createViewModel() = UpcomingViewModel(
         taskRepository = mockTaskRepository,
-        upcomingGroupMapper = mockUpcomingGroupMapper
+        upcomingViewDataMapper = mockUpcomingViewDataMapper
     )
 
     @Test
     fun `should emit Loading then Empty when there are no pending tasks`() {
         every { mockTaskRepository.findAllPendingTasks() } returns flowOf(emptyList())
-        every { mockUpcomingGroupMapper(emptyList()) } returns emptyList()
+        every { mockUpcomingViewDataMapper(emptyList()) } returns emptyList()
 
         test {
-            expectState(UpcomingViewData.Loading)
-            expectState(UpcomingViewData.Empty)
+            expectState(UpcomingViewState.Loading)
+            expectState(UpcomingViewState.Empty)
         }
     }
 
@@ -36,22 +36,22 @@ class UpcomingViewModelTest : ViewModelTest<UpcomingViewModel, UpcomingViewData,
         val groups = listOf(UpcomingGroup.fixture())
 
         every { mockTaskRepository.findAllPendingTasks() } returns flowOf(tasks)
-        every { mockUpcomingGroupMapper(tasks) } returns groups
+        every { mockUpcomingViewDataMapper(tasks) } returns groups
 
         test {
-            expectState(UpcomingViewData.Loading)
-            expectState(UpcomingViewData.Loaded(groups))
+            expectState(UpcomingViewState.Loading)
+            expectState(UpcomingViewState.Loaded(groups))
         }
     }
 
     @Test
     fun `should emit NavigateToCreateTask side effect when add button is clicked`() {
         every { mockTaskRepository.findAllPendingTasks() } returns flowOf(emptyList())
-        every { mockUpcomingGroupMapper(emptyList()) } returns emptyList()
+        every { mockUpcomingViewDataMapper(emptyList()) } returns emptyList()
 
         test {
-            expectState(UpcomingViewData.Loading)
-            expectState(UpcomingViewData.Empty)
+            expectState(UpcomingViewState.Loading)
+            expectState(UpcomingViewState.Empty)
 
             viewModel.onEvent(UpcomingEvent.OnAddTaskClick)
 
@@ -64,11 +64,11 @@ class UpcomingViewModelTest : ViewModelTest<UpcomingViewModel, UpcomingViewData,
         val taskId = "task-123"
 
         every { mockTaskRepository.findAllPendingTasks() } returns flowOf(emptyList())
-        every { mockUpcomingGroupMapper(emptyList()) } returns emptyList()
+        every { mockUpcomingViewDataMapper(emptyList()) } returns emptyList()
 
         test {
-            expectState(UpcomingViewData.Loading)
-            expectState(UpcomingViewData.Empty)
+            expectState(UpcomingViewState.Loading)
+            expectState(UpcomingViewState.Empty)
 
             viewModel.onEvent(UpcomingEvent.OnTaskClick(taskId))
 
