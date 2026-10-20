@@ -31,10 +31,10 @@ import dev.appoutlet.foliary.data.task.database.entity.Priority
 
 @Composable
 fun FoliaryPriorityPicker(
+    label: String,
     selectedPriority: Priority,
     onPrioritySelected: (Priority) -> Unit,
     modifier: Modifier = Modifier,
-    label: String,
 ) {
     var showMenu by rememberSaveable { mutableStateOf(false) }
 
