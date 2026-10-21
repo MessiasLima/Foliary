@@ -13,9 +13,11 @@ import dev.mokkery.mock
 import dev.mokkery.verify
 import dev.mokkery.verifySuspend
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlin.test.Test
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Instant
 import kotlin.uuid.Uuid
 
 class TaskDetailViewModelTest : ViewModelTest<TaskDetailViewModel, TaskDetailViewData, TaskDetailAction>() {
@@ -88,6 +90,31 @@ class TaskDetailViewModelTest : ViewModelTest<TaskDetailViewModel, TaskDetailVie
             viewModel.onEvent(TaskDetailEvent.EditClicked)
 
             expectSideEffect(TaskDetailAction.NavigateToTaskEdit(taskId.toString()))
+        }
+    }
+
+    @Test
+    fun `should reflect completion changes emitted by repository`() {
+        val incompleteTask = Task.fixture(id = taskId, completionDate = null)
+        val completedTask = incompleteTask.copy(completionDate = Instant.parse("2026-10-21T10:00:00Z"))
+        val incompleteViewData = TaskDetailViewData.Loaded.TaskViewData.fixture(isComplete = false)
+        val completedViewData = TaskDetailViewData.Loaded.TaskViewData.fixture(
+            isComplete = true,
+            completionDate = "21 Oct 2026",
+        )
+        val tasks = MutableStateFlow<Task?>(incompleteTask)
+
+        every { mockTaskRepository.observeById(taskId) } returns tasks
+        every { mockTaskViewDataMapper(incompleteTask) } returns incompleteViewData
+        every { mockTaskViewDataMapper(completedTask) } returns completedViewData
+
+        test {
+            expectState(TaskDetailViewData.Loading)
+            expectState(TaskDetailViewData.Loaded(task = incompleteViewData))
+
+            tasks.value = completedTask
+
+            expectState(TaskDetailViewData.Loaded(task = completedViewData))
         }
     }
 
