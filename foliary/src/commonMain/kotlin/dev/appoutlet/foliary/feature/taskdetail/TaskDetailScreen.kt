@@ -329,7 +329,7 @@ private fun UrlDetailRow(url: String, onClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-           Icon(
+            Icon(
                 modifier = Modifier.size(16.dp),
                 imageVector = Lucide.ArrowUpRight,
                 contentDescription = null,

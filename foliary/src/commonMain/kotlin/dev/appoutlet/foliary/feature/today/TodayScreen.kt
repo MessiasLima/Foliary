@@ -112,14 +112,7 @@ internal fun TodayScreenContent(
             .fillMaxSize(),
         state = lazyListState
     ) {
-        stickyHeader {
-            FoliaryAddButton(
-                onClick = { onEvent(TodayEvent.OnAddTaskClick) },
-                contentDescription = stringResource(Res.string.today_add_task_a11y),
-                modifier = Modifier.padding(top = getWindowDecorationPadding()),
-                showShadow = showActionShadow
-            )
-        }
+        stickyHeader { TodayScreenAddButton(onEvent, showActionShadow) }
         item { } // Required for better UX
         item { TodayHeader(userName) }
 
@@ -166,6 +159,19 @@ internal fun TodayScreenContent(
             }
         }
     }
+}
+
+@Composable
+private fun TodayScreenAddButton(
+    onEvent: (TodayEvent) -> Unit,
+    showActionShadow: Boolean
+) {
+    FoliaryAddButton(
+        onClick = { onEvent(TodayEvent.OnAddTaskClick) },
+        contentDescription = stringResource(Res.string.today_add_task_a11y),
+        modifier = Modifier.padding(top = getWindowDecorationPadding()),
+        showShadow = showActionShadow
+    )
 }
 
 @Composable
