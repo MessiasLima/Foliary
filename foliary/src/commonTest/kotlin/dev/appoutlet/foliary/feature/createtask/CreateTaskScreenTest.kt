@@ -137,7 +137,9 @@ class CreateTaskScreenTest {
 
     @Test
     fun `should show url validation error`() = runComposeUiTest {
-        var viewData by mutableStateOf(CreateTaskViewData.fixture(url = CreateTaskViewData.Url.fixture(isInvalid = true)))
+        var viewData by mutableStateOf(
+            CreateTaskViewData.fixture(url = CreateTaskViewData.Url.fixture(isInvalid = true))
+        )
 
         setContent {
             CreateTaskScreen(viewData = viewData, onEvent = {})
