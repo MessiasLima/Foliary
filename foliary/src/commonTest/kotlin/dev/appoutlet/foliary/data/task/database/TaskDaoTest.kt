@@ -144,6 +144,34 @@ class TaskDaoTest : DaoTest() {
     }
 
     @Test
+    fun `should return pending tasks`() = runTest {
+        val pendingTaskWithDueDate = Task.fixture(
+            title = "Pending with due date",
+            completionDate = null,
+            dueDate = Instant.parse("2026-07-22T10:00:00Z"),
+        )
+        val pendingTaskNoDueDate = Task.fixture(
+            title = "Pending no due date",
+            completionDate = null,
+            dueDate = null,
+        )
+        val completedTask = Task.fixture(
+            title = "Completed task",
+            completionDate = Instant.parse("2026-07-21T10:00:00Z"),
+        )
+
+        dao.save(pendingTaskWithDueDate, pendingTaskNoDueDate, completedTask)
+
+        val result = dao.findPendingTasks().first()
+        val resultIds = result.map { it.id }
+
+        resultIds shouldContainAllInAnyOrder listOf(
+            pendingTaskWithDueDate.id,
+            pendingTaskNoDueDate.id,
+        )
+    }
+
+    @Test
     fun `should return task by id`() = runTest {
         val task = Task.fixture(title = "Target task")
         val otherTask = Task.fixture(title = "Other task")

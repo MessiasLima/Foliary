@@ -38,6 +38,17 @@ class TaskRepositoryImplTest {
     }
 
     @Test
+    fun `should return all pending tasks`() = runTest {
+        val fixtureTasks = listOf(Task.fixture(completionDate = null))
+
+        every { mockTaskDao.findPendingTasks() } returns flowOf(fixtureTasks)
+
+        val result = subject.findAllPendingTasks().first()
+
+        result shouldBe fixtureTasks
+    }
+
+    @Test
     fun `should observe task by id`() = runTest {
         val task = Task.fixture()
 

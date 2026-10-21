@@ -1,11 +1,13 @@
 package dev.appoutlet.foliary.core.provider.time
 
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
 import kotlinx.datetime.format
 import kotlinx.datetime.format.MonthNames
+import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.koin.core.annotation.Single
@@ -18,8 +20,11 @@ private val LastNanosecondOfTheDay = LocalTime.fromNanosecondOfDay((1.days.inWho
 
 interface TimeProvider {
     fun now(): Instant
+    fun startOfDay(instant: Instant, timeZone: TimeZone = TimeZone.currentSystemDefault()): Instant
     fun startOfToday(timeZone: TimeZone = TimeZone.currentSystemDefault()): Instant
     fun endOfToday(timeZone: TimeZone = TimeZone.currentSystemDefault()): Instant
+    fun startOfTomorrow(timeZone: TimeZone = TimeZone.currentSystemDefault()): Instant
+    fun endOfTomorrow(timeZone: TimeZone = TimeZone.currentSystemDefault()): Instant
     fun endOfDay(instant: Instant, timeZone: TimeZone = TimeZone.currentSystemDefault()): Instant
     fun displayText(instant: Instant, timeZone: TimeZone = TimeZone.currentSystemDefault()): String
 }
@@ -36,10 +41,25 @@ class DefaultTimeProvider(private val clock: Clock = Clock.System) : TimeProvide
 
     override fun now(): Instant = clock.now()
 
-    override fun startOfToday(timeZone: TimeZone): Instant {
-        return now().toLocalDateTime(timeZone).date
+    override fun startOfDay(
+        instant: Instant,
+        timeZone: TimeZone
+    ): Instant {
+        return instant.toLocalDateTime(timeZone).date
             .atTime(StartOfDay)
             .toInstant(timeZone)
+    }
+
+    override fun startOfToday(timeZone: TimeZone): Instant = startOfDay(now(), timeZone)
+
+    override fun startOfTomorrow(timeZone: TimeZone): Instant {
+        val tomorrowDate = now().toLocalDateTime(timeZone).date.plus(1, DateTimeUnit.DAY)
+        return tomorrowDate.atTime(StartOfDay).toInstant(timeZone)
+    }
+
+    override fun endOfTomorrow(timeZone: TimeZone): Instant {
+        val tomorrowDate = now().toLocalDateTime(timeZone).date.plus(1, DateTimeUnit.DAY)
+        return tomorrowDate.atTime(LastNanosecondOfTheDay).toInstant(timeZone)
     }
 
     override fun endOfDay(

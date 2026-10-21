@@ -73,11 +73,13 @@ private fun MainScreenNavigation(
         adaptiveInfo = currentWindowAdaptiveInfoV2(),
     )
 
+    val currentWindowDecorationPadding = getWindowDecorationPadding()
+
     val (windowDecorationPadding, itemTopPadding) = remember(layoutType) {
         when (layoutType) {
             NavigationSuiteType.NavigationRail,
             NavigationSuiteType.WideNavigationRailExpanded,
-            NavigationSuiteType.WideNavigationRailCollapsed -> getWindowDecorationPadding() to 16.dp
+            NavigationSuiteType.WideNavigationRailCollapsed -> currentWindowDecorationPadding to 16.dp
 
             else -> 0.dp to 0.dp
         }
@@ -151,4 +153,5 @@ private fun getItemColors(): NavigationSuiteItemColors {
     )
 }
 
+@Composable
 expect fun getWindowDecorationPadding(): Dp
