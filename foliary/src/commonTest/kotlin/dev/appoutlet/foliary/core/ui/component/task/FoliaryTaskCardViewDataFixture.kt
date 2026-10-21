@@ -4,12 +4,14 @@ fun FoliaryTaskCardViewData.Companion.fixture(
     id: String = "task-id",
     title: String = "Task fixture",
     description: String? = "Task description",
+    url: String? = "foliary.appoutlet.dev",
     isCompleted: Boolean = false,
     isOverdue: Boolean = true,
 ) = FoliaryTaskCardViewData(
     id = id,
     title = title,
     description = description,
+    url = url,
     isCompleted = isCompleted,
     isOverdue = isOverdue,
 )

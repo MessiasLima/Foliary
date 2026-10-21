@@ -20,6 +20,7 @@ class FoliaryTaskCardViewDataMapperTest {
         result.id shouldBe fixture.id.toString()
         result.title shouldBe fixture.title
         result.description shouldBe fixture.description
+        result.url shouldBe "foliary.appoutlet.dev"
         result.isCompleted shouldBe true
         result.isOverdue shouldBe false
     }
@@ -64,5 +65,32 @@ class FoliaryTaskCardViewDataMapperTest {
         val result = subject(task)
 
         result.isOverdue shouldBe false
+    }
+
+    @Test
+    fun `should map url with query to display domain only`() {
+        val task = Task.fixture(url = "https://google.com?q=search")
+
+        val result = subject(task)
+
+        result.url shouldBe "google.com"
+    }
+
+    @Test
+    fun `should map url with path to display domain only`() {
+        val task = Task.fixture(url = "https://foliary.appoutlet.dev/path/to/page#section")
+
+        val result = subject(task)
+
+        result.url shouldBe "foliary.appoutlet.dev"
+    }
+
+    @Test
+    fun `should map blank url to null`() {
+        val task = Task.fixture(url = "")
+
+        val result = subject(task)
+
+        result.url shouldBe null
     }
 }

@@ -36,6 +36,10 @@ class FoliaryTaskCardTest {
 
         onNodeWithTag("FoliaryTaskCard:OverduePill", useUnmergedTree = true)
             .assertIsDisplayed()
+
+        onNodeWithTag("FoliaryTaskCard:UrlPill")
+            .assertIsDisplayed()
+            .assertTextEquals(fixture.url!!)
     }
 
     @Test
@@ -54,6 +58,15 @@ class FoliaryTaskCardTest {
         }
 
         onNodeWithTag("FoliaryTaskCard:OverduePill", useUnmergedTree = true).assertDoesNotExist()
+    }
+
+    @Test
+    fun `should not show url pill when url is null`() = runComposeUiTest {
+        setContent {
+            FoliaryTaskCard(task = FoliaryTaskCardViewData.fixture(url = null))
+        }
+
+        onNodeWithTag("FoliaryTaskCard:UrlPill").assertDoesNotExist()
     }
 
     @Test

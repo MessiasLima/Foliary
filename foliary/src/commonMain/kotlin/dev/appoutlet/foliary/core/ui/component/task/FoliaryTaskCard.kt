@@ -4,6 +4,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCardDefaults
 import dev.appoutlet.foliary.core.ui.component.checkbox.FoliaryCheckbox
 import dev.appoutlet.foliary.core.ui.component.pill.OverduePill
+import dev.appoutlet.foliary.core.ui.component.pill.UrlPill
 
 @Composable
 fun FoliaryTaskCard(
@@ -100,14 +102,22 @@ private fun FoliaryTaskCardContent(
             )
         }
 
-        Row {
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(PillSpacing)) {
             if (task.isOverdue) {
                 OverduePill(modifier = Modifier.testTag("FoliaryTaskCard:OverduePill"))
+            }
+
+            task.url?.let {
+                UrlPill(
+                    url = it,
+                    modifier = Modifier.testTag("FoliaryTaskCard:UrlPill"),
+                )
             }
         }
     }
 }
 
+private val PillSpacing = 6.dp
 private const val CompletedAlpha = 0.38f
 private const val MaxDescriptionLines = 3
 private const val MaxTitleLines = 2

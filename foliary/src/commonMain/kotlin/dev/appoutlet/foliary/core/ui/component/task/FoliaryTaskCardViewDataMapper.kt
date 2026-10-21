@@ -14,6 +14,7 @@ class FoliaryTaskCardViewDataMapper(private val timeProvider: TimeProvider) {
             id = task.id.toString(),
             title = task.title,
             description = task.description,
+            url = task.url?.toDisplayDomain()?.takeIf { it.isNotBlank() },
             isCompleted = task.completionDate != null,
             isOverdue = mapIsOverdue(
                 dueDate = task.dueDate,
@@ -29,5 +30,12 @@ class FoliaryTaskCardViewDataMapper(private val timeProvider: TimeProvider) {
             dueDate < timeProvider.startOfToday() -> true
             else -> false
         }
+    }
+
+    private fun String.toDisplayDomain(): String {
+        return substringAfter("://", this)
+            .substringBefore('/')
+            .substringBefore('?')
+            .substringBefore('#')
     }
 }
