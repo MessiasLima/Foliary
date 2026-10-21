@@ -86,7 +86,6 @@ fun CreateTaskScreen(viewData: CreateTaskViewData, onEvent: (CreateTaskEvent) ->
                 )
                 UrlField(
                     url = viewData.url,
-                    isUrlInvalid = viewData.isUrlInvalid,
                     onEvent = onEvent,
                 )
                 Spacer(Modifier.size(64.dp))
@@ -155,8 +154,7 @@ private fun DescriptionField(description: String?, onEvent: (CreateTaskEvent) ->
 @OptIn(FlowPreview::class)
 @Composable
 private fun UrlField(
-    url: String,
-    isUrlInvalid: Boolean,
+    url: CreateTaskViewData.Url,
     onEvent: (CreateTaskEvent) -> Unit,
 ) {
     FoliaryTextField(
@@ -164,11 +162,11 @@ private fun UrlField(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .testTag("CreateTaskScreen:UrlField"),
-        value = url,
+        value = url.value,
         onValueChange = { onEvent(CreateTaskEvent.UrlChanged(it)) },
         label = { Text(text = stringResource(Res.string.create_task_url_label)) },
         placeholder = { Text(text = stringResource(Res.string.create_task_url_placeholder)) },
-        errorText = if (isUrlInvalid) stringResource(Res.string.create_task_url_invalid) else null,
+        errorText = if (url.isInvalid) stringResource(Res.string.create_task_url_invalid) else null,
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
     )

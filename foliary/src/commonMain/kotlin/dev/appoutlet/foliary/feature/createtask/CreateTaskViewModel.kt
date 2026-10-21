@@ -38,7 +38,7 @@ class CreateTaskViewModel(
                 id = task.id.toString(),
                 title = task.title,
                 description = task.description,
-                url = task.url.orEmpty(),
+                url = CreateTaskViewData.Url(value = task.url.orEmpty()),
                 priority = task.priority,
                 dueDate = task.dueDate?.let { dueDate ->
                     CreateTaskViewData.DueDateViewData(
@@ -65,7 +65,7 @@ class CreateTaskViewModel(
     }
 
     private fun onUrlChange(url: String) = intent {
-        reduce { state.copy(url = url, isUrlInvalid = false) }
+        reduce { state.copy(url = CreateTaskViewData.Url(value = url)) }
     }
 
     private fun onPriorityChange(priority: Priority) = intent {
@@ -99,9 +99,9 @@ class CreateTaskViewModel(
     }
 
     private fun onSaveClick() = intent {
-        val url = state.url.toNormalizedUrl()
+        val url = state.url.value.toNormalizedUrl()
         if (url != null && !UrlRegex.matches(url)) {
-            reduce { state.copy(isUrlInvalid = true) }
+            reduce { state.copy(url = state.url.copy(isInvalid = true)) }
             return@intent
         }
 
@@ -154,13 +154,19 @@ data class CreateTaskViewData(
     val id: String? = null,
     val title: String = "",
     val description: String? = null,
-    val url: String = "",
-    val isUrlInvalid: Boolean = false,
+    val url: Url = Url(),
     val priority: Priority = Priority.MEDIUM,
     val dueDate: DueDateViewData? = null,
     val minDueDateMillis: Long,
     val saveButtonEnabled: Boolean = false,
 ) {
+    data class Url(
+        val value: String = "",
+        val isInvalid: Boolean = false,
+    ) {
+        companion object
+    }
+
     data class DueDateViewData(
         val selectedDateMillis: Long,
         val selectedDateDisplayText: String,

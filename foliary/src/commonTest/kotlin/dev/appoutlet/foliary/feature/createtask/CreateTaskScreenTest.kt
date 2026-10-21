@@ -100,7 +100,7 @@ class CreateTaskScreenTest {
             CreateTaskViewData.fixture(
                 title = "",
                 description = null,
-                url = "",
+                url = CreateTaskViewData.Url.fixture(),
                 dueDate = null,
                 saveButtonEnabled = false,
             )
@@ -113,7 +113,7 @@ class CreateTaskScreenTest {
                     viewData = when (event) {
                         is CreateTaskEvent.TitleChanged -> viewData.copy(title = event.title)
                         is CreateTaskEvent.DescriptionChanged -> viewData.copy(description = event.description)
-                        is CreateTaskEvent.UrlChanged -> viewData.copy(url = event.url)
+                        is CreateTaskEvent.UrlChanged -> viewData.copy(url = CreateTaskViewData.Url(value = event.url))
                         else -> viewData
                     }
                 }
@@ -137,7 +137,7 @@ class CreateTaskScreenTest {
 
     @Test
     fun `should show url validation error`() = runComposeUiTest {
-        var viewData by mutableStateOf(CreateTaskViewData.fixture(isUrlInvalid = true))
+        var viewData by mutableStateOf(CreateTaskViewData.fixture(url = CreateTaskViewData.Url.fixture(isInvalid = true)))
 
         setContent {
             CreateTaskScreen(viewData = viewData, onEvent = {})
@@ -145,7 +145,7 @@ class CreateTaskScreenTest {
 
         onNodeWithText(getString(Res.string.create_task_url_invalid)).assertIsDisplayed()
 
-        viewData = viewData.copy(isUrlInvalid = false)
+        viewData = viewData.copy(url = viewData.url.copy(isInvalid = false))
         waitForIdle()
 
         onNodeWithText(getString(Res.string.create_task_url_invalid)).assertDoesNotExist()

@@ -69,11 +69,11 @@ class CreateTaskViewModelTest :
     fun `UrlChanged - should update url`() = test {
         val url = "example.com"
 
-        currentState.url shouldBe ""
+        currentState.url.value shouldBe ""
 
         viewModel.onEvent(CreateTaskEvent.UrlChanged(url))
 
-        awaitState().url shouldBe url
+        awaitState().url.value shouldBe url
     }
 
     @Test
@@ -89,8 +89,7 @@ class CreateTaskViewModelTest :
             id = null,
             title = "",
             description = null,
-            url = "",
-            isUrlInvalid = false,
+            url = CreateTaskViewData.Url.fixture(),
             priority = Priority.MEDIUM,
             dueDate = null,
             minDueDateMillis = startOfToday.toEpochMilliseconds(),
@@ -128,7 +127,7 @@ class CreateTaskViewModelTest :
                     id = taskId.toString(),
                     title = savedTask.title,
                     description = savedTask.description,
-                    url = savedTask.url.orEmpty(),
+                    url = CreateTaskViewData.Url(value = savedTask.url.orEmpty()),
                     priority = savedTask.priority,
                     dueDate = savedTask.dueDate?.let { dueDate ->
                         CreateTaskViewData.DueDateViewData.fixture(
@@ -282,7 +281,7 @@ class CreateTaskViewModelTest :
                     id = taskId.toString(),
                     title = savedTask.title,
                     description = savedTask.description,
-                    url = savedTask.url.orEmpty(),
+                    url = CreateTaskViewData.Url(value = savedTask.url.orEmpty()),
                     dueDate = null,
                     saveButtonEnabled = true,
                 )
@@ -321,7 +320,7 @@ class CreateTaskViewModelTest :
         expectState { copy(title = title, saveButtonEnabled = true) }
 
         viewModel.onEvent(CreateTaskEvent.UrlChanged(url))
-        expectState { copy(title = title, url = url, saveButtonEnabled = true) }
+        expectState { copy(title = title, url = CreateTaskViewData.Url(value = url), saveButtonEnabled = true) }
 
         viewModel.onEvent(CreateTaskEvent.SaveClicked)
         awaitState().saveButtonEnabled shouldBe false
@@ -345,7 +344,7 @@ class CreateTaskViewModelTest :
         expectState { copy(title = title, saveButtonEnabled = true) }
 
         viewModel.onEvent(CreateTaskEvent.UrlChanged(inputUrl))
-        expectState { copy(title = title, url = inputUrl, saveButtonEnabled = true) }
+        expectState { copy(title = title, url = CreateTaskViewData.Url(value = inputUrl), saveButtonEnabled = true) }
 
         viewModel.onEvent(CreateTaskEvent.SaveClicked)
         awaitState().saveButtonEnabled shouldBe false
@@ -370,13 +369,13 @@ class CreateTaskViewModelTest :
         expectState { copy(title = title, saveButtonEnabled = true) }
 
         viewModel.onEvent(CreateTaskEvent.UrlChanged(invalidUrl))
-        expectState { copy(title = title, url = invalidUrl, saveButtonEnabled = true) }
+        expectState { copy(title = title, url = CreateTaskViewData.Url(value = invalidUrl), saveButtonEnabled = true) }
 
         viewModel.onEvent(CreateTaskEvent.SaveClicked)
-        expectState { copy(isUrlInvalid = true) }
+        expectState { copy(url = CreateTaskViewData.Url(value = invalidUrl, isInvalid = true)) }
 
         viewModel.onEvent(CreateTaskEvent.UrlChanged(validUrl))
-        expectState { copy(url = validUrl, isUrlInvalid = false) }
+        expectState { copy(url = CreateTaskViewData.Url(value = validUrl)) }
 
         viewModel.onEvent(CreateTaskEvent.SaveClicked)
         awaitState().saveButtonEnabled shouldBe false
@@ -401,7 +400,7 @@ class CreateTaskViewModelTest :
         expectState { copy(title = title, saveButtonEnabled = true) }
 
         viewModel.onEvent(CreateTaskEvent.UrlChanged(inputUrl))
-        expectState { copy(title = title, url = inputUrl, saveButtonEnabled = true) }
+        expectState { copy(title = title, url = CreateTaskViewData.Url(value = inputUrl), saveButtonEnabled = true) }
 
         viewModel.onEvent(CreateTaskEvent.SaveClicked)
         awaitState().saveButtonEnabled shouldBe false
