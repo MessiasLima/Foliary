@@ -78,6 +78,9 @@
     <string name="create_task_title_placeholder">What needs to be done?</string>
     <string name="create_task_description_label">Description</string>
     <string name="create_task_description_placeholder">Add description...</string>
+    <string name="create_task_url_label">URL</string>
+    <string name="create_task_url_placeholder">https://example.com</string>
+    <string name="create_task_url_invalid">Enter a valid URL</string>
     <string name="create_task_save">Save</string>
     <string name="create_task_title_required">Title is required</string>
     <string name="create_task_priority_label">Priority</string>

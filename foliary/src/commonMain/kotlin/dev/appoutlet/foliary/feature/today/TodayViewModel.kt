@@ -1,5 +1,6 @@
 package dev.appoutlet.foliary.feature.today
 
+import dev.appoutlet.foliary.core.browser.BrowserLauncher
 import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.MviViewModel
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewData
@@ -16,7 +17,8 @@ import kotlin.uuid.Uuid
 class TodayViewModel(
     private val taskRepository: TaskRepository,
     private val authenticationRepository: AuthenticationRepository,
-    private val foliaryTaskCardViewDataMapper: FoliaryTaskCardViewDataMapper
+    private val foliaryTaskCardViewDataMapper: FoliaryTaskCardViewDataMapper,
+    private val browserLauncher: BrowserLauncher,
 ) : MviViewModel<TodayViewData, TodayAction>() {
     private val currentUser by lazy {
         authenticationRepository.currentUser()
@@ -75,6 +77,7 @@ class TodayViewModel(
         when (event) {
             TodayEvent.OnAddTaskClick -> onAddTaskClick()
             is TodayEvent.OnTaskClick -> onTaskClick(event.taskId)
+            is TodayEvent.OnUrlPillClick -> onUrlPillClick(event.taskId)
             is TodayEvent.MarkTaskAsCompleted -> onMarkTaskAsCompleted(event.taskId)
             is TodayEvent.MarkTaskAsNotCompleted -> onMarkTaskAsNotCompleted(event.taskId)
         }
@@ -86,6 +89,11 @@ class TodayViewModel(
 
     private fun onTaskClick(taskId: String) = intent {
         postSideEffect(TodayAction.NavigateToTaskDetail(taskId))
+    }
+
+    private fun onUrlPillClick(taskId: String) = intent {
+        val task = taskRepository.getById(Uuid.parse(taskId))
+        task.url?.let { browserLauncher.launch(it) }
     }
 
     private fun onMarkTaskAsCompleted(taskId: String) = intent {
@@ -139,6 +147,7 @@ sealed interface TodayAction : Action {
 sealed interface TodayEvent {
     data object OnAddTaskClick : TodayEvent
     data class OnTaskClick(val taskId: String) : TodayEvent
+    data class OnUrlPillClick(val taskId: String) : TodayEvent
     data class MarkTaskAsCompleted(val taskId: String) : TodayEvent
     data class MarkTaskAsNotCompleted(val taskId: String) : TodayEvent
 }

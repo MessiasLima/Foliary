@@ -2,6 +2,7 @@ package dev.appoutlet.foliary.feature.taskdetail
 
 import dev.appoutlet.foliary.core.allopen.Open
 import dev.appoutlet.foliary.core.provider.time.TimeProvider
+import dev.appoutlet.foliary.core.util.toDomainDisplayText
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.feature.taskdetail.TaskDetailViewData.Loaded.TaskViewData
 import org.koin.core.annotation.Factory
@@ -9,7 +10,7 @@ import kotlin.time.Instant
 
 @Open
 @Factory
-class TaskDataMapper(private val timeProvider: TimeProvider) {
+class TaskViewDataMapper(private val timeProvider: TimeProvider) {
     operator fun invoke(task: Task): TaskViewData {
         val isDueDateInThePast = task.dueDate?.isOverdue ?: false
         val isComplete = task.completionDate != null
@@ -18,6 +19,7 @@ class TaskDataMapper(private val timeProvider: TimeProvider) {
         return TaskViewData(
             title = task.title,
             description = task.description,
+            url = task.url?.toDomainDisplayText()?.takeIf { it.isNotBlank() },
             isComplete = isComplete,
             dueDate = task.dueDate?.displayText,
             isOverdue = isOverdue,

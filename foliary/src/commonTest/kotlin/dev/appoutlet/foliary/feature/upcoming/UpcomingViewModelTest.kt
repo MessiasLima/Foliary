@@ -1,25 +1,33 @@
 package dev.appoutlet.foliary.feature.upcoming
 
+import dev.appoutlet.foliary.core.browser.BrowserLauncher
 import dev.appoutlet.foliary.core.provider.time.DefaultTimeProvider
 import dev.appoutlet.foliary.core.testing.ViewModelTest
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewDataMapper
 import dev.appoutlet.foliary.data.task.TaskRepository
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.data.task.database.entity.fixture
+import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every
+import dev.mokkery.everySuspend
 import dev.mokkery.mock
+import dev.mokkery.verify
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOf
 import kotlin.test.Test
+import kotlin.uuid.Uuid
 
 class UpcomingViewModelTest : ViewModelTest<UpcomingViewModel, UpcomingViewData, UpcomingAction>() {
     private val mockTaskRepository = mock<TaskRepository>()
     private val fakeUpcomingViewDataMapper = FakeUpcomingViewDataMapper()
+    private val mockBrowserLauncher = mock<BrowserLauncher>(mode = MockMode.autoUnit)
 
     override fun createViewModel() = UpcomingViewModel(
         taskRepository = mockTaskRepository,
-        upcomingViewDataMapper = fakeUpcomingViewDataMapper
+        upcomingViewDataMapper = fakeUpcomingViewDataMapper,
+        browserLauncher = mockBrowserLauncher,
     )
 
     @Test
@@ -80,6 +88,27 @@ class UpcomingViewModelTest : ViewModelTest<UpcomingViewModel, UpcomingViewData,
             viewModel.onEvent(UpcomingEvent.OnTaskClick(taskId))
 
             expectSideEffect(UpcomingAction.NavigateToTaskDetail(taskId))
+        }
+    }
+
+    @Test
+    fun `should launch url in browser when url pill is clicked`() {
+        val taskId = Uuid.random()
+        val url = "https://example.com/page?q=1"
+
+        fakeUpcomingViewDataMapper.result = UpcomingViewData.Empty
+        every { mockTaskRepository.findAllPendingTasks() } returns flowOf(emptyList())
+        everySuspend { mockTaskRepository.getById(taskId) } returns Task.fixture(id = taskId, url = url)
+
+        test {
+            expectState(UpcomingViewData.Loading)
+            expectState(UpcomingViewData.Empty)
+
+            viewModel.onEvent(UpcomingEvent.OnUrlPillClick(taskId.toString()))
+            // Let the Orbit intent run before verifying its effect.
+            delay(1)
+
+            verify { mockBrowserLauncher.launch(url) }
         }
     }
 

@@ -66,6 +66,17 @@ class CreateTaskViewModelTest :
     }
 
     @Test
+    fun `UrlChanged - should update url`() = test {
+        val url = "example.com"
+
+        currentState.url.value shouldBe ""
+
+        viewModel.onEvent(CreateTaskEvent.UrlChanged(url))
+
+        awaitState().url.value shouldBe url
+    }
+
+    @Test
     fun `BackClicked - should navigate back`() = test {
         viewModel.onEvent(CreateTaskEvent.BackClicked)
 
@@ -78,6 +89,7 @@ class CreateTaskViewModelTest :
             id = null,
             title = "",
             description = null,
+            url = CreateTaskViewData.Url.fixture(),
             priority = Priority.MEDIUM,
             dueDate = null,
             minDueDateMillis = startOfToday.toEpochMilliseconds(),
@@ -115,6 +127,7 @@ class CreateTaskViewModelTest :
                     id = taskId.toString(),
                     title = savedTask.title,
                     description = savedTask.description,
+                    url = CreateTaskViewData.Url(value = savedTask.url.orEmpty()),
                     priority = savedTask.priority,
                     dueDate = savedTask.dueDate?.let { dueDate ->
                         CreateTaskViewData.DueDateViewData.fixture(
@@ -268,6 +281,7 @@ class CreateTaskViewModelTest :
                     id = taskId.toString(),
                     title = savedTask.title,
                     description = savedTask.description,
+                    url = CreateTaskViewData.Url(value = savedTask.url.orEmpty()),
                     dueDate = null,
                     saveButtonEnabled = true,
                 )
@@ -289,6 +303,155 @@ class CreateTaskViewModelTest :
 
             awaitSideEffect() shouldBe CreateTaskAction.NavigateBack
         }
+    }
+
+    @Test
+    fun `SaveClicked - should persist url when valid`() = test {
+        val id = Uuid.random()
+        val title = "Task title"
+        val url = "https://example.com"
+        val taskCapture = Capture.slot<Task>()
+
+        every(mockUuidProvider::random) returns id
+        every(mockTimeProvider::now) returns Instant.parse("2026-07-21T12:00:00Z")
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
+        expectState { copy(title = title, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.UrlChanged(url))
+        expectState { copy(title = title, url = CreateTaskViewData.Url(value = url), saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        awaitState().saveButtonEnabled shouldBe false
+
+        taskCapture.get().url shouldBe url
+    }
+
+    @Test
+    fun `SaveClicked - should persist url with query and no path`() = test {
+        val id = Uuid.random()
+        val title = "Task title"
+        val url = "https://google.com?q=AppOutlet"
+        val taskCapture = Capture.slot<Task>()
+
+        every(mockUuidProvider::random) returns id
+        every(mockTimeProvider::now) returns Instant.parse("2026-07-21T12:00:00Z")
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
+        expectState { copy(title = title, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.UrlChanged(url))
+        expectState { copy(title = title, url = CreateTaskViewData.Url(value = url), saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        awaitState().saveButtonEnabled shouldBe false
+
+        taskCapture.get().url shouldBe url
+    }
+
+    @Test
+    fun `SaveClicked - should persist localhost url with port`() = test {
+        val id = Uuid.random()
+        val title = "Task title"
+        val url = "http://localhost:3000/tasks"
+        val taskCapture = Capture.slot<Task>()
+
+        every(mockUuidProvider::random) returns id
+        every(mockTimeProvider::now) returns Instant.parse("2026-07-21T12:00:00Z")
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
+        expectState { copy(title = title, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.UrlChanged(url))
+        expectState { copy(title = title, url = CreateTaskViewData.Url(value = url), saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        awaitState().saveButtonEnabled shouldBe false
+
+        taskCapture.get().url shouldBe url
+    }
+
+    @Test
+    fun `SaveClicked - should prefix https when scheme is missing`() = test {
+        val id = Uuid.random()
+        val title = "Task title"
+        val inputUrl = "example.com"
+        val expectedUrl = "https://example.com"
+        val taskCapture = Capture.slot<Task>()
+
+        every(mockUuidProvider::random) returns id
+        every(mockTimeProvider::now) returns Instant.parse("2026-07-21T12:00:00Z")
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
+        expectState { copy(title = title, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.UrlChanged(inputUrl))
+        expectState { copy(title = title, url = CreateTaskViewData.Url(value = inputUrl), saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        awaitState().saveButtonEnabled shouldBe false
+
+        taskCapture.get().url shouldBe expectedUrl
+    }
+
+    @Test
+    fun `SaveClicked - should show error and not save when url is invalid`() = test {
+        val id = Uuid.random()
+        val title = "Task title"
+        val invalidUrl = "not a valid url"
+        val validUrl = "example.com"
+        val expectedUrl = "https://example.com"
+        val taskCapture = Capture.slot<Task>()
+
+        every(mockUuidProvider::random) returns id
+        every(mockTimeProvider::now) returns Instant.parse("2026-07-21T12:00:00Z")
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
+        expectState { copy(title = title, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.UrlChanged(invalidUrl))
+        expectState { copy(title = title, url = CreateTaskViewData.Url(value = invalidUrl), saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        expectState { copy(url = CreateTaskViewData.Url(value = invalidUrl, isInvalid = true)) }
+
+        viewModel.onEvent(CreateTaskEvent.UrlChanged(validUrl))
+        expectState { copy(url = CreateTaskViewData.Url(value = validUrl)) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        awaitState().saveButtonEnabled shouldBe false
+
+        taskCapture.get().url shouldBe expectedUrl
+        awaitSideEffect() shouldBe CreateTaskAction.NavigateBack
+    }
+
+    @Test
+    fun `SaveClicked - should trim surrounding whitespace`() = test {
+        val id = Uuid.random()
+        val title = "Task title"
+        val inputUrl = "  example.com  "
+        val expectedUrl = "https://example.com"
+        val taskCapture = Capture.slot<Task>()
+
+        every(mockUuidProvider::random) returns id
+        every(mockTimeProvider::now) returns Instant.parse("2026-07-21T12:00:00Z")
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
+        expectState { copy(title = title, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.UrlChanged(inputUrl))
+        expectState { copy(title = title, url = CreateTaskViewData.Url(value = inputUrl), saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        awaitState().saveButtonEnabled shouldBe false
+
+        taskCapture.get().url shouldBe expectedUrl
     }
 
     @Test

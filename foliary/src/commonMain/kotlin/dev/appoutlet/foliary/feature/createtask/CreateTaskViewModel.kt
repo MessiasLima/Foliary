@@ -9,6 +9,7 @@ import dev.appoutlet.foliary.data.task.database.entity.Priority
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import org.koin.core.annotation.InjectedParam
 import org.koin.core.annotation.KoinViewModel
+import org.orbitmvi.orbit.syntax.Syntax
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
 
@@ -38,6 +39,7 @@ class CreateTaskViewModel(
                 id = task.id.toString(),
                 title = task.title,
                 description = task.description,
+                url = CreateTaskViewData.Url(value = task.url.orEmpty()),
                 priority = task.priority,
                 dueDate = task.dueDate?.let { dueDate ->
                     CreateTaskViewData.DueDateViewData(
@@ -55,11 +57,16 @@ class CreateTaskViewModel(
         when (event) {
             is CreateTaskEvent.TitleChanged -> onTitleChange(event.title)
             is CreateTaskEvent.DescriptionChanged -> onDescriptionChange(event.description)
+            is CreateTaskEvent.UrlChanged -> onUrlChange(event.url)
             is CreateTaskEvent.PriorityChanged -> onPriorityChange(event.priority)
             is CreateTaskEvent.DueDateChanged -> onDueDateChange(event.dueDateMillis)
             CreateTaskEvent.SaveClicked -> onSaveClick()
             CreateTaskEvent.BackClicked -> onBackClick()
         }
+    }
+
+    private fun onUrlChange(url: String) = intent {
+        reduce { state.copy(url = CreateTaskViewData.Url(value = url)) }
     }
 
     private fun onPriorityChange(priority: Priority) = intent {
@@ -93,8 +100,11 @@ class CreateTaskViewModel(
     }
 
     private fun onSaveClick() = intent {
+        if (!validateState()) return@intent
+
         reduce { state.copy(saveButtonEnabled = false) }
 
+        val url = state.url.value.toNormalizedUrl()
         val task = Task(
             id = state.id?.let { Uuid.parse(it) } ?: uuidProvider.random(),
             title = state.title.trim(),
@@ -107,7 +117,7 @@ class CreateTaskViewModel(
             },
             completionDate = null,
             priority = state.priority,
-            url = null,
+            url = url,
             location = null,
         )
 
@@ -120,18 +130,50 @@ class CreateTaskViewModel(
         postSideEffect(CreateTaskAction.NavigateBack)
     }
 
+    private suspend fun Syntax<CreateTaskViewData, CreateTaskAction>.validateState(): Boolean {
+        val url = state.url.value.toNormalizedUrl()
+        if (url != null && !UrlRegex.matches(url)) {
+            reduce { state.copy(url = state.url.copy(isInvalid = true)) }
+            return false
+        }
+        return true
+    }
+
     private fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
+}
+
+private val UrlRegex = Regex(
+    "^https?://([a-z0-9]([a-z0-9-]*[a-z0-9])?\\.)*[a-z0-9]([a-z0-9-]*[a-z0-9])?(:\\d{1,5})?([/?#]\\S*)?$",
+    RegexOption.IGNORE_CASE,
+)
+
+private fun String.toNormalizedUrl(): String? {
+    val trimmed = trim()
+    if (trimmed.isBlank()) return null
+    return if (trimmed.contains("://")) {
+        trimmed
+    } else {
+        "https://$trimmed"
+    }
 }
 
 data class CreateTaskViewData(
     val id: String? = null,
     val title: String = "",
     val description: String? = null,
+    val url: Url = Url(),
     val priority: Priority = Priority.MEDIUM,
     val dueDate: DueDateViewData? = null,
     val minDueDateMillis: Long,
     val saveButtonEnabled: Boolean = false,
 ) {
+    data class Url(
+        val value: String = "",
+        val isInvalid: Boolean = false,
+    ) {
+        companion object
+    }
+
     data class DueDateViewData(
         val selectedDateMillis: Long,
         val selectedDateDisplayText: String,
@@ -145,6 +187,7 @@ data class CreateTaskViewData(
 sealed interface CreateTaskEvent {
     data class TitleChanged(val title: String) : CreateTaskEvent
     data class DescriptionChanged(val description: String?) : CreateTaskEvent
+    data class UrlChanged(val url: String) : CreateTaskEvent
     data class PriorityChanged(val priority: Priority) : CreateTaskEvent
     data class DueDateChanged(val dueDateMillis: Long?) : CreateTaskEvent
     data object SaveClicked : CreateTaskEvent

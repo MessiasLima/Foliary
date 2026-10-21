@@ -10,9 +10,9 @@ import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 import kotlin.time.Instant
 
-class TaskDataMapperTest {
+class TaskViewDataMapperTest {
     private val mockTimeProvider = mock<TimeProvider>()
-    private val subject = TaskDataMapper(mockTimeProvider)
+    private val subject = TaskViewDataMapper(mockTimeProvider)
 
     @Test
     fun `should map basic fields for a completed task`() {
@@ -34,6 +34,7 @@ class TaskDataMapperTest {
 
         result.title shouldBe task.title
         result.description shouldBe task.description
+        result.url shouldBe "foliary.appoutlet.dev"
         result.isComplete shouldBe true
         result.dueDate shouldBe "29 Jul 2026"
         result.isOverdue shouldBe false
@@ -41,6 +42,24 @@ class TaskDataMapperTest {
         result.creationDate shouldBe "20 Jul 2026"
         result.completionDate shouldBe "25 Jul 2026"
         result.priority shouldBe task.priority
+    }
+
+    @Test
+    fun `should map blank url to null`() {
+        val creationDate = Instant.parse("2026-07-20T12:00:00Z")
+        val task = Task.fixture(
+            url = "",
+            creationDate = creationDate,
+            dueDate = null,
+            completionDate = null,
+        )
+
+        every { mockTimeProvider.startOfToday() } returns Instant.parse("2026-07-22T00:00:00Z")
+        every { mockTimeProvider.displayText(creationDate) } returns "20 Jul 2026"
+
+        val result = subject(task)
+
+        result.url shouldBe null
     }
 
     @Test

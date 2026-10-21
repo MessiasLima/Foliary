@@ -38,6 +38,7 @@ import dev.appoutlet.foliary.core.ui.component.layout.FoliaryEmptyContent
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
+import dev.appoutlet.foliary.core.ui.component.task.ClickedPill
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCard
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewData
 import dev.appoutlet.foliary.feature.createtask.CreateTaskNavKey
@@ -75,7 +76,7 @@ fun UpcomingScreen(lazyListState: LazyListState) {
             UpcomingViewData.Empty -> UpcomingScreenContent(
                 lazyListState = lazyListState,
                 viewData = viewData,
-                onEvent = viewModel::onEvent
+                onEvent = viewModel::onEvent,
             )
         }
     }
@@ -85,7 +86,7 @@ fun UpcomingScreen(lazyListState: LazyListState) {
 internal fun UpcomingScreenContent(
     lazyListState: LazyListState,
     viewData: UpcomingViewData,
-    onEvent: (UpcomingEvent) -> Unit
+    onEvent: (UpcomingEvent) -> Unit,
 ) {
     val showActionShadow by remember {
         derivedStateOf { lazyListState.firstVisibleItemIndex > 1 }
@@ -129,7 +130,7 @@ private fun LazyListScope.UpcomingEmpty(onEvent: (UpcomingEvent) -> Unit) = item
 
 private fun LazyListScope.UpcomingLoaded(
     viewData: UpcomingViewData.Loaded,
-    onEvent: (UpcomingEvent) -> Unit
+    onEvent: (UpcomingEvent) -> Unit,
 ) {
     viewData.taskGroup.forEach { group ->
         stickyHeader {
@@ -235,7 +236,12 @@ private fun UpcomingTaskItem(
                 .align(Alignment.Center),
             task = task,
             onCompletedChange = {},
-            onClick = { onEvent(UpcomingEvent.OnTaskClick(task.id)) }
+            onClick = { onEvent(UpcomingEvent.OnTaskClick(task.id)) },
+            onPillClick = { clickedPill ->
+                when (clickedPill) {
+                    ClickedPill.Url -> onEvent(UpcomingEvent.OnUrlPillClick(task.id))
+                }
+            },
         )
     }
 }

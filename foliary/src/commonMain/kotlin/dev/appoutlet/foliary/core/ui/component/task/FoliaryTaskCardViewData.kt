@@ -4,6 +4,7 @@ data class FoliaryTaskCardViewData(
     val id: String,
     val title: String,
     val description: String?,
+    val url: String?,
     val isCompleted: Boolean,
     val isOverdue: Boolean,
 ) {

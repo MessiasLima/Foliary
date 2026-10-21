@@ -4,6 +4,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCardDefaults
 import dev.appoutlet.foliary.core.ui.component.checkbox.FoliaryCheckbox
 import dev.appoutlet.foliary.core.ui.component.pill.OverduePill
+import dev.appoutlet.foliary.core.ui.component.pill.UrlPill
 
 @Composable
 fun FoliaryTaskCard(
@@ -27,6 +29,7 @@ fun FoliaryTaskCard(
     modifier: Modifier = Modifier,
     onCompletedChange: (Boolean) -> Unit = { },
     onClick: (() -> Unit)? = null,
+    onPillClick: (ClickedPill) -> Unit = { },
 ) {
     val cardContainerColor = animateColorAsState(
         targetValue = if (task.isCompleted) {
@@ -56,6 +59,7 @@ fun FoliaryTaskCard(
 
             FoliaryTaskCardContent(
                 task = task,
+                onPillClick = onPillClick,
                 modifier = Modifier.weight(1f),
             )
         }
@@ -65,6 +69,7 @@ fun FoliaryTaskCard(
 @Composable
 private fun FoliaryTaskCardContent(
     task: FoliaryTaskCardViewData,
+    onPillClick: (ClickedPill) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val titleColor = animateColorAsState(
@@ -100,14 +105,27 @@ private fun FoliaryTaskCardContent(
             )
         }
 
-        Row {
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(PillSpacing)) {
             if (task.isOverdue) {
                 OverduePill(modifier = Modifier.testTag("FoliaryTaskCard:OverduePill"))
+            }
+
+            task.url?.let {
+                UrlPill(
+                    url = it,
+                    modifier = Modifier.testTag("FoliaryTaskCard:UrlPill"),
+                    onClick = { onPillClick(ClickedPill.Url) },
+                )
             }
         }
     }
 }
 
+private val PillSpacing = 6.dp
 private const val CompletedAlpha = 0.38f
 private const val MaxDescriptionLines = 3
 private const val MaxTitleLines = 2
+
+sealed interface ClickedPill {
+    data object Url : ClickedPill
+}

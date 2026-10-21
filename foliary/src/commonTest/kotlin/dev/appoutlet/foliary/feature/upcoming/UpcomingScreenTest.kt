@@ -127,4 +127,26 @@ class UpcomingScreenTest {
 
         emittedEvent shouldBe UpcomingEvent.OnTaskClick("task-123")
     }
+
+    @Test
+    fun `should emit url pill click event when url pill is tapped`() = runComposeUiTest {
+        var event: UpcomingEvent? = null
+        val task = FoliaryTaskCardViewData.fixture(id = "task-url")
+        val group = UpcomingViewData.TaskGroup.fixture(
+            label = UpcomingViewData.GroupLabel.Today,
+            tasks = listOf(task)
+        )
+
+        setContent {
+            UpcomingScreenContent(
+                lazyListState = rememberLazyListState(),
+                viewData = UpcomingViewData.Loaded(listOf(group)),
+                onEvent = { event = it },
+            )
+        }
+
+        onNodeWithTag("FoliaryTaskCard:UrlPill").performClick()
+
+        event shouldBe UpcomingEvent.OnUrlPillClick(task.id)
+    }
 }

@@ -3,6 +3,7 @@ package dev.appoutlet.foliary.feature.taskdetail
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,17 +39,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.ArrowUpRight
 import com.composables.icons.lucide.Calendar
 import com.composables.icons.lucide.CalendarCheck
 import com.composables.icons.lucide.CalendarClock
 import com.composables.icons.lucide.CircleCheck
 import com.composables.icons.lucide.CircleCheckBig
+import com.composables.icons.lucide.Link
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Pencil
 import com.composables.icons.lucide.Trash
@@ -73,6 +78,7 @@ import foliary.foliary.generated.resources.task_detail_edit
 import foliary.foliary.generated.resources.task_detail_mark_completed
 import foliary.foliary.generated.resources.task_detail_no_description
 import foliary.foliary.generated.resources.task_detail_status_completed
+import foliary.foliary.generated.resources.task_detail_url_label
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -263,7 +269,7 @@ private fun TaskDetailContent(
         PillsRow(task)
         TaskDetailDescription(task.description)
         HorizontalDivider()
-        TaskDetailList(task)
+        TaskDetailList(task, onEvent)
     }
 }
 
@@ -292,8 +298,11 @@ private fun TaskDetailDescription(description: String?) {
 }
 
 @Composable
-fun TaskDetailList(task: TaskDetailViewData.Loaded.TaskViewData) {
+fun TaskDetailList(task: TaskDetailViewData.Loaded.TaskViewData, onEvent: (TaskDetailEvent) -> Unit) {
     Column(Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+        task.url?.let { url ->
+            UrlDetailRow(url = url, onClick = { onEvent(TaskDetailEvent.UrlClicked) })
+        }
         CreationDateDetailRow(task.creationDate)
         task.dueDate?.let { dueDate ->
             DueDateDetailRow(
@@ -303,6 +312,36 @@ fun TaskDetailList(task: TaskDetailViewData.Loaded.TaskViewData) {
             )
         }
         task.completionDate?.let { completionDate -> CompletionDateDetailRow(completionDate) }
+    }
+}
+
+@Composable
+private fun UrlDetailRow(url: String, onClick: () -> Unit) {
+    DetailRow(
+        icon = Lucide.Link,
+        label = stringResource(Res.string.task_detail_url_label)
+    ) {
+        Row(
+            modifier = Modifier
+                .clickable(onClick = onClick)
+                .testTag("TaskDetailScreen:Url")
+                .semantics(mergeDescendants = true) { },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Icon(
+                modifier = Modifier.size(16.dp),
+                imageVector = Lucide.ArrowUpRight,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = url,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary,
+                textDecoration = TextDecoration.Underline
+            )
+        }
     }
 }
 
@@ -396,6 +435,7 @@ private fun TaskDetailContentPreview() {
             task = TaskDetailViewData.Loaded.TaskViewData(
                 title = "Review Kotlin Multiplatform architecture",
                 description = "Validate the task detail screen behavior and visual hierarchy before release.",
+                url = "foliary.appoutlet.dev",
                 isComplete = true,
                 dueDate = "Jul 30, 2026",
                 isOverdue = true,

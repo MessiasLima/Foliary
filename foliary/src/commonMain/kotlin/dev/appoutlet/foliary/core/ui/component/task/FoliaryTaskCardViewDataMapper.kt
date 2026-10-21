@@ -2,6 +2,7 @@ package dev.appoutlet.foliary.core.ui.component.task
 
 import dev.appoutlet.foliary.core.allopen.Open
 import dev.appoutlet.foliary.core.provider.time.TimeProvider
+import dev.appoutlet.foliary.core.util.toDomainDisplayText
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import org.koin.core.annotation.Single
 import kotlin.time.Instant
@@ -14,6 +15,7 @@ class FoliaryTaskCardViewDataMapper(private val timeProvider: TimeProvider) {
             id = task.id.toString(),
             title = task.title,
             description = task.description,
+            url = task.url?.toDomainDisplayText()?.takeIf { it.isNotBlank() },
             isCompleted = task.completionDate != null,
             isOverdue = mapIsOverdue(
                 dueDate = task.dueDate,
