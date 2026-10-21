@@ -1,5 +1,8 @@
 package dev.appoutlet.foliary.feature.taskdetail
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
@@ -282,5 +285,32 @@ class TaskDetailScreenTest {
         onNodeWithTag("TaskDetailScreen:DeleteDialog")
             .assertDoesNotExist()
         event shouldBe null
+    }
+
+    @Test
+    fun `should toggle completion action when view data changes`() = runComposeUiTest {
+        val events = mutableListOf<TaskDetailEvent>()
+        var viewData by mutableStateOf(
+            TaskDetailViewData.Loaded(TaskDetailViewData.Loaded.TaskViewData.fixture())
+        )
+
+        setContent { TaskDetailScreen(viewData = viewData, onEvent = events::add) }
+
+        onNodeWithTag("TaskDetailScreen:MarkAsComplete")
+            .assertIsDisplayed()
+            .performClick()
+        events shouldBe listOf(TaskDetailEvent.MarkCompletedClicked)
+
+        viewData = TaskDetailViewData.Loaded(
+            viewData.task.copy(isComplete = true, completionDate = "21 Oct 2026")
+        )
+        waitForIdle()
+
+        onNodeWithTag("TaskDetailScreen:UnmarkAsComplete").assertIsDisplayed()
+        onNodeWithTag("TaskDetailScreen:MarkAsComplete").assertDoesNotExist()
+        onNodeWithTag("TaskDetailScreen:CompletionDate").assertIsDisplayed()
+
+        onNodeWithTag("TaskDetailScreen:UnmarkAsComplete").performClick()
+        events.last() shouldBe TaskDetailEvent.MarkNotCompletedClicked
     }
 }
