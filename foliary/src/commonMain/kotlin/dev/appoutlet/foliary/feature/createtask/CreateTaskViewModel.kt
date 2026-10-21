@@ -9,6 +9,7 @@ import dev.appoutlet.foliary.data.task.database.entity.Priority
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import org.koin.core.annotation.InjectedParam
 import org.koin.core.annotation.KoinViewModel
+import org.orbitmvi.orbit.syntax.Syntax
 import kotlin.time.Instant
 import kotlin.uuid.Uuid
 
@@ -99,14 +100,11 @@ class CreateTaskViewModel(
     }
 
     private fun onSaveClick() = intent {
-        val url = state.url.value.toNormalizedUrl()
-        if (url != null && !UrlRegex.matches(url)) {
-            reduce { state.copy(url = state.url.copy(isInvalid = true)) }
-            return@intent
-        }
+        if (!validateState()) return@intent
 
         reduce { state.copy(saveButtonEnabled = false) }
 
+        val url = state.url.value.toNormalizedUrl()
         val task = Task(
             id = state.id?.let { Uuid.parse(it) } ?: uuidProvider.random(),
             title = state.title.trim(),
@@ -130,6 +128,15 @@ class CreateTaskViewModel(
 
     private fun onBackClick() = intent {
         postSideEffect(CreateTaskAction.NavigateBack)
+    }
+
+    private suspend fun Syntax<CreateTaskViewData, CreateTaskAction>.validateState(): Boolean {
+        val url = state.url.value.toNormalizedUrl()
+        if (url != null && !UrlRegex.matches(url)) {
+            reduce { state.copy(url = state.url.copy(isInvalid = true)) }
+            return false
+        }
+        return true
     }
 
     private fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
