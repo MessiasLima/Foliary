@@ -63,11 +63,6 @@ fun CreateTaskScreen(viewData: CreateTaskViewData, onEvent: (CreateTaskEvent) ->
                 Spacer(Modifier.size(16.dp))
                 TitleField(viewData.title, onEvent)
                 DescriptionField(viewData.description, onEvent)
-                UrlField(
-                    url = viewData.url,
-                    isUrlInvalid = viewData.isUrlInvalid,
-                    onEvent = onEvent,
-                )
                 FoliaryPriorityPicker(
                     modifier = Modifier.widthInCompact()
                         .fillMaxWidth()
@@ -88,6 +83,11 @@ fun CreateTaskScreen(viewData: CreateTaskViewData, onEvent: (CreateTaskEvent) ->
                     selectedDateDisplayText = viewData.dueDate?.selectedDateDisplayText,
                     onDateSelected = { onEvent(CreateTaskEvent.DueDateChanged(it)) },
                     minDateMillis = viewData.minDueDateMillis,
+                )
+                UrlField(
+                    url = viewData.url,
+                    isUrlInvalid = viewData.isUrlInvalid,
+                    onEvent = onEvent,
                 )
                 Spacer(Modifier.size(64.dp))
             }
