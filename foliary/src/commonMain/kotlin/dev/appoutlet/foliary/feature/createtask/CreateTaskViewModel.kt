@@ -143,7 +143,7 @@ class CreateTaskViewModel(
 }
 
 private val UrlRegex = Regex(
-    "^https?://([a-z0-9-]+\\.)+[a-z]{2,}(:\\d{1,5})?(/\\S*)?$",
+    "^https?://([a-z0-9]([a-z0-9-]*[a-z0-9])?\\.)*[a-z0-9]([a-z0-9-]*[a-z0-9])?(:\\d{1,5})?([/?#]\\S*)?$",
     RegexOption.IGNORE_CASE,
 )
 

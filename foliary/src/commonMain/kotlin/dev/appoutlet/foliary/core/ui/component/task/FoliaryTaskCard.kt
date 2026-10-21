@@ -29,6 +29,7 @@ fun FoliaryTaskCard(
     modifier: Modifier = Modifier,
     onCompletedChange: (Boolean) -> Unit = { },
     onClick: (() -> Unit)? = null,
+    onPillClick: (ClickedPill) -> Unit = { },
 ) {
     val cardContainerColor = animateColorAsState(
         targetValue = if (task.isCompleted) {
@@ -58,6 +59,7 @@ fun FoliaryTaskCard(
 
             FoliaryTaskCardContent(
                 task = task,
+                onPillClick = onPillClick,
                 modifier = Modifier.weight(1f),
             )
         }
@@ -67,6 +69,7 @@ fun FoliaryTaskCard(
 @Composable
 private fun FoliaryTaskCardContent(
     task: FoliaryTaskCardViewData,
+    onPillClick: (ClickedPill) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val titleColor = animateColorAsState(
@@ -111,6 +114,7 @@ private fun FoliaryTaskCardContent(
                 UrlPill(
                     url = it,
                     modifier = Modifier.testTag("FoliaryTaskCard:UrlPill"),
+                    onClick = { onPillClick(ClickedPill.Url) },
                 )
             }
         }
@@ -121,3 +125,7 @@ private val PillSpacing = 6.dp
 private const val CompletedAlpha = 0.38f
 private const val MaxDescriptionLines = 3
 private const val MaxTitleLines = 2
+
+sealed interface ClickedPill {
+    data object Url : ClickedPill
+}

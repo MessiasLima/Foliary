@@ -44,6 +44,7 @@ import dev.appoutlet.foliary.core.ui.component.layout.FoliaryEmptyContent
 import dev.appoutlet.foliary.core.ui.component.layout.LoadingIndicator
 import dev.appoutlet.foliary.core.ui.component.layout.Screen
 import dev.appoutlet.foliary.core.ui.component.modifier.widthInCompact
+import dev.appoutlet.foliary.core.ui.component.task.ClickedPill
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCard
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewData
 import dev.appoutlet.foliary.feature.createtask.CreateTaskNavKey
@@ -85,7 +86,7 @@ fun TodayScreen(lazyListState: LazyListState) {
             is TodayViewData.Celebration -> TodayScreenContent(
                 lazyListState = lazyListState,
                 viewData = viewData,
-                onEvent = viewModel::onEvent
+                onEvent = viewModel::onEvent,
             )
         }
     }
@@ -95,7 +96,7 @@ fun TodayScreen(lazyListState: LazyListState) {
 internal fun TodayScreenContent(
     lazyListState: LazyListState,
     viewData: TodayViewData,
-    onEvent: (TodayEvent) -> Unit
+    onEvent: (TodayEvent) -> Unit,
 ) {
     val userName = viewData.userName
     val completedTasks = viewData.completedTasks
@@ -133,7 +134,11 @@ internal fun TodayScreenContent(
 
             is TodayViewData.Loaded -> {
                 items(viewData.pendingTasks, key = { it.id }) { task ->
-                    TodayTaskItem(modifier = Modifier.animateItem(), task = task, onEvent = onEvent)
+                    TodayTaskItem(
+                        modifier = Modifier.animateItem(),
+                        task = task,
+                        onEvent = onEvent,
+                    )
                 }
             }
 
@@ -199,7 +204,12 @@ private fun TodayTaskItem(
                     onEvent(TodayEvent.MarkTaskAsNotCompleted(task.id))
                 }
             },
-            onClick = { onEvent(TodayEvent.OnTaskClick(task.id)) }
+            onClick = { onEvent(TodayEvent.OnTaskClick(task.id)) },
+            onPillClick = { clickedPill ->
+                when (clickedPill) {
+                    ClickedPill.Url -> onEvent(TodayEvent.OnUrlPillClick(task.id))
+                }
+            },
         )
     }
 }

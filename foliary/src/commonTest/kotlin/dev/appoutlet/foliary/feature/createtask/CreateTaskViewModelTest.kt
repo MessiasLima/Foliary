@@ -329,6 +329,52 @@ class CreateTaskViewModelTest :
     }
 
     @Test
+    fun `SaveClicked - should persist url with query and no path`() = test {
+        val id = Uuid.random()
+        val title = "Task title"
+        val url = "https://google.com?q=AppOutlet"
+        val taskCapture = Capture.slot<Task>()
+
+        every(mockUuidProvider::random) returns id
+        every(mockTimeProvider::now) returns Instant.parse("2026-07-21T12:00:00Z")
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
+        expectState { copy(title = title, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.UrlChanged(url))
+        expectState { copy(title = title, url = CreateTaskViewData.Url(value = url), saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        awaitState().saveButtonEnabled shouldBe false
+
+        taskCapture.get().url shouldBe url
+    }
+
+    @Test
+    fun `SaveClicked - should persist localhost url with port`() = test {
+        val id = Uuid.random()
+        val title = "Task title"
+        val url = "http://localhost:3000/tasks"
+        val taskCapture = Capture.slot<Task>()
+
+        every(mockUuidProvider::random) returns id
+        every(mockTimeProvider::now) returns Instant.parse("2026-07-21T12:00:00Z")
+        everySuspend { mockTaskRepository.save(capture(taskCapture)) } returns Unit
+
+        viewModel.onEvent(CreateTaskEvent.TitleChanged(title))
+        expectState { copy(title = title, saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.UrlChanged(url))
+        expectState { copy(title = title, url = CreateTaskViewData.Url(value = url), saveButtonEnabled = true) }
+
+        viewModel.onEvent(CreateTaskEvent.SaveClicked)
+        awaitState().saveButtonEnabled shouldBe false
+
+        taskCapture.get().url shouldBe url
+    }
+
+    @Test
     fun `SaveClicked - should prefix https when scheme is missing`() = test {
         val id = Uuid.random()
         val title = "Task title"

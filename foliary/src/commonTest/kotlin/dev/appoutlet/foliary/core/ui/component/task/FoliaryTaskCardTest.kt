@@ -9,6 +9,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
+import io.kotest.matchers.shouldBe
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -87,5 +88,22 @@ class FoliaryTaskCardTest {
 
         onNodeWithTag("FoliaryTaskCard:Checkbox").performClick()
         onNodeWithTag("FoliaryTaskCard:Checkbox").assertIsOff()
+    }
+
+    @Test
+    fun `should emit clicked url pill when url pill is clicked`() = runComposeUiTest {
+        val fixture = FoliaryTaskCardViewData.fixture()
+        val clickedPills = mutableListOf<ClickedPill>()
+
+        setContent {
+            FoliaryTaskCard(
+                task = fixture,
+                onPillClick = { clickedPills.add(it) },
+            )
+        }
+
+        onNodeWithTag("FoliaryTaskCard:UrlPill").performClick()
+
+        clickedPills shouldBe listOf(ClickedPill.Url)
     }
 }

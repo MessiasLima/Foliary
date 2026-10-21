@@ -1,5 +1,6 @@
 package dev.appoutlet.foliary.feature.today
 
+import dev.appoutlet.foliary.core.browser.BrowserLauncher
 import dev.appoutlet.foliary.core.testing.ViewModelTest
 import dev.appoutlet.foliary.core.testing.externalfixtures.fixture
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewData
@@ -10,10 +11,12 @@ import dev.appoutlet.foliary.data.authentication.util.name
 import dev.appoutlet.foliary.data.task.TaskRepository
 import dev.appoutlet.foliary.data.task.database.entity.Task
 import dev.appoutlet.foliary.data.task.database.entity.fixture
+import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
+import dev.mokkery.verify
 import dev.mokkery.verifySuspend
 import io.github.jan.supabase.auth.user.UserInfo
 import kotlinx.coroutines.delay
@@ -27,11 +30,13 @@ class TodayViewModelTest : ViewModelTest<TodayViewModel, TodayViewData, TodayAct
     private val mockTaskRepository = mock<TaskRepository>()
     private val mockAuthenticationRepository = mock<AuthenticationRepository>()
     private val mockFoliaryTaskCardViewDataMapper = mock<FoliaryTaskCardViewDataMapper>()
+    private val mockBrowserLauncher = mock<BrowserLauncher>(mode = MockMode.autoUnit)
 
     override fun createViewModel() = TodayViewModel(
         taskRepository = mockTaskRepository,
         authenticationRepository = mockAuthenticationRepository,
-        foliaryTaskCardViewDataMapper = mockFoliaryTaskCardViewDataMapper
+        foliaryTaskCardViewDataMapper = mockFoliaryTaskCardViewDataMapper,
+        browserLauncher = mockBrowserLauncher,
     )
 
     @Test
@@ -318,6 +323,27 @@ class TodayViewModelTest : ViewModelTest<TodayViewModel, TodayViewData, TodayAct
             viewModel.onEvent(TodayEvent.OnTaskClick(taskId))
 
             expectSideEffect(TodayAction.NavigateToTaskDetail(taskId))
+        }
+    }
+
+    @Test
+    fun `should launch url in browser when url pill is clicked`() {
+        val taskId = Uuid.random()
+        val url = "https://example.com/page?q=1"
+
+        every { mockAuthenticationRepository.currentUser() } returns UserInfo.fixture()
+        every { mockTaskRepository.findTodayTasks() } returns flowOf(emptyList())
+        everySuspend { mockTaskRepository.findById(taskId) } returns Task.fixture(id = taskId, url = url)
+
+        test {
+            expectState(TodayViewData.Loading)
+            expectState(TodayViewData.Empty(userName = "Messias", completedTasks = emptyList()))
+
+            viewModel.onEvent(TodayEvent.OnUrlPillClick(taskId.toString()))
+            // Let the Orbit intent run before verifying its effect.
+            delay(1)
+
+            verify { mockBrowserLauncher.launch(url) }
         }
     }
 }

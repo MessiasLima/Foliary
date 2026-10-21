@@ -294,4 +294,26 @@ class TodayScreenTest {
 
         event shouldBe TodayEvent.MarkTaskAsNotCompleted(task.id)
     }
+
+    @Test
+    fun `should emit url pill click event when url pill is tapped`() = runComposeUiTest {
+        val task = FoliaryTaskCardViewData.fixture()
+        var event: TodayEvent? = null
+
+        setContent {
+            TodayScreenContent(
+                lazyListState = rememberLazyListState(),
+                viewData = TodayViewData.Loaded(
+                    userName = "Messias",
+                    pendingTasks = listOf(task),
+                    completedTasks = emptyList()
+                ),
+                onEvent = { event = it },
+            )
+        }
+
+        onNodeWithTag("FoliaryTaskCard:UrlPill").performClick()
+
+        event shouldBe TodayEvent.OnUrlPillClick(task.id)
+    }
 }
