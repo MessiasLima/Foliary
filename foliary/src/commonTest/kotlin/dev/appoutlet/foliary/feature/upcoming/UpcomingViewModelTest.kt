@@ -98,7 +98,7 @@ class UpcomingViewModelTest : ViewModelTest<UpcomingViewModel, UpcomingViewData,
 
         fakeUpcomingViewDataMapper.result = UpcomingViewData.Empty
         every { mockTaskRepository.findAllPendingTasks() } returns flowOf(emptyList())
-        everySuspend { mockTaskRepository.findById(taskId) } returns Task.fixture(id = taskId, url = url)
+        everySuspend { mockTaskRepository.getById(taskId) } returns Task.fixture(id = taskId, url = url)
 
         test {
             expectState(UpcomingViewData.Loading)

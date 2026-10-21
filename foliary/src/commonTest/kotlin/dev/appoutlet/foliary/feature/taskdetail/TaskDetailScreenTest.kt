@@ -62,6 +62,10 @@ class TaskDetailScreenTest {
             .assertIsDisplayed()
             .assertTextEquals(task.creationDate)
 
+        onNodeWithTag("TaskDetailScreen:Url")
+            .assertIsDisplayed()
+            .assertTextEquals(requireNotNull(task.url))
+
         onNodeWithTag("TaskDetailScreen:CompletionDate")
             .assertDoesNotExist()
 
@@ -114,6 +118,39 @@ class TaskDetailScreenTest {
         onNodeWithTag("TaskDetailScreen:DueDate")
             .assertIsDisplayed()
             .assertTextEquals("$dueDate · $overduePeriod")
+    }
+
+    @Test
+    fun `should emit url clicked event when url is clicked`() = runComposeUiTest {
+        val task = TaskDetailViewData.Loaded.TaskViewData.fixture()
+        var event: TaskDetailEvent? = null
+
+        setContent {
+            TaskDetailScreen(
+                viewData = TaskDetailViewData.Loaded(task),
+                onEvent = { event = it },
+            )
+        }
+
+        onNodeWithTag("TaskDetailScreen:Url")
+            .assertIsDisplayed()
+            .performClick()
+
+        event shouldBe TaskDetailEvent.UrlClicked
+    }
+
+    @Test
+    fun `should not show url when null`() = runComposeUiTest {
+        val task = TaskDetailViewData.Loaded.TaskViewData.fixture(url = null)
+
+        setContent {
+            TaskDetailScreen(
+                viewData = TaskDetailViewData.Loaded(task),
+                onEvent = {},
+            )
+        }
+
+        onNodeWithTag("TaskDetailScreen:Url").assertDoesNotExist()
     }
 
     @Test

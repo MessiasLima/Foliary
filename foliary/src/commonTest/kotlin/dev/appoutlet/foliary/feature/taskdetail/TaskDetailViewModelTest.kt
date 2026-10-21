@@ -1,5 +1,6 @@
 package dev.appoutlet.foliary.feature.taskdetail
 
+import dev.appoutlet.foliary.core.browser.BrowserLauncher
 import dev.appoutlet.foliary.core.testing.ViewModelTest
 import dev.appoutlet.foliary.data.task.TaskRepository
 import dev.appoutlet.foliary.data.task.database.entity.Task
@@ -7,7 +8,9 @@ import dev.appoutlet.foliary.data.task.database.entity.fixture
 import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every
+import dev.mokkery.everySuspend
 import dev.mokkery.mock
+import dev.mokkery.verify
 import dev.mokkery.verifySuspend
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOf
@@ -18,12 +21,14 @@ import kotlin.uuid.Uuid
 class TaskDetailViewModelTest : ViewModelTest<TaskDetailViewModel, TaskDetailViewData, TaskDetailAction>() {
     private val taskId = Uuid.random()
     private val mockTaskRepository = mock<TaskRepository>(mode = MockMode.autoUnit)
-    private val mockTaskDataMapper = mock<TaskDataMapper>()
+    private val mockTaskViewDataMapper = mock<TaskViewDataMapper>()
+    private val mockBrowserLauncher = mock<BrowserLauncher>(mode = MockMode.autoUnit)
 
     override fun createViewModel() = TaskDetailViewModel(
         taskId = taskId.toString(),
         taskRepository = mockTaskRepository,
-        taskViewDataMapper = mockTaskDataMapper,
+        taskViewDataMapper = mockTaskViewDataMapper,
+        browserLauncher = mockBrowserLauncher,
     )
 
     @Test
@@ -32,7 +37,7 @@ class TaskDetailViewModelTest : ViewModelTest<TaskDetailViewModel, TaskDetailVie
         val taskViewData = TaskDetailViewData.Loaded.TaskViewData.fixture(title = task.title)
 
         every { mockTaskRepository.observeById(taskId) } returns flowOf(task)
-        every { mockTaskDataMapper(task) } returns taskViewData
+        every { mockTaskViewDataMapper(task) } returns taskViewData
 
         test {
             expectState(TaskDetailViewData.Loading)
@@ -46,7 +51,7 @@ class TaskDetailViewModelTest : ViewModelTest<TaskDetailViewModel, TaskDetailVie
         val taskViewData = TaskDetailViewData.Loaded.TaskViewData.fixture(title = task.title)
 
         every { mockTaskRepository.observeById(taskId) } returns flowOf(task)
-        every { mockTaskDataMapper(task) } returns taskViewData
+        every { mockTaskViewDataMapper(task) } returns taskViewData
 
         test {
             expectState(TaskDetailViewData.Loading)
@@ -74,7 +79,7 @@ class TaskDetailViewModelTest : ViewModelTest<TaskDetailViewModel, TaskDetailVie
         val taskViewData = TaskDetailViewData.Loaded.TaskViewData.fixture(title = task.title)
 
         every { mockTaskRepository.observeById(taskId) } returns flowOf(task)
-        every { mockTaskDataMapper(task) } returns taskViewData
+        every { mockTaskViewDataMapper(task) } returns taskViewData
 
         test {
             expectState(TaskDetailViewData.Loading)
@@ -92,7 +97,7 @@ class TaskDetailViewModelTest : ViewModelTest<TaskDetailViewModel, TaskDetailVie
         val taskViewData = TaskDetailViewData.Loaded.TaskViewData.fixture(title = task.title)
 
         every { mockTaskRepository.observeById(taskId) } returns flowOf(task)
-        every { mockTaskDataMapper(task) } returns taskViewData
+        every { mockTaskViewDataMapper(task) } returns taskViewData
 
         test {
             expectState(TaskDetailViewData.Loading)
@@ -112,7 +117,7 @@ class TaskDetailViewModelTest : ViewModelTest<TaskDetailViewModel, TaskDetailVie
         val taskViewData = TaskDetailViewData.Loaded.TaskViewData.fixture(title = task.title)
 
         every { mockTaskRepository.observeById(taskId) } returns flowOf(task)
-        every { mockTaskDataMapper(task) } returns taskViewData
+        every { mockTaskViewDataMapper(task) } returns taskViewData
 
         test {
             expectState(TaskDetailViewData.Loading)
@@ -132,7 +137,7 @@ class TaskDetailViewModelTest : ViewModelTest<TaskDetailViewModel, TaskDetailVie
         val taskViewData = TaskDetailViewData.Loaded.TaskViewData.fixture(title = task.title)
 
         every { mockTaskRepository.observeById(taskId) } returns flowOf(task)
-        every { mockTaskDataMapper(task) } returns taskViewData
+        every { mockTaskViewDataMapper(task) } returns taskViewData
 
         test {
             expectState(TaskDetailViewData.Loading)
@@ -144,5 +149,26 @@ class TaskDetailViewModelTest : ViewModelTest<TaskDetailViewModel, TaskDetailVie
         }
 
         verifySuspend { mockTaskRepository.delete(taskId) }
+    }
+
+    @Test
+    fun `should launch url in browser when url is clicked`() {
+        val url = "https://example.com/page?q=1"
+        val task = Task.fixture(id = taskId, url = url)
+        val taskViewData = TaskDetailViewData.Loaded.TaskViewData.fixture(title = task.title)
+
+        every { mockTaskRepository.observeById(taskId) } returns flowOf(task)
+        every { mockTaskViewDataMapper(task) } returns taskViewData
+        everySuspend { mockTaskRepository.getById(taskId) } returns task
+
+        test {
+            expectState(TaskDetailViewData.Loading)
+            expectState(TaskDetailViewData.Loaded(task = taskViewData))
+
+            viewModel.onEvent(TaskDetailEvent.UrlClicked)
+            delay(1.milliseconds)
+
+            verify { mockBrowserLauncher.launch(url) }
+        }
     }
 }

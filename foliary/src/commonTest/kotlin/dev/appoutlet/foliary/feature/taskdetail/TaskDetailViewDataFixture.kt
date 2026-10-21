@@ -5,6 +5,7 @@ import dev.appoutlet.foliary.data.task.database.entity.Priority
 fun TaskDetailViewData.Loaded.TaskViewData.Companion.fixture(
     title: String = "Water the plants",
     description: String? = "Check the soil moisture first",
+    url: String? = "foliary.appoutlet.dev",
     isComplete: Boolean = false,
     dueDate: String? = "29 Jul 2026",
     isOverdue: Boolean = false,
@@ -15,6 +16,7 @@ fun TaskDetailViewData.Loaded.TaskViewData.Companion.fixture(
 ) = TaskDetailViewData.Loaded.TaskViewData(
     title = title,
     description = description,
+    url = url,
     isComplete = isComplete,
     dueDate = dueDate,
     isOverdue = isOverdue,

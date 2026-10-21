@@ -333,7 +333,7 @@ class TodayViewModelTest : ViewModelTest<TodayViewModel, TodayViewData, TodayAct
 
         every { mockAuthenticationRepository.currentUser() } returns UserInfo.fixture()
         every { mockTaskRepository.findTodayTasks() } returns flowOf(emptyList())
-        everySuspend { mockTaskRepository.findById(taskId) } returns Task.fixture(id = taskId, url = url)
+        everySuspend { mockTaskRepository.getById(taskId) } returns Task.fixture(id = taskId, url = url)
 
         test {
             expectState(TodayViewData.Loading)

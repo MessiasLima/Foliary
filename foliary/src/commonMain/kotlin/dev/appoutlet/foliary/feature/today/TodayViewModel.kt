@@ -92,7 +92,7 @@ class TodayViewModel(
     }
 
     private fun onUrlPillClick(taskId: String) = intent {
-        val task = taskRepository.findById(Uuid.parse(taskId)) ?: return@intent
+        val task = taskRepository.getById(Uuid.parse(taskId))
         task.url?.let { browserLauncher.launch(it) }
     }
 

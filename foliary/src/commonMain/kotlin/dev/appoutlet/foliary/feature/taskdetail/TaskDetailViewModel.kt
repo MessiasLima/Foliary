@@ -1,5 +1,6 @@
 package dev.appoutlet.foliary.feature.taskdetail
 
+import dev.appoutlet.foliary.core.browser.BrowserLauncher
 import dev.appoutlet.foliary.core.mvi.Action
 import dev.appoutlet.foliary.core.mvi.MviViewModel
 import dev.appoutlet.foliary.data.task.TaskRepository
@@ -16,7 +17,8 @@ import kotlin.uuid.Uuid
 class TaskDetailViewModel(
     @InjectedParam private val taskId: String,
     private val taskRepository: TaskRepository,
-    private val taskViewDataMapper: TaskDataMapper,
+    private val taskViewDataMapper: TaskViewDataMapper,
+    private val browserLauncher: BrowserLauncher,
 ) : MviViewModel<TaskDetailViewData, TaskDetailAction>() {
     private val id = Uuid.parse(taskId)
 
@@ -36,11 +38,17 @@ class TaskDetailViewModel(
             TaskDetailEvent.DeleteClicked -> onDeleteClick()
             TaskDetailEvent.MarkNotCompletedClicked -> onMarkNotCompletedClick()
             TaskDetailEvent.EditClicked -> onEditClick()
+            TaskDetailEvent.UrlClicked -> onUrlClick()
         }
     }
 
     private fun onEditClick() = intent {
         postSideEffect(TaskDetailAction.NavigateToTaskEdit(taskId))
+    }
+
+    private fun onUrlClick() = intent {
+        val task = taskRepository.getById(id)
+        task.url?.let { browserLauncher.launch(it) }
     }
 
     private fun onMarkNotCompletedClick() = intent {
@@ -69,6 +77,7 @@ sealed interface TaskDetailViewData {
         data class TaskViewData(
             val title: String,
             val description: String?,
+            val url: String?,
             val isComplete: Boolean,
             val dueDate: String?,
             val isOverdue: Boolean,
@@ -88,6 +97,7 @@ sealed interface TaskDetailEvent {
     data object MarkNotCompletedClicked : TaskDetailEvent
     data object DeleteClicked : TaskDetailEvent
     data object EditClicked : TaskDetailEvent
+    data object UrlClicked : TaskDetailEvent
 }
 
 sealed interface TaskDetailAction : Action {
