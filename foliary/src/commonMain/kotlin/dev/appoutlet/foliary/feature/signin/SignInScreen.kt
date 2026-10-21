@@ -5,12 +5,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -25,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -70,17 +73,33 @@ fun SignInScreen() {
             modifier = Modifier.fillMaxSize(),
             containerColor = MaterialTheme.colorScheme.background
         ) { paddingValues ->
-            Box(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
+            BoxWithConstraints(
+                modifier = Modifier.fillMaxSize().padding(paddingValues)
+            ) {
+                val viewportHeight = maxHeight
+
                 Column(
-                    modifier = Modifier.widthInCompact(480.dp)
-                        .align(Alignment.Center)
-                        .padding(horizontal = 24.dp)
-                        .verticalScroll(rememberScrollState()),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState())
+                        .testTag("SignInScreen:ScrollContainer"),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
-                    SignInHeader()
-                    SignInForm(viewData = viewData, onEvent = viewModel::onEvent)
+                    Column(
+                        modifier = Modifier
+                            .widthInCompact(SignInContentMaxWidth)
+                            .fillMaxWidth()
+                            .heightIn(min = viewportHeight)
+                            .padding(
+                                horizontal = SignInContentPadding,
+                                vertical = SignInContentPadding,
+                            ),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterVertically),
+                    ) {
+                        SignInHeader()
+                        SignInForm(viewData = viewData, onEvent = viewModel::onEvent)
+                    }
                 }
             }
         }
@@ -130,7 +149,7 @@ private fun SignInForm(
     onEvent: (SignInEvent) -> Unit
 ) {
     FoliaryCard(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().testTag("SignInScreen:Card")
     ) {
         AnimatedContent(
             targetState = viewData,
@@ -227,6 +246,9 @@ private fun OrDivider() {
         )
     }
 }
+
+private val SignInContentMaxWidth = 480.dp
+private val SignInContentPadding = 24.dp
 
 private fun onAction(action: SignInAction, navigator: Navigator) {
     when (action) {
