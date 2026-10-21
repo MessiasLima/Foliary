@@ -1,6 +1,6 @@
-import io.github.kdroidfilter.nucleus.desktop.application.dsl.SnapConfinement
-import io.github.kdroidfilter.nucleus.desktop.application.dsl.SnapGrade
-import io.github.kdroidfilter.nucleus.desktop.application.dsl.TargetFormat
+import dev.nucleusframework.desktop.application.dsl.SnapConfinement
+import dev.nucleusframework.desktop.application.dsl.SnapGrade
+import dev.nucleusframework.desktop.application.dsl.TargetFormat
 
 plugins {
     alias(libs.plugins.compose.compiler)
@@ -22,6 +22,7 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(libs.composenativetray)
     implementation(libs.lucideIcons)
+    implementation(libs.nucleus.application)
     implementation(libs.nucleus.core.runtime)
     implementation(libs.nucleus.aot.runtime)
     implementation(libs.nucleus.decoratedWindow.jbr)
@@ -31,70 +32,72 @@ dependencies {
     testImplementation(libs.kotest.assertions)
 }
 
-nucleus.application {
-    mainClass = "MainKt"
+nucleus {
+    application {
+        mainClass = "MainKt"
 
-    buildTypes {
-        release {
-            proguard {
-                isEnabled = false
-                obfuscate = false
-                optimize = false
-                configurationFiles.from(project.file("proguard-rules.pro"))
+        buildTypes {
+            release {
+                proguard {
+                    isEnabled = false
+                    obfuscate = false
+                    optimize = false
+                    configurationFiles.from(project.file("proguard-rules.pro"))
+                }
             }
         }
-    }
 
-    nativeDistributions {
-        packageName = "Foliary"
-        packageVersion = libs.versions.versionName.get()
-        enableAotCache = false
-
-        protocol("Foliary", "foliary")
-
-        modules("java.instrument", "java.management", "java.prefs", "jdk.unsupported")
-
-        targetFormats(
-            TargetFormat.Snap,
-            TargetFormat.Flatpak,
-            TargetFormat.AppX,
-            TargetFormat.Dmg
-        )
-
-        linux {
-            iconFile.set(project.file("icons/icon.png"))
-            shortcut = true
+        nativeDistributions {
             packageName = "Foliary"
-            appRelease = libs.versions.versionCode.get()
-            appCategory = "Utility"
-            startupWMClass = "dev-appoutlet-Foliary"
+            packageVersion = libs.versions.versionName.get()
+            enableAotCache = false
 
-            snap {
-                confinement = SnapConfinement.Strict
-                grade = SnapGrade.Stable
-                base = "core26"
+            protocol("Foliary", "foliary")
+
+            modules("java.instrument", "java.management", "java.prefs", "jdk.unsupported")
+
+            targetFormats(
+                TargetFormat.Snap,
+                TargetFormat.Flatpak,
+                TargetFormat.AppX,
+                TargetFormat.Dmg
+            )
+
+            linux {
+                iconFile.set(project.file("icons/icon.png"))
+                shortcut = true
+                packageName = "Foliary"
+                appRelease = libs.versions.versionCode.get()
+                appCategory = "Utility"
+                startupWMClass = "dev-appoutlet-Foliary"
+
+                snap {
+                    confinement = SnapConfinement.Strict
+                    grade = SnapGrade.Stable
+                    base = "core26"
+                }
+
+                flatpak {
+                    license.set(rootProject.file("LICENSE"))
+                }
             }
 
-            flatpak {
-                license.set(rootProject.file("LICENSE"))
+            windows {
+                iconFile.set(project.file("icons/icon.ico"))
+                upgradeUuid = libs.versions.versionUuid.get()
+                console = false
+                perUserInstall = true
+                appx {  }
             }
-        }
 
-        windows {
-            iconFile.set(project.file("icons/icon.ico"))
-            upgradeUuid = libs.versions.versionUuid.get()
-            console = false
-            perUserInstall = true
-            appx {  }
-        }
-
-        macOS {
-            bundleID = "dev.appoutlet.Foliary"
-            dockName = "Foliary"
-            appCategory = "public.app-category.utilities"
-            minimumSystemVersion = "12.0"
-            macOsSdkVersion = "26.0"
-            iconFile.set(project.file("icons/icon.icns"))
+            macOS {
+                bundleID = "dev.appoutlet.Foliary"
+                dockName = "Foliary"
+                appCategory = "public.app-category.utilities"
+                minimumSystemVersion = "12.0"
+                macOsSdkVersion = "26.0"
+                iconFile.set(project.file("icons/icon.icns"))
+            }
         }
     }
 }
