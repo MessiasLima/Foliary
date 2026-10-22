@@ -25,7 +25,6 @@ dependencies {
     implementation(libs.nucleus.core.runtime)
     implementation(libs.nucleus.aot.runtime)
     implementation(libs.nucleus.decoratedWindow.jbr)
-    implementation(libs.nucleus.decoratedWindow.material3)
 
     testImplementation(kotlin("test"))
     testImplementation(libs.kotest.assertions)

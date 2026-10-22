@@ -5,8 +5,8 @@ import dev.nucleusframework.application.nucleusApplication
 
 fun main(args: Array<String>) {
     initSentry()
-    nucleusApplication(args) {
+    nucleusApplication(args = args) {
         onDeepLink { uri -> DeepLinkDispatcher.dispatch(uri.toDeeplink()) }
-        DecoratedWindow { App() }
+        FoliaryDecoratedWindow { App() }
     }
 }

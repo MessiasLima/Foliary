@@ -5,35 +5,32 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.rememberWindowState
-import dev.appoutlet.foliary.core.ui.theme.FoliaryTheme
+import dev.nucleusframework.application.DecoratedWindow
 import dev.nucleusframework.application.NucleusApplicationScope
 import dev.nucleusframework.application.NucleusDecoratedWindowScope
-import dev.nucleusframework.window.material.MaterialDecoratedWindow
-import dev.nucleusframework.window.material.MaterialTitleBar
+import dev.nucleusframework.window.TitleBar
 import dev.nucleusframework.window.styling.LocalTitleBarStyle
 
 private const val WindowMinimumWidth = 350
 private const val WindowMinimumHeight = 900
 
 @Composable
-fun NucleusApplicationScope.DecoratedWindow(content: @Composable () -> Unit) {
-    FoliaryTheme {
-        MaterialDecoratedWindow(
-            title = "Foliary",
-            state = rememberWindowState(width = 800.dp, height = WindowMinimumHeight.dp),
-            onCloseRequest = { exitApplication() },
-            minimumSize = DpSize(WindowMinimumWidth.dp, WindowMinimumHeight.dp),
-        ) {
-            Box {
-                content()
-                TitleBar()
-            }
+fun NucleusApplicationScope.FoliaryDecoratedWindow(content: @Composable () -> Unit) {
+    DecoratedWindow(
+        onCloseRequest = ::exitApplication,
+        state = rememberWindowState(width = 800.dp, height = WindowMinimumHeight.dp),
+        title = "Foliary",
+        minimumSize = DpSize(WindowMinimumWidth.dp, WindowMinimumHeight.dp),
+    ) {
+        Box {
+            content()
+            FoliaryTitleBar()
         }
     }
 }
 
 @Composable
-private fun NucleusDecoratedWindowScope.TitleBar() {
+private fun NucleusDecoratedWindowScope.FoliaryTitleBar() {
     val defaultStyle = LocalTitleBarStyle.current
     val style = remember {
         defaultStyle.copy(
@@ -44,5 +41,5 @@ private fun NucleusDecoratedWindowScope.TitleBar() {
         )
     }
 
-    MaterialTitleBar(style = style)
+    TitleBar(style = style)
 }

@@ -96,7 +96,6 @@ nucleus-aot-runtime = { module = "dev.nucleusframework:nucleus.aot-runtime", ver
 nucleus-application = { module = "dev.nucleusframework:nucleus.nucleus-application", version.ref = "nucleus" }
 nucleus-core-runtime = { module = "dev.nucleusframework:nucleus.core-runtime", version.ref = "nucleus" }
 nucleus-decoratedWindow-jbr = { module = "dev.nucleusframework:nucleus.decorated-window-jbr", version.ref = "nucleus" }
-nucleus-decoratedWindow-material3 = { module = "dev.nucleusframework:nucleus.decorated-window-material3", version.ref = "nucleus" }
 orbit-compose = { module = "org.orbit-mvi:orbit-compose", version.ref = "orbit" }
 orbit-core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbit" }
 orbit-test = { module = "org.orbit-mvi:orbit-test", version.ref = "orbit" }
