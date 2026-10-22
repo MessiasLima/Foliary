@@ -13,6 +13,7 @@ import dev.mokkery.every
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
 import dev.mokkery.verify
+import dev.mokkery.verifySuspend
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOf
@@ -110,6 +111,46 @@ class UpcomingViewModelTest : ViewModelTest<UpcomingViewModel, UpcomingViewData,
 
             verify { mockBrowserLauncher.launch(url) }
         }
+    }
+
+    @Test
+    fun `should call markCompleted when MarkTaskAsCompleted is emitted`() {
+        val taskId = Uuid.parse("550e8400-e29b-41d4-a716-446655440000")
+
+        fakeUpcomingViewDataMapper.result = UpcomingViewData.Empty
+        every { mockTaskRepository.findAllPendingTasks() } returns flowOf(emptyList())
+        everySuspend { mockTaskRepository.markCompleted(taskId) } returns Unit
+
+        test {
+            expectState(UpcomingViewData.Loading)
+            expectState(UpcomingViewData.Empty)
+
+            viewModel.onEvent(UpcomingEvent.MarkTaskAsCompleted(taskId.toString()))
+            // Let the Orbit intent run before verifying its effect.
+            delay(1)
+        }
+
+        verifySuspend { mockTaskRepository.markCompleted(taskId) }
+    }
+
+    @Test
+    fun `should call markNotCompleted when MarkTaskAsNotCompleted is emitted`() {
+        val taskId = Uuid.parse("550e8400-e29b-41d4-a716-446655440000")
+
+        fakeUpcomingViewDataMapper.result = UpcomingViewData.Empty
+        every { mockTaskRepository.findAllPendingTasks() } returns flowOf(emptyList())
+        everySuspend { mockTaskRepository.markNotCompleted(taskId) } returns Unit
+
+        test {
+            expectState(UpcomingViewData.Loading)
+            expectState(UpcomingViewData.Empty)
+
+            viewModel.onEvent(UpcomingEvent.MarkTaskAsNotCompleted(taskId.toString()))
+            // Let the Orbit intent run before verifying its effect.
+            delay(1)
+        }
+
+        verifySuspend { mockTaskRepository.markNotCompleted(taskId) }
     }
 
     private class FakeUpcomingViewDataMapper(
