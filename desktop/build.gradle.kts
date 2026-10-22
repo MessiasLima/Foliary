@@ -20,7 +20,6 @@ kotlin {
 dependencies {
     implementation(project(":foliary"))
     implementation(compose.desktop.currentOs)
-    implementation(libs.composenativetray)
     implementation(libs.lucideIcons)
     implementation(libs.nucleus.application)
     implementation(libs.nucleus.core.runtime)
