@@ -3,7 +3,7 @@ package dev.appoutlet.foliary.feature.main
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.github.kdroidfilter.nucleus.core.runtime.Platform
+import dev.nucleusframework.core.runtime.Platform
 
 @Composable
 actual fun getWindowDecorationPadding(): Dp {
