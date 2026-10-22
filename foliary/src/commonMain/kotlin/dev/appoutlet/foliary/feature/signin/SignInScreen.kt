@@ -72,14 +72,16 @@ fun SignInScreen() {
         ) { paddingValues ->
             Box(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
                 Column(
-                    modifier = Modifier.widthInCompact(480.dp)
+                    modifier = Modifier
+                        .fillMaxSize()
                         .align(Alignment.Center)
                         .padding(horizontal = 24.dp)
                         .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(24.dp)
+                    verticalArrangement = Arrangement.Center,
                 ) {
                     SignInHeader()
+                    Spacer(Modifier.height(24.dp))
                     SignInForm(viewData = viewData, onEvent = viewModel::onEvent)
                 }
             }
@@ -89,7 +91,10 @@ fun SignInScreen() {
 
 @Composable
 private fun SignInHeader() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = Modifier.widthInCompact(480.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Box(
             modifier = Modifier
                 .size(64.dp)
@@ -130,7 +135,7 @@ private fun SignInForm(
     onEvent: (SignInEvent) -> Unit
 ) {
     FoliaryCard(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.widthInCompact(480.dp).fillMaxWidth()
     ) {
         AnimatedContent(
             targetState = viewData,
