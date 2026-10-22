@@ -149,4 +149,52 @@ class UpcomingScreenTest {
 
         event shouldBe UpcomingEvent.OnUrlPillClick(task.id)
     }
+
+    @Test
+    fun `should emit MarkTaskAsCompleted when an unfinished task checkbox is checked`() = runComposeUiTest {
+        val task = FoliaryTaskCardViewData.fixture(id = "task-id", isCompleted = false)
+        var event: UpcomingEvent? = null
+        val group = UpcomingViewData.TaskGroup.fixture(
+            label = UpcomingViewData.GroupLabel.Today,
+            tasks = listOf(task)
+        )
+
+        setContent {
+            UpcomingScreenContent(
+                lazyListState = rememberLazyListState(),
+                viewData = UpcomingViewData.Loaded(listOf(group)),
+                onEvent = { event = it },
+            )
+        }
+
+        onNodeWithTag("FoliaryTaskCard:Checkbox", useUnmergedTree = true)
+            .assertIsDisplayed()
+            .performClick()
+
+        event shouldBe UpcomingEvent.MarkTaskAsCompleted(task.id)
+    }
+
+    @Test
+    fun `should emit MarkTaskAsNotCompleted when a completed task checkbox is unchecked`() = runComposeUiTest {
+        val task = FoliaryTaskCardViewData.fixture(id = "task-id", isCompleted = true)
+        var event: UpcomingEvent? = null
+        val group = UpcomingViewData.TaskGroup.fixture(
+            label = UpcomingViewData.GroupLabel.Today,
+            tasks = listOf(task)
+        )
+
+        setContent {
+            UpcomingScreenContent(
+                lazyListState = rememberLazyListState(),
+                viewData = UpcomingViewData.Loaded(listOf(group)),
+                onEvent = { event = it },
+            )
+        }
+
+        onNodeWithTag("FoliaryTaskCard:Checkbox", useUnmergedTree = true)
+            .assertIsDisplayed()
+            .performClick()
+
+        event shouldBe UpcomingEvent.MarkTaskAsNotCompleted(task.id)
+    }
 }
