@@ -14,7 +14,6 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewData
 import dev.appoutlet.foliary.core.ui.component.task.fixture
-import kotlinx.coroutines.channels.Channel
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.today_add_task_a11y
 import foliary.foliary.generated.resources.today_celebration_button
@@ -27,6 +26,7 @@ import foliary.foliary.generated.resources.today_empty_title
 import foliary.foliary.generated.resources.today_title
 import foliary.foliary.generated.resources.today_welcome
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.channels.Channel
 import org.jetbrains.compose.resources.getString
 import kotlin.test.Test
 

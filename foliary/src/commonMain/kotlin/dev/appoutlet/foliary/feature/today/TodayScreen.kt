@@ -375,6 +375,5 @@ private fun TodayScreenCelebrationContent(
     }
 }
 
-
 private const val RotationCollapsed = -90f
 private const val RotationExpanded = 0f
