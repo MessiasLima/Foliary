@@ -1,6 +1,10 @@
 package dev.appoutlet.foliary.feature.today
 
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -10,6 +14,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
 import dev.appoutlet.foliary.core.ui.component.task.FoliaryTaskCardViewData
 import dev.appoutlet.foliary.core.ui.component.task.fixture
+import kotlinx.coroutines.channels.Channel
 import foliary.foliary.generated.resources.Res
 import foliary.foliary.generated.resources.today_add_task_a11y
 import foliary.foliary.generated.resources.today_celebration_button
@@ -315,5 +320,36 @@ class TodayScreenTest {
         onNodeWithTag("FoliaryTaskCard:UrlPill").performClick()
 
         event shouldBe TodayEvent.OnUrlPillClick(task.id)
+    }
+
+    @Test
+    fun `should display undo snackbar and invoke onUndo when action is tapped`() = runComposeUiTest {
+        val channel = Channel<TodayAction.ShowUndoSnackbar>(Channel.CONFLATED)
+        var undoneTaskId: String? = null
+
+        setContent {
+            val hostState = remember { SnackbarHostState() }
+
+            TodayUndoSnackbar(
+                events = channel,
+                hostState = hostState,
+                message = "Task marked as done",
+                actionLabel = "Undo",
+                onUndo = { undoneTaskId = it },
+                duration = SnackbarDuration.Indefinite,
+            )
+
+            SnackbarHost(hostState = hostState)
+        }
+
+        channel.trySend(TodayAction.ShowUndoSnackbar("task-123"))
+        mainClock.advanceTimeBy(1000)
+        waitForIdle()
+
+        onNodeWithText("Task marked as done").assertIsDisplayed()
+        onNodeWithText("Undo").assertIsDisplayed().performClick()
+        waitForIdle()
+
+        undoneTaskId shouldBe "task-123"
     }
 }

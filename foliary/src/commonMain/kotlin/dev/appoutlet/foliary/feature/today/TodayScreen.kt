@@ -23,8 +23,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,7 +42,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.composables.icons.lucide.ChevronDown
 import com.composables.icons.lucide.Lucide
-import dev.appoutlet.foliary.core.navigation.Navigator
 import dev.appoutlet.foliary.core.ui.component.button.FoliaryAddButton
 import dev.appoutlet.foliary.core.ui.component.button.FoliarySecondaryButton
 import dev.appoutlet.foliary.core.ui.component.layout.FoliaryEmptyContent
@@ -64,7 +68,10 @@ import foliary.foliary.generated.resources.today_empty_button
 import foliary.foliary.generated.resources.today_empty_description
 import foliary.foliary.generated.resources.today_empty_title
 import foliary.foliary.generated.resources.today_title
+import foliary.foliary.generated.resources.today_undo_snackbar_action
+import foliary.foliary.generated.resources.today_undo_snackbar_message
 import foliary.foliary.generated.resources.today_welcome
+import kotlinx.coroutines.channels.Channel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -72,22 +79,73 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun TodayScreen(lazyListState: LazyListState) {
     val viewModel = koinViewModel<TodayViewModel>()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val undoChannel = remember { Channel<TodayAction.ShowUndoSnackbar>(Channel.CONFLATED) }
 
-    Screen(
-        screenName = "TodayScreen",
-        viewModelProvider = { viewModel },
-        onAction = ::onAction
-    ) { viewData ->
-        when (viewData) {
-            TodayViewData.Idle -> {}
-            TodayViewData.Loading -> LoadingIndicator()
-            is TodayViewData.Loaded,
-            is TodayViewData.Empty,
-            is TodayViewData.Celebration -> TodayScreenContent(
-                lazyListState = lazyListState,
-                viewData = viewData,
-                onEvent = viewModel::onEvent,
+    TodayUndoSnackbar(
+        events = undoChannel,
+        hostState = snackbarHostState,
+        message = stringResource(Res.string.today_undo_snackbar_message),
+        actionLabel = stringResource(Res.string.today_undo_snackbar_action),
+        onUndo = { taskId -> viewModel.onEvent(TodayEvent.MarkTaskAsNotCompleted(taskId)) }
+    )
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        Screen(
+            screenName = "TodayScreen",
+            viewModelProvider = { viewModel },
+            onAction = { action, navigator ->
+                when (action) {
+                    TodayAction.NavigateToCreateTask -> navigator.navigate(CreateTaskNavKey())
+                    TodayAction.NavigateToSignIn -> navigator.setRoot(SignInNavKey)
+                    is TodayAction.NavigateToTaskDetail -> navigator.navigate(TaskDetailNavKey(action.taskId))
+                    is TodayAction.ShowUndoSnackbar -> undoChannel.trySend(action)
+                }
+            }
+        ) { viewData ->
+            when (viewData) {
+                TodayViewData.Idle -> {}
+                TodayViewData.Loading -> LoadingIndicator()
+                is TodayViewData.Loaded,
+                is TodayViewData.Empty,
+                is TodayViewData.Celebration -> TodayScreenContent(
+                    lazyListState = lazyListState,
+                    viewData = viewData,
+                    onEvent = viewModel::onEvent,
+                )
+            }
+        }
+
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
+                .padding(horizontal = 16.dp)
+        )
+    }
+}
+
+@Composable
+internal fun TodayUndoSnackbar(
+    events: Channel<TodayAction.ShowUndoSnackbar>,
+    hostState: SnackbarHostState,
+    message: String,
+    actionLabel: String,
+    onUndo: (String) -> Unit,
+    duration: SnackbarDuration = SnackbarDuration.Long,
+) {
+    LaunchedEffect(events) {
+        for (event in events) {
+            hostState.currentSnackbarData?.dismiss()
+            val result = hostState.showSnackbar(
+                message = message,
+                actionLabel = actionLabel,
+                duration = duration,
             )
+            if (result == SnackbarResult.ActionPerformed) {
+                onUndo(event.taskId)
+            }
         }
     }
 }
@@ -317,13 +375,6 @@ private fun TodayScreenCelebrationContent(
     }
 }
 
-private fun onAction(action: TodayAction, navigator: Navigator) {
-    when (action) {
-        TodayAction.NavigateToCreateTask -> navigator.navigate(CreateTaskNavKey())
-        TodayAction.NavigateToSignIn -> navigator.setRoot(SignInNavKey)
-        is TodayAction.NavigateToTaskDetail -> navigator.navigate(TaskDetailNavKey(action.taskId))
-    }
-}
 
 private const val RotationCollapsed = -90f
 private const val RotationExpanded = 0f

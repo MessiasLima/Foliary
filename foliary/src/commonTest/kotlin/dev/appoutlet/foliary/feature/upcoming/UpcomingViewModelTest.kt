@@ -13,10 +13,13 @@ import dev.mokkery.every
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
 import dev.mokkery.verify
+import dev.mokkery.verifySuspend
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.uuid.Uuid
 
 class UpcomingViewModelTest : ViewModelTest<UpcomingViewModel, UpcomingViewData, UpcomingAction>() {
@@ -110,6 +113,33 @@ class UpcomingViewModelTest : ViewModelTest<UpcomingViewModel, UpcomingViewData,
 
             verify { mockBrowserLauncher.launch(url) }
         }
+    }
+
+    @Test
+    fun `should call markCompleted when MarkTaskAsCompleted is emitted and update state when pending flow re-emits`() {
+        val taskId = Uuid.parse("550e8400-e29b-41d4-a716-446655440000")
+        val task = Task.fixture(id = taskId)
+        val tasksFlow = MutableStateFlow(listOf(task))
+        val loadedViewData = UpcomingViewData.Loaded(listOf(UpcomingViewData.TaskGroup.fixture()))
+
+        fakeUpcomingViewDataMapper.result = loadedViewData
+        every { mockTaskRepository.findAllPendingTasks() } returns tasksFlow
+        everySuspend { mockTaskRepository.markCompleted(taskId) } returns Unit
+
+        test {
+            expectState(UpcomingViewData.Loading)
+            expectState(loadedViewData)
+
+            fakeUpcomingViewDataMapper.result = UpcomingViewData.Empty
+
+            viewModel.onEvent(UpcomingEvent.MarkTaskAsCompleted(taskId.toString()))
+            delay(1.milliseconds)
+            tasksFlow.value = emptyList()
+
+            expectState(UpcomingViewData.Empty)
+        }
+
+        verifySuspend { mockTaskRepository.markCompleted(taskId) }
     }
 
     private class FakeUpcomingViewDataMapper(

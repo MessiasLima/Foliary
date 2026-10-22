@@ -29,7 +29,12 @@ class UpcomingViewModel(
             UpcomingEvent.OnAddTaskClick -> onAddTaskClick()
             is UpcomingEvent.OnTaskClick -> onTaskClick(event.taskId)
             is UpcomingEvent.OnUrlPillClick -> onUrlPillClick(event.taskId)
+            is UpcomingEvent.MarkTaskAsCompleted -> onMarkTaskAsCompleted(event.taskId)
         }
+    }
+
+    private fun onMarkTaskAsCompleted(taskId: String) = intent {
+        taskRepository.markCompleted(Uuid.parse(taskId))
     }
 
     private fun onAddTaskClick() = intent {
@@ -72,6 +77,7 @@ sealed interface UpcomingEvent {
     data object OnAddTaskClick : UpcomingEvent
     data class OnTaskClick(val taskId: String) : UpcomingEvent
     data class OnUrlPillClick(val taskId: String) : UpcomingEvent
+    data class MarkTaskAsCompleted(val taskId: String) : UpcomingEvent
 }
 
 sealed interface UpcomingAction : Action {

@@ -235,7 +235,11 @@ private fun UpcomingTaskItem(
                 .padding(horizontal = 16.dp, vertical = 4.dp)
                 .align(Alignment.Center),
             task = task,
-            onCompletedChange = {},
+            onCompletedChange = { isCompleted ->
+                if (isCompleted) {
+                    onEvent(UpcomingEvent.MarkTaskAsCompleted(task.id))
+                }
+            },
             onClick = { onEvent(UpcomingEvent.OnTaskClick(task.id)) },
             onPillClick = { clickedPill ->
                 when (clickedPill) {

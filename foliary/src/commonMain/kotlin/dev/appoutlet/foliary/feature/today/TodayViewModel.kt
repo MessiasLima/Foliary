@@ -99,6 +99,7 @@ class TodayViewModel(
     private fun onMarkTaskAsCompleted(taskId: String) = intent {
         celebrationPending = true
         taskRepository.markCompleted(Uuid.parse(taskId))
+        postSideEffect(TodayAction.ShowUndoSnackbar(taskId))
     }
 
     private fun onMarkTaskAsNotCompleted(taskId: String) = intent {
@@ -142,6 +143,7 @@ sealed interface TodayAction : Action {
     data object NavigateToCreateTask : TodayAction
     data object NavigateToSignIn : TodayAction
     data class NavigateToTaskDetail(val taskId: String) : TodayAction
+    data class ShowUndoSnackbar(val taskId: String) : TodayAction
 }
 
 sealed interface TodayEvent {

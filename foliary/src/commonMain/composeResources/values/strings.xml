@@ -70,6 +70,8 @@
     <string name="today_celebration_button">Create a new task</string>
     <string name="today_completed_header">Completed today (%1$d)</string>
     <string name="today_completed_header_a11y">Toggle completed tasks</string>
+    <string name="today_undo_snackbar_message">Task marked as done</string>
+    <string name="today_undo_snackbar_action">Undo</string>
     <!-- endregion -->
 
     <!-- region Create Task -->

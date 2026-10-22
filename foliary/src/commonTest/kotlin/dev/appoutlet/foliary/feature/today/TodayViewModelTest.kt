@@ -144,6 +144,7 @@ class TodayViewModelTest : ViewModelTest<TodayViewModel, TodayViewData, TodayAct
             )
 
             viewModel.onEvent(TodayEvent.MarkTaskAsCompleted(pendingTask.id.toString()))
+            expectSideEffect(TodayAction.ShowUndoSnackbar(pendingTask.id.toString()))
             delay(1.milliseconds)
             tasksFlow.value = listOf(completedTask)
 
@@ -189,6 +190,7 @@ class TodayViewModelTest : ViewModelTest<TodayViewModel, TodayViewData, TodayAct
             )
 
             viewModel.onEvent(TodayEvent.MarkTaskAsCompleted(pendingTask.id.toString()))
+            expectSideEffect(TodayAction.ShowUndoSnackbar(pendingTask.id.toString()))
             delay(1.milliseconds)
             tasksFlow.value = listOf(completedTask)
 
@@ -257,7 +259,7 @@ class TodayViewModelTest : ViewModelTest<TodayViewModel, TodayViewData, TodayAct
     }
 
     @Test
-    fun `should call markCompleted when MarkTaskAsCompleted is emitted`() {
+    fun `should call markCompleted and emit ShowUndoSnackbar side effect when MarkTaskAsCompleted is emitted`() {
         val taskId = Uuid.parse("550e8400-e29b-41d4-a716-446655440000")
 
         every { mockAuthenticationRepository.currentUser() } returns UserInfo.fixture()
@@ -269,14 +271,15 @@ class TodayViewModelTest : ViewModelTest<TodayViewModel, TodayViewData, TodayAct
             expectState(TodayViewData.Empty(userName = "Messias", completedTasks = emptyList()))
 
             viewModel.onEvent(TodayEvent.MarkTaskAsCompleted(taskId.toString()))
-            delay(1.milliseconds)
+
+            expectSideEffect(TodayAction.ShowUndoSnackbar(taskId.toString()))
         }
 
         verifySuspend { mockTaskRepository.markCompleted(taskId) }
     }
 
     @Test
-    fun `should call markNotCompleted when MarkTaskAsNotCompleted is emitted`() {
+    fun `should call markNotCompleted without emitting ShowUndoSnackbar when MarkTaskAsNotCompleted is emitted`() {
         val taskId = Uuid.parse("550e8400-e29b-41d4-a716-446655440000")
 
         every { mockAuthenticationRepository.currentUser() } returns UserInfo.fixture()

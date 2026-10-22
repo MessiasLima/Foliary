@@ -149,4 +149,28 @@ class UpcomingScreenTest {
 
         event shouldBe UpcomingEvent.OnUrlPillClick(task.id)
     }
+
+    @Test
+    fun `should emit MarkTaskAsCompleted event when task card checkbox is clicked`() = runComposeUiTest {
+        var event: UpcomingEvent? = null
+        val task = FoliaryTaskCardViewData.fixture(id = "task-complete-id", isCompleted = false)
+        val group = UpcomingViewData.TaskGroup.fixture(
+            label = UpcomingViewData.GroupLabel.Today,
+            tasks = listOf(task)
+        )
+
+        setContent {
+            UpcomingScreenContent(
+                lazyListState = rememberLazyListState(),
+                viewData = UpcomingViewData.Loaded(listOf(group)),
+                onEvent = { event = it },
+            )
+        }
+
+        onNodeWithTag("FoliaryTaskCard:Checkbox", useUnmergedTree = true)
+            .assertIsDisplayed()
+            .performClick()
+
+        event shouldBe UpcomingEvent.MarkTaskAsCompleted("task-complete-id")
+    }
 }
