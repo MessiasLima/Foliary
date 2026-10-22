@@ -3,12 +3,15 @@ package dev.appoutlet.foliary.core.ui.component.task
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.Text
@@ -16,10 +19,13 @@ import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.composables.icons.lucide.CircleCheckBig
+import com.composables.icons.lucide.Lucide
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCard
 import dev.appoutlet.foliary.core.ui.component.card.FoliaryCardDefaults
 import dev.appoutlet.foliary.core.ui.component.checkbox.FoliaryCheckbox
@@ -88,7 +94,7 @@ private fun FoliarySwipeToDismiss(
         modifier = modifier.fillMaxWidth(),
         state = swipeToDismissBoxState,
         backgroundContent = {
-
+            BackgroundContent()
         },
         enableDismissFromStartToEnd = false,
         enableDismissFromEndToStart = isTaskComplete.not(),
@@ -97,6 +103,26 @@ private fun FoliarySwipeToDismiss(
         },
         content = content,
     )
+}
+
+@Composable
+private fun BackgroundContent() {
+    FoliaryCard(
+        modifier = Modifier.fillMaxSize(),
+        colors = FoliaryCardDefaults.colors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            shadowColor = Color.Transparent
+        ),
+    ) {
+        Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            Icon(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                imageVector = Lucide.CircleCheckBig,
+                contentDescription = null
+            )
+        }
+    }
 }
 
 @Composable
