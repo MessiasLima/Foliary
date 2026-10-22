@@ -29,6 +29,8 @@ class UpcomingViewModel(
             UpcomingEvent.OnAddTaskClick -> onAddTaskClick()
             is UpcomingEvent.OnTaskClick -> onTaskClick(event.taskId)
             is UpcomingEvent.OnUrlPillClick -> onUrlPillClick(event.taskId)
+            is UpcomingEvent.MarkTaskAsCompleted -> onMarkTaskAsCompleted(event.taskId)
+            is UpcomingEvent.MarkTaskAsNotCompleted -> onMarkTaskAsNotCompleted(event.taskId)
         }
     }
 
@@ -43,6 +45,14 @@ class UpcomingViewModel(
     private fun onUrlPillClick(taskId: String) = intent {
         val task = taskRepository.getById(Uuid.parse(taskId))
         task.url?.let { browserLauncher.launch(it) }
+    }
+
+    private fun onMarkTaskAsCompleted(taskId: String) = intent {
+        taskRepository.markCompleted(Uuid.parse(taskId))
+    }
+
+    private fun onMarkTaskAsNotCompleted(taskId: String) = intent {
+        taskRepository.markNotCompleted(Uuid.parse(taskId))
     }
 }
 
@@ -72,6 +82,8 @@ sealed interface UpcomingEvent {
     data object OnAddTaskClick : UpcomingEvent
     data class OnTaskClick(val taskId: String) : UpcomingEvent
     data class OnUrlPillClick(val taskId: String) : UpcomingEvent
+    data class MarkTaskAsCompleted(val taskId: String) : UpcomingEvent
+    data class MarkTaskAsNotCompleted(val taskId: String) : UpcomingEvent
 }
 
 sealed interface UpcomingAction : Action {
