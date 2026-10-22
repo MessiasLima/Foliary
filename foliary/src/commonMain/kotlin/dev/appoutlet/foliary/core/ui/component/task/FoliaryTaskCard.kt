@@ -8,9 +8,14 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -39,31 +44,63 @@ fun FoliaryTaskCard(
         },
     )
 
-    FoliaryCard(
-        modifier = modifier.fillMaxWidth(),
-        colors = FoliaryCardDefaults.colors(containerColor = cardContainerColor.value),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(enabled = onClick != null) { onClick?.invoke() }
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            FoliaryCheckbox(
-                checked = task.isCompleted,
-                onCheckedChange = onCompletedChange,
-                modifier = Modifier.testTag("FoliaryTaskCard:Checkbox"),
-            )
+    val swipeToDismissBoxState = rememberSwipeToDismissBoxState()
 
-            FoliaryTaskCardContent(
-                task = task,
-                onPillClick = onPillClick,
-                modifier = Modifier.weight(1f),
-            )
+    LaunchedEffect(swipeToDismissBoxState.currentValue) {
+        when (swipeToDismissBoxState.currentValue) {
+            SwipeToDismissBoxValue.EndToStart -> {
+                onCompletedChange(true)
+                swipeToDismissBoxState.reset()
+            }
+
+            else -> swipeToDismissBoxState.reset()
         }
     }
+
+    SwipeToDismissBox(
+        modifier = Modifier.fillMaxWidth(),
+        state = swipeToDismissBoxState,
+        backgroundContent = {
+            FoliaryCard(
+                colors = FoliaryCardDefaults.colors(contentColor = MaterialTheme.colorScheme.errorContainer)
+            ) {
+                FoliaryTaskCardContent(
+                    task = task,
+                    onPillClick = onPillClick,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+        },
+        enableDismissFromStartToEnd = false,
+        enableDismissFromEndToStart = task.isCompleted.not(),
+        content = {
+            FoliaryCard(
+                modifier = modifier.fillMaxWidth(),
+                colors = FoliaryCardDefaults.colors(containerColor = cardContainerColor.value),
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(enabled = onClick != null) { onClick?.invoke() }
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    FoliaryCheckbox(
+                        checked = task.isCompleted,
+                        onCheckedChange = onCompletedChange,
+                        modifier = Modifier.testTag("FoliaryTaskCard:Checkbox"),
+                    )
+
+                    FoliaryTaskCardContent(
+                        task = task,
+                        onPillClick = onPillClick,
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+            }
+        },
+    )
 }
 
 @Composable
